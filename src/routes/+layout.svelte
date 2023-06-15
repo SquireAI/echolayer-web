@@ -1,15 +1,17 @@
 <script lang="ts">
 	import '../app.scss';
 	import { setContext } from "svelte";
-	import { writable } from 'svelte/store';
 	import Header from '../lib/Header.svelte';
 	import Footer from '../lib/Footer.svelte';
-	import type { User } from '../types';
+	import { createUserStore } from '$lib/stores/user-store';
+	import { createOrgStore } from '$lib/stores/org-store';
 
 	
-	const user = writable<User>({ "name": "Foo Bar" });
+	const userStore = createUserStore();
+	const organizationStore = createOrgStore()
 
-	setContext("user", user);
+	setContext("user", userStore);
+	setContext("org", organizationStore);
 </script>
 
 <div class="app-container">

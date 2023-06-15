@@ -4,7 +4,7 @@
 	export let href: string | undefined = undefined;
 	export let full: boolean | undefined = false;
 	export let type: "button" | "primary" | "secondary" | "link" | "special" = "button";
-	let clazz;
+	let clazz: string = "";
 	export { clazz as class };
 	export let disabled: boolean = false;
 	export let target: HTMLAttributeAnchorTarget = "_self";
