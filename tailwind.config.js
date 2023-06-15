@@ -1,0 +1,26 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{html,js,svelte,ts}'],
+  theme: {
+    extend: {
+      colors: {
+        "echolayer": {
+          "blue": {
+            DEFAULT: "#2654F4",
+          },
+          "content": {
+            DEFAULT: "#F2F2F2",
+          },
+          "yellow": {
+            DEFAULT: "#FBBF24",
+          },
+          "red": {
+            DEFAULT: "#D50000",
+          },
+        }
+      }
+    },
+  },
+  plugins: [],
+}
+
