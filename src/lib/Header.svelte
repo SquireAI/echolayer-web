@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import type { Organization, OrganizationStore, UserStore } from "../types";
+	import type { Organization, OrganizationStore, UserStore } from "./types";
 	import EchoLayerNameBranding from "./EchoLayerNameBranding.svelte";
 	import EchoLayerLogo from "./EchoLayerLogo.svelte";
 	import LogoutButton from "./LogoutButton.svelte";

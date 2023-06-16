@@ -33,8 +33,11 @@ export class FetchError extends Error {
 	}
 }
 
-export function xsrfToken(cookies: Cookies): { [key: string]: string } {
-	let value: string = "";
+export function xsrfToken(cookies?: Cookies): { [key: string]: string } {
+	if (cookies === undefined) {
+		return {};
+	}
+	let value = "";
 	const cookieValue = cookies.get(XSRF_TOKEN_COOKIE_NAME);
 	if (cookieValue !== undefined) {
 		value = cookieValue;
@@ -76,9 +79,9 @@ export const del = async (fetch: Fetch, path: string, headers?: FetchHeader) => 
  * Handles the requests to our API server. Note that is may throw various errors, as described here
  * Returns the JSON data from a successful request.
  * Caller is expected to check the error status, if it cares, on the {FetchError} object.
- * 
+ *
  * @param {string} path the path to the resource on our server, with a leading slash
- * @param {FETCH_METHOD} method GET, POST, or PUT HTTP method  
+ * @param {FETCH_METHOD} method GET, POST, or PUT HTTP method
  * @param {FetchBody} body the object to be sent along with a POST or PUT request
  * @returns JSON data from the API request
  * @throws {TypeError} if anything in fetch is wrong (headers, URL, etc)
@@ -103,7 +106,7 @@ const request = async (
 					// body of response is empty - just return empty object
 					return {};
 				}
-				throw error; // if not a SyntaxError, let's just throw it 
+				throw error; // if not a SyntaxError, let's just throw it
 			}
 		} else {
 			const { status, statusText } = response;

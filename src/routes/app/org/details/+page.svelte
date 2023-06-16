@@ -10,7 +10,7 @@
 	import type { Component, Issue, Organization, OrganizationStore, UserStore } from "../../types";
 	import type { OrgDetailsPageData } from "./+page.server";
 
-	/** @type {import('./$types').PageData} */  
+	/** @type {import('./$types').PageData} */
 	export let data: OrgDetailsPageData;
 
 	let hasIssues: boolean;
@@ -25,6 +25,10 @@
 
 	let orgStore: OrganizationStore;
 	orgStore = getContext("org") as OrganizationStore;
+
+	if (data.org) {
+		orgStore.setOrganization(data.org);
+	}
 
 	let organization: Organization;
 	$: organization = data.org;

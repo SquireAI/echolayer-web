@@ -5,10 +5,13 @@
 	import Footer from '../lib/Footer.svelte';
 	import { createUserStore } from '$lib/stores/user-store';
 	import { createOrgStore } from '$lib/stores/org-store';
+	import { getHttpContext } from '$lib/http/context';
 
-	
+	/** @type {import('./$types').PageData} */
+	export let data;
+
 	const userStore = createUserStore();
-	const organizationStore = createOrgStore()
+	const organizationStore = createOrgStore();
 
 	setContext("user", userStore);
 	setContext("org", organizationStore);
@@ -24,7 +27,7 @@
 		<div class="main__content"><slot /></div>
 		<div class="main--right"></div>
 	</main>
-	
+
 	<footer>
 		<Footer />
 	</footer>

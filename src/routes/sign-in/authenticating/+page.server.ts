@@ -1,24 +1,27 @@
 import { error } from '@sveltejs/kit';
-import type { Organization } from "../../../types.js";
-import { getOrganizations } from "$lib/api/org.js";
-import { gitHubAuthentication } from "$lib/api/auth.js";
-import { xsrfToken } from '$lib/api/apiUtils.js';
-import setCookie from "set-cookie-parser";
+import type { Organization } from "../../../lib/types.js";
+import { OrganizationApi } from "$lib/api/organization.js";
+import { AuthApi } from "$lib/api/auth.js";
+import { getCookies, normalizeCookie } from '$lib/utils/cookies.js';
+import { getHttpContext } from '$lib/http/context.js';
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ cookies, fetch, url }) {
+export async function load({ parent, cookies, fetch, url }) {
+	const _ = await parent();
 	const code = url.searchParams.get("code");
 	let org: Organization | undefined;
 	if (!code) {
 		throw error(404, "Unauthorized");
 	}
 	try {
-		const resp = await gitHubAuthentication(fetch, code);
-		const respCookies = setCookie.parse(setCookie.splitCookiesString(resp.headers.get("set-cookie") || ""));
-		for (const cookie of respCookies) {
-			cookies.set(cookie.name, cookie.value, { ... cookie, sameSite: undefined, });
+		let context = getHttpContext(fetch, cookies);
+		const res = await new AuthApi(context).gitHubAuthentication(code);
+		const responseCookies = getCookies(res);
+		for (const cookie of responseCookies) {
+			cookies.set(cookie.name, cookie.value, normalizeCookie(cookie));
 		}
-		const orgs = await getOrganizations(fetch, xsrfToken(cookies));
+		context = getHttpContext(fetch, cookies);
+		const orgs = await new OrganizationApi(context).list();
 		org = orgs.at(0);
 	} catch (error) {
 		console.log("TODO: error: ", error);

@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Component, ComponentEntity, ComponentStore } from "../../types";
+import type { Component, ComponentEntity, ComponentStore } from "../types";
 
 export const createComponentStore = (): ComponentStore => {
 	const { set, update, subscribe } = writable<ComponentEntity >({ loading: false, error: false });

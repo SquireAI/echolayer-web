@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
-	import type { Organization } from "../../types";
-	
+	import type { Organization } from "$lib/types";
+
 	export let handleSubmit: (orgName: string) => Promise<void>;
-	
+
 	let orgName: string;
 	$: orgName = "";
 
@@ -16,7 +16,6 @@
 	async function handleNameChange(e: Event) {
 		const target = e.target as HTMLInputElement;
 		orgName = target.value;
-		console.log(orgName);
 	}
 
 	async function handleKeyPress(e: KeyboardEvent): Promise<void> {
