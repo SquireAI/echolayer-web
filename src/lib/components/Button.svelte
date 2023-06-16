@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import type { HTMLAttributeAnchorTarget } from "svelte/elements";
 
 	export let href: string | undefined = undefined;
@@ -8,7 +9,8 @@
 	export { clazz as class };
 	export let disabled: boolean = false;
 	export let target: HTMLAttributeAnchorTarget = "_self";
-	export let handleClick: () => void = () => {};
+
+	export let handleClick: () => Promise<void> = async () => {};
 
 	const baseButtonClassNames = "inline-flex justify-center font-medium text-sm py-3 cursor-pointer text-center rounded leading-4";
 	let buttonClasses = `${baseButtonClassNames}`;
@@ -22,9 +24,12 @@
 		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-3 h-12 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	}
 
-	function clickHandler() {
+	async function clickHandler() {
 		if (!disabled) {
-			handleClick();
+				await handleClick();
+			if (href) {
+				await goto(href);
+			}
 		}
 	}
 </script>
@@ -32,5 +37,5 @@
 {#if !href}
 	<button on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`}><slot /></button>
 {:else}
-	<a href={href} on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`} target={target}><slot /></a>
+	<a data-sveltekit-preload-data="hover" on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`} target={target}><slot /></a>
 {/if}
