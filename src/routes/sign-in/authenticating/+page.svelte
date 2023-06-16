@@ -11,9 +11,9 @@
 	$: if (browser) {
 		if (!$orgStore.loading && !$orgStore.error) {
 			if ($orgStore.entity !== undefined) {
-				goto("/org/details");
-			} else {
 				goto("/org/");
+			} else {
+				goto("/org/new");
 			}
 		}
 	}

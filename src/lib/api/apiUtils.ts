@@ -20,7 +20,7 @@ type FetchBody = {
 	[key: string]: string | number | boolean | Array<FetchBodyValue>
 };
 
-type FetchHeader = {
+export type FetchHeader = {
 	[key: string]: string;
 };
 
