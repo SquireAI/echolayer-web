@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import type { OrganizationStore, UserStore } from "../types";
+	import type { Organization, OrganizationStore, UserStore } from "../types";
 	import EchoLayerNameBranding from "./EchoLayerNameBranding.svelte";
 	import EchoLayerLogo from "./EchoLayerLogo.svelte";
 	import LogoutButton from "./LogoutButton.svelte";
@@ -8,6 +8,9 @@
 	const orgStore = getContext("org") as OrganizationStore;
 	let userInitials: string;
 	$: userInitials = $userStore.entity?.name.trim().split(" ").map((part) => part[0]).join("").toUpperCase() || "";
+
+	let organization: Organization | undefined;
+	$: organization = $orgStore.entity;
 </script>
 
 <div class="w-full h-full flex justify-center">
@@ -27,8 +30,8 @@
 						</div>
 						<div class="flex flex-col h-full items-end">
 							<p class="font-medium leading-4">{$userStore.entity.name}</p>
-							{#if $orgStore.entity}
-								<p class="font-normal leading-4">{$orgStore.entity.name}</p>
+							{#if organization}
+								<p class="font-normal leading-4">{organization.name}</p>
 							{/if}
 						</div>
 					</div>
