@@ -21,6 +21,20 @@ export type Organization = {
 	updatedAt: string;
 };
 
+export type Component = {
+	id: number;
+	organizationId: number;
+	name: string;
+	metadata: any;
+};
+
+export type Issue = {
+	id: number;
+	orgainzationId: number;
+	description: string;
+	resolved: boolean;
+};
+
 interface BaseEntity<T> {
 	loading: boolean;
 	error: boolean;
@@ -29,6 +43,7 @@ interface BaseEntity<T> {
 
 export interface UserEntity extends BaseEntity<User> {};
 export interface OrganizationEntity extends BaseEntity<Organization> {};
+export interface ComponentEntity extends BaseEntity<Component[]> {};
 
 interface BaseStore<T, U extends BaseEntity<T>> {
 	subscribe: Writable<U>["subscribe"];
@@ -46,4 +61,8 @@ export interface UserStore extends BaseStore<User, UserEntity> {
 export interface OrganizationStore extends BaseStore<Organization, OrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
+}
+
+export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
+	setComponents: (components: Component[]) => void;
 }
