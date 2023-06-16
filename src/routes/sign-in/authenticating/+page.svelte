@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { OrganizationStore } from "../../../types";
+	import { CREATE_ORG_PATH, ORGS_PATH } from "$lib/utils/paths";
 
 	let orgStore: OrganizationStore;
 	orgStore = getContext("org") as OrganizationStore;
@@ -11,9 +12,9 @@
 	$: if (browser) {
 		if (!$orgStore.loading && !$orgStore.error) {
 			if ($orgStore.entity !== undefined) {
-				goto("/org/details");
+				goto(ORGS_PATH);
 			} else {
-				goto("/org/");
+				goto(CREATE_ORG_PATH);
 			}
 		}
 	}

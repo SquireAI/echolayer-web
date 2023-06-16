@@ -20,6 +20,7 @@
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.5.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/set-cookie-parser": "^2.4.2",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "autoprefixer": "^10.4.14",
@@ -40,5 +41,9 @@
     "vite": "^4.3.0",
     "vitest": "^0.25.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "query-string": "^8.1.0",
+    "set-cookie-parser": "^2.6.0"
+  }
 }

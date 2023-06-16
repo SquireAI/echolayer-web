@@ -1,0 +1,90 @@
+// import cookie from "cookie";
+// qs uses new Function() which is not allowed in Cloudflare Workers
+// import queryString from "query-string";
+// import {
+// 	AccessToken, Component, CreatedAccessToken, Issue, Organization, User
+// } from "../../types";
+
+// import {
+// 	del, FetchHeader, get, post
+// } from "./apiUtils";
+
+// type Cookies = Partial<{
+// 	[key: string]: string;
+// }>;
+
+// export class Api {
+// 	headers: FetchHeader
+// 	constructor(reqCookies: string | Cookies = "") {
+// 		let cookies: Cookies;
+// 		if (typeof reqCookies === "string") {
+// 			cookies = cookie.parse(reqCookies);
+// 		} else {
+// 			cookies = reqCookies;
+// 		}
+// 		this.headers = getHeaders(cookies);
+// 	}
+// 	async checkAuth(): Promise<void> {
+// 		await get("api/v1/auth/check", this.headers);
+// 	}
+
+// 	async githubAuth(code: string): Promise<void> {
+// 		const query = queryString.stringify({ code });
+// 		const path = `/api/v1/auth/github?${query}`;
+// 		await get(path, this.headers);
+// 	}
+
+// 	async logout(): Promise<void> {
+// 		return get("/api/v1/auth/logout", this.headers);
+// 	}
+
+// 	async getUser(): Promise<User> {
+// 		return await get("api/v1/user", this.headers);
+// 	}
+
+// 	async getOrganizations(): Promise<Organization[]> {
+// 		return get("api/v1/organization", this.headers);
+// 	}
+
+// 	async createOrganization(name: string): Promise<Organization> {
+// 		return post(
+// 			"/api/v1/organization", { name }, this.headers,
+// 		);
+// 	}
+
+// 	async getIssues(): Promise<Issue[]> {
+// 		return get("api/v1/issue?resolved=false", this.headers);
+// 	}
+
+// 	async getComponents(): Promise<Component[]> {
+// 		return get("api/v1/component", this.headers);
+// 	}
+
+// 	async getAccessTokens(): Promise<AccessToken[]> {
+// 		return get("/api/v1/auth/pat", this.headers);
+// 	}
+
+// 	async createAccessToken(data = {}): Promise<CreatedAccessToken> {
+// 		return post(
+// 			"/api/v1/auth/pat", data, this.headers
+// 		);
+// 	}
+
+// 	async deleteAccessToken(prefix: string): Promise<void> {
+// 		const path = `/api/v1/auth/pat/${encodeURIComponent(prefix)}`;
+// 		return del(path, this.headers);
+// 	}
+// }
+
+// export function getHeaders(cookies: Cookies): FetchHeader {
+// 	const xsrf_cookie:string = cookies[XSRF_TOKEN_COOKIE_NAME] || "";
+// 	const jwt_cookie:string = cookies[JWT_TOKEN_COOKIE_NAME] || "";
+// 	return {
+// 		[XSRF_REQUEST_HEADER]: xsrf_cookie,
+// 		"cookie": `${JWT_TOKEN_COOKIE_NAME}=${jwt_cookie}`
+// 	};
+// }
+
+// export const XSRF_TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+// export const JWT_TOKEN_COOKIE_NAME = "JWT-TOKEN";
+// const XSRF_REQUEST_HEADER = "X-XSRF-TOKEN";

@@ -1,11 +1,5 @@
 import type { Updater, Writable } from "svelte/store";
 
-export type User = {
-	// id: number;
-	name: string;
-	// email: string;
-}
-
 export type Member = {
 	id: number;
 	name: string;
@@ -20,6 +14,35 @@ export type Organization = {
 	createdAt: string;
 	updatedAt: string;
 };
+
+export type Issue = {
+	id: number;
+	orgainzationId: number;
+	description: string;
+	resolved: boolean;
+};
+
+export type Component = {
+	id: number;
+	organizationId: number;
+	name: string;
+	metadata: any;
+};
+
+export type User = {
+	id: number;
+	name: string;
+	email: string;
+}
+
+export type AccessToken = {
+	id: number;
+	prefix: string;
+	expiresAt: string;
+	createdAt: string;
+}
+
+export type CreatedAccessToken = AccessToken & { token: string }
 
 interface BaseEntity<T> {
 	loading: boolean;
