@@ -17,15 +17,11 @@
 	orgStore = getContext("org") as OrganizationStore;
 
 	async function onCreateOrg(orgName: string): Promise<void> {
-		try {
-			const createdOrg = await createOrgHandler(orgName);
-			orgStore.setOrganization(createdOrg);
-			setTimeout(() => {
-				goto("/org/")
-			}, 300);
-		} catch (error) {
-			console.log(error);
-		}
+		const createdOrg = await createOrgHandler(orgName);
+		orgStore.setOrganization(createdOrg);
+		setTimeout(() => {
+			goto("/org/")
+		}, 300);
 	}
 </script>
 

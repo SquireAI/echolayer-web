@@ -28,7 +28,11 @@ export class HttpClient {
 	public async fetchHTTP(method: "GET" | "POST" | "PATCH" | "DELETE" = "GET", path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
 		const queryParameters = params ? `?${queryString.stringify(params)}` : "";
 		const url = urlJoin(this.baseUrl, path, queryParameters);
-		const requestHeaders = { ... this.headers, ... headers };
+		const requestHeaders = {
+			"Content-Type": "application/json",
+			... this.headers,
+			... headers
+		};
 		const resp = await this.fetch(url, {
 			method,
 			body: body ? JSON.stringify(body) : undefined,

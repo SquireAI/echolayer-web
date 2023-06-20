@@ -5,7 +5,6 @@
 	import Footer from '../lib/Footer.svelte';
 	import { createUserStore } from '$lib/stores/user-store';
 	import { createOrgStore } from '$lib/stores/org-store';
-	import { getHttpContext } from '$lib/http/context';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
