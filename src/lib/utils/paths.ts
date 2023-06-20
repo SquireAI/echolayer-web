@@ -3,8 +3,8 @@ export const NOT_FOUND_PATH = "/not-found";
 export const ERROR_PATH = "/error";
 export const AUTH_ERROR_PATH = "/auth-error";
 export const APP_PATH = "/app";
-export const ORGS_PATH =  "/app/org/details";
-export const CREATE_ORG_PATH = "/app/org";
+export const ORGS_PATH =  "/app/org";
+export const CREATE_ORG_PATH = "/app/org/new";
 export const ACCOUNT_PATH = "/app/account";
 export const PERSONAL_ACCESS_TOKENS_PATH = "/app/account/personal-access-tokens";
 

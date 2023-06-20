@@ -1,8 +1,8 @@
 import type { Component } from "../types";
-import { BaseApi } from "./baseApi";
+import { BaseApi, ENDPOINT } from "./baseApi";
 
 export class ComponentApi extends BaseApi<Component> {
 	initializeVariables(): void {
-		this.endpoint = "component";
+		this.endpoint = ENDPOINT.component;
 	}
 }

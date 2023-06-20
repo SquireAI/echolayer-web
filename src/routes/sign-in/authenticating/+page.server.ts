@@ -4,9 +4,9 @@ import { OrganizationApi } from "$lib/api/organization.js";
 import { AuthApi } from "$lib/api/auth.js";
 import { getCookies, normalizeCookie } from '$lib/utils/cookies.js';
 import { getHttpContext } from '$lib/http/context.js';
+import type { PageServerLoad } from './$types';
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({ parent, cookies, fetch, url }) {
+export const load = (async ({ parent, cookies, fetch, url }) => {
 	const _ = await parent();
 	const code = url.searchParams.get("code");
 	let org: Organization | undefined;
@@ -27,4 +27,4 @@ export async function load({ parent, cookies, fetch, url }) {
 		console.log("TODO: error: ", error);
 	}
 	return { org };
-}
+}) satisfies PageServerLoad;

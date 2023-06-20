@@ -1,8 +1,8 @@
 import type { Organization } from "../types";
-import { BaseApi } from "./baseApi";
+import { BaseApi, ENDPOINT } from "./baseApi";
 
 export class OrganizationApi extends BaseApi<Organization> {
 	initializeVariables(): void {
-		this.endpoint = "organization";
+		this.endpoint = ENDPOINT.organization;
 	}
 }

@@ -6,10 +6,7 @@
 
 	const userStore = getContext("user") as UserStore;
 
-	function logout() {
-		userStore.clear();
-		goto("/sign-in");
-	}
+	export let logoutHandler: () => Promise<void>;
 </script>
 
-<Button handleClick={logout}>Log out</Button>
+<Button handleClick={logoutHandler}>Log out</Button>

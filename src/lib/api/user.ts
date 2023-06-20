@@ -1,8 +1,8 @@
 import type { User } from "../types";
-import { BaseApi } from "./baseApi";
+import { BaseApi, ENDPOINT } from "./baseApi";
 
 export class UserApi extends BaseApi<User> {
 	initializeVariables(): void {
-		this.endpoint = "user";
+		this.endpoint = ENDPOINT.user;
 	}
 }

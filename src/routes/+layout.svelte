@@ -6,9 +6,6 @@
 	import { createUserStore } from '$lib/stores/user-store';
 	import { createOrgStore } from '$lib/stores/org-store';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
-
 	const userStore = createUserStore();
 	const organizationStore = createOrgStore();
 

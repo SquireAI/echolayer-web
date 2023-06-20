@@ -1,8 +1,8 @@
 import type { AccessToken } from "../types";
-import { BaseApi } from "./baseApi";
+import { BaseApi, ENDPOINT } from "./baseApi";
 
 export class PersonalAccessTokenApi extends BaseApi<AccessToken> {
 	initializeVariables(): void {
-		this.endpoint = "auth/pat";
+		this.endpoint = ENDPOINT.pat;
 	}
 }

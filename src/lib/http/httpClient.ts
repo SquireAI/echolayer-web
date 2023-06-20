@@ -3,6 +3,19 @@ import type { FetchHeader } from "../api/apiUtils";
 import type { httpContext } from "$lib/http/context";
 import urlJoin from "url-join";
 
+const FetchMethod = {
+	GET: "GET",
+	HEAD: "HEAD",
+	POST: "POST",
+	PUT: "PUT",
+	DELETE: "DELETE",
+	CONNECT: "CONNECT",
+	OPTIONS: "OPTIONS",
+	TRACE: "TRACE",
+	PATCH: "PATCH",
+} as const;
+export type FETCH_METHOD = typeof FetchMethod[keyof typeof FetchMethod];
+
 export class HttpClient {
 	private baseUrl: string;
 	private headers: FetchHeader;
@@ -12,26 +25,26 @@ export class HttpClient {
 		this.headers = context.baseHeaders;
 		this.fetch = context.fetch;
 	}
-	public async fetchGET(path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
+	public async fetchGET(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("GET", path, params, body, headers);
 	}
-	public async fetchPOST(path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
+	public async fetchPOST(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("POST", path, params, body, headers);
 	}
-	public async fetchPATCH(path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
+	public async fetchPATCH(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("PATCH", path, params, body, headers);
 	}
-	public async fetchDELETE(path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
+	public async fetchDELETE(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("DELETE", path, params, body, headers);
 	}
 
-	public async fetchHTTP(method: "GET" | "POST" | "PATCH" | "DELETE" = "GET", path = "", params?: any, body?: object, headers?: FetchHeader): Promise<Response> {
+	public async fetchHTTP(method: FETCH_METHOD = "GET", path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
 		const queryParameters = params ? `?${queryString.stringify(params)}` : "";
 		const url = urlJoin(this.baseUrl, path, queryParameters);
 		const requestHeaders = {
 			"Content-Type": "application/json",
-			... this.headers,
-			... headers
+			...this.headers,
+			...headers
 		};
 		const resp = await this.fetch(url, {
 			method,
