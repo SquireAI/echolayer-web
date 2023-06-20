@@ -14,6 +14,6 @@ export async function load({ cookies, fetch }) {
 		throw redirect(307, SIGN_IN_PATH);
 	}
 	if (orgs.length > 0) {
-		//throw redirect(307, ORGS_PATH);
+		throw redirect(307, ORGS_PATH);
 	}
 }
