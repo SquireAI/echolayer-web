@@ -3,34 +3,26 @@
 	import NewOrgForm from "$lib/org/NewOrgForm.svelte";
 	import SetupOrg from "$lib/svgs/SetupOrg.svg?component";
 	import { getContext } from "svelte";
-	import type { OrganizationStore, UserStore } from "../../../types";
+	import type { OrganizationStore, UserStore } from "$lib/types";
 	import type { OrgNewPageData } from "./+page";
-	import type { OrgNewPageServerData } from "./+page.server";
+	import { ORGS_PATH } from "$lib/utils/paths";
 
-	/** @type {import('./$types').PageData} */  
-	export let data: OrgNewPageData & OrgNewPageServerData;
+	/** @type {import('./$types').PageData} */
+	export let data: OrgNewPageData;
 
 	let userStore: UserStore;
 	userStore = getContext("user") as UserStore;
-	const { user, createOrgHandler } = data;
-
-	if (user) {
-		userStore.setUser(user);
-	}
+	const { createOrgHandler } = data;
 
 	let orgStore: OrganizationStore;
 	orgStore = getContext("org") as OrganizationStore;
-	
+
 	async function onCreateOrg(orgName: string): Promise<void> {
-		try {
-			const createdOrg = await createOrgHandler(orgName);
-			orgStore.setOrganization(createdOrg);
-			setTimeout(() => {
-				goto("/org/")
-			}, 300);
-		} catch (error) {
-			console.log(error);
-		}
+		const createdOrg = await createOrgHandler(orgName);
+		orgStore.setOrganization(createdOrg);
+		setTimeout(() => {
+			goto(ORGS_PATH)
+		}, 300);
 	}
 </script>
 

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Button from "$lib/components/Button.svelte";
-	import type { Organization } from "../../types";
-	
+
 	export let handleSubmit: (orgName: string) => Promise<void>;
-	
+
 	let orgName: string;
 	$: orgName = "";
 
@@ -16,7 +15,6 @@
 	async function handleNameChange(e: Event) {
 		const target = e.target as HTMLInputElement;
 		orgName = target.value;
-		console.log(orgName);
 	}
 
 	async function handleKeyPress(e: KeyboardEvent): Promise<void> {
@@ -24,11 +22,16 @@
 	}
 
 	async function onSubmit() {
+		apiError = false;
 		if (orgName.trim().length === 0) {
 			formError = true;
 			return;
 		}
-		const org = await handleSubmit(orgName);
+		try {
+			await handleSubmit(orgName);
+		} catch (error) {
+			apiError = true;
+		}
 	}
 
 	let classNames = "w-full h-8 rounded-sm focus:ring-transparent focus:bg-neutral-200 filled:bg-neutral-200 text-neutral-900 sm:text-md border border-gray-900 px-4";

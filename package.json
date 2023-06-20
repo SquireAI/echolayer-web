@@ -42,5 +42,10 @@
     "vite": "^4.3.0",
     "vitest": "^0.25.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "query-string": "^8.1.0",
+    "set-cookie-parser": "^2.6.0",
+    "url-join": "^5.0.0"
+  }
 }

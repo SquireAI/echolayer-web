@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { User, UserEntity, UserStore } from "../../types";
+import type { User, UserEntity, UserStore } from "../types";
 
 export const createUserStore = (): UserStore => {
 	const { set, update, subscribe } = writable<UserEntity>({ loading: false, error: false });

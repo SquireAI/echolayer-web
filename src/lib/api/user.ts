@@ -1,6 +1,8 @@
-import type { User } from "../../types";
-import { type Fetch, get, type FetchHeader } from "./apiUtils";
+import type { User } from "../types";
+import { BaseApi, ENDPOINT } from "./baseApi";
 
-export async function getUser(fetch: Fetch, header: FetchHeader): Promise<User> {
-	return await get(fetch, "/api/v1/user", header);
+export class UserApi extends BaseApi<User> {
+	initializeVariables(): void {
+		this.endpoint = ENDPOINT.user;
+	}
 }

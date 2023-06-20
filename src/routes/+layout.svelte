@@ -6,9 +6,8 @@
 	import { createUserStore } from '$lib/stores/user-store';
 	import { createOrgStore } from '$lib/stores/org-store';
 
-	
 	const userStore = createUserStore();
-	const organizationStore = createOrgStore()
+	const organizationStore = createOrgStore();
 
 	setContext("user", userStore);
 	setContext("org", organizationStore);
@@ -24,7 +23,7 @@
 		<div class="main__content"><slot /></div>
 		<div class="main--right"></div>
 	</main>
-	
+
 	<footer>
 		<Footer />
 	</footer>

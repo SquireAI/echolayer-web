@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Organization, OrganizationEntity, OrganizationStore } from "../../types";
+import type { Organization, OrganizationEntity, OrganizationStore } from "../types";
 
 export const createOrgStore = (): OrganizationStore => {
 	const { set, update, subscribe } = writable<OrganizationEntity >({ loading: false, error: false });
