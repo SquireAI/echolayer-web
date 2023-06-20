@@ -2,7 +2,8 @@
 	import { getContext } from "svelte";
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import type { OrganizationStore, UserStore } from "../types";
+	import type { OrganizationStore, UserStore } from "$lib/types";
+	import { CREATE_ORG_PATH, ORGS_PATH, SIGN_IN_PATH } from "$lib/utils/paths";
 
 
 	let userStore: UserStore;
@@ -13,12 +14,12 @@
 
 	$: if (browser && !$userStore.loading && !$orgStore.loading) {
 		if ($userStore.entity && !$orgStore.entity) {
-			goto("/app/org/new");
+			goto(CREATE_ORG_PATH);
 		} else if ($userStore.entity && $orgStore.entity) {
-			goto("/app/org");
+			goto(ORGS_PATH);
 		}
 		if (!$userStore.entity) {
-			goto("/sign-in");
+			goto(SIGN_IN_PATH);
 		}
 	}
 </script>

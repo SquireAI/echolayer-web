@@ -2,11 +2,12 @@
 	import { goto } from '$app/navigation';
 	import Button from "./components/Button.svelte";
 	import { clearStores } from "$lib/stores";
-	import { logout as logoutFn } from '$lib/api/auth';
+	import { AuthApi } from '$lib/api/auth';
+	import { createDefaultContext } from './http/context';
 
 	async function logout() {
 		clearStores();
-		await logoutFn();
+		await new AuthApi(createDefaultContext()).logout();
 		await goto("/");
 	}
 </script>

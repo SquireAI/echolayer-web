@@ -42,15 +42,6 @@ export type AccessToken = {
 	createdAt: string;
 }
 
-export type CreatedAccessToken = AccessToken & { token: string }
-
-export type AccessToken = {
-	id: number;
-	prefix: string;
-	expiresAt: string;
-	createdAt: string;
-}
-
 export type CreatedAccessToken = AccessToken & { token: string };
 
 interface BaseEntity<T> {

@@ -6,7 +6,7 @@
 	import DataIcon from "$lib/svgs/DataIcon.svg?component";
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
-	import type { Component, Issue, OrgAndUserData, Organization } from "../../../types";
+	import type { Component, Issue, OrgAndUserData, Organization } from "$lib/types";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgAndUserData;
