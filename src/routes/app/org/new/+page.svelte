@@ -5,6 +5,7 @@
 	import { getContext } from "svelte";
 	import type { OrganizationStore, UserStore } from "$lib/types";
 	import type { OrgNewPageData } from "./+page";
+	import { ORGS_PATH } from "$lib/utils/paths";
 
 	/** @type {import('./$types').PageData} */
 	export let data: OrgNewPageData;
@@ -20,7 +21,7 @@
 		const createdOrg = await createOrgHandler(orgName);
 		orgStore.setOrganization(createdOrg);
 		setTimeout(() => {
-			goto("/org/")
+			goto(ORGS_PATH)
 		}, 300);
 	}
 </script>

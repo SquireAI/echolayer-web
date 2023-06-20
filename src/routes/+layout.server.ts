@@ -1,6 +1,6 @@
 import { getHttpContext, type httpContext } from "$lib/http/context";
 
-export type LoadData = Omit<httpContext, "fetch">;
+export type ContextData = Omit<httpContext, "fetch">;
 
 /** @type {import('./$types').LayoutServerLoad} */
 export function load({ fetch, cookies }) {
