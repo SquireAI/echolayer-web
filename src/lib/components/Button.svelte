@@ -24,18 +24,23 @@
 		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-3 h-12 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	}
 
-	async function clickHandler() {
+	async function clickHandler(): Promise<boolean> {
 		if (!disabled) {
-				await handleClick();
-			if (href) {
+			await handleClick();
+			// if there's a link and it's not to open in a new tab / window, pass it to `goto`
+			// `goto` can also handle fully-qualified links so long as target isn't `_blank`
+			if (href && target !== "_blank") {
 				await goto(href);
 			}
 		}
+		// if there's a href that is to open in a new tab / window, we return true so the click event
+		// can continue on and let the anchor element change the window location in a new tab / window
+		return true;
 	}
 </script>
 
 {#if !href}
 	<button on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`}><slot /></button>
 {:else}
-	<a data-sveltekit-preload-data="hover" on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`} target={target}><slot /></a>
+	<a href={href} data-sveltekit-preload-data="hover" on:click={clickHandler} class={`${buttonClasses} ${full ? "w-full" : ""}`} target={target}><slot /></a>
 {/if}
