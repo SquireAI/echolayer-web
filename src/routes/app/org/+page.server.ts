@@ -2,14 +2,14 @@ import { OrganizationApi } from "$lib/api/organization";
 import { UserApi } from "$lib/api/user.js";
 import { getHttpContext } from "$lib/http/context.js";
 import type { Organization, User } from "$lib/types";
+import type { PageServerLoad } from "./$types";
 
 export type OrgDetailsPageData = {
 	user: User;
 	org: Organization;
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> {
+export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> => {
 	try {
 		const context = getHttpContext(fetch, cookies);
 		const user = await new UserApi(context).get("");
@@ -18,4 +18,4 @@ export async function load({ cookies, fetch }): Promise<OrgDetailsPageData | und
 	} catch (error) {
 		console.log(error);
 	}
-}
+}) satisfies PageServerLoad;
