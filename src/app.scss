@@ -2,29 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply text-5xl font-light;
+}
+
+h2 {
+  @apply text-4xl font-light;
+}
+
+h3 {
+  @apply text-lg font-light;
+}
+
+p {
+  @apply text-sm font-normal;
+}
+
 .app-container {
 	height: 100vh;
 	display: grid;
 	grid-template-columns: 1fr minmax(auto, 100%) 1fr;
-  grid-template-rows: 64px calc(100% - 114px) 50px;
+  grid-template-rows: 64px calc(100% - 64px);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas: 
     'header header header'
-    'main-left main main-right'
-		'footer footer footer';
-
-	@media (min-width: 640px) {
-		grid-template-columns: auto 1fr auto;
-	}
-
-	@media (min-width: 768px) {
-		grid-template-columns: auto 1fr auto;
-	}
-
-	@media (min-width: 1024px) {
-		grid-template-columns: auto 1024px auto;
-	}
+    'main main main';
 
   @apply bg-echolayer-content;
 
@@ -40,50 +43,50 @@
     height: 100%;
   }
 
-  footer {
-    grid-area: footer;
-    width: 100%;
-    height: 100%;
-  }
-
   main {
     grid-area: main;
     overflow: auto;
     width: 100%;
     height: calc(100vh - 64px);
-  }
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 100%) 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-areas: 
+      'main-left main-content main-right';
 
-  .main__content {
-    height: 100%;
-    @apply px-5 lg:px-2;
-  }
-
-  .main-left {
-    @apply hidden sm:hidden md:hidden lg:block;
-    grid-area: main-left;
-    width: 100%;
-    height: calc(100vh - 114px);
-    @at-root &__with-bg {
-      background-image: url("/img/ascii-city.svg");
-      background-size: 100% 143px;
-      background-repeat: no-repeat;
-      transform: scaleX(-1);
-      filter: FlipH;
-      -ms-filter: "FlipH";
-      background-position-y: 50%;
+    @media (min-width: 640px) {
+      grid-template-columns: auto 1fr auto;
     }
-  }
+  
+    @media (min-width: 768px) {
+      grid-template-columns: auto 1fr auto;
+    }
+  
+    @media (min-width: 1024px) {
+      grid-template-columns: auto 1024px auto;
+    }
 
-  .main-right {
-    @apply hidden sm:hidden md:hidden lg:block;
-    grid-area: main-right;
-    width: 100%;
-    height: calc(100vh - 114px);
-    @at-root &__with-bg {
-      background-image: url("/img/ascii-city.svg");
-      background-size: 100% 143px;
-      background-repeat: no-repeat;
-      background-position-y: 50%;
+    .main__content {
+      grid-area: main-content;
+      height: 100%;
+      width: 100%;
+      @apply px-5 lg:px-2;
+    }
+  
+    .main__content--left {
+      grid-area: main-left;
+      @apply hidden sm:hidden md:hidden lg:block;
+      width: auto;
+      height: calc(100vh - 64px);
+    }
+  
+    .main__content--right {
+      grid-area: main-right;
+      @apply hidden sm:hidden md:hidden lg:block;
+      width: auto;
+      height: calc(100vh - 64px);
     }
   }
 }
