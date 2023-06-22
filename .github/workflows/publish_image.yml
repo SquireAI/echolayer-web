@@ -1,0 +1,69 @@
+name: Publish Docker Image
+
+on:
+  workflow_call:
+    secrets:
+      DIGITALOCEAN_ACCESS_TOKEN:
+        required: true
+
+env:
+  GH_REGISTRY: ghcr.io
+  DO_REGISTRY: registry.digitalocean.com/usecodex
+  IMAGE_NAME: ${{ github.repository }}
+  PUBLIC_BASE_API_URL: ${{ github.PUBLIC_BASE_API_URL }}
+  PUBLIC_GITHUB_CLIENT_ID: ${{ github.PUBLIC_GITHUB_CLIENT_ID }}
+  PUBLIC_GITHUB_REDIRECT_URI: ${{ github.PUBLIC_GITHUB_REDIRECT_URI }}
+
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Install doctl (Digital Ocean Control CLI)
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Login to Github Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.GH_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to DigitalOcean Container Registry
+        run: doctl registry login --expiry-seconds 1200
+      
+      - name: Set target deploy environment
+        id: set-image-tag
+        run: echo ::set-output name=image-tag::${{ github.ref_name == 'production' && 'production' || 'staging' }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.GH_REGISTRY }}/${{ env.IMAGE_NAME }}, ${{ env.DO_REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=
+            type=ref,event=branch
+            type=raw,${{ steps.set-image-tag.outputs.image-tag }}
+
+      - name: Print Deployment git SHA
+        run: echo "Building image of commit ${{ github.sha }} for ${{ steps.set-image-tag.outputs.image-tag }} environment."
+
+      - name: Build and push to registries
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+            ENVIRONMENT=${{ steps.set-image-tag.outputs.image-tag }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

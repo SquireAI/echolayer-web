@@ -1,0 +1,35 @@
+name: Deploy Docker Image to DigitalOcean Container Registry
+
+on:
+  push:
+    branches: [ main, production ]
+
+env:
+  REGISTRY: registry.digitalocean.com/usecodex
+  IMAGE_NAME: ${{ github.repository }}
+  APP_NAME: echolayer-web
+
+jobs:
+  publish-image:
+    uses: ./.github/workflows/publish_image.yml
+    secrets:
+      DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+  deploy-image:
+    needs: publish-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install doctl (Digital Ocean Control CLI)
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Set target deploy environment
+        id: set-image-tag
+        run: echo ::set-output name=image-tag::${{ github.ref_name == 'production' && 'production' || 'staging' }}
+
+      - name: Print Deployment git SHA
+        run: echo "Deploying image of commit ${{ github.sha }} to DigitalOcean ${{ steps.set-image-tag.outputs.image-tag }} environment."
+
+      - name: Trigger DigitalOcean redeploy
+        run: doctl apps create-deployment $(doctl apps list | grep ${{ env.APP_NAME }}-${{ steps.set-image-tag.outputs.image-tag }} | cut -d " " -f1 | xargs echo -n)
