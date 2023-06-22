@@ -2,15 +2,11 @@
 	import '../app.scss';
 	import { setContext } from "svelte";
 	import Header from '../lib/Header.svelte';
-	import Footer from '../lib/Footer.svelte';
-	import { createUserStore } from '$lib/stores/user-store';
-	import { createOrgStore } from '$lib/stores/org-store';
+	import { COMPONENT_STORE_NAME, ORG_STORE_NAME, USER_STORE_NAME, componentStore, organizationStore, userStore } from '$lib/stores';
 
-	const userStore = createUserStore();
-	const organizationStore = createOrgStore();
-
-	setContext("user", userStore);
-	setContext("org", organizationStore);
+	setContext(USER_STORE_NAME, userStore);
+	setContext(ORG_STORE_NAME, organizationStore);
+	setContext(COMPONENT_STORE_NAME, componentStore);
 </script>
 
 <div class="app-container">
@@ -19,12 +15,10 @@
 	</header>
 
 	<main>
-		<div class="main--left"></div>
-		<div class="main__content"><slot /></div>
-		<div class="main--right"></div>
+		<div class="main__content--left"></div>
+		<div class="main__content">
+			<slot />
+		</div>
+		<div class="main__content--right"></div>
 	</main>
-
-	<footer>
-		<Footer />
-	</footer>
 </div>

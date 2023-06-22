@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { getContext } from "svelte";
 	import { goto } from '$app/navigation';
-	import type { UserStore } from "./types";
 	import Button from "./components/Button.svelte";
+	import { clearStores } from "$lib/stores";
+	import { AuthApi } from '$lib/api/auth';
+	import { createDefaultContext } from './http/context';
 
-	const userStore = getContext("user") as UserStore;
-
-	export let logoutHandler: () => Promise<void>;
+	async function logout() {
+		clearStores();
+		await new AuthApi(createDefaultContext()).logout();
+		await goto("/");
+	}
 </script>
 
-<Button handleClick={logoutHandler}>Log out</Button>
+<Button handleClick={logout}>Log out</Button>
