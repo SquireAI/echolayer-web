@@ -17,6 +17,11 @@ export const ENDPOINT = {
 } as const;
 export type EndpointType = typeof ENDPOINT[keyof typeof ENDPOINT];
 
+export type FetchBody = {
+	[key: string]: string | number | boolean | Array<FetchBodyValue>
+};
+export type FetchBodyValue = string | number | boolean;
+
 export abstract class BaseApi<T> {
 	protected httpClient: HttpClient;
 	protected endpoint: EndpointType = "";
@@ -37,11 +42,11 @@ export abstract class BaseApi<T> {
 		const resp = await this.httpClient.fetchGET(name);
 		return resp.json() as Promise<T>;
 	}
-	public async create(data?: BodyInit): Promise<T> {
+	public async create(data?: FetchBody): Promise<T> {
 		const resp = await this.httpClient.fetchPOST("", undefined, data);
 		return resp.json() as Promise<T>;
 	}
-	public async update(name: string, data: BodyInit): Promise<T> {
+	public async update(name: string, data: FetchBody): Promise<T> {
 		const resp = await this.httpClient.fetchPATCH(name, undefined, data);
 		return resp.json() as Promise<T>;
 	}

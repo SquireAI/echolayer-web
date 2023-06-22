@@ -13,7 +13,7 @@ export const load = (async ({ parent, fetch, data }) => {
 	const { baseHeaders, baseUrl } = data;
 	async function createOrgHandler(orgName: string): Promise<Organization> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
-		return await new OrganizationApi(context).create(JSON.stringify({ name: orgName }));
+		return await new OrganizationApi(context).create({ name: orgName });
 	}
 	return { createOrgHandler };
 }) satisfies PageLoad;
