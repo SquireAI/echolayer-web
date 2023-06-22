@@ -4,6 +4,7 @@ import type { httpContext } from "$lib/http/context";
 import urlJoin from "url-join";
 import { error } from "@sveltejs/kit";
 import { ErrorMessageTypes } from "$lib/error";
+import type { FetchBody } from "$lib/api/baseApi";
 
 const FetchMethod = {
 	GET: "GET",
@@ -27,20 +28,20 @@ export class HttpClient {
 		this.headers = context.baseHeaders;
 		this.fetch = context.fetch;
 	}
-	public async fetchGET(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
+	public async fetchGET(path = "", params?: any, body?: FetchBody, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("GET", path, params, body, headers);
 	}
-	public async fetchPOST(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
+	public async fetchPOST(path = "", params?: any, body?: FetchBody, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("POST", path, params, body, headers);
 	}
-	public async fetchPATCH(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
+	public async fetchPATCH(path = "", params?: any, body?: FetchBody, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("PATCH", path, params, body, headers);
 	}
-	public async fetchDELETE(path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
+	public async fetchDELETE(path = "", params?: any, body?: FetchBody, headers?: FetchHeader): Promise<Response> {
 		return this.fetchHTTP("DELETE", path, params, body, headers);
 	}
 
-	public async fetchHTTP(method: FETCH_METHOD = "GET", path = "", params?: any, body?: BodyInit, headers?: FetchHeader): Promise<Response> {
+	public async fetchHTTP(method: FETCH_METHOD = "GET", path = "", params?: any, body?: FetchBody, headers?: FetchHeader): Promise<Response> {
 		const queryParameters = params ? `?${queryString.stringify(params)}` : "";
 		const url = urlJoin(this.baseUrl, path, queryParameters);
 		const requestHeaders = {
