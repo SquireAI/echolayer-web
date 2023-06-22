@@ -4,12 +4,15 @@ import { browser } from "$app/environment";
 
 export let COMPONENT_STORE_NAME = "component";
 
-let initialValue: ComponentEntity;
-const storageValue: string | undefined = browser ? localStorage.getItem(COMPONENT_STORE_NAME) ?? undefined : undefined;
-if (browser && storageValue) {
+let initialValue: ComponentEntity = { loading: false, error: false };
+let storageValue: string | undefined = undefined;
+
+if (browser) {
+	storageValue = localStorage.getItem(COMPONENT_STORE_NAME) ?? undefined;
+}
+
+if (storageValue !== undefined) {
 	initialValue = JSON.parse(storageValue)
-} else {
-	initialValue = { loading: false, error: false };
 }
 
 const createComponentStore = (): ComponentStore => {

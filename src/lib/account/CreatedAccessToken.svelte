@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CreatedAccessToken } from "../../types";
+	import type { CreatedAccessToken } from "$lib/types";
 	import GeneratedKey from "./GeneratedKey.svelte";
 
 	export let token: CreatedAccessToken;

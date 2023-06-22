@@ -7,7 +7,6 @@
 	import type { OrgNewPageData } from "./+page";
 	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData } from "$lib/types";
 
-	/** @type {import('./$types').PageData} */  
 	export let data: OrgNewPageData & OrgAndUserData;
 	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens } = data;
 
