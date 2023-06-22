@@ -1,6 +1,6 @@
-import { PUBLIC_BASE_API_URL } from "$env/static/public"
+import { env } from "$env/dynamic/public"
 import type { Cookies } from "@sveltejs/kit";
-export const BASE_API_URL: string = PUBLIC_BASE_API_URL || "http://localhost:3005";
+export const BASE_API_URL: string = env.PUBLIC_BASE_API_URL || "http://localhost:3005";
 
 export type Fetch = (input: URL | RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
 

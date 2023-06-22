@@ -1,8 +1,8 @@
-import { PUBLIC_BASE_API_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { Cookies } from '@sveltejs/kit';
 import type { FetchHeader } from '../api/apiUtils';
 
-export const DEFAULT_BASE_URL:string = PUBLIC_BASE_API_URL || "";
+export const DEFAULT_BASE_URL:string = env.PUBLIC_BASE_API_URL || "";
 
 export interface httpContext {
 	fetch: typeof fetch;
