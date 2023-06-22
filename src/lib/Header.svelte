@@ -4,10 +4,6 @@
 	import EchoLayerNameBranding from "./EchoLayerNameBranding.svelte";
 	import EchoLayerLogo from "./EchoLayerLogo.svelte";
 	import LogoutButton from "./LogoutButton.svelte";
-	import { createDefaultContext } from "$lib/http/context";
-	import { AuthApi } from "./api/auth";
-	import { SIGN_IN_PATH } from "./utils/paths";
-	import { goto } from "$app/navigation";
 
 	const userStore = getContext("user") as UserStore;
 	const orgStore = getContext("org") as OrganizationStore;
@@ -17,11 +13,6 @@
 	let organization: Organization | undefined;
 	$: organization = $orgStore.entity;
 
-	async function logoutHandler(): Promise<void> {
-		await new AuthApi(createDefaultContext()).logout();
-		userStore.clear();
-		await goto(SIGN_IN_PATH);
-	}
 </script>
 
 <div class="w-full h-full flex justify-center">
@@ -46,7 +37,7 @@
 							{/if}
 						</div>
 					</div>
-					<LogoutButton logoutHandler={logoutHandler}/>
+					<LogoutButton />
 				</div>
 			</div>
 		{:else}

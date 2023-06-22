@@ -42,7 +42,7 @@ export type AccessToken = {
 	createdAt: string;
 }
 
-export type CreatedAccessToken = AccessToken & { token: string }
+export type CreatedAccessToken = AccessToken & { token: string };
 
 interface BaseEntity<T> {
 	loading: boolean;
@@ -74,4 +74,9 @@ export interface OrganizationStore extends BaseStore<Organization, OrganizationE
 
 export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
 	setComponents: (components: Component[]) => void;
+}
+
+export type OrgAndUserData = {
+	user: User;
+	org: Organization;
 }

@@ -5,30 +5,14 @@
 	import GroupsIcon from "$lib/svgs/GroupsIcon.svg?component";
 	import DataIcon from "$lib/svgs/DataIcon.svg?component";
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
-	import GreenCheckIcon from "$lib/svgs/GreenCheckIcon.svg?component";
-	import { getContext } from "svelte";
-	import type { Component, Issue, Organization, OrganizationStore, UserStore } from "../../types";
-	import type { OrgDetailsPageData } from "./+page.server";
+	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
+	import type { Component, Issue, OrgAndUserData, Organization } from "$lib/types";
 
-	/** @type {import('./$types').PageData} */
-	export let data: OrgDetailsPageData;
+	/** @type {import('./$types').PageData} */  
+	export let data: OrgAndUserData;
 
 	let hasIssues: boolean;
 	$: hasIssues = false;
-
-	let userStore: UserStore;
-	userStore = getContext("user") as UserStore;
-
-	if (data.user) {
-		userStore.setUser(data.user);
-	}
-
-	let orgStore: OrganizationStore;
-	orgStore = getContext("org") as OrganizationStore;
-
-	if (data.org) {
-		orgStore.setOrganization(data.org);
-	}
 
 	let organization: Organization;
 	$: organization = data.org;
@@ -49,7 +33,7 @@
 				<span class="text-xl text-inherit">Links</span>
 				<div class="flex md:flex-row flex-col md:my-9 my-6">
 					<div class="md:w-1/2 md:pr-2 md:pb-0 w-full pb-2">
-						<Button type="special" href="/account/personal-access-tokens" full class="items-center justify-between">
+						<Button type="special" href="/app/account/personal-access-tokens" full class="items-center justify-between">
 							<div class="flex flex-row items-center justify-start gap-2">
 								<WorldWideWeb />
 								<span class="text-lg text-inherit">Personal Access Tokens</span>
@@ -93,7 +77,7 @@
 							{#if hasIssues}
 								<WarningAmberIcon />
 							{:else}
-								<GreenCheckIcon />
+								<WhiteCheckIcon />
 							{/if}
 							Issues
 						</div>

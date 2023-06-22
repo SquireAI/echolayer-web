@@ -37,7 +37,7 @@ export abstract class BaseApi<T> {
 		const resp = await this.httpClient.fetchGET(name);
 		return resp.json() as Promise<T>;
 	}
-	public async create(data: BodyInit): Promise<T> {
+	public async create(data?: BodyInit): Promise<T> {
 		const resp = await this.httpClient.fetchPOST("", undefined, data);
 		return resp.json() as Promise<T>;
 	}

@@ -1,4 +1,7 @@
+export const INVALIDATE_QUERY_PARAMETER_NAME = "invalidate";
+
 export const SIGN_IN_PATH = "/sign-in";
+export const INVALIDATED_SIGN_IN_PATH = `/sign-in?${INVALIDATE_QUERY_PARAMETER_NAME}`;
 export const NOT_FOUND_PATH = "/not-found";
 export const ERROR_PATH = "/error";
 export const AUTH_ERROR_PATH = "/auth-error";
@@ -7,7 +10,6 @@ export const ORGS_PATH =  "/app/org";
 export const CREATE_ORG_PATH = "/app/org/new";
 export const ACCOUNT_PATH = "/app/account";
 export const PERSONAL_ACCESS_TOKENS_PATH = "/app/account/personal-access-tokens";
-
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,

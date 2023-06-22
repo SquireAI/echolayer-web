@@ -2,6 +2,8 @@ import queryString from "query-string";
 import type { FetchHeader } from "../api/apiUtils";
 import type { httpContext } from "$lib/http/context";
 import urlJoin from "url-join";
+import { error } from "@sveltejs/kit";
+import { ErrorMessageTypes } from "$lib/error";
 
 const FetchMethod = {
 	GET: "GET",
@@ -55,7 +57,7 @@ export class HttpClient {
 		if (resp.ok) {
 			return resp;
 		} else {
-			throw new Error(`Failed to fetch data: ${resp.statusText} @ ${url}`);
+			throw error(resp.status, {message: ErrorMessageTypes.GENERIC });
 		}
 	}
 }
