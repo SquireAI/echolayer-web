@@ -53,7 +53,7 @@ export class HttpClient {
 			method,
 			body: body ? JSON.stringify(body) : undefined,
 			headers: requestHeaders,
-			credentials: "include",
+			// credentials: "include",
 		});
 		if (resp.ok) {
 			return resp;
