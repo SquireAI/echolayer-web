@@ -24,8 +24,9 @@ export const load = (async ({ parent, cookies, fetch, url }) => {
 		for (const cookie of responseCookies) {
 			cookies.set(cookie.name, cookie.value, normalizeCookie(cookie));
 		}
-	} catch (err) {
-		throw error(404, { message: ErrorMessageTypes.ECHOLAYER_AUTH });
+	} catch (err: any) {
+		console.error(err);
+		throw error(404, { message: err.message });
 	}
 	try {
 		context = getHttpContext(fetch, cookies);
