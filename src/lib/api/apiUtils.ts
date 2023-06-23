@@ -126,7 +126,7 @@ const config = (
 ): RequestInit => {
 	return {
 		method,
-		credentials: "include", // needed to send cookies to only our server
+		// credentials: "include", // needed to send cookies to only our server
 		headers: {
 			"Content-Type": "application/json",
 			...(headers !== undefined && headers)
