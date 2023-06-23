@@ -5,6 +5,7 @@ import urlJoin from "url-join";
 import { error } from "@sveltejs/kit";
 import { ErrorMessageTypes } from "$lib/error";
 import type { FetchBody } from "$lib/api/baseApi";
+import { browser } from "$app/environment";
 
 const FetchMethod = {
 	GET: "GET",
@@ -53,7 +54,7 @@ export class HttpClient {
 			method,
 			body: body ? JSON.stringify(body) : undefined,
 			headers: requestHeaders,
-			// credentials: "include",
+			...(browser && { credentials: "include" }),
 		});
 		if (resp.ok) {
 			return resp;
