@@ -1,4 +1,5 @@
 import { PUBLIC_BASE_API_URL } from "$env/static/public"
+import { browser } from "$app/environment";
 import type { Cookies } from "@sveltejs/kit";
 export const BASE_API_URL: string = PUBLIC_BASE_API_URL || "http://localhost:3005";
 
@@ -126,7 +127,7 @@ const config = (
 ): RequestInit => {
 	return {
 		method,
-		// credentials: "include", // needed to send cookies to only our server
+		...( browser && { credentials: "include" }), // needed to send cookies to only our server
 		headers: {
 			"Content-Type": "application/json",
 			...(headers !== undefined && headers)
