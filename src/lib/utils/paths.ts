@@ -9,7 +9,7 @@ export const APP_PATH = "/app";
 export const ORGS_PATH =  "/app/org";
 export const CREATE_ORG_PATH = "/app/org/new";
 export const ACCOUNT_PATH = "/app/account";
-export const PERSONAL_ACCESS_TOKENS_PATH = "/app/account/personal-access-tokens";
+export const API_KEYS_PATH = "/app/account/api-keys";
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
@@ -20,7 +20,7 @@ export const REDIRECT_PATHS = [
 	ORGS_PATH,
 	CREATE_ORG_PATH,
 	ACCOUNT_PATH,
-	PERSONAL_ACCESS_TOKENS_PATH
+	API_KEYS_PATH
 ] as const;
 
 export type RedirectPath = typeof REDIRECT_PATHS[number];
