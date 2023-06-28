@@ -36,7 +36,7 @@
 						<Button type="special" href="/app/account/personal-access-tokens" full class="items-center justify-between">
 							<div class="flex flex-row items-center justify-start gap-2">
 								<WorldWideWeb />
-								<span class="text-lg text-inherit">Personal Access Tokens</span>
+								<span class="text-lg text-inherit">Api Keys</span>
 							</div>
 						</Button>
 					</div>
