@@ -6,12 +6,12 @@ import type { AccessToken } from "$lib/types";
 import type { PageServerLoad } from './$types';
 import { error, type HttpError } from '@sveltejs/kit';
 
-export type PatPageServerData = Pick<httpContext, "baseHeaders" | "baseUrl"> & {
+export type ApiKeysPageServerData = Pick<httpContext, "baseHeaders" | "baseUrl"> & {
 	xsrfHeader: FetchHeader;
 	accessTokens: AccessToken[];
 }
 
-export const load = (async ({ cookies, fetch, parent }): Promise<PatPageServerData> => {
+export const load = (async ({ cookies, fetch, parent }): Promise<ApiKeysPageServerData> => {
 	await parent();
 	const context = getHttpContext(fetch, cookies);
 

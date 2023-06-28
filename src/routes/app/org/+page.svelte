@@ -7,6 +7,7 @@
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
 	import type { Component, Issue, OrgAndUserData, Organization } from "$lib/types";
+	import { API_KEYS_PATH } from "$lib/utils/paths";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgAndUserData;
@@ -33,10 +34,10 @@
 				<span class="text-xl text-inherit">Links</span>
 				<div class="flex md:flex-row flex-col md:my-9 my-6">
 					<div class="md:w-1/2 md:pr-2 md:pb-0 w-full pb-2">
-						<Button type="special" href="/app/account/personal-access-tokens" full class="items-center justify-between">
+						<Button type="special" href={API_KEYS_PATH} full class="items-center justify-between">
 							<div class="flex flex-row items-center justify-start gap-2">
 								<WorldWideWeb />
-								<span class="text-lg text-inherit">Api Keys</span>
+								<span class="text-lg text-inherit">API Keys</span>
 							</div>
 						</Button>
 					</div>

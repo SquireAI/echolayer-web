@@ -2,9 +2,9 @@ import { AccessTokenApi } from "$lib/api/access-token";
 import { createDefaultContext } from "$lib/http/context";
 import type { CreatedAccessToken } from "$lib/types";
 import type { PageLoad } from "./$types";
-import type { PatPageServerData } from "./+page.server";
+import type { ApiKeysPageServerData } from "./+page.server";
 
-export type OrgNewPageData = Pick<PatPageServerData, "accessTokens"> & {
+export type OrgNewPageData = Pick<ApiKeysPageServerData, "accessTokens"> & {
 	createAccessTokenHandler: () => Promise<CreatedAccessToken>;
 	deleteAccessTokenHandler: (prefix: string) => Promise<void>;
 }

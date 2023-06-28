@@ -9,7 +9,7 @@
 
 {#if error}
 	<div class="flex justify-center p-6 my-6 bg-red-400">
-		<p>There was an error when generating a new api key. Please try again.</p>
+		<p>There was an error when generating a new API key. Please try again.</p>
 	</div>
 {:else if token}
 	<div class="flex flex-col w-full">
