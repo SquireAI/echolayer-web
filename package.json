@@ -48,6 +48,7 @@
   "dependencies": {
     "query-string": "^8.1.0",
     "set-cookie-parser": "^2.6.0",
+    "svelvet": "^8.0.8",
     "url-join": "^5.0.0"
   }
 }
