@@ -1,7 +1,7 @@
 <script lang="ts">
-	import '../app.scss';
+	import '../../app.scss';
 	import { setContext } from "svelte";
-	import Header from '../lib/Header.svelte';
+	import Header from '../../lib/Header.svelte';
 	import { COMPONENT_STORE_NAME, ORG_STORE_NAME, USER_STORE_NAME, componentStore, organizationStore, userStore } from '$lib/stores';
 
 	setContext(USER_STORE_NAME, userStore);
