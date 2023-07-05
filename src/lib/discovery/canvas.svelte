@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Background, Node, Svelvet } from "svelvet";
+	import ComponentNode from "./components/ComponentNode.svelte";
 
 	import {getContext} from "svelte";
 	import type {ComponentStore} from "$lib/types";
@@ -19,7 +20,8 @@
 	console.log('Second Component Selected => ', $componentStore?.origin?.name);
 </script>
 
-<Svelvet>
-	<Node />
+<Svelvet zoom={1} fixedZoom={true} theme="echolayer">
+	<!-- <Node /> -->
+	<ComponentNode title="New Component node" --node-border-radius="10px" />
 	<Background dotColor="#D4D4D4" bgColor="transparent" gridWidth={30} dotSize={3} slot="background" />
 </Svelvet>

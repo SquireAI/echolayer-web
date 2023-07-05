@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.component__node {
+	@apply rounded-md;
+	@apply bg-white;
+	@apply border;
+	@apply border-neutral-200;
+	@apply flex;
+	@apply w-full;
+	@apply h-full;
+	// box shadow
+	&--inner {
+		@apply flex;
+		@apply flex-col;
+		width: 100%;
+		.component__info {
+			@apply flex;
+			@apply flex-col;
+			@apply p-2;
+			@apply border-b;
+			@apply border-neutral-200;
+			@apply gap-y-2;
+			&--icon {
+				width: 24px;
+				height: 24px;
+				background-color: red;
+			}
+			&--name {
+				> p {
+					@apply leading-4;
+				}
+			}
+		}
+		.component__members {
+			@apply flex;
+			@apply h-full;
+			@apply items-center;
+			@apply p-2;
+			&--count {
+
+			}
+			&--avatars {
+				@apply ml-auto;
+			}
+		}
+	}
+}
+
+.avatar {
+	@apply h-5;
+	@apply w-5;
+	border-radius: 20px;
+	@apply bg-red-400;
+	@apply border;
+	@apply border-red-700;
+	@apply -ml-2;
+	&:first-of-type {
+		@apply ml-0;
+	}
+	&__list {
+		@apply flex;
+	}
+}
