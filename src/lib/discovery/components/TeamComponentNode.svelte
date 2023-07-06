@@ -18,9 +18,6 @@
 </script>
 
 <Node id={component.publicId} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 112 }}>
-  <!-- <div use:grabHandle class:selected class="my-component">
-    <span>{title}</span>
-  </div> -->
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected" : ""}`}>
 		<div class="component__node--inner">
 			<div class="component__info">
