@@ -1,8 +1,13 @@
 import type { Updater, Writable } from "svelte/store";
 
-export type Member = {
-	id: number;
+export interface BaseEntity {
+	publicId: string;
 	name: string;
+	metadata: any;
+}
+
+export interface Member extends BaseEntity {
+	id: number;
 };
 
 export type Organization = {
@@ -22,11 +27,9 @@ export type Issue = {
 	resolved: boolean;
 };
 
-export type Component = {
+export interface Component extends BaseEntity {
 	id: number;
 	organizationId: number;
-	name: string;
-	metadata: any;
 };
 
 export type User = {
@@ -44,17 +47,17 @@ export type AccessToken = {
 
 export type CreatedAccessToken = AccessToken & { token: string };
 
-interface BaseEntity<T> {
+interface BaseStoreEntity<T> {
 	loading: boolean;
 	error: boolean;
 	entity?: T
 }
 
-export interface UserEntity extends BaseEntity<User> {};
-export interface OrganizationEntity extends BaseEntity<Organization> {};
-export interface ComponentEntity extends BaseEntity<Component[]> {};
+export interface UserEntity extends BaseStoreEntity<User> {};
+export interface OrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface ComponentEntity extends BaseStoreEntity<Component[]> {};
 
-interface BaseStore<T, U extends BaseEntity<T>> {
+interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: Writable<U>["subscribe"];
 	update: (this: void, updater: Updater<U>) => void;
 	clear: () => void;

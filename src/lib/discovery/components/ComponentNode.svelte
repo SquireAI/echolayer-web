@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { Component } from '$lib/types';
   import { Node } from 'svelvet';
-	// import "./component-node.scss";
-	export let title: string;
+
+	export let component: Component;
 
 	function handleClick(e: CustomEvent) {
 		const { detail } = e;
@@ -19,7 +20,7 @@
 			<div class="component__info">
 				<div class="component__info--icon"></div>
 				<div class="component__info--name">
-					<p>{title}</p>
+					<p>{component.name}</p>
 				</div>
 			</div>
 			<div class="component__members">
