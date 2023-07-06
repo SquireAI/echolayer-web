@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "$lib/discovery/styles/discovery.scss";
-	import DiscoveryHeader from "$lib/discovery/components/Header.svelte";
+	import DiscoveryHeader from "$lib/discovery/components/header.svelte";
 </script>
 
 <div class="app-container">
