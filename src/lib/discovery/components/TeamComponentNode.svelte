@@ -9,10 +9,7 @@
 	export let origin: {x: number, y: number} = {x: 0, y: 0}
 
 	function handleClick(e: CustomEvent) {
-		console.log("here");
-		const { detail } = e;
-		console.log(detail);
-		// detail.node.set.bgColor('red');
+		// TODO: set Entity in node as origin in component store
 	}
 
 </script>
@@ -35,7 +32,7 @@
 				<div class="component__members--avatars">
 					{#if component.members.length > 0}
 						<div class="avatar__list">
-							{#each component.members as member (member.publicId)}
+							{#each component.members.slice(0, 4) as member (member.publicId)}
 								<div class="avatar"><AvatarPlaceholder /></div>
 							{/each}
 						</div>
