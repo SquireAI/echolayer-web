@@ -3,7 +3,8 @@ import type {Component, ComponentEntity, ComponentStore} from "../types";
 
 export const COMPONENT_STORE_NAME = "component";
 
-const componentStore = writable<ComponentEntity>({ loading: false, error: false, entity: undefined, selected: undefined });
+const initialValue = { loading: false, error: false, entity: undefined, selected: undefined };
+const componentStore = writable<ComponentEntity>(initialValue);
 const originComponentStore = derived(
 	[componentStore],
 	([$componentStore]) => {
@@ -17,7 +18,7 @@ const createStore = (): ComponentStore => {
 	return {
 		update: componentStore.update,
 		subscribe: componentStore.subscribe,
-		clear: () => componentStore.set({ loading: false, error: false, entity: undefined }),
+		clear: () => componentStore.set(initialValue),
 		setLoading: (isLoading: boolean) => componentStore.update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => componentStore.update((existing) => ({ ...existing, error: isError })),
 		setComponents: (entity: Component[]) => componentStore.set({ loading: false, error: false, entity }),
