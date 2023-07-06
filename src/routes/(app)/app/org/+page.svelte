@@ -25,7 +25,7 @@
 
 <div class="flex content-center items-center flex-col h-full pt-9">
 	<div class="flex flex-col lg:flex-row gap-y-6 w-full h-full lg:divide-x-2 lg:divide-y-0 divide-y-2 text-neutral-900">
-	ComponentEntityss="flex flex-col lg:w-1/4 w-full">
+		<div class="flex flex-col lg:w-1/4 w-full">
 			<span class="text-neutral-700 text-xs uppercase">Joined {new Date(organization.createdAt).getFullYear()}</span>
 			<span class="text-3xl text-inherit">{organization.name}</span>
 		</div>
