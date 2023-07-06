@@ -1,12 +1,19 @@
 import { writable, derived } from "svelte/store";
-import type { Component, ComponentEntity, OriginComponentEntity, ComponentStore, OriginComponentStore } from "../types";
+import type {Component, ComponentEntity, ComponentStore} from "../types";
 
 export const COMPONENT_STORE_NAME = "component";
 
-const createComponentStore = (): ComponentStore => {
-	const componentStore = writable<ComponentEntity>({ loading: false, error: false, entity: undefined });
-	const originComponentStore = writable<OriginComponentEntity>({ loading: false, error: false, entity: undefined });
+const componentStore = writable<ComponentEntity>({ loading: false, error: false, entity: undefined, selected: undefined });
+const originComponentStore = derived(
+	[componentStore],
+	([$componentStore]) => {
+		if (!$componentStore.entity || !$componentStore.selected) return undefined;
+		return $componentStore.entity.find((component: Component) => {
+			return component.id === $componentStore?.selected?.id;
+		});
+	});
 
+const createStore = (): ComponentStore => {
 	return {
 		update: componentStore.update,
 		subscribe: componentStore.subscribe,
@@ -14,17 +21,10 @@ const createComponentStore = (): ComponentStore => {
 		setLoading: (isLoading: boolean) => componentStore.update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => componentStore.update((existing) => ({ ...existing, error: isError })),
 		setComponents: (entity: Component[]) => componentStore.set({ loading: false, error: false, entity }),
-		setOrigin: (entity: Component) => originComponentStore.set({ loading: false, error: false, entity }),
-		origin: derived(
-				[componentStore, originComponentStore],
-				([$componentStore, $originComponentStore]) => {
-					if (!$componentStore.entity || !$originComponentStore.entity) return undefined;
-					return $componentStore.entity.find((component: Component) => {
-						return component.id === $originComponentStore?.entity?.id;
-					});
-				})
+		setOrigin: (component: Component) => componentStore.update((existing) => ({ ...existing, origin: component })),
+		origin: originComponentStore
 	}
 };
 
-const componentStore = createComponentStore();
-export default componentStore;
+const store = createStore();
+export default store;
