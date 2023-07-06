@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Background, Node, Svelvet } from "svelvet";
-	import ComponentNode from "./components/ComponentNode.svelte";
+	import TeamComponentNode from "./components/TeamComponentNode.svelte";
+	import { data } from "./sample-data";
 
 	import {getContext} from "svelte";
 	import type {ComponentStore} from "$lib/types";
@@ -21,7 +22,7 @@
 </script>
 
 <Svelvet zoom={1} fixedZoom={true} theme="echolayer">
-	<!-- <Node /> -->
-	<ComponentNode title="New Component node" --node-border-radius="10px" />
+	<TeamComponentNode component={data.teams[0]} origin={{ x: 20, y: 20}} />
+	<TeamComponentNode component={data.teams[1]} origin={{ x: 280, y: 20 }} />
 	<Background dotColor="#D4D4D4" bgColor="transparent" gridWidth={30} dotSize={3} slot="background" />
 </Svelvet>

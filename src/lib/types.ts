@@ -10,7 +10,7 @@ export interface Member extends BaseEntity {
 	email: string;
 };
 
-export interface Team extends BaseEntity {
+export interface TeamEntity extends BaseEntity {
 	members: Member[];
 }
 
@@ -31,7 +31,7 @@ export type Issue = {
 	resolved: boolean;
 };
 
-export interface Component extends BaseEntity {
+export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
 
@@ -56,10 +56,10 @@ interface BaseStoreEntity<T> {
 	entity?: T
 }
 
-export interface UserEntity extends BaseStoreEntity<User> {};
-export interface OrganizationEntity extends BaseStoreEntity<Organization> {};
-export interface ComponentEntity extends BaseStoreEntity<Component[]> {
-	selected?: Component;
+export interface StoreUserEntity extends BaseStoreEntity<User> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {
+	selected?: ComponentEntity;
 };
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
@@ -70,20 +70,20 @@ interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	setError: (isError: boolean) => void;
 }
 
-export interface UserStore extends BaseStore<User, UserEntity> {
+export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	setUser: (user: User) => void;
 	updateUser: (user: User) => void;
 }
 
-export interface OrganizationStore extends BaseStore<Organization, OrganizationEntity> {
+export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
 }
 
-export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
-	setComponents: (components: Component[]) => void;
-	setOrigin: (origin: Component) => void;
-	origin: Readable<Component | undefined>;
+export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
+	setComponents: (components: ComponentEntity[]) => void;
+	setOrigin: (origin: ComponentEntity) => void;
+	origin: Readable<ComponentEntity | undefined>;
 }
 
 export type OrgAndUserData = {
