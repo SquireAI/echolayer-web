@@ -6,8 +6,8 @@
 	import DataIcon from "$lib/svgs/DataIcon.svg?component";
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
-	import type { Component, Issue, OrgAndUserData, Organization } from "$lib/types";
-	importComponentEntityYS_PATH } from "$lib/utils/paths";
+	import type { ComponentEntity, Issue, OrgAndUserData, Organization } from "$lib/types";
+	import { API_KEYS_PATH } from "$lib/utils/paths";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgAndUserData;
@@ -19,13 +19,13 @@
 	$: organization = data.org;
 
 
-	let components: Component[] = [];
+	let components: ComponentEntity[] = [];
 	let issues: Issue[] = [];
 </script>
 
 <div class="flex content-center items-center flex-col h-full pt-9">
 	<div class="flex flex-col lg:flex-row gap-y-6 w-full h-full lg:divide-x-2 lg:divide-y-0 divide-y-2 text-neutral-900">
-	ComponentEntityss="flex flex-col lg:w-1/4 w-full">
+		<div class="flex flex-col lg:w-1/4 w-full">
 			<span class="text-neutral-700 text-xs uppercase">Joined {new Date(organization.createdAt).getFullYear()}</span>
 			<span class="text-3xl text-inherit">{organization.name}</span>
 		</div>
