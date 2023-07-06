@@ -1,21 +1,6 @@
-interface BaseEntity {
-	name: string;
-	publicId: string
-}
+import type { BaseEntity, Component, Team } from "$lib/types";
 
-interface Member extends BaseEntity {
-	email: string;
-}
-
-type Team = {
-	name: string;
-	publicId: string;
-	members: Member[];
-}
-
-interface Component extends BaseEntity {};
-
-type RelationType = "owner_of" | "has_owner";
+type RelationType = "ownerOf" | "hasOwner";
 
 interface Relation {
 	source: Pick<BaseEntity, "publicId">;
@@ -34,32 +19,38 @@ export const data: Payload = {
 		{
 			name: "The Purple Monkey Dishwashers",
 			publicId: "teamdishwashers",
+			metadata: {},
 			members: [
 				{
 					name: "Randy Newman",
 					email: "randy@example.com",
-					publicId: "memberrandy"
+					publicId: "memberrandy",
+					metadata: {},
 				}
 			]
 		},
 		{
 			name: "The Team",
 			publicId: "teamteam",
+			metadata: {},
 			members: [
 				{
 					name: "Ash Ketchum",
 					email: "ash@example.com",
-					publicId: "memberash"
+					publicId: "memberash",
+					metadata: {},
 				},
 				{
 					name: "Skull Kid",
 					email: "skullkid@example.com",
-					publicId: "memberskullkid"
+					publicId: "memberskullkid",
+					metadata: {},
 				},
 				{
 					name: "Super Mario",
 					email: "mario@example.com",
-					publicId: "membermario"
+					publicId: "membermario",
+					metadata: {},
 				}
 			]
 		}
@@ -67,15 +58,21 @@ export const data: Payload = {
 	components: [
 		{
 			name: "monolith-service",
-			publicId: "componentmonolith"
+			publicId: "componentmonolith",
+			organizationId: 123,
+			metadata: {},
 		},
 		{
 			name: "monolith-redis",
-			publicId: "componentredis"
+			publicId: "componentredis",
+			organizationId: 123,
+			metadata: {},
 		},
 		{
 			name: "monolith-postgres",
-			publicId: "componentpostgres"
+			publicId: "componentpostgres",
+			organizationId: 123,
+			metadata: {},
 		}
 	],
 	relations: [
@@ -86,7 +83,7 @@ export const data: Payload = {
 			target: {
 				publicId: "componentmonolith"
 			},
-			relation: "owner_of"
+			relation: "ownerOf"
 		},
 		{
 			source: {
@@ -95,7 +92,7 @@ export const data: Payload = {
 			target: {
 				publicId: "teamdishwashers"
 			},
-			relation: "has_owner"
+			relation: "hasOwner"
 		},
 		{
 			source: {
@@ -104,7 +101,7 @@ export const data: Payload = {
 			target: {
 				publicId: "componentredis"
 			},
-			relation: "owner_of"
+			relation: "ownerOf"
 		},
 		{
 			source: {
@@ -113,7 +110,7 @@ export const data: Payload = {
 			target: {
 				publicId: "teamteam"
 			},
-			relation: "has_owner"
+			relation: "hasOwner"
 		},
 		{
 			source: {
@@ -122,7 +119,7 @@ export const data: Payload = {
 			target: {
 				publicId: "componentpostgres"
 			},
-			relation: "owner_of"
+			relation: "ownerOf"
 		},
 		{
 			source: {
@@ -131,7 +128,7 @@ export const data: Payload = {
 			target: {
 				publicId: "teamteam"
 			},
-			relation: "has_owner"
+			relation: "hasOwner"
 		}
 	]
 };

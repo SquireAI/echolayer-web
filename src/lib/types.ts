@@ -7,8 +7,12 @@ export interface BaseEntity {
 }
 
 export interface Member extends BaseEntity {
-	id: number;
+	email: string;
 };
+
+export interface Team extends BaseEntity {
+	members: Member[];
+}
 
 export type Organization = {
 	id: number;
@@ -28,7 +32,6 @@ export type Issue = {
 };
 
 export interface Component extends BaseEntity {
-	id: number;
 	organizationId: number;
 };
 
