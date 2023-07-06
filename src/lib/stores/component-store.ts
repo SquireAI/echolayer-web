@@ -1,34 +1,30 @@
-import { writable } from "svelte/store";
-import type { Component, ComponentEntity, ComponentStore } from "../types";
-import { browser } from "$app/environment";
+import { writable, derived } from "svelte/store";
+import type { Component, ComponentEntity, OriginComponentEntity, ComponentStore, OriginComponentStore } from "../types";
 
-export let COMPONENT_STORE_NAME = "component";
-
-let initialValue: ComponentEntity = { loading: false, error: false };
-let storageValue: string | undefined = undefined;
-
-if (browser) {
-	storageValue = localStorage.getItem(COMPONENT_STORE_NAME) ?? undefined;
-}
-
-if (storageValue !== undefined) {
-	initialValue = JSON.parse(storageValue)
-}
+export const COMPONENT_STORE_NAME = "component";
 
 const createComponentStore = (): ComponentStore => {
-	const { set, update, subscribe } = writable<ComponentEntity >({ loading: false, error: false });
+	const componentStore = writable<ComponentEntity>({ loading: false, error: false, entity: undefined });
+	const originComponentStore = writable<OriginComponentEntity>({ loading: false, error: false, entity: undefined });
+
 	return {
-		update,
-		subscribe,
-		setComponents: (entity: Component[]) => set({ loading: false, error: false, entity }),
-		clear: () => set({ loading: false, error: false, entity: undefined }),
-		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
-		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
+		update: componentStore.update,
+		subscribe: componentStore.subscribe,
+		clear: () => componentStore.set({ loading: false, error: false, entity: undefined }),
+		setLoading: (isLoading: boolean) => componentStore.update((existing) => ({ ...existing, loading: isLoading })),
+		setError: (isError: boolean) => componentStore.update((existing) => ({ ...existing, error: isError })),
+		setComponents: (entity: Component[]) => componentStore.set({ loading: false, error: false, entity }),
+		setOrigin: (entity: Component) => originComponentStore.set({ loading: false, error: false, entity }),
+		origin: derived(
+				[componentStore, originComponentStore],
+				([$componentStore, $originComponentStore]) => {
+					if (!$componentStore.entity || !$originComponentStore.entity) return undefined;
+					return $componentStore.entity.find((component: Component) => {
+						return component.id === $originComponentStore?.entity?.id;
+					});
+				})
 	}
 };
 
 const componentStore = createComponentStore();
-
-componentStore.subscribe((value) => browser && localStorage.setItem(COMPONENT_STORE_NAME, JSON.stringify(value)));
-
 export default componentStore;

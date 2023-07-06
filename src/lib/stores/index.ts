@@ -8,4 +8,8 @@ export function clearStores() {
 	userStore.clear();
 }
 
-export { COMPONENT_STORE_NAME, componentStore, ORG_STORE_NAME, organizationStore, USER_STORE_NAME, userStore };
+export {
+	COMPONENT_STORE_NAME, componentStore,
+	ORG_STORE_NAME, organizationStore,
+	USER_STORE_NAME, userStore
+};
