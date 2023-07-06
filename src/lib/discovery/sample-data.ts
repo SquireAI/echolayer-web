@@ -1,4 +1,4 @@
-import type { BaseEntity, Component, Team } from "$lib/types";
+import type { BaseEntity, ComponentEntity, TeamEntity } from "$lib/types";
 
 type RelationType = "ownerOf" | "hasOwner";
 
@@ -9,8 +9,8 @@ interface Relation {
 }
 
 interface Payload {
-	teams: Team[];
-	components: Component[];
+	teams: TeamEntity[];
+	components: ComponentEntity[];
 	relations: Relation[];
 }
 

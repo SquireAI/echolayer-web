@@ -1,10 +1,10 @@
 import { writable } from "svelte/store";
 import { browser } from '$app/environment';
-import type { Organization, OrganizationEntity, OrganizationStore } from "../types";
+import type { Organization, StoreOrganizationEntity, OrganizationStore } from "../types";
 
 export const ORG_STORE_NAME = "org";
 
-let initialValue: OrganizationEntity;
+let initialValue: StoreOrganizationEntity;
 const storageValue: string | undefined = browser ? localStorage.getItem(ORG_STORE_NAME) ?? undefined : undefined;
 
 if (browser && storageValue) {
@@ -14,7 +14,7 @@ if (browser && storageValue) {
 }
 
 const createOrgStore = (): OrganizationStore => {
-	const { set, update, subscribe } = writable<OrganizationEntity>(initialValue);
+	const { set, update, subscribe } = writable<StoreOrganizationEntity>(initialValue);
 	return {
 		update,
 		subscribe,
