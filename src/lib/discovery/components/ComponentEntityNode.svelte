@@ -18,8 +18,8 @@
 
 </script>
 
-<Node id={component.publicId} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 112 }}>
-	<div use:grabHandle class={`component__node ${selected ? "component__node--selected" : ""}`}>
+<Node id={component.publicId} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 124 }}>
+	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
 		<div class="component__node--inner">
 			<div class="component__info">
 				<div class="component__info--icon component__icon--fill">
@@ -30,11 +30,11 @@
 				</div>
 			</div>
 			<div class="component__members">
-				<div class="component__members--count component-type">
+				<div class="component__members--count">
 					<TeamIcon />
 					<p>
 						<span>{`${numMemberOwners} member${numMemberOwners !== 1 ? "s" : ""}`}</span>
-						<span>-></span>
+						<span>&rarr;</span>
 						<span>{`${numOwningTeams} team${numOwningTeams !== 1 ? "s": ""}`}</span>
 					</p>
 

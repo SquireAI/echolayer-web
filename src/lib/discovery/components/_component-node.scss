@@ -102,4 +102,19 @@
 			}
 		}
 	}
+
+	&.component__entity {
+		.component__members {
+			@apply border-t-0;
+			@apply border-white;
+			@apply bg-white;
+		}
+		&#{ $self }--selected {
+			.component__members {
+				@apply text-black;
+				@apply border-echolayer-blue-100;
+				@apply bg-echolayer-blue-100/[0.2];
+			}
+		}
+	}
 }
