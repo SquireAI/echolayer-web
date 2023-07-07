@@ -1,9 +1,18 @@
-import type {Readable, Updater, Writable} from "svelte/store";
+import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
-export type Member = {
-	id: number;
+export interface BaseEntity {
+	publicId: string;
 	name: string;
+	metadata: any;
+}
+
+export interface Member extends BaseEntity {
+	email: string;
 };
+
+export interface TeamEntity extends BaseEntity {
+	members: Member[];
+}
 
 export type Organization = {
 	id: number;
@@ -22,11 +31,8 @@ export type Issue = {
 	resolved: boolean;
 };
 
-export type Component = {
-	id: number;
+export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
-	name: string;
-	metadata: any;
 };
 
 export type User = {
@@ -44,40 +50,41 @@ export type AccessToken = {
 
 export type CreatedAccessToken = AccessToken & { token: string };
 
-interface BaseEntity<T> {
+interface BaseStoreEntity<T> {
 	loading: boolean;
 	error: boolean;
 	entity?: T
 }
 
-export interface UserEntity extends BaseEntity<User> {};
-export interface OrganizationEntity extends BaseEntity<Organization> {};
-export interface ComponentEntity extends BaseEntity<Component[]> {
-	selected?: Component;
-}
+export interface StoreUserEntity extends BaseStoreEntity<User> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {
+	selected?: ComponentEntity;
+};
 
-interface BaseStore<T, U extends BaseEntity<T>> {
-	subscribe: Writable<U>["subscribe"];
+interface BaseStore<T, U extends BaseStoreEntity<T>> {
+	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
 	update: (this: void, updater: Updater<U>) => void;
+	set: (this: void, value: U) => void;
 	clear: () => void;
 	setLoading: (isLoading: boolean) => void;
 	setError: (isError: boolean) => void;
 }
 
-export interface UserStore extends BaseStore<User, UserEntity> {
+export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	setUser: (user: User) => void;
 	updateUser: (user: User) => void;
 }
 
-export interface OrganizationStore extends BaseStore<Organization, OrganizationEntity> {
+export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
 }
 
-export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
-	setComponents: (components: Component[]) => void;
-	setOrigin: (origin: Component) => void;
-	origin: Readable<Component | undefined>;
+export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
+	setComponents: (components: ComponentEntity[]) => void;
+	setOrigin: (origin: ComponentEntity) => void;
+	origin: Readable<ComponentEntity | undefined>;
 }
 
 export type OrgAndUserData = {

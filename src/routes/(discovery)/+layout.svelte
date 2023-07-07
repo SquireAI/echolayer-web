@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "$lib/discovery/styles/discovery.scss";
 	import DiscoveryHeader from "$lib/discovery/components/header.svelte";
+
 	import {setContext} from "svelte";
 	import {COMPONENT_STORE_NAME, componentStore} from "$lib/stores";
 

@@ -1,7 +1,7 @@
-import type { Component } from "../types";
+import type { StoreComponentEntity } from "../types";
 import { BaseApi, ENDPOINT } from "./baseApi";
 
-export class ComponentApi extends BaseApi<Component> {
+export class ComponentApi extends BaseApi<StoreComponentEntity> {
 	initializeVariables(): void {
 		this.endpoint = ENDPOINT.component;
 	}

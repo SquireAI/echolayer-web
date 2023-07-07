@@ -6,7 +6,7 @@
 	import DataIcon from "$lib/svgs/DataIcon.svg?component";
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
-	import type { Component, Issue, OrgAndUserData, Organization } from "$lib/types";
+	import type { ComponentEntity, Issue, OrgAndUserData, Organization } from "$lib/types";
 	import { API_KEYS_PATH } from "$lib/utils/paths";
 
 	/** @type {import('./$types').PageData} */  
@@ -19,7 +19,7 @@
 	$: organization = data.org;
 
 
-	let components: Component[] = [];
+	let components: ComponentEntity[] = [];
 	let issues: Issue[] = [];
 </script>
 
