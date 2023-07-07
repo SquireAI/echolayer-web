@@ -1,4 +1,4 @@
-import type {Readable, Updater, Writable} from "svelte/store";
+import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export interface BaseEntity {
 	publicId: string;
@@ -63,8 +63,9 @@ export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]>
 };
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
-	subscribe: Writable<U>["subscribe"];
+	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
 	update: (this: void, updater: Updater<U>) => void;
+	set: (this: void, value: U) => void;
 	clear: () => void;
 	setLoading: (isLoading: boolean) => void;
 	setError: (isError: boolean) => void;

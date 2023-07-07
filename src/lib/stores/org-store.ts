@@ -18,6 +18,7 @@ const createOrgStore = (): OrganizationStore => {
 	return {
 		update,
 		subscribe,
+		set,
 		setOrganization: (entity: Organization) => set({ loading: false, error: false, entity }),
 		updateOrganization: (entity: Organization) => update((existing) => ({ ...existing, entity })),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
