@@ -91,3 +91,7 @@ export type OrgAndUserData = {
 	user: User;
 	org: Organization;
 }
+
+export type OriginAndComponentData = {
+	origin?: Component;
+}
