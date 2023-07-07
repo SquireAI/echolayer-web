@@ -1,4 +1,4 @@
-import type { Updater, Writable } from "svelte/store";
+import type {Readable, Updater, Writable} from "svelte/store";
 
 export type Member = {
 	id: number;
@@ -17,7 +17,7 @@ export type Organization = {
 
 export type Issue = {
 	id: number;
-	orgainzationId: number;
+	organizationId: number;
 	description: string;
 	resolved: boolean;
 };
@@ -52,7 +52,9 @@ interface BaseEntity<T> {
 
 export interface UserEntity extends BaseEntity<User> {};
 export interface OrganizationEntity extends BaseEntity<Organization> {};
-export interface ComponentEntity extends BaseEntity<Component[]> {};
+export interface ComponentEntity extends BaseEntity<Component[]> {
+	selected?: Component;
+}
 
 interface BaseStore<T, U extends BaseEntity<T>> {
 	subscribe: Writable<U>["subscribe"];
@@ -74,6 +76,8 @@ export interface OrganizationStore extends BaseStore<Organization, OrganizationE
 
 export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
 	setComponents: (components: Component[]) => void;
+	setOrigin: (origin: Component) => void;
+	origin: Readable<Component | undefined>;
 }
 
 export type OrgAndUserData = {
