@@ -93,5 +93,5 @@ export type OrgAndUserData = {
 }
 
 export type OriginAndComponentData = {
-	origin?: Component;
+	origin?: ComponentEntity;
 }
