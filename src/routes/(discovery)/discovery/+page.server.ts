@@ -13,7 +13,6 @@ export const load = (async ({url}): Promise<OriginAndComponentData> => {
 
     // Find component with ID
     const origin: Component | undefined = components.find(component => component.id === Number(originId));
-    console.log("$ server: origin =>", origin);
 
     return {
         ...(origin && {origin}),

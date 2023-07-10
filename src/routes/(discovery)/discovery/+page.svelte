@@ -3,9 +3,7 @@
     import type {OriginAndComponentData, ComponentStore} from "$lib/types";
     import {getContext} from "svelte";
 
-    /** @type {import('./$types').PageData} */
     export let data: OriginAndComponentData;
-    console.log("$ browser: origin =>", data.origin);
 
     // Add origin to store
     let componentStore: ComponentStore;
