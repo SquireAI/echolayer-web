@@ -1,5 +1,7 @@
 <script lang="ts">
+    import Panels from "$lib/discovery/panels.svelte";
 	import Canvas from "$lib/discovery/canvas.svelte";
+    import Header from "$lib/discovery/components/header.svelte";
     import type {OriginAndComponentData, ComponentStore} from "$lib/types";
     import {getContext} from "svelte";
 
@@ -11,4 +13,13 @@
     if (data.origin) componentStore.setOrigin(data.origin);
 </script>
 
-<Canvas />
+<Panels>
+    <div slot="nav">NAV</div>
+    <div class="content" slot="content">
+        <Header title="Content" />
+        <Canvas />
+    </div>
+    <div class="details" slot="details">
+        <Header title="Details" />
+    </div>
+</Panels>
