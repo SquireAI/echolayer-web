@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentEntity, TeamEntity } from '$lib/types';
+	import type { AnchorConnection, ComponentEntity, TeamEntity } from '$lib/types';
   import { Node } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
 	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
@@ -8,7 +8,9 @@
 
 	export let component: ComponentEntity;
 	export let owners: TeamEntity[];
-	export let origin: {x: number, y: number} = {x: 0, y: 0}
+	export let origin: {x: number, y: number} = {x: 0, y: 0};
+	export let outputConnections: AnchorConnection[] = [];
+	export let inputConnections: AnchorConnection[] = [];
 
 	const numMemberOwners = owners.reduce((acc, team) => acc += team.members.length, 0);
 	const numOwningTeams = owners.length;
@@ -24,10 +26,10 @@
 <Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 108 }}>
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
 		<div class="input__anchor">
-			<InputAnchor parentId={id} selected={selected} />
+			<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
 		</div>
 		<div class="output__anchor">
-			<OutputAnchor parentId={id} selected={selected} />
+			<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
 		</div>
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">

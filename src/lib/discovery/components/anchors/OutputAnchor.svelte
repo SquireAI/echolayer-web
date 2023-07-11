@@ -2,6 +2,7 @@
 	import type { AnchorConnection } from "$lib/types";
 	import { Anchor } from "svelvet";
 	import { toNodeConnections } from ".";
+	import Edge from "../Edge.svelte";
 	
 	export let parentId: string;
 	export let anchorConnections: AnchorConnection[] = [];
@@ -14,7 +15,7 @@
 	const connections = toNodeConnections(anchorConnections);
 </script>
 
-<Anchor id={`node-${parentId}-output-anchor`} input connections={connections}>
+<Anchor id={`node-${parentId}-output-anchor`} input connections={connections} edge={Edge}>
 	<div class={`anchor__output ${selected ? "anchor__output--selected" : ""}`}>
 
 	</div>
