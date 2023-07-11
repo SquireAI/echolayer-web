@@ -4,26 +4,24 @@
 
 .component__node {
 	$self: &;
-	@apply bg-white;
+	@apply bg-transparent;
 	@apply flex;
 	@apply w-full;
 	@apply h-full;
-	box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.2);
+	@apply relative;
 	&--inner {
 		@apply flex;
 		@apply flex-col;
+		@apply bg-white;
+		@apply rounded-[4px];
 		width: 100%;
+		background-clip: border-box;
+		box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.2);
 		.component__info {
-			@apply box-border;
 			@apply flex;
 			@apply flex-col;
 			@apply p-2;
-			@apply border-4;
-			@apply border-b-0;
-			@apply border-white;
 			@apply gap-y-2;
-			@apply rounded-b-none;
-			@apply rounded-t-md;
 			&--icon {
 				@apply w-7;
 				@apply h-7;
@@ -44,22 +42,12 @@
 					@apply overflow-hidden;
 				}
 			}
-			#{ $self }--selected & {
-				@apply border-echolayer-blue-100;
-				@apply bg-echolayer-blue-100/[0.2];
-			}
 		}
 		.component__members {
-			@apply box-border;
 			@apply flex;
 			@apply h-full;
 			@apply items-center;
 			@apply p-2;
-			@apply bg-neutral-200;
-			@apply border-4;
-			@apply border-neutral-200;
-			@apply rounded-t-none;
-			@apply rounded-b-md;
 			&--count {
 				@apply flex;
 				@apply items-center;
@@ -68,12 +56,6 @@
 			&--avatars {
 				@apply ml-auto;
 				@apply text-xs;
-			}
-			#{ $self }--selected & {
-				@apply border-4;
-				@apply border-echolayer-blue-100;
-				@apply bg-echolayer-blue-100;
-				@apply text-white;
 			}
 
 			.avatar {
@@ -95,26 +77,49 @@
 				&__list {
 					@apply flex;
 				}
-		
-				#{ $self }--selected & {
-					@apply border-echolayer-blue-100;
-				}
+			}
+		}
+		&-wrapper {
+			@apply rounded-[4px];
+			@apply bg-white;
+			&.component__info--wrapper {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			#{ $self }--selected & {
+				@apply bg-echolayer-blue-100/[0.2];
+			}
+			&.component__members--wrapper {
+				// @apply bg-neutral-200;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
 			}
 		}
 	}
 
 	&.component__entity {
 		.component__members {
-			@apply border-t-0;
-			@apply border-white;
-			@apply bg-white;
+			@apply pt-0;
+			// @apply border-t-0;
+			// @apply border-white;
+			// @apply bg-white;
 		}
 		&#{ $self }--selected {
 			.component__members {
 				@apply text-black;
-				@apply border-echolayer-blue-100;
-				@apply bg-echolayer-blue-100/[0.2];
+				// @apply border-echolayer-blue-100;
+				// @apply bg-echolayer-blue-100/[0.2];
 			}
 		}
+	}
+	.input__anchor {
+		@apply absolute;
+		@apply -top-[16px];
+		left: calc(50% - 12px);
+	}
+	.output__anchor {
+		@apply absolute;
+		@apply -bottom-2;
+		left: calc(50% - 8px);
 	}
 }

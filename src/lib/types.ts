@@ -95,3 +95,9 @@ export type OrgAndUserData = {
 export type OriginAndComponentData = {
 	origin?: ComponentEntity;
 }
+export type AnchorConnection = {
+	targetNodeId: string;
+	targetNodeAnchorId: string;
+}
+
+export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;

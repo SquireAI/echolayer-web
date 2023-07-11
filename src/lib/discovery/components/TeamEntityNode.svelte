@@ -1,17 +1,13 @@
 <script lang="ts">
-	import type { ComponentEntity, TeamEntity } from '$lib/types';
+	import type { TeamEntity } from '$lib/types';
   import { Node } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
-	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
+	import AvatarPlaceholder from './AvatarPlaceholder.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
 	import OutputAnchor from './anchors/OutputAnchor.svelte';
 
-	export let component: ComponentEntity;
-	export let owners: TeamEntity[];
+	export let component: TeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0}
-
-	const numMemberOwners = owners.reduce((acc, team) => acc += team.members.length, 0);
-	const numOwningTeams = owners.length;
 
 	const id = `node_${component.publicId}`;
 
@@ -21,8 +17,8 @@
 
 </script>
 
-<Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 108 }}>
-	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
+<Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 120 }}>
+	<div use:grabHandle class={`component__node ${selected ? "component__node--selected" : ""}`}>
 		<div class="input__anchor">
 			<InputAnchor parentId={id} selected={selected} />
 		</div>
@@ -32,8 +28,8 @@
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">
 				<div class="component__info">
-					<div class="component__info--icon component__icon--fill">
-						<ComponentEntityIcon />
+					<div class="component__info--icon">
+						<TeamIcon />
 					</div>
 					<div class="component__info--name">
 						<p>{component.name}</p>
@@ -43,10 +39,16 @@
 			<div class="component__node--inner-wrapper component__members--wrapper">
 				<div class="component__members">
 					<div class="component__members--count">
-						<TeamIcon />
-						<p>
-							<span>{`${numOwningTeams} team${numOwningTeams !== 1 ? "s": ""}`}</span>
-						</p>
+						<p>{`${component.members.length} member${component.members.length !== 1 ? "s" : ""}`}</p>
+					</div>
+					<div class="component__members--avatars">
+						{#if component.members.length > 0}
+							<div class="avatar__list">
+								{#each component.members.slice(0, 4) as member (member.publicId)}
+									<div class="avatar"><AvatarPlaceholder /></div>
+								{/each}
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
