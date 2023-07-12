@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AnchorConnection, TeamEntity } from '$lib/types';
-  import { Node } from 'svelvet';
+  import { Node, type Connections } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
 	import AvatarPlaceholder from './AvatarPlaceholder.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
@@ -8,8 +8,8 @@
 
 	export let component: TeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
-	export let outputConnections: AnchorConnection[] = [];
-	export let inputConnections: AnchorConnection[] = [];
+	export let outputConnections: Connections = [["node_componentmonolith", "anchor-node_componentmonolith-input-anchor"]];
+	export let inputConnections: Connections = [];
 
 	const id = `node_${component.publicId}`;
 
@@ -21,12 +21,16 @@
 
 <Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 120 }}>
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected" : ""}`}>
-		<div class="input__anchor">
-			<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
-		</div>
-		<div class="output__anchor">
-			<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
-		</div>
+		{#if inputConnections.length > 0}
+			<div class="input__anchor">
+				<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
+			</div>
+		{/if}
+		{#if outputConnections.length> 0}
+			<div class="output__anchor">
+				<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
+			</div>
+		{/if}
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">
 				<div class="component__info">

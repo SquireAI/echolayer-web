@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AnchorConnection, ComponentEntity, TeamEntity } from '$lib/types';
-  import { Node } from 'svelvet';
+  import { Node, type Connections } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
 	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
@@ -9,8 +9,8 @@
 	export let component: ComponentEntity;
 	export let owners: TeamEntity[];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
-	export let outputConnections: AnchorConnection[] = [];
-	export let inputConnections: AnchorConnection[] = [];
+	export let outputConnections: Connections = [];
+	export let inputConnections: Connections = [["node_teamdishwashers", "anchor-node_teamdishwashers-output-anchor"]];
 
 	const numMemberOwners = owners.reduce((acc, team) => acc += team.members.length, 0);
 	const numOwningTeams = owners.length;
@@ -25,12 +25,16 @@
 
 <Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 108 }}>
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
-		<div class="input__anchor">
-			<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
-		</div>
-		<div class="output__anchor">
-			<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
-		</div>
+		{#if inputConnections.length > 0}
+			<div class="input__anchor">
+				<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
+			</div>
+		{/if}
+		{#if outputConnections.length > 0}
+			<div class="output__anchor">
+				<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
+			</div>
+		{/if}
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">
 				<div class="component__info">
