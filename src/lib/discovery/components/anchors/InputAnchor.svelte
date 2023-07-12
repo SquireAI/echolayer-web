@@ -19,19 +19,21 @@
 </script>
 
 <Anchor id={`anchor-${parentId}-input-anchor`} input connections={anchorConnections} edge={Edge} direction="north">
-	<div class={`anchor__wrapper ${selected ? "anchor__wrapper--selected" : ""}`}>
+	<!-- <div class={`anchor__wrapper ${selected ? "anchor__wrapper--selected" : ""}`}>
 		<svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M20.5 1.5L11 11L1.5 1.5" stroke="black" stroke-width="3" stroke-linecap="round"/>
 		</svg>
-	</div>
+	</div> -->
+	<div></div>
 </Anchor>
 
-<style lang="scss">
+<!-- <style lang="scss">
 	.anchor__wrapper {
 		$self: &;
 		@apply w-6;
 		@apply h-4;
 		@apply flex;
+		@apply hidden;
 		path {
 			@apply stroke-neutral-500;
 		}
@@ -41,4 +43,4 @@
 			}
 		}
 	}
-</style>
+</style> -->

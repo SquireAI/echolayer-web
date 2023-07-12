@@ -8,7 +8,7 @@
 
 	export let component: TeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
-	export let outputConnections: Connections = [["node_componentmonolith", "anchor-node_componentmonolith-input-anchor"]];
+	export let outputConnections: Connections = [];
 	export let inputConnections: Connections = [];
 
 	const id = `node_${component.publicId}`;

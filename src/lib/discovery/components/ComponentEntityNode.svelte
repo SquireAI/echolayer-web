@@ -10,9 +10,8 @@
 	export let owners: TeamEntity[];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: Connections = [];
-	export let inputConnections: Connections = [["node_teamdishwashers", "anchor-node_teamdishwashers-output-anchor"]];
+	export let inputConnections: Connections = [];
 
-	const numMemberOwners = owners.reduce((acc, team) => acc += team.members.length, 0);
 	const numOwningTeams = owners.length;
 
 	const id = `node_${component.publicId}`;
