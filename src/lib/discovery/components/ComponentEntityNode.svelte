@@ -5,6 +5,7 @@
 	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
 	import OutputAnchor from './anchors/OutputAnchor.svelte';
+	import SelectedEdge from './edges/SelectedEdge.svelte';
 
 	export let component: ComponentEntity;
 	export let owners: TeamEntity[];
@@ -19,14 +20,14 @@
 	function handleClick(e: CustomEvent) {
 		// TODO: set Entity in node as origin in component store
 	}
-
+	
 </script>
 
 <Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 108 }}>
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
 		{#if inputConnections.length > 0}
 			<div class="input__anchor">
-				<InputAnchor parentId={id} anchorConnections={inputConnections} />
+				<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
 			</div>
 		{/if}
 		{#if outputConnections.length > 0}
