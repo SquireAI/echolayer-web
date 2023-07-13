@@ -1,17 +1,9 @@
-import type { BaseEntity, ComponentEntity, TeamEntity } from "$lib/types";
-
-type RelationType = "ownerOf" | "hasOwner";
-
-interface Relation {
-	source: Pick<BaseEntity, "publicId">;
-	target: Pick<BaseEntity, "publicId">;
-	relation: RelationType;
-}
+import type { ComponentEntity, EntityRelationship, TeamEntity } from "$lib/types";
 
 interface Payload {
 	teams: TeamEntity[];
 	components: ComponentEntity[];
-	relations: Relation[];
+	relations: EntityRelationship[];
 }
 
 export const data: Payload = {
@@ -77,58 +69,46 @@ export const data: Payload = {
 	],
 	relations: [
 		{
-			source: {
-				publicId: "teamdishwashers"
-			},
-			target: {
-				publicId: "componentmonolith"
-			},
-			relation: "ownerOf"
+			publicId: "1",
+			sourcePublicId: "teamdishwashers",
+			targetPublicId: "componentmonolith",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
 		{
-			source: {
-				publicId: "componentmonolith"
-			},
-			target: {
-				publicId: "teamdishwashers"
-			},
-			relation: "hasOwner"
+			publicId: "2",
+			sourcePublicId: "componentmonolith",
+			targetPublicId: "teamdishwashers",
+			relationshipName: "ownedBy",
+			depth: 1,
 		},
 		{
-			source: {
-				publicId: "teamteam"
-			},
-			target: {
-				publicId: "componentredis"
-			},
-			relation: "ownerOf"
+			publicId: "3",
+			sourcePublicId: "teamteam",
+			targetPublicId: "componentredis",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
 		{
-			source: {
-				publicId: "componentredis"
-			},
-			target: {
-				publicId: "teamteam"
-			},
-			relation: "hasOwner"
+			publicId: "4",
+			sourcePublicId: "componentredis",
+			targetPublicId: "teamteam",
+			relationshipName: "ownedBy",
+			depth: 1,
 		},
 		{
-			source: {
-				publicId: "teamteam"
-			},
-			target: {
-				publicId: "componentpostgres"
-			},
-			relation: "ownerOf"
+			publicId: "5",
+			sourcePublicId: "teamteam",
+			targetPublicId: "componentpostgres",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
 		{
-			source: {
-				publicId: "componentpostgres"
-			},
-			target: {
-				publicId: "teamteam"
-			},
-			relation: "hasOwner"
+			publicId: "6",
+			sourcePublicId: "componentpostgres",
+			targetPublicId: "teamteam",
+			relationshipName: "ownedBy",
+			depth: 1,
 		}
 	]
 };

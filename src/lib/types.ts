@@ -35,6 +35,17 @@ export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
 
+export const EntityRelationshipNames = {
+	OWNER_OF: "ownerOf",
+	OWNED_BY: "ownedBy",
+	COMPONENT_OF: "componentOf",
+	HAS_COMPONENT: "hasComponent",
+	MEMBER_OF: "memberOf",
+	HAS_MEMBER: "hasMember",
+} as const;
+
+export type RelationType = typeof EntityRelationshipNames[keyof typeof EntityRelationshipNames];
+
 export interface RelationEntity {
 	publicId: string;
 	source: BaseEntity;
@@ -47,7 +58,7 @@ export type EntityRelationship = {
 	sourcePublicId: string;
 	targetPublicId: string;
 	depth: number;
-	relationshipName: string;
+	relationshipName: RelationType;
 }
 
 export interface RelationGraphEntity {
@@ -65,6 +76,14 @@ export enum RelationshipName {
     HAS_COMPONENT = "hasComponent",
     MEMBER_OF = "memberOf",
     HAS_MEMBER = "hasMember",
+}
+
+export interface RelationGraphEntity {
+	publicId: string;
+	sourcePublicId: string;
+	targetPublicId: string;
+	relationshipName: RelationshipName;
+	depth: number;
 }
 
 export type User = {
