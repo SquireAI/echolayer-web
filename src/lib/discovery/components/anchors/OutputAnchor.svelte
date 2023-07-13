@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Anchor, type Connections } from "svelvet";
-	import DefaultEdge from "../edges/DefaultEdge.svelte";
-	import SelectedEdge from "../edges/SelectedEdge.svelte";
+	import Edge from "../Edge.svelte";
 	
 	export let parentId: string;
 	export let anchorConnections: Connections = [];
@@ -10,11 +9,7 @@
 
 <Anchor id={`anchor-${parentId}-output-anchor`} output connections={anchorConnections} direction="south">
 	<div slot="edge">
-		{#if selected}
-			<SelectedEdge />
-		{:else}
-			<DefaultEdge />
-		{/if}
+		<Edge selected={selected} />
 	</div>
 	<div class={`anchor__output ${selected ? "anchor__output--selected" : ""}`}>	</div>
 </Anchor>

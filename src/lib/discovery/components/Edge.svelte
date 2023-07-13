@@ -1,15 +1,29 @@
-<script>
+<script lang="ts">
 	import { Edge } from 'svelvet';
+
+	export let selected: boolean = false;
 </script>
 
 <style lang="scss">
 	path {
-		@apply stroke-neutral-500;
-		stroke-width: 3px;
-		z-index: 1;
+		&.edge__path {
+			@apply stroke-neutral-500;
+			stroke-width: 3px;
+			z-index: 1;
+			&--selected {
+				@apply stroke-echolayer-blue-100;
+			}
+		}
+		
 	}
 	polyline {
-		@apply stroke-neutral-500;
+		&.path__end-marker {
+			@apply stroke-neutral-500;
+			&--selected {
+				@apply stroke-echolayer-blue-100;
+			}
+		}
+		
 	}
 </style>
 
@@ -24,8 +38,8 @@
 			The path is drawing the marker at its end by referencing the marker by its ID against the `marker-end` attribute.
 		-->
 		<marker markerWidth="16" markerHeight="14" refX="4" refY="5" viewBox="0 0 16 14" orient="auto" id="marker-end">
-			<polyline points="0,7 3,3.5 0,0" fill="none" stroke-width="1" stroke-linecap="round" transform="matrix(1,0,0,1,1,1.5)" stroke-linejoin="round"></polyline>
+			<polyline class={`path__end-marker ${selected ? "path__end-marker--selected" : ""}`} points="0,7 3,3.5 0,0" fill="none" stroke-width="1" stroke-linecap="round" transform="matrix(1,0,0,1,1,1.5)" stroke-linejoin="round"></polyline>
 		</marker>
 	</defs>
-	<path d={path} marker-end="url(#marker-end)" />
+	<path class={`edge__path ${selected ? "edge__path--selected" : ""}`} d={path} marker-end="url(#marker-end)" />
 </Edge>
