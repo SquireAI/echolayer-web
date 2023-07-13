@@ -5,7 +5,7 @@
 	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
 	import OutputAnchor from './anchors/OutputAnchor.svelte';
-	import SelectedEdge from './edges/SelectedEdge.svelte';
+	import { getNodeId } from './anchors';
 
 	export let component: ComponentEntity;
 	export let owners: TeamEntity[];
@@ -15,12 +15,12 @@
 
 	const numOwningTeams = owners.length;
 
-	const id = `node_${component.publicId}`;
+	const id = getNodeId(component.publicId);
 
 	function handleClick(e: CustomEvent) {
 		// TODO: set Entity in node as origin in component store
 	}
-	
+
 </script>
 
 <Node id={id} let:grabHandle let:selected on:nodeClicked={handleClick} borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 108 }}>

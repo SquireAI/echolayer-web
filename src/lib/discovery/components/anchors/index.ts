@@ -4,6 +4,6 @@ export function getConnectionForNode(nodeId: string, connectionType: AnchorConne
 	return [getNodeId(nodeId), getAnchorId(nodeId, connectionType)];
 }
 
-const getNodeId = (publicId: string) => `node_${publicId}`;
+export const getNodeId = (publicId: string) => `node_${publicId}`;
 
-const getAnchorId = (publicId: string, anchorConnectionType: AnchorConnectionType) => `anchor-node_${publicId}-${anchorConnectionType.toLocaleLowerCase()}-anchor`;
+export const getAnchorId = (publicId: string, anchorConnectionType: AnchorConnectionType) => `anchor-node_${publicId}-${anchorConnectionType.toLocaleLowerCase()}-anchor`;

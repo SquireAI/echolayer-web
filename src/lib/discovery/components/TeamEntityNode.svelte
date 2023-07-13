@@ -5,14 +5,14 @@
 	import AvatarPlaceholder from './AvatarPlaceholder.svelte';
 	import InputAnchor from './anchors/InputAnchor.svelte';
 	import OutputAnchor from './anchors/OutputAnchor.svelte';
-	import SelectedEdge from './edges/SelectedEdge.svelte';
+	import { getNodeId } from './anchors';
 
 	export let component: TeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: Connections = [];
 	export let inputConnections: Connections = [];
 
-	const id = `node_${component.publicId}`;
+	const id = getNodeId(component.publicId);
 
 	function handleClick(e: CustomEvent) {
 		// TODO: set Entity in node as origin in component store
