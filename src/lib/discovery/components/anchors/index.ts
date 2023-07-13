@@ -1,14 +1,9 @@
-import type { AnchorConnection } from "$lib/types";
-import type { Connections } from "svelvet";
+import type { AnchorConnectionType, AnchorConnectionTuple } from "$lib/types";
 
-export function toNodeConnections(anchors: AnchorConnection[]): Connections {
-	console.log("anchors", anchors);
-	const bar = anchors.map((anchor) => {
-		const values = Object.values(anchor);
-		console.log("values", values);
-		return values;
-	});
-	console.log("bar", bar);
-	// @ts-ignore
-	return [...bar] as Connections;
+export function getConnectionForNode(nodeId: string, connectionType: AnchorConnectionType): AnchorConnectionTuple {
+	return [getNodeId(nodeId), getAnchorId(nodeId, connectionType)];
 }
+
+const getNodeId = (publicId: string) => `node_${publicId}`;
+
+const getAnchorId = (publicId: string, anchorConnectionType: AnchorConnectionType) => `anchor-node_${publicId}-${anchorConnectionType.toLocaleLowerCase()}-anchor`;

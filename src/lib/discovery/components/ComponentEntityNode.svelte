@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnection, ComponentEntity, TeamEntity } from '$lib/types';
+	import type { ComponentEntity, TeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
 	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
@@ -26,7 +26,7 @@
 	<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
 		{#if inputConnections.length > 0}
 			<div class="input__anchor">
-				<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
+				<InputAnchor parentId={id} anchorConnections={inputConnections} />
 			</div>
 		{/if}
 		{#if outputConnections.length > 0}

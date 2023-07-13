@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnection, TeamEntity } from '$lib/types';
+	import type { TeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
 	import TeamIcon from './TeamIcon.svelte';
 	import AvatarPlaceholder from './AvatarPlaceholder.svelte';
