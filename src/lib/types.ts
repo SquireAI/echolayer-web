@@ -35,6 +35,18 @@ export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
 
+export interface RelationEntity {
+	publicId: string;
+	source: BaseEntity;
+	target: BaseEntity;
+}
+
+export interface RelationGraphEntity {
+	publicId: string;
+	sourcePublicId: string;
+	targetPublicId: string;
+}
+
 export type User = {
 	id: number;
 	name: string;
@@ -94,4 +106,7 @@ export type OrgAndUserData = {
 
 export type OriginAndComponentData = {
 	origin?: ComponentEntity;
+	teams?: TeamEntity[];
+	components?: ComponentEntity[];
+	relations?: RelationGraphEntity[];
 }
