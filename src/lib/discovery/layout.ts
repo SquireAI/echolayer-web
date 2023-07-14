@@ -53,9 +53,6 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 	// As we calculate connections for nodes, we'll collect them in this map
 	const nodeConnections: NodeConnections = new Map();
 
-	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = new Map();
-
 	/**
 	 * Traverse down a given depth to find the targets of source nodes. Each iteration will set a new
 	 * collection of source nodes from target nodes for given iteration and the next iteration will
@@ -74,8 +71,8 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 		// Make the bi-directional connections for source nodes and their targets
 		sourcePublicIds.forEach((spid) => {
 			const targetPublicIds = entityRelationships
-			.filter((n) =>  n.sourcePublicId === spid)
-			.map((rel) => rel.targetPublicId);
+				.filter((n) =>  n.sourcePublicId === spid)
+				.map((rel) => rel.targetPublicId);
 
 			const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid) => (getConnectionForNode(tpid, INPUT)));
 			const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
@@ -87,34 +84,42 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 				nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT)]);
 				nodeConnections.set(tpid, nodeConns);
 			});
-		})
+		});
 
 		// Set the target nodes to be the source nodes for the next iteration
 		sourceNodes = [...targetNodes];
 	}
-
-	// let's track how wide each row is. Each index corresponds to the rowNodes index for a given row.
-	// Initialize the width of each row to 0
-	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
-
-	// track the maximum width of a row. We'll use this to centre less-wide rows
-	let maxRowWidth = rowWidths[0];
 	
-	/**
+	// This map will collect origins and other node metadata as we uncover them
+	const nodesMap: NodeLayoutMap = getNodeConnections(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
+
+	// We need to return a collection of rows of nodes, starting from the top down
+	// This is needed so that svelvet can properly render edges from source to target
+	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
+		return nodes.map((node) => ([node.publicId, nodesMap.get(node.publicId)!]));
+	});
+	return leveled;
+}
+
+/**
 	 * Calculate the origins for each node.
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-	for (const rowIndex of largestRowIndicesDesc) {
+function getNodeConnections(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
+	let maxRowWidth = rowWidths[0];
+	const nodesMap: NodeLayoutMap = new Map();
+	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
 		const rowEntities: BaseEntity[] = rowNodes[rowIndex];
 		const rowY = rowIndex !== 0 ? (rowIndex * NODE_HEIGHT) + ROW_GAP : 0;
 		const nodeOrigins: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
-			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[largestRowIndicesDesc[0]].length, rowNodes[rowIndex].length);
+			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
 			const rowX = (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "team" ? TeamEntityNode : ComponentEntityNode };
@@ -129,16 +134,10 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
-				node: nodes.find((n) => n.publicId === pid)! });
+				node: rowEntities.find((n) => n.publicId === pid)! });
 		});
 	}
-
-	// We need to return a collection of rows of nodes, starting from the top down
-	// This is needed so that svelvet can properly render edges from source to target
-	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		return nodes.map((node) => ([node.publicId, nodesMap.get(node.publicId)!]));
-	});
-	return leveled;
+	return nodesMap;
 }
 
 // returns list of indices from rows with greatest to smallest number or entities per row
