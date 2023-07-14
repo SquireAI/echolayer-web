@@ -140,14 +140,31 @@ function getNodeConnections(rowIndices: number[], rowNodes: BaseEntity[][], node
 	return nodesMap;
 }
 
-// returns list of indices from rows with greatest to smallest number or entities per row
+/**
+ * Returns an array of numbers that tell us, in descending order, the indeces of the collection of
+ * row nodes that have the most nodes.
+ * Ex: [2,0,1] tells us that the last, first and then middle index have the most nodes at those indices,
+ * respecitvely, for a given rowNodes collection
+ * @param rowNodes The collection of row collections of nodes that we are to graph
+ * @returns an ordered array of indices from rowNodes about which have to most to least nodes
+ */
 function getRowIndicesDesc(rowNodes: BaseEntity[][]): number[] {
 	const numNodesPerRow: [number, number][] = rowNodes.map((row, index) => ([index, row.length]));
 	const sortedNumNodesPerRow = numNodesPerRow.sort(([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA);
 	return sortedNumNodesPerRow.map(([index, _]) => index);
 }
 
+/**
+ * Returns a integer of how many pixels to offset a set of nodes for a given row.
+ * Takes into account the widest row and uses it give an x-axis offset of where to lay the x-origin 
+ * for number of nodes for the given row.
+ * @param maxRowWidth The width of the row with the most nodes
+ * @param numMaxRowEntities The number of nodes in a row so we can account for the gaps between nodes
+ * @param currentRowNumEntities The number of nodes the current row will need to draw
+ * @returns a number to be used for calculating part of the x-axis origin value for nodes in a given row
+ */
 function getRowXOffset(maxRowWidth: number, numMaxRowEntities: number, currentRowNumEntities: number): number {
+	// since we always find the origins for the largest row first, it's implied they don't need an x-offset
 	if (maxRowWidth === 0) {
 		return 0;
 	}
