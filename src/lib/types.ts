@@ -52,7 +52,7 @@ export interface RelationEntity {
 	publicId: string;
 	source: BaseEntity;
 	target: BaseEntity;
-	relationshipName: RelationshipName;
+	relationshipName: RelationType;
 }
 
 export type EntityRelationship = {
@@ -67,24 +67,7 @@ export interface RelationGraphEntity {
 	publicId: string;
 	sourcePublicId: string;
 	targetPublicId: string;
-	relationshipName: RelationshipName;
-	depth: number;
-}
-
-export enum RelationshipName {
-    OWNER_OF = "ownerOf",
-    OWNED_BY = "ownedBy",
-    COMPONENT_OF = "componentOf",
-    HAS_COMPONENT = "hasComponent",
-    MEMBER_OF = "memberOf",
-    HAS_MEMBER = "hasMember",
-}
-
-export interface RelationGraphEntity {
-	publicId: string;
-	sourcePublicId: string;
-	targetPublicId: string;
-	relationshipName: RelationshipName;
+	relationshipName: RelationType;
 	depth: number;
 }
 
@@ -115,7 +98,7 @@ export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]>
 	selected?: ComponentEntity;
 };
 
-export interface StoreEntityRelationship extends BaseStoreEntity<EntityRelationship[]> {};
+export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -142,8 +125,8 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	origin: Readable<ComponentEntity | undefined>;
 }
 
-export interface EntityRelationshipStore extends BaseStore<EntityRelationship[], StoreEntityRelationship> {
-	setEntityRelationships: (entityRelationships: EntityRelationship[]) => void;
+export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
+	setEntityRelationships: (entityRelationships: RelationGraphEntity[]) => void;
 }
 
 export type OrgAndUserData = {

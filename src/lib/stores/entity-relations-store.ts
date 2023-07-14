@@ -1,4 +1,4 @@
-import type { EntityRelationship, EntityRelationshipStore, StoreEntityRelationship } from "$lib/types";
+import type { RelationGraphEntity, EntityRelationshipStore, StoreEntityRelationship } from "$lib/types";
 import { writable } from "svelte/store";
 
 let initialStoreValue: StoreEntityRelationship = { loading: false, error: false };
@@ -9,7 +9,7 @@ const createEntityRelationshipStore = (): EntityRelationshipStore => {
 		set,
 		update,
 		subscribe,
-		setEntityRelationships: (entity: EntityRelationship[]) => set({ loading: false, error: false, entity }),
+		setEntityRelationships: (entity: RelationGraphEntity[]) => set({ loading: false, error: false, entity }),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),

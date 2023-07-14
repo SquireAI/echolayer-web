@@ -1,9 +1,9 @@
-import type { ComponentEntity, EntityRelationship, TeamEntity } from "$lib/types";
+import type { ComponentEntity, RelationGraphEntity, TeamEntity } from "$lib/types";
 
 interface Payload {
 	teams: TeamEntity[];
 	components: ComponentEntity[];
-	relations: EntityRelationship[];
+	relations: RelationGraphEntity[];
 }
 
 export const data: Payload = {

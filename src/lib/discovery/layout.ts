@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type EntityRelationship, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout } from "$lib/types";
+import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout } from "$lib/types";
 import type { ComponentType } from "svelte";
 import TeamEntityNode from "./components/TeamEntityNode.svelte";
 import ComponentEntityNode from "./components/ComponentEntityNode.svelte";
@@ -35,7 +35,7 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: EntityRelationship[], sourcePublicId: string, depth: number = 2): LeveledNodeLayout {
+export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], sourcePublicId: string, depth: number = 2): LeveledNodeLayout {
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === sourcePublicId);
 
 	if (!sourceNode) {
@@ -116,7 +116,7 @@ function updateNodeConnections(rowNodeConnections: [string, Connections][], node
  * @param entityRelationships The full set of entity source to target relationships to search through
  * @returns collection of tuples that tell us the collection of input and output connections for a node
  */
-function getNodeConnections(sourcePublicIds: string[], entityRelationships: EntityRelationship[]): [string, Connections][] {
+function getNodeConnections(sourcePublicIds: string[], entityRelationships: RelationGraphEntity[]): [string, Connections][] {
 	const nodeConnections: Map<string, Connections> = new Map();
 
 	// Make the bi-directional connections for source nodes and their targets
