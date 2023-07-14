@@ -51,7 +51,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 	const rowNodes: BaseEntity[][] = [];
 
 	// As we calculate connections for nodes, we'll collect them in this map
-	const nodeConnections: NodeConnections = new Map();
+	let nodeConnections: NodeConnections = new Map();
 
 	/**
 	 * Traverse down a given depth to find the targets of source nodes. Each iteration will set a new
@@ -69,22 +69,9 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 			.filter((n): n is BaseEntity => !!n);
 
 		// Make the bi-directional connections for source nodes and their targets
-		sourcePublicIds.forEach((spid) => {
-			const targetPublicIds = entityRelationships
-				.filter((n) =>  n.sourcePublicId === spid)
-				.map((rel) => rel.targetPublicId);
-
-			const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid) => (getConnectionForNode(tpid, INPUT)));
-			const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
-			nodeConns.outputConnections = nodeConns.outputConnections.concat(sourceOutputConns);
-			nodeConnections.set(spid, nodeConns);
-
-			targetPublicIds.forEach((tpid) => {
-				const nodeConns = nodeConnections.get(tpid) || { inputConnections: [], outputConnections: [] };
-				nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT)]);
-				nodeConnections.set(tpid, nodeConns);
-			});
-		});
+		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
+		// Update our overall understanding of node connections as we uncover them at each row depth
+		nodeConnections = updateNodeConnections(rowNodeConnections, nodeConnections);
 
 		// Set the target nodes to be the source nodes for the next iteration
 		sourceNodes = [...targetNodes];
@@ -94,7 +81,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 	
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = getNodeConnections(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
+	const nodesMap: NodeLayoutMap = getNodeOrigins(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
@@ -105,11 +92,60 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 }
 
 /**
+ * Takes the newly discovered source and target connections for a given row of nodes and updates the full
+ * collection of node connections as we uncover them at each level
+ * @param rowNodeConnections The current input and output node connections for a give row
+ * @param nodeConnections The current input and output connections we're tracking for all nodes
+ * @returns The node connections (input and output) for a set of row nodes
+ */
+function updateNodeConnections(rowNodeConnections: [string, Connections][], nodeConnections: NodeConnections): NodeConnections {
+	rowNodeConnections.forEach((rowNodeConn) => {
+		const [ publicId, connections ] = rowNodeConn;
+		const currentNodeConnections = nodeConnections.get(publicId) || { inputConnections: [], outputConnections: [] };
+		currentNodeConnections.inputConnections = currentNodeConnections.inputConnections.concat(connections.inputConnections);
+		currentNodeConnections.outputConnections = currentNodeConnections.outputConnections.concat(connections.outputConnections);
+		nodeConnections.set(publicId, currentNodeConnections);
+	});
+	return nodeConnections;
+}
+
+/**
+ * Generates the bi-directional connections from source node to target node anchors.
+ * Each source to target connection has the reciprocal target to source connection made as well
+ * @param sourcePublicIds The public ids of the source nodes we want to establish target connections to
+ * @param entityRelationships The full set of entity source to target relationships to search through
+ * @returns collection of tuples that tell us the collection of input and output connections for a node
+ */
+function getNodeConnections(sourcePublicIds: string[], entityRelationships: EntityRelationship[]): [string, Connections][] {
+	const nodeConnections: Map<string, Connections> = new Map();
+
+	// Make the bi-directional connections for source nodes and their targets
+	sourcePublicIds.forEach((spid) => {
+		const targetPublicIds = entityRelationships
+			.filter((n) =>  n.sourcePublicId === spid)
+			.map((rel) => rel.targetPublicId);
+
+		const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid) => (getConnectionForNode(tpid, INPUT)));
+		const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
+		nodeConns.outputConnections = nodeConns.outputConnections.concat(sourceOutputConns);
+		nodeConnections.set(spid, nodeConns);
+
+		targetPublicIds.forEach((tpid) => {
+			const nodeConns = nodeConnections.get(tpid) || { inputConnections: [], outputConnections: [] };
+			nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT)]);
+			nodeConnections.set(tpid, nodeConns);
+		});
+	});
+
+	return Array.from(nodeConnections.entries());
+}
+
+/**
 	 * Calculate the origins for each node.
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function getNodeConnections(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+function getNodeOrigins(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
