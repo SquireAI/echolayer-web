@@ -1,20 +1,8 @@
-import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type EntityRelationship } from "$lib/types";
+import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type EntityRelationship, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout } from "$lib/types";
 import type { ComponentType } from "svelte";
 import TeamEntityNode from "./components/TeamEntityNode.svelte";
 import ComponentEntityNode from "./components/ComponentEntityNode.svelte";
-import { getAnchorId, getConnectionForNode, getNodeId } from "./components/anchors";
-
-type NodeCoordinates = {
-	x: number;
-	y: number;
-}
-type NodeMetadata = {
-	origin: NodeCoordinates;
-	nodeType: ComponentType;
-	node: BaseEntity;
-	inputConnections: AnchorConnectionTuple[];
-	outputConnections: AnchorConnectionTuple[];
-}
+import { getConnectionForNode } from "./components/anchors";
 
 type NodeLayoutMap = Map<string, NodeMetadata>;
 
@@ -47,7 +35,7 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: EntityRelationship[], sourcePublicId: string, depth: number = 2): NodeLayoutMap {
+export function layout(nodes: BaseEntity[], entityRelationships: EntityRelationship[], sourcePublicId: string, depth: number = 2): LeveledNodeLayout {
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === sourcePublicId);
 
 	if (!sourceNode) {
@@ -59,7 +47,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 	const rowNodes: BaseEntity[][] = [];
 
 	const nodeConnections: NodeConnections = new Map();
-	const resp: NodeLayoutMap = new Map();
+	const nodesMap: NodeLayoutMap = new Map();
 
 	// sets the current source nodes for a given level and sets their targets as the next source nodes
 	for (let i = 0; i <= depth; i++) {
@@ -120,27 +108,30 @@ export function layout(nodes: BaseEntity[], entityRelationships: EntityRelations
 		
 		nodeOrigins.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
-			resp.set(pid, { 
+			nodesMap.set(pid, { 
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
 				node: nodes.find((n) => n.publicId === pid)! });
 		});
-
-		// TODO set the input and output connections
 	}
-	console.log(resp);
-	return resp;
+
+	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
+		return nodes.map((node) => {
+			return [node.publicId, nodesMap.get(node.publicId)!]
+		});
+	});
+	return leveled;
 }
 
 type IndexToCount = [number, number];
 
 // returns list of indices from rows with greatest to smallest number or entities per row
 function getRowIndicesDesc(rowNodes: BaseEntity[][]): number[] {
-	const foo: IndexToCount[] = rowNodes.map((row, index) => ([index, row.length]));
-	const bar = foo.sort(([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA);
-	return bar.map(([index, _]) => index);
+	const numNodesPerRow: IndexToCount[] = rowNodes.map((row, index) => ([index, row.length]));
+	const sortedNumNodesPerRow = numNodesPerRow.sort(([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA);
+	return sortedNumNodesPerRow.map(([index, _]) => index);
 }
 
 function getRowXOffset(maxRowWidth: number, numMaxRowEntities: number, currentRowNumEntities: number): number {

@@ -1,3 +1,4 @@
+import type { ComponentType } from "svelte";
 import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export interface BaseEntity {
@@ -166,3 +167,20 @@ export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof Anc
 export type AnchorConnectionTuple = [string, string];
 
 export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
+
+export type NodeCoordinates = {
+	x: number;
+	y: number;
+};
+
+export type NodeMetadata = {
+	origin: NodeCoordinates;
+	nodeType: ComponentType;
+	node: BaseEntity;
+	inputConnections: AnchorConnectionTuple[];
+	outputConnections: AnchorConnectionTuple[];
+};
+
+type NodeMetadataTuple = [string, NodeMetadata];
+
+export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;

@@ -13,7 +13,6 @@
 	export let outputConnections: Connections = [];
 	export let inputConnections: Connections = [];
 
-	console.log("INPUTS", inputConnections);
 	const numOwningTeams = owners.length;
 
 	const id = getNodeId(component.publicId);
