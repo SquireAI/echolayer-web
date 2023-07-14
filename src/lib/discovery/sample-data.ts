@@ -12,12 +12,14 @@ export const data: Payload = {
 			name: "The Purple Monkey Dishwashers",
 			publicId: "teamdishwashers",
 			metadata: {},
+			type: "team",
 			members: [
 				{
 					name: "Randy Newman",
 					email: "randy@example.com",
 					publicId: "memberrandy",
 					metadata: {},
+					type: "member",
 				}
 			]
 		},
@@ -25,24 +27,28 @@ export const data: Payload = {
 			name: "The Team",
 			publicId: "teamteam",
 			metadata: {},
+			type: "team",
 			members: [
 				{
 					name: "Ash Ketchum",
 					email: "ash@example.com",
 					publicId: "memberash",
 					metadata: {},
+					type: "member",
 				},
 				{
 					name: "Skull Kid",
 					email: "skullkid@example.com",
 					publicId: "memberskullkid",
 					metadata: {},
+					type: "member",
 				},
 				{
 					name: "Super Mario",
 					email: "mario@example.com",
 					publicId: "membermario",
 					metadata: {},
+					type: "member",
 				}
 			]
 		}
@@ -53,18 +59,21 @@ export const data: Payload = {
 			publicId: "componentmonolith",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		},
 		{
 			name: "monolith-redis",
 			publicId: "componentredis",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		},
 		{
 			name: "monolith-postgres",
 			publicId: "componentpostgres",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		}
 	],
 	relations: [
@@ -75,13 +84,13 @@ export const data: Payload = {
 			relationshipName: "ownerOf",
 			depth: 1,
 		},
-		{
-			publicId: "2",
-			sourcePublicId: "componentmonolith",
-			targetPublicId: "teamdishwashers",
-			relationshipName: "ownedBy",
-			depth: 1,
-		},
+		// {
+		// 	publicId: "2",
+		// 	sourcePublicId: "componentmonolith",
+		// 	targetPublicId: "teamdishwashers",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// },
 		{
 			publicId: "3",
 			sourcePublicId: "teamteam",
@@ -89,13 +98,13 @@ export const data: Payload = {
 			relationshipName: "ownerOf",
 			depth: 1,
 		},
-		{
-			publicId: "4",
-			sourcePublicId: "componentredis",
-			targetPublicId: "teamteam",
-			relationshipName: "ownedBy",
-			depth: 1,
-		},
+		// {
+		// 	publicId: "4",
+		// 	sourcePublicId: "componentredis",
+		// 	targetPublicId: "teamteam",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// },
 		{
 			publicId: "5",
 			sourcePublicId: "teamteam",
@@ -103,12 +112,12 @@ export const data: Payload = {
 			relationshipName: "ownerOf",
 			depth: 1,
 		},
-		{
-			publicId: "6",
-			sourcePublicId: "componentpostgres",
-			targetPublicId: "teamteam",
-			relationshipName: "ownedBy",
-			depth: 1,
-		}
+		// {
+		// 	publicId: "6",
+		// 	sourcePublicId: "componentpostgres",
+		// 	targetPublicId: "teamteam",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// }
 	]
 };

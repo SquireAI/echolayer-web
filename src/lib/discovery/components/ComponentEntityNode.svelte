@@ -8,11 +8,12 @@
 	import { getNodeId } from './anchors';
 
 	export let component: ComponentEntity;
-	export let owners: TeamEntity[];
+	export let owners: TeamEntity[] = [];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: Connections = [];
 	export let inputConnections: Connections = [];
 
+	console.log("INPUTS", inputConnections);
 	const numOwningTeams = owners.length;
 
 	const id = getNodeId(component.publicId);

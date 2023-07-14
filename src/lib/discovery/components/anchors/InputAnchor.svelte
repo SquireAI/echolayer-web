@@ -5,9 +5,11 @@
 	export let parentId: string;
 	export let anchorConnections: Connections = [];
 	export let selected: boolean = false;
+
+	console.log("ANCHOR CONNS", anchorConnections);
 </script>
 
-<Anchor id={`anchor-${parentId}-input-anchor`} input connections={anchorConnections} direction="north">
+<Anchor id={`anchor-${parentId}-input-anchor`} input multiple connections={anchorConnections} direction="north">
 	<div slot="edge">
 		<Edge selected={selected} />
 	</div>

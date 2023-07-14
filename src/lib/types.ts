@@ -4,6 +4,7 @@ export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
+	type: "team" | "component" | "member";
 }
 
 export interface Member extends BaseEntity {

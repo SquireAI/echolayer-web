@@ -7,7 +7,7 @@
 	export let selected: boolean = false;
 </script>
 
-<Anchor id={`anchor-${parentId}-output-anchor`} output connections={anchorConnections} direction="south">
+<Anchor id={`anchor-${parentId}-output-anchor`} output multiple connections={anchorConnections} direction="south">
 	<div slot="edge">
 		<Edge selected={selected} />
 	</div>
