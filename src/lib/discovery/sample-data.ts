@@ -1,17 +1,9 @@
-import type { BaseEntity, ComponentEntity, TeamEntity } from "$lib/types";
-
-type RelationType = "ownerOf" | "hasOwner";
-
-interface Relation {
-	source: Pick<BaseEntity, "publicId">;
-	target: Pick<BaseEntity, "publicId">;
-	relation: RelationType;
-}
+import type { ComponentEntity, RelationGraphEntity, TeamEntity } from "$lib/types";
 
 interface Payload {
 	teams: TeamEntity[];
 	components: ComponentEntity[];
-	relations: Relation[];
+	relations: RelationGraphEntity[];
 }
 
 export const data: Payload = {
@@ -20,12 +12,14 @@ export const data: Payload = {
 			name: "The Purple Monkey Dishwashers",
 			publicId: "teamdishwashers",
 			metadata: {},
+			type: "team",
 			members: [
 				{
 					name: "Randy Newman",
 					email: "randy@example.com",
 					publicId: "memberrandy",
 					metadata: {},
+					type: "member",
 				}
 			]
 		},
@@ -33,24 +27,28 @@ export const data: Payload = {
 			name: "The Team",
 			publicId: "teamteam",
 			metadata: {},
+			type: "team",
 			members: [
 				{
 					name: "Ash Ketchum",
 					email: "ash@example.com",
 					publicId: "memberash",
 					metadata: {},
+					type: "member",
 				},
 				{
 					name: "Skull Kid",
 					email: "skullkid@example.com",
 					publicId: "memberskullkid",
 					metadata: {},
+					type: "member",
 				},
 				{
 					name: "Super Mario",
 					email: "mario@example.com",
 					publicId: "membermario",
 					metadata: {},
+					type: "member",
 				}
 			]
 		}
@@ -61,74 +59,65 @@ export const data: Payload = {
 			publicId: "componentmonolith",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		},
 		{
 			name: "monolith-redis",
 			publicId: "componentredis",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		},
 		{
 			name: "monolith-postgres",
 			publicId: "componentpostgres",
 			organizationId: 123,
 			metadata: {},
+			type: "component",
 		}
 	],
 	relations: [
 		{
-			source: {
-				publicId: "teamdishwashers"
-			},
-			target: {
-				publicId: "componentmonolith"
-			},
-			relation: "ownerOf"
+			publicId: "1",
+			sourcePublicId: "teamdishwashers",
+			targetPublicId: "componentmonolith",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
+		// {
+		// 	publicId: "2",
+		// 	sourcePublicId: "componentmonolith",
+		// 	targetPublicId: "teamdishwashers",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// },
 		{
-			source: {
-				publicId: "componentmonolith"
-			},
-			target: {
-				publicId: "teamdishwashers"
-			},
-			relation: "hasOwner"
+			publicId: "3",
+			sourcePublicId: "teamteam",
+			targetPublicId: "componentredis",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
+		// {
+		// 	publicId: "4",
+		// 	sourcePublicId: "componentredis",
+		// 	targetPublicId: "teamteam",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// },
 		{
-			source: {
-				publicId: "teamteam"
-			},
-			target: {
-				publicId: "componentredis"
-			},
-			relation: "ownerOf"
+			publicId: "5",
+			sourcePublicId: "teamteam",
+			targetPublicId: "componentpostgres",
+			relationshipName: "ownerOf",
+			depth: 1,
 		},
-		{
-			source: {
-				publicId: "componentredis"
-			},
-			target: {
-				publicId: "teamteam"
-			},
-			relation: "hasOwner"
-		},
-		{
-			source: {
-				publicId: "teamteam"
-			},
-			target: {
-				publicId: "componentpostgres"
-			},
-			relation: "ownerOf"
-		},
-		{
-			source: {
-				publicId: "componentpostgres"
-			},
-			target: {
-				publicId: "teamteam"
-			},
-			relation: "hasOwner"
-		}
+		// {
+		// 	publicId: "6",
+		// 	sourcePublicId: "componentpostgres",
+		// 	targetPublicId: "teamteam",
+		// 	relationshipName: "ownedBy",
+		// 	depth: 1,
+		// }
 	]
 };

@@ -1,9 +1,11 @@
+import type { ComponentType } from "svelte";
 import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
+	type: "team" | "component" | "member";
 }
 
 export interface Member extends BaseEntity {
@@ -35,29 +37,39 @@ export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
 
+export const EntityRelationshipNames = {
+	OWNER_OF: "ownerOf",
+	OWNED_BY: "ownedBy",
+	COMPONENT_OF: "componentOf",
+	HAS_COMPONENT: "hasComponent",
+	MEMBER_OF: "memberOf",
+	HAS_MEMBER: "hasMember",
+} as const;
+
+export type RelationType = typeof EntityRelationshipNames[keyof typeof EntityRelationshipNames];
+
 export interface RelationEntity {
 	publicId: string;
 	source: BaseEntity;
 	target: BaseEntity;
-	relationshipName: RelationshipName;
+	relationshipName: RelationType;
+}
+
+export type EntityRelationship = {
+	publicId: string;
+	sourcePublicId: string;
+	targetPublicId: string;
+	depth: number;
+	relationshipName: RelationType;
 }
 
 export interface RelationGraphEntity {
 	publicId: string;
 	sourcePublicId: string;
 	targetPublicId: string;
-	relationshipName: RelationshipName;
+	relationshipName: RelationType;
 	depth: number;
 }
-
-export enum RelationshipName {
-    OWNER_OF = "ownerOf",
-    OWNED_BY = "ownedBy",
-    COMPONENT_OF = "componentOf",
-    HAS_COMPONENT = "hasComponent",
-    MEMBER_OF = "memberOf",
-    HAS_MEMBER = "hasMember",
-}	
 
 export type User = {
 	id: number;
@@ -86,6 +98,8 @@ export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]>
 	selected?: ComponentEntity;
 };
 
+export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
+
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
 	update: (this: void, updater: Updater<U>) => void;
@@ -111,6 +125,10 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	origin: Readable<ComponentEntity | undefined>;
 }
 
+export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
+	setEntityRelationships: (entityRelationships: RelationGraphEntity[]) => void;
+}
+
 export type OrgAndUserData = {
 	user: User;
 	org: Organization;
@@ -132,3 +150,20 @@ export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof Anc
 export type AnchorConnectionTuple = [string, string];
 
 export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
+
+export type NodeCoordinates = {
+	x: number;
+	y: number;
+};
+
+export type NodeMetadata = {
+	origin: NodeCoordinates;
+	nodeType: ComponentType;
+	node: BaseEntity;
+	inputConnections: AnchorConnectionTuple[];
+	outputConnections: AnchorConnectionTuple[];
+};
+
+type NodeMetadataTuple = [string, NodeMetadata];
+
+export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;

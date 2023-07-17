@@ -17,6 +17,7 @@ const createUserStore = (): UserStore => {
 	return {
 		update,
 		subscribe,
+		set,
 		setUser: (entity: User) => set({ loading: false, error: false, entity }),
 		updateUser: (entity: User) => update((existing) => ({ ...existing, ...entity })),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
