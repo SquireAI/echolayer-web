@@ -15,9 +15,11 @@ export default {
           },
           "yellow": {
             DEFAULT: "#FBBF24",
+            100: "#FDF7E7",
           },
           "red": {
             DEFAULT: "#D50000",
+            100: "#FBF0F0",
           },
         }
       }
