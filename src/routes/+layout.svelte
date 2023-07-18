@@ -9,6 +9,10 @@
 	setContext(COMPONENT_STORE_NAME, componentStore);
 </script>
 
+<svelte:head>
+	<title>Dashboard | EchoLayer</title>
+</svelte:head>
+
 <div class="app-container">
 	<header>
 		<Header />
