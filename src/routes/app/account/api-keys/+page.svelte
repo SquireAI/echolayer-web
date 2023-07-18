@@ -91,7 +91,7 @@
 		</div>
 		<div class="flex w-full">
 			<div class="flex flex-col sm:w-full lg:w-2/3">
-				<p>You can use this section to generate Personal Access Tokens to use our API.</p>
+				<p>You can use this section to generate API Keys to use our API.</p>
 				<p>Learn how to use the EchoLayer API in our <a href="https://www.echolayer.com" class="underline">documentation.</a></p>
 			</div>
 		</div>

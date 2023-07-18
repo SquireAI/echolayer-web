@@ -11,7 +11,7 @@ export const ENDPOINT = {
 	owner: "owner",
 	issue: "issue",
 	auth: "auth",
-	pat: "auth/pat",
+	apiKey: "auth/api-key",
 	user: "user",
 	root: "",
 } as const;
