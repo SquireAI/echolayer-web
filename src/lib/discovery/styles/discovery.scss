@@ -23,59 +23,44 @@ p {
 }
 
 .app-container {
-	height: 100vh;
-	display: grid;
-	grid-template-columns: 300px 1fr;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: 
+  grid-template-areas:
     'nav main';
-	nav  {
-		grid-area: nav;
-    width: 100%;
-		height: 100%;
-		@apply bg-neutral-100;
-		@apply border-r;
-		@apply border-neutral-300;
-	}
 
-	main {
-		grid-area: main;
+  nav {
+    grid-area: nav;
     width: 100%;
     height: 100%;
-		@apply bg-neutral-300;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-column-gap: 0px;
-		grid-row-gap: 0px;
-		grid-template-areas: 
-			'content details';
-	}
+    @apply bg-neutral-100;
+    @apply border-r;
+    @apply border-neutral-300;
+  }
 
-	.content {
-		grid-area: content;
-		overflow: auto;
-		width: 100%;
-		height: 100%;
-		@apply bg-neutral-50;
-		display: flex;
-		flex-direction: column;
-		.svelvet-wrapper.svelte:focus {
-			box-shadow: none;
-		}
-	}
+  main {
+    grid-area: main;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    @apply bg-neutral-300;
+  }
 
-	.details {
-		grid-area: details;
-		width: 100%;
-		height: 100%;
-		@apply bg-white;
-		display: flex;
-		flex-direction: column;
-		@apply border-l;
-		@apply border-neutral-300;
-	}
+  .content {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    @apply bg-neutral-50;
+    display: flex;
+    flex-direction: column;
+
+    .svelvet-wrapper.svelte:focus {
+        box-shadow: none;
+    }
+  }
 }
 
 :root[svelvet-theme="echolayer"] {
