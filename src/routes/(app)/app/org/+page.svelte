@@ -5,22 +5,25 @@
 	import GroupsIcon from "$lib/svgs/GroupsIcon.svg?component";
 	import DataIcon from "$lib/svgs/DataIcon.svg?component";
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
-	import WhiteCheckIcon from "$lib/svgs/WhiteCheckIcon.svg?component";
-	import type { ComponentEntity, Issue, OrgAndUserData, Organization } from "$lib/types";
+	import GreenCheckIcon from "$lib/svgs/GreenCheckIcon.svg?component";
+	import type { ComponentEntity, Issue, Organization } from "$lib/types";
 	import { API_KEYS_PATH } from "$lib/utils/paths";
+	import type { OrgDetailsPageData } from "./+page.server";
 
 	/** @type {import('./$types').PageData} */  
-	export let data: OrgAndUserData;
-
-	let hasIssues: boolean;
-	$: hasIssues = false;
+	export let data: OrgDetailsPageData;
 
 	let organization: Organization;
 	$: organization = data.org;
 
 
 	let components: ComponentEntity[] = [];
+	$: components = data.components;
 	let issues: Issue[] = [];
+	$: issues = data.issues;
+
+	let hasIssues: boolean;
+	$: hasIssues = data.issues.length > 0;
 </script>
 
 <div class="flex content-center items-center flex-col h-full pt-9">
@@ -53,7 +56,7 @@
 				</div>
 				<div class="flex flex-col gap-1">
 					<p class="text-inherit uppercase text-xs">Need Support?</p>
-					<p><span class="text-neutral-500">Contact us at </span><a href="mailto:support@echolayer.com" class="underline text-echolayer-blue">support@echolayer.com</a><span class="text-neutral-500"> on email or Slack for assistance in any issues you may be facing.</span></p>
+					<p><span class="text-neutral-500">Contact us at </span><a href="mailto:support@echolayer.com" class="underline text-echolayer-blue">support@echolayer.com</a><span class="text-neutral-500"> &nbsp;on email or Slack for assistance in any issues you may be facing.</span></p>
 				</div>
 			</div>
 			<div class="flex flex-col gap-9">
@@ -78,12 +81,12 @@
 							{#if hasIssues}
 								<WarningAmberIcon />
 							{:else}
-								<WhiteCheckIcon />
+								<GreenCheckIcon />
 							{/if}
 							Issues
 						</div>
 						<div class={`${hasIssues ? "bg-echolayer-yellow/25": "bg-green-700/25" } py-1 pr-3 text-inherit md:text-start text-end`}>
-							{issues.length} issue{ issues.length === 1 ? "" : "s"} marked
+							{issues.length} issue{ issues.length === 1 ? "" : "s"}
 						</div>
 					</div>
 				</div>
