@@ -16,7 +16,7 @@
     }
 
     .list {
-      @apply flex flex-col space-y-1;
+      @apply flex-1 flex flex-col;
     }
   }
 </style>
@@ -26,7 +26,7 @@
         <span>{label}</span>
     </div>
 
-    <div class="list">
+    <div class="list space-y-1">
         {#each properties as property}
             <DetailsListRow {property} />
         {/each}

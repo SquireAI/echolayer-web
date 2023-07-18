@@ -94,9 +94,8 @@ interface BaseStoreEntity<T> {
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
 export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
-export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {
-	selected?: ComponentEntity;
-};
+export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
+export interface StoreOriginComponentEntity extends BaseStoreEntity<ComponentEntity> {};
 
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 
@@ -123,8 +122,10 @@ export interface OrganizationStore extends BaseStore<Organization, StoreOrganiza
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
 	setComponents: (components: ComponentEntity[]) => void;
-	setOrigin: (origin: ComponentEntity) => void;
-	origin: Readable<ComponentEntity | undefined>;
+}
+
+export interface OriginComponentStore extends BaseStore<ComponentEntity, StoreOriginComponentEntity> {
+	setComponent: (component: ComponentEntity) => void;
 }
 
 export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
