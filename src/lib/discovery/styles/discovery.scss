@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../components/component-node";
+
+h1 {
+  @apply text-5xl font-light;
+}
+
+h2 {
+  @apply text-4xl font-light;
+}
+
+h3 {
+  @apply text-lg font-light;
+}
+
+p {
+  @apply text-sm font-normal;
+	// TODO: fix font issues so we don't use the ugly one from Svelvet ("Rubik")
+	font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+
+.app-container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    'nav main';
+
+  nav {
+    grid-area: nav;
+    width: 100%;
+    height: 100%;
+    @apply bg-neutral-100;
+    @apply border-r;
+    @apply border-neutral-300;
+  }
+
+  main {
+    grid-area: main;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    @apply bg-neutral-300;
+  }
+
+  .content {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    @apply bg-neutral-50;
+    display: flex;
+    flex-direction: column;
+
+    .svelvet-wrapper.svelte:focus {
+        box-shadow: none;
+    }
+  }
+}
+
+:root[svelvet-theme="echolayer"] {
+	--node-border-color: "red";
+	--dot-color: "blue";
+}

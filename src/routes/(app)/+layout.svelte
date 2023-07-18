@@ -1,12 +1,11 @@
 <script lang="ts">
-	import '../app.scss';
+	import '../../app.scss';
 	import { setContext } from "svelte";
-	import Header from '../lib/Header.svelte';
-	import { COMPONENT_STORE_NAME, ORG_STORE_NAME, USER_STORE_NAME, componentStore, organizationStore, userStore } from '$lib/stores';
+	import Header from '../../lib/Header.svelte';
+	import { ORG_STORE_NAME, USER_STORE_NAME, organizationStore, userStore } from '$lib/stores';
 
 	setContext(USER_STORE_NAME, userStore);
 	setContext(ORG_STORE_NAME, organizationStore);
-	setContext(COMPONENT_STORE_NAME, componentStore);
 </script>
 
 <div class="app-container">

@@ -5,7 +5,9 @@ import { HttpClient } from "../http/httpClient";
 export const ENDPOINT = {
 	organization: "organization",
 	component: "component",
-	componentType: "componentType",
+	componentType: "component-type",
+	relations: "relations",
+	relationsGraph: "relations/graph",
 	member: "member",
 	team: "team",
 	owner: "owner",
@@ -34,24 +36,24 @@ export abstract class BaseApi<T> {
 	}
 
 	abstract initializeVariables(): void;
-	public async list(): Promise<T[]> {
-		const resp = await this.httpClient.fetchGET();
+	public async list(queryParams?: FetchBody): Promise<T[]> {
+		const resp = await this.httpClient.fetchGET("/", queryParams);
 		return resp.json() as Promise<T[]>;
 	}
-	public async get(name: string): Promise<T> {
-		const resp = await this.httpClient.fetchGET(name);
+	public async get(publicId: string): Promise<T> {
+		const resp = await this.httpClient.fetchGET(publicId);
 		return resp.json() as Promise<T>;
 	}
 	public async create(data?: FetchBody): Promise<T> {
 		const resp = await this.httpClient.fetchPOST("", undefined, data);
 		return resp.json() as Promise<T>;
 	}
-	public async update(name: string, data: FetchBody): Promise<T> {
-		const resp = await this.httpClient.fetchPATCH(name, undefined, data);
+	public async update(publicId: string, data: FetchBody): Promise<T> {
+		const resp = await this.httpClient.fetchPATCH(publicId, undefined, data);
 		return resp.json() as Promise<T>;
 	}
-	public async delete(name: string): Promise<void> {
-		await this.httpClient.fetchDELETE(name);
+	public async delete(publicId: string): Promise<void> {
+		await this.httpClient.fetchDELETE(publicId);
 		return;
 	}
 }

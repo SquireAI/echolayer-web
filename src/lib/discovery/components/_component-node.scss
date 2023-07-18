@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.component__node {
+	$self: &;
+	@apply bg-transparent;
+	@apply flex;
+	@apply w-full;
+	@apply h-full;
+	@apply relative;
+	&--inner {
+		@apply flex;
+		@apply flex-col;
+		@apply bg-white;
+		@apply rounded-[4px];
+		width: 100%;
+		background-clip: border-box;
+		box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.2);
+		.component__info {
+			@apply flex;
+			@apply flex-col;
+			@apply p-2;
+			@apply gap-y-2;
+			&--icon {
+				@apply w-7;
+				@apply h-7;
+				@apply rounded-sm;
+				@apply flex;
+				@apply items-center;
+				@apply justify-center;
+				&.component__icon--fill {
+					@apply bg-echolayer-blue-100;
+				}
+			}
+			&--name {
+				> p {
+					@apply leading-4;
+					@apply text-base;
+					@apply whitespace-nowrap;
+					@apply text-ellipsis;
+					@apply overflow-hidden;
+				}
+			}
+		}
+		.component__members {
+			@apply flex;
+			@apply h-full;
+			@apply items-center;
+			@apply p-2;
+			&--count {
+				@apply flex;
+				@apply items-center;
+				@apply gap-x-2;
+			}
+			&--avatars {
+				@apply ml-auto;
+				@apply text-xs;
+			}
+
+			.avatar {
+				@apply h-7;
+				@apply w-7;
+				@apply rounded-[28px];
+				@apply bg-neutral-400;
+				@apply border-2;
+				@apply border-neutral-300;
+				@apply -ml-2;
+				@apply flex;
+				@apply items-center;
+				@apply justify-center;
+				// TODO: fix the font issue so we can inherit this from the base styles
+				font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+				&:first-of-type {
+					@apply ml-0;
+				}
+				&__list {
+					@apply flex;
+				}
+			}
+		}
+		&-wrapper {
+			@apply rounded-[4px];
+			@apply bg-white;
+			&.component__info--wrapper {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			#{ $self }--selected & {
+				@apply bg-echolayer-blue-100/[0.2];
+			}
+			&.component__members--wrapper {
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+		}
+	}
+
+	&.component__entity {
+		.component__members {
+			@apply pt-0;
+		}
+		&#{ $self }--selected {
+			.component__members {
+				@apply text-black;
+			}
+		}
+	}
+	.input__anchor {
+		@apply absolute;
+		@apply -top-2;
+		left: 50%;
+	}
+	.output__anchor {
+		@apply absolute;
+		@apply -bottom-2;
+		left: calc(50% - 8px);
+	}
+}

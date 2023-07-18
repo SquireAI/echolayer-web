@@ -1,10 +1,10 @@
 import { writable } from "svelte/store";
 import { browser } from "$app/environment";
-import type { User, UserEntity, UserStore } from "../types";
+import type { User, StoreUserEntity, UserStore } from "../types";
 
 export const USER_STORE_NAME = "user";
 
-let initialValue: UserEntity;
+let initialValue: StoreUserEntity;
 const storageValue: string | undefined = browser ? localStorage.getItem(USER_STORE_NAME) ?? undefined : undefined;
 if (browser && storageValue) {
 	initialValue = JSON.parse(storageValue)
@@ -13,10 +13,11 @@ if (browser && storageValue) {
 }
 
 const createUserStore = (): UserStore => {
-	const { set, update, subscribe } = writable<UserEntity>(initialValue);
+	const { set, update, subscribe } = writable<StoreUserEntity>(initialValue);
 	return {
 		update,
 		subscribe,
+		set,
 		setUser: (entity: User) => set({ loading: false, error: false, entity }),
 		updateUser: (entity: User) => update((existing) => ({ ...existing, ...entity })),
 		clear: () => set({ loading: false, error: false, entity: undefined }),

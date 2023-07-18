@@ -1,9 +1,20 @@
-import type { Updater, Writable } from "svelte/store";
+import type { ComponentType } from "svelte";
+import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
-export type Member = {
-	id: number;
+export interface BaseEntity {
+	publicId: string;
 	name: string;
+	metadata: any;
+	type: "team" | "component" | "member";
+}
+
+export interface Member extends BaseEntity {
+	email: string;
 };
+
+export interface TeamEntity extends BaseEntity {
+	members: Member[];
+}
 
 export type Organization = {
 	id: number;
@@ -17,17 +28,48 @@ export type Organization = {
 
 export type Issue = {
 	id: number;
-	orgainzationId: number;
+	organizationId: number;
 	description: string;
 	resolved: boolean;
 };
 
-export type Component = {
-	id: number;
+export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
-	name: string;
-	metadata: any;
 };
+
+export const EntityRelationshipNames = {
+	OWNER_OF: "ownerOf",
+	OWNED_BY: "ownedBy",
+	COMPONENT_OF: "componentOf",
+	HAS_COMPONENT: "hasComponent",
+	MEMBER_OF: "memberOf",
+	HAS_MEMBER: "hasMember",
+} as const;
+
+export type RelationType = typeof EntityRelationshipNames[keyof typeof EntityRelationshipNames];
+
+export interface RelationEntity {
+	publicId: string;
+	source: BaseEntity;
+	target: BaseEntity;
+	relationshipName: RelationType;
+}
+
+export type EntityRelationship = {
+	publicId: string;
+	sourcePublicId: string;
+	targetPublicId: string;
+	depth: number;
+	relationshipName: RelationType;
+}
+
+export interface RelationGraphEntity {
+	publicId: string;
+	sourcePublicId: string;
+	targetPublicId: string;
+	relationshipName: RelationType;
+	depth: number;
+}
 
 export type User = {
 	id: number;
@@ -44,39 +86,84 @@ export type AccessToken = {
 
 export type CreatedAccessToken = AccessToken & { token: string };
 
-interface BaseEntity<T> {
+interface BaseStoreEntity<T> {
 	loading: boolean;
 	error: boolean;
 	entity?: T
 }
 
-export interface UserEntity extends BaseEntity<User> {};
-export interface OrganizationEntity extends BaseEntity<Organization> {};
-export interface ComponentEntity extends BaseEntity<Component[]> {};
+export interface StoreUserEntity extends BaseStoreEntity<User> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {
+	selected?: ComponentEntity;
+};
 
-interface BaseStore<T, U extends BaseEntity<T>> {
-	subscribe: Writable<U>["subscribe"];
+export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
+
+interface BaseStore<T, U extends BaseStoreEntity<T>> {
+	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
 	update: (this: void, updater: Updater<U>) => void;
+	set: (this: void, value: U) => void;
 	clear: () => void;
 	setLoading: (isLoading: boolean) => void;
 	setError: (isError: boolean) => void;
 }
 
-export interface UserStore extends BaseStore<User, UserEntity> {
+export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	setUser: (user: User) => void;
 	updateUser: (user: User) => void;
 }
 
-export interface OrganizationStore extends BaseStore<Organization, OrganizationEntity> {
+export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
 }
 
-export interface ComponentStore extends BaseStore<Component[], ComponentEntity> {
-	setComponents: (components: Component[]) => void;
+export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
+	setComponents: (components: ComponentEntity[]) => void;
+	setOrigin: (origin: ComponentEntity) => void;
+	origin: Readable<ComponentEntity | undefined>;
+}
+
+export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
+	setEntityRelationships: (entityRelationships: RelationGraphEntity[]) => void;
 }
 
 export type OrgAndUserData = {
 	user: User;
 	org: Organization;
 }
+
+export type OriginAndComponentData = {
+	origin?: ComponentEntity;
+	teams?: TeamEntity[];
+	components?: ComponentEntity[];
+	relations?: RelationGraphEntity[];
+}
+export const AnchorConnectionTypes = {
+	INPUT: "INPUT",
+	OUTPUT: "OUTPUT"
+};
+
+export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof AnchorConnectionTypes];
+
+export type AnchorConnectionTuple = [string, string];
+
+export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
+
+export type NodeCoordinates = {
+	x: number;
+	y: number;
+};
+
+export type NodeMetadata = {
+	origin: NodeCoordinates;
+	nodeType: ComponentType;
+	node: BaseEntity;
+	inputConnections: AnchorConnectionTuple[];
+	outputConnections: AnchorConnectionTuple[];
+};
+
+type NodeMetadataTuple = [string, NodeMetadata];
+
+export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
