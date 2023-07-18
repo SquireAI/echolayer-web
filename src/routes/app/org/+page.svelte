@@ -26,6 +26,10 @@
 	$: hasIssues = data.issues.length > 0;
 </script>
 
+<svelte:head>
+	<title>Dashboard | EchoLayer</title>
+</svelte:head>
+
 <div class="flex content-center items-center flex-col h-full pt-9">
 	<div class="flex flex-col lg:flex-row gap-y-6 w-full h-full lg:divide-x-2 lg:divide-y-0 divide-y-2 text-neutral-900">
 		<div class="flex flex-col lg:w-1/4 w-full">

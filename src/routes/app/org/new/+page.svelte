@@ -26,6 +26,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>New organization | EchoLayer</title>
+</svelte:head>
+
 <div class="flex content-center justify-center items-center flex-col h-full">
 	<div class="flex flex-col gap-y-12 items-center w-96">
 		<SetupOrg />

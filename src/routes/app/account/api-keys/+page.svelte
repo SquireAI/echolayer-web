@@ -80,6 +80,10 @@
 	$: sortedAccessTokens = readOnlyAccessTokens.sort(sortDates);
 </script>
 
+<svelte:head>
+	<title>API keys | EchoLayer</title>
+</svelte:head>
+
 <div class="flex content-center items-center flex-col h-full pt-9">
 	<div class="flex flex-col gap-y-6 items-center w-full">
 		<h2>Settings</h2>
@@ -92,7 +96,7 @@
 		<div class="flex w-full">
 			<div class="flex flex-col sm:w-full lg:w-2/3">
 				<p>You can use this section to generate API Keys to use our API.</p>
-				<p>Learn how to use the EchoLayer API in our <a href="https://www.echolayer.com" class="underline">documentation.</a></p>
+				<p>Learn how to use the EchoLayer API in our <a href="https://codexbuild.notion.site/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4" target="_blank" class="underline">documentation.</a></p>
 			</div>
 		</div>
 		<div class="flex flex-col w-full">

@@ -10,6 +10,10 @@
 	$: displayErrorMessage = (errorMessage && isErrorMessageType(errorMessage) ? getErrorMessage(errorMessage) : displayErrorMessage);
 </script>
 
+<svelte:head>
+	<title>Error | EchoLayer</title>
+</svelte:head>
+
 <div class="grid h-full place-content-center">
 	<div class="flex flex-col items-center gap-y-4">
 		<Error404 />

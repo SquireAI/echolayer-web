@@ -5,6 +5,10 @@
 	let flowPath = ""
 </script>
 
+<svelte:head>
+	<title>Sign-In | EchoLayer</title>
+</svelte:head>
+
 <div class="flex content-center justify-center items-center flex-col h-full">
 	<div class="flex flex-col gap-y-6 items-center">
 		<h1>Welcome back.</h1>

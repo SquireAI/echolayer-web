@@ -25,6 +25,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Signing-In | EchoLayer</title>
+</svelte:head>
+
 {#if $orgStore.loading}
 	<p>Loading...</p>
 {:else if $orgStore.error }
