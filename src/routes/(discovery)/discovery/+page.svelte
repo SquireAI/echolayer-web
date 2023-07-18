@@ -3,19 +3,13 @@
 	import Canvas from "$lib/discovery/canvas.svelte";
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
-    import type {OriginAndComponentData, ComponentStore} from "$lib/types";
-    import {getContext} from "svelte";
+    import type {OriginAndComponentData} from "$lib/types";
 
     export let data: OriginAndComponentData;
-
-    // Add origin to store
-    let componentStore: ComponentStore;
-    componentStore = getContext("component") as ComponentStore;
-    if (data.origin) componentStore.setOrigin(data.origin);
 </script>
 
 <Panels>
-    <div slot="nav">NAV</div>
+    <div slot="nav"></div>
     <div class="content" slot="content">
         <PanelsHeader title="Content" />
         <Canvas />

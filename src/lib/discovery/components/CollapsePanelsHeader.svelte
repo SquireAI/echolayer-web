@@ -15,10 +15,6 @@
 		@apply leading-8;
 		@apply border-b border-neutral-300;
 		@apply flex flex-row;
-
-		h3 {
-			text-align: left;
-		}
 	}
 </style>
 
