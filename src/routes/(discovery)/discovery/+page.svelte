@@ -5,7 +5,7 @@
     import Details from "$lib/discovery/details.svelte";
     import type {OriginAndComponentData, ComponentStore} from "$lib/types";
     import {getContext} from "svelte";
-	import Navigation from "$lib/components/Navigation.svelte";
+	import Navigation from "$lib/components/navigation/Navigation.svelte";
 
     export let data: OriginAndComponentData;
 
