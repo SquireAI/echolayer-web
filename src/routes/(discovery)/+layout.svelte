@@ -6,9 +6,6 @@
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(ORIGIN_COMPONENT_STORE_NAME, originComponentStore);
-
-	componentStore.subscribe((val) => console.log("componentStore", val));
-	originComponentStore.subscribe((val) => console.log("originComponentStore", val));
 </script>
 
 <div class="app-container">

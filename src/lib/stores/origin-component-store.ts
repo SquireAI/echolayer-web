@@ -7,18 +7,18 @@ export const ORIGIN_COMPONENT_STORE_NAME = "origin-component";
 const initialValue = { loading: false, error: false, entity: undefined };
 const originComponentStore = writable<StoreOriginComponentEntity>(initialValue);
 
-const derivedOriginComponentStore: Readable<ComponentEntity | undefined> = derived(
+const derivedOriginComponentStore: Readable<StoreOriginComponentEntity> = derived(
 	[originComponentStore, ComponentStore],
 	([$originComponentStore, $ComponentStore]) => {
-		if (!$originComponentStore.entity || !$ComponentStore.entity) return undefined;
+		if (!$originComponentStore.entity || !$ComponentStore.entity) return initialValue;
 		const derivedComponent: ComponentEntity | undefined = $ComponentStore.entity.find((component: ComponentEntity) => {
-			return Number(component.publicId) === Number($originComponentStore?.entity?.publicId);
+			return component.publicId === $originComponentStore?.entity?.publicId;
 		});
 
 		return {
 			...initialValue,
-			...derivedComponent,
-		};
+			entity: derivedComponent,
+		}
 	});
 
 const { set, update } = originComponentStore;

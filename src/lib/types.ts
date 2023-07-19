@@ -122,8 +122,7 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	setComponents: (components: ComponentEntity[]) => void;
 }
 
-export interface OriginComponentStore extends Omit<BaseStore<ComponentEntity, StoreOriginComponentEntity>, 'subscribe'> {
-	subscribe: (this: void, run: Subscriber<ComponentEntity | undefined>) => Unsubscriber;
+export interface OriginComponentStore extends BaseStore<ComponentEntity, StoreOriginComponentEntity> {
 	setComponent: (component: ComponentEntity) => void;
 }
 
