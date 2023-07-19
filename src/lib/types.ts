@@ -100,6 +100,8 @@ export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]>
 
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 
+export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
+
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
 	update: (this: void, updater: Updater<U>) => void;
@@ -129,13 +131,17 @@ export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[]
 	setEntityRelationships: (entityRelationships: RelationGraphEntity[]) => void;
 }
 
+export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
+	setTeams: (teams: TeamEntity[]) => void;
+};
+
 export type OrgAndUserData = {
 	user: User;
 	org: Organization;
 }
 
 export type OriginAndComponentData = {
-	origin?: ComponentEntity;
+	origin?: BaseEntity;
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
