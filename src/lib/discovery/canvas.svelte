@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { Background, Svelvet } from "svelvet";
-	import { data } from "./sample-data";
 	import { layout } from "./layout";
-	import type { BaseEntity, LeveledNodeLayout } from "$lib/types";
+	import type { BaseEntity, ComponentEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 
-	const nodes: BaseEntity[]  = [...data.components, ...data.teams]
-	const nodesByRow: LeveledNodeLayout = layout(nodes, data.relations, "teamteam");
+	export let components: ComponentEntity[] = [];
+	export let teams: TeamEntity[] = [];
+	export let relations: RelationGraphEntity[] = [];
+
+	const nodes: BaseEntity[]  = [...components, ...teams];
+	const nodesByRow: LeveledNodeLayout = layout(nodes, relations, "teamteam");
 </script>
 
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">

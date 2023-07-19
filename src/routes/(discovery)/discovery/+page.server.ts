@@ -1,4 +1,4 @@
-import type { ComponentEntity, OriginAndComponentData, RelationGraphEntity} from "$lib/types";
+import type { BaseEntity, OriginAndComponentData, RelationGraphEntity} from "$lib/types";
 import type { PageServerLoad } from "./$types";
 import { getHttpContext } from "$lib/http/context";
 import { ComponentApi } from "$lib/api/component";
@@ -18,11 +18,11 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
     const originId: string | null = url.searchParams.get('origin');
 
     let relations: RelationGraphEntity[] = [];
-    let origin: ComponentEntity | undefined;
+    let origin: BaseEntity | undefined;
 
     if(originId) {
         // Find component with ID
-        const origin = components.find(component => component.publicId === originId);
+        const origin = [...components, ...teams].find(component => component.publicId === originId);
     
         if(origin) {
             relations = await graphApi.list({ sourceId: origin?.publicId, direction: "downstream" });

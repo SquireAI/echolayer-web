@@ -1,6 +1,8 @@
 import type { RelationGraphEntity, EntityRelationshipStore, StoreEntityRelationship } from "$lib/types";
 import { writable } from "svelte/store";
 
+export const RELATIONS_GRAPH_STORE_NAME = "relations-graph";
+
 let initialStoreValue: StoreEntityRelationship = { loading: false, error: false };
 
 const createEntityRelationshipStore = (): EntityRelationshipStore => {
