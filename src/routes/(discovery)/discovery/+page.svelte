@@ -5,6 +5,7 @@
     import Details from "$lib/discovery/details.svelte";
     import type {OriginAndComponentData, ComponentStore} from "$lib/types";
     import {getContext} from "svelte";
+	import Navigation from "$lib/components/Navigation.svelte";
 
     export let data: OriginAndComponentData;
 
@@ -15,7 +16,7 @@
 </script>
 
 <Panels>
-    <div slot="nav">NAV</div>
+    <Navigation slot="nav" />
     <div class="content" slot="content">
         <PanelsHeader title="Content" />
         <Canvas />
