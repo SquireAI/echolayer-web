@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../components/component-node";
+@import "../../discovery/components/component-node";
 
 h1 {
   @apply text-5xl font-light;

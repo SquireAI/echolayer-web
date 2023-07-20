@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '$lib/discovery/styles/discovery.scss';
 	import { setContext } from 'svelte';
 	import {
 		COMPONENT_STORE_NAME,
@@ -13,6 +12,7 @@
 		userStore,
 		teamStore
 	} from '$lib/stores';
+    import DiscoveryLayout from "$lib/layouts/discovery/DiscoveryLayout.svelte";
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
@@ -21,6 +21,6 @@
 	setContext(ORG_STORE_NAME, organizationStore);
 </script>
 
-<div class="app-container">
-	<slot />
-</div>
+<DiscoveryLayout>
+    <slot />
+</DiscoveryLayout>

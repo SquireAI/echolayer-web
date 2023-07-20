@@ -42,7 +42,7 @@
     <div class="content" slot="content">
         <PanelsHeader title="Content" />
         {#if $origin}
-            <Canvas 
+            <Canvas
                 components={$componentStore.entity}
                 relations={$relationsStore.entity}
                 teams={$teamStore.entity}
