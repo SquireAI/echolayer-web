@@ -2,6 +2,7 @@
     import DetailsTitle from "$lib/discovery/components/details/DetailsTitle.svelte";
     import DetailsList from "$lib/discovery/components/details/DetailsList.svelte";
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
+    import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
 
     // Panel controls
     export let open = true;
@@ -18,15 +19,24 @@
 </script>
 
 <style lang="scss">
-  .details {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
+  .details-panel {
+    @apply w-1/2 h-full top-0;
+    @apply flex flex-col absolute;
     left: calc(100% - 110px);
     transition: left 0.1s ease-in-out;
+
+    .header {
+      @apply border-l;
+      @apply border-neutral-300;
+    }
+
+    .content {
+      @apply flex-1 flex flex-col;
+      @apply bg-white;
+      @apply border-l;
+      @apply border-neutral-300;
+      @apply invisible;
+    }
 
     &.open {
       left: 50%;
@@ -35,31 +45,19 @@
         @apply visible;
       }
     }
-
-    .header {
-      @apply border-l;
-      @apply border-neutral-300;
-    }
-
-    .content {
-      @apply flex-1;
-      @apply bg-white;
-      @apply border-l;
-      @apply border-neutral-300;
-      @apply divide-neutral-200 divide-solid divide-y;
-      @apply invisible;
-    }
   }
 </style>
 
-<div class="details" class:open={open}>
+<div class="details-panel" class:open={open}>
     <div class="header">
         <CollapsePanelsHeader title="Details" bind:open={open} />
     </div>
 
-    <div class="content">
+    <div class="content divide-neutral-200 divide-solid divide-y">
         <DetailsTitle></DetailsTitle>
 
         <DetailsList properties={properties} />
     </div>
+
+    <SetOriginButton bind:open={open} />
 </div>
