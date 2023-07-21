@@ -12,7 +12,6 @@ export type ApiKeysPageServerData = Pick<httpContext, "baseHeaders" | "baseUrl">
 }
 
 export const load = (async ({ cookies, fetch, parent }): Promise<ApiKeysPageServerData> => {
-	await parent();
 	const context = getHttpContext(fetch, cookies);
 
 	let accessTokens: AccessToken[] = [];

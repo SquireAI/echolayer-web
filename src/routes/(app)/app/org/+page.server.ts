@@ -1,26 +1,31 @@
 import { OrganizationApi } from "$lib/api/organization";
 import { UserApi } from "$lib/api/user.js";
 import { getHttpContext } from "$lib/http/context.js";
-import type { Component, Issue, Organization, User } from "$lib/types";
+import type { ComponentEntity, Issue, Organization, User } from "$lib/types";
 import { error, type HttpError } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { ErrorMessageTypes } from "$lib/error";
 import { ComponentApi } from "$lib/api/component";
 import { IssueApi } from "$lib/api/issue";
+import {orgRequired} from "$lib/utils/access";
 
 export type OrgDetailsPageData = {
 	user: User;
 	org: Organization;
 	issues: Issue[];
-	components: Component[];
+	components: ComponentEntity[];
 }
 
 export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> => {
 	try {
 		const context = getHttpContext(fetch, cookies);
+
+		// Check if user has an organization
+		const org = await orgRequired(context);
+
 		let user: User | undefined;
 		let orgs: Organization[] | undefined;
-		let components: Component[] | undefined;
+		let components: ComponentEntity[] | undefined;
 		let issues: Issue[] | undefined;
 		try {
 			user = await new UserApi(context).get("");
@@ -35,7 +40,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 				throw error(404, { message: ErrorMessageTypes.GENERIC });
 			}
 		}
-	} catch (error) {
-		console.log(error);
+	} catch (err) {
+		console.log(err);
 	}
 }) satisfies PageServerLoad;

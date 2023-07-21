@@ -8,7 +8,6 @@ export type OrgNewPageData = {
 }
 
 export const load = (async ({ parent, fetch, data }) => {
-	await parent();
 	// we're getting the xsrf header from the parent (page.server.ts) since we don't have access to cookies here
 	const { baseHeaders, baseUrl } = data;
 	async function createOrgHandler(orgName: string): Promise<Organization> {

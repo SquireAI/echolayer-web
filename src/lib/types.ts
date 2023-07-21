@@ -10,7 +10,7 @@ export interface BaseEntity {
 
 export interface Member extends BaseEntity {
 	email: string;
-};
+}
 
 export interface TeamEntity extends BaseEntity {
 	members: Member[];
@@ -95,10 +95,8 @@ interface BaseStoreEntity<T> {
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
 export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
-export interface StoreOriginComponentEntity extends BaseStoreEntity<ComponentEntity> {};
-
+export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
-
 export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
@@ -124,8 +122,8 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	setComponents: (components: ComponentEntity[]) => void;
 }
 
-export interface OriginComponentStore extends BaseStore<ComponentEntity, StoreOriginComponentEntity> {
-	setComponent: (component: ComponentEntity) => void;
+export interface OriginStore extends BaseStore<BaseEntity, StoreOriginEntity> {
+	setEntity: (entity: BaseEntity) => void;
 }
 
 export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
@@ -134,7 +132,7 @@ export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[]
 
 export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
 	setTeams: (teams: TeamEntity[]) => void;
-};
+}
 
 export type OrgAndUserData = {
 	user: User;

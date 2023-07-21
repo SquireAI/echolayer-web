@@ -8,8 +8,7 @@ import { UserApi } from '$lib/api/user.js';
 import { ErrorMessageTypes } from '$lib/error/index.js';
 import type { Organization, User } from '$lib/types';
 
-export const load = (async ({ parent, cookies, fetch, url }) => {
-	const _ = await parent();
+export const load = (async ({ cookies, fetch, url }) => {
 	const code = url.searchParams.get("code");
 	let org: Organization | undefined;
 	let user: User | undefined;

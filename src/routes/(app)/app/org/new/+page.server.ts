@@ -9,6 +9,7 @@ import { ErrorMessageTypes } from "$lib/error";
 export const load = (async ({ cookies, fetch }): Promise<Pick<httpContext, "baseHeaders" | "baseUrl"> | undefined> => {
 	let orgs: Organization[] = [];
 	const context = getHttpContext(fetch, cookies);
+
 	try {
 		orgs = await new OrganizationApi(context).list();
 		if (orgs.length > 0) {
