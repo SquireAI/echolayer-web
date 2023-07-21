@@ -6,6 +6,7 @@ import {error, HttpError, redirect} from "@sveltejs/kit";
 import {ErrorMessageTypes} from "$lib/error";
 import type {httpContext} from "$lib/http/context";
 
+// User authentication required
 export const authRequired = async (context: httpContext): Promise<boolean> => {
     // Check if user is authenticated
     try {
@@ -16,6 +17,7 @@ export const authRequired = async (context: httpContext): Promise<boolean> => {
     return true;
 };
 
+// Organization required
 export const orgRequired = async (context: httpContext):Promise<Organization> => {
     let orgs: Organization[] = [];
     try {
@@ -31,4 +33,9 @@ export const orgRequired = async (context: httpContext):Promise<Organization> =>
     // Redirect to create a new org if none exist
     if (orgs.length < 1) throw redirect(307, CREATE_ORG_PATH);
     return orgs[0];
+};
+
+// Flag required
+export const flagRequired = (envVariable: string | null = null, redirectPath: string | null = null): void => {
+    if (!envVariable || envVariable !== "true") throw redirect(307, redirectPath || INVALIDATED_SIGN_IN_PATH);
 };

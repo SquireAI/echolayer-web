@@ -1,10 +1,12 @@
 import { getHttpContext, type httpContext } from "$lib/http/context";
 import type { LayoutServerLoad } from "./$types";
-import {authRequired, orgRequired} from "$lib/utils/access";
+import {authRequired, flagRequired, orgRequired} from "$lib/utils/access";
+import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
 
+export const load = (async ({ fetch, cookies }) => {
 
-export const load = (async ({ fetch, cookies, parent }) => {
-	await parent();
+	// Check if flag enabled
+	flagRequired(PUBLIC_DISCOVERY_ENABLED);
 
 	// Get tokens from cookies
 	const context: httpContext = getHttpContext(fetch, cookies);
