@@ -8,28 +8,18 @@
 	const onToggle = () => open = !open;
 </script>
 
-<style lang="scss">
-	.panel-header {
-		@apply flex items-center;
-		@apply px-4 py-4;
-		@apply leading-8;
-		@apply border-b border-neutral-300;
-		@apply flex flex-row;
-	}
-</style>
-
 <PanelsHeader title={title}>
-	<span slot="left-action">
+	<span slot="left-action" class="flex">
 	{#if open}
 		<Text />
 	{:else}
-		<span class="cursor-pointer" on:click={() => onToggle()}>
+		<button class="cursor-pointer" on:click={() => onToggle()}>
 			<ArrowCollapseLeft />
-		</span>
+		</button>
 	{/if}
 	</span>
 
-	<span slot="right-action" class="cursor-pointer" on:click={() => onToggle()}>
+	<button slot="right-action" class="cursor-pointer" on:click={() => onToggle()}>
 		<ArrowCollapseRight />
-	</span>
+	</button>
 </PanelsHeader>

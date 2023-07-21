@@ -1,4 +1,3 @@
-import type { RedirectPath } from "./paths";
 import {AuthApi} from "$lib/api/auth";
 import {CREATE_ORG_PATH, INVALIDATED_SIGN_IN_PATH} from "./paths";
 import type {Organization} from "$lib/types";
@@ -7,18 +6,20 @@ import {error, HttpError, redirect} from "@sveltejs/kit";
 import {ErrorMessageTypes} from "$lib/error";
 import type {httpContext} from "$lib/http/context";
 
-export const authRequired = async (context: httpContext) => {
+export const authRequired = async (context: httpContext): Promise<boolean> => {
     // Check if user is authenticated
     try {
         await new AuthApi(context).checkAuth();
     } catch (err) {
         throw redirect(307, INVALIDATED_SIGN_IN_PATH);
     }
+    return true;
+};
 
-    // Check if user has any organizations
+export const orgRequired = async (context: httpContext):Promise<Organization> => {
     let orgs: Organization[] = [];
     try {
-        orgs = orgs.concat(await new OrganizationApi(context).list());
+        orgs = orgs.concat(await new OrganizationApi(context).list())
     } catch (err) {
         if ((err as HttpError).status === 401) {
             throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
@@ -27,9 +28,7 @@ export const authRequired = async (context: httpContext) => {
         }
     }
 
+    // Redirect to create a new org if none exist
     if (orgs.length < 1) throw redirect(307, CREATE_ORG_PATH);
-
-    return {
-        orgs
-    }
+    return orgs[0];
 };

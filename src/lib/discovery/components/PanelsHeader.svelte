@@ -9,6 +9,7 @@
 		@apply leading-8;
 		@apply border-b border-neutral-300;
 		@apply flex flex-row;
+		@apply bg-white;
 	}
 </style>
 

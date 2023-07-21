@@ -7,6 +7,7 @@ import type { PageServerLoad } from "./$types";
 import { ErrorMessageTypes } from "$lib/error";
 import { ComponentApi } from "$lib/api/component";
 import { IssueApi } from "$lib/api/issue";
+import {orgRequired} from "$lib/utils/access";
 
 export type OrgDetailsPageData = {
 	user: User;
@@ -18,6 +19,10 @@ export type OrgDetailsPageData = {
 export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> => {
 	try {
 		const context = getHttpContext(fetch, cookies);
+
+		// Check if user has an organization
+		const org = await orgRequired(context);
+
 		let user: User | undefined;
 		let orgs: Organization[] | undefined;
 		let components: Component[] | undefined;
@@ -35,7 +40,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 				throw error(404, { message: ErrorMessageTypes.GENERIC });
 			}
 		}
-	} catch (error) {
-		console.log(error);
+	} catch (err) {
+		console.log(err);
 	}
 }) satisfies PageServerLoad;

@@ -3,16 +3,24 @@
 	import Canvas from "$lib/discovery/canvas.svelte";
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
-    import type {OriginAndComponentData, ComponentStore, EntityRelationshipStore, TeamStore} from "$lib/types";
+    import type {
+        OriginAndComponentData,
+        ComponentStore,
+        EntityRelationshipStore,
+        TeamStore,
+        OriginStore
+    } from "$lib/types";
     import {getContext} from "svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
-	import { COMPONENT_STORE_NAME, RELATIONS_GRAPH_STORE_NAME, TEAM_STORE_NAME } from "$lib/stores";
+    import {COMPONENT_STORE_NAME, ORIGIN_STORE_NAME, RELATIONS_GRAPH_STORE_NAME, TEAM_STORE_NAME} from "$lib/stores";
+    import EntityRelationsStore from "$lib/stores/entity-relations-store";
 
     export let data: OriginAndComponentData;
 
     let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-    let relationsStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
-    let teamStore = getContext(TEAM_STORE_NAME) as TeamStore;
+    let relationsStore: EntityRelationsStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
+    let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
+    let originStore: OriginStore = getContext(ORIGIN_STORE_NAME) as OriginStore;
 
     if(data.components) {
         componentStore.setComponents(data.components);
