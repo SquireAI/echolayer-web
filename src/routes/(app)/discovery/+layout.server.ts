@@ -4,7 +4,6 @@ import {authRequired, flagRequired, orgRequired} from "$lib/utils/access";
 import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
 
 export const load = (async ({ fetch, cookies }) => {
-
 	// Check if flag enabled
 	flagRequired(PUBLIC_DISCOVERY_ENABLED);
 
@@ -12,7 +11,7 @@ export const load = (async ({ fetch, cookies }) => {
 	const context: httpContext = getHttpContext(fetch, cookies);
 
 	// Check if user is authenticated
-	const user = await authRequired(context);
+	await authRequired(context);
 
 	// Check if user has an organization
 	const org = await orgRequired(context);

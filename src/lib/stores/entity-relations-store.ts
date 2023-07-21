@@ -3,7 +3,7 @@ import { writable } from "svelte/store";
 
 export const RELATIONS_GRAPH_STORE_NAME = "relations-graph";
 
-let initialStoreValue: StoreEntityRelationship = { loading: false, error: false };
+const initialStoreValue: StoreEntityRelationship = { loading: false, error: false };
 
 const createEntityRelationshipStore = (): EntityRelationshipStore => {
 	const { set, update, subscribe } = writable<StoreEntityRelationship>(initialStoreValue);

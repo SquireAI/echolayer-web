@@ -8,7 +8,7 @@ export const load = (async ({ fetch, cookies }) => {
 	const context: httpContext = getHttpContext(fetch, cookies);
 
 	// Check if user is authenticated
-	const authedUser = await authRequired(context);
+	await authRequired(context);
 
 	return {
 		baseHeaders: context.baseHeaders,

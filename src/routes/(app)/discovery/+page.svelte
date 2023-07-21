@@ -13,12 +13,11 @@
     import {getContext} from "svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
     import {COMPONENT_STORE_NAME, ORIGIN_STORE_NAME, RELATIONS_GRAPH_STORE_NAME, TEAM_STORE_NAME} from "$lib/stores";
-    import EntityRelationsStore from "$lib/stores/entity-relations-store";
 
     export let data: OriginAndComponentData;
 
     let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-    let relationsStore: EntityRelationsStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
+    let relationStore: EntityRelationshipStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
     let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
     let originStore: OriginStore = getContext(ORIGIN_STORE_NAME) as OriginStore;
 
@@ -29,7 +28,7 @@
         teamStore.setTeams(data.teams);
     }
     if(data.relations) {
-        relationsStore.setEntityRelationships(data.relations);
+        relationStore.setEntityRelationships(data.relations);
     }
     $ : {
         if(origin && !data.relations) {
@@ -52,7 +51,7 @@
         {#if $origin}
             <Canvas
                 components={$componentStore.entity}
-                relations={$relationsStore.entity}
+                relations={$relationStore.entity}
                 teams={$teamStore.entity}
             />
         {:else}
