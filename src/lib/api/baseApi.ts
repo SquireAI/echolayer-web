@@ -12,6 +12,7 @@ export const ENDPOINT = {
 	team: "team",
 	owner: "owner",
 	issue: "issue",
+	slack: "slack-client",
 	auth: "auth",
 	apiKey: "auth/api-key",
 	user: "user",

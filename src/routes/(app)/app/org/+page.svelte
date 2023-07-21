@@ -9,6 +9,8 @@
 	import type { ComponentEntity, Issue, Organization } from "$lib/types";
 	import { API_KEYS_PATH } from "$lib/utils/paths";
 	import type { OrgDetailsPageData } from "./+page.server";
+	import { SlackApi } from "$lib/api/slack";
+	import { createDefaultContext } from "$lib/http/context";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgDetailsPageData;
@@ -24,6 +26,10 @@
 
 	let hasIssues: boolean;
 	$: hasIssues = data.issues.length > 0;
+
+	const installSlack = async () => {
+		await new SlackApi(createDefaultContext()).install();
+	}
 </script>
 
 <div class="flex content-center items-center flex-col h-full pt-9">
@@ -49,6 +55,15 @@
 							<div class="flex flex-row items-center justify-start gap-2">
 								<WorldWideWeb />
 								<span class="text-lg text-inherit">Documentation</span>
+							</div>
+							<OpenNewTab />
+						</Button>
+					</div>
+					<div class="md:w-1/2 md:pl-2 md:pt-0 w-full pt-2">
+						<Button type="special" handleClick={installSlack} full class="items-center justify-between">
+							<div class="flex flex-row items-center justify-start gap-2">
+								<WorldWideWeb />
+								<span class="text-lg text-inherit">Install Slack App</span>
 							</div>
 							<OpenNewTab />
 						</Button>
