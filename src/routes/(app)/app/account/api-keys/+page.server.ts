@@ -5,7 +5,6 @@ import { getHttpContext, type httpContext } from '$lib/http/context';
 import type { AccessToken } from "$lib/types";
 import type { PageServerLoad } from './$types';
 import { error, type HttpError } from '@sveltejs/kit';
-import {orgRequired} from "$lib/utils/access";
 
 export type ApiKeysPageServerData = Pick<httpContext, "baseHeaders" | "baseUrl"> & {
 	xsrfHeader: FetchHeader;

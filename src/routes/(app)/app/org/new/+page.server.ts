@@ -5,7 +5,6 @@ import { ORGS_PATH } from "$lib/utils/paths.js";
 import { type HttpError, redirect, error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { ErrorMessageTypes } from "$lib/error";
-import {authRequired, orgRequired} from "$lib/utils/access";
 
 export const load = (async ({ cookies, fetch }): Promise<Pick<httpContext, "baseHeaders" | "baseUrl"> | undefined> => {
 	let orgs: Organization[] = [];
