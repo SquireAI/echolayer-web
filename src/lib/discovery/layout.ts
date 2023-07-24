@@ -36,8 +36,6 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
 export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], sourcePublicId: string, depth: number = 2): LeveledNodeLayout {
-	console.log(nodes);
-	console.log(sourcePublicId);
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === sourcePublicId);
 
 	if (!sourceNode) {
