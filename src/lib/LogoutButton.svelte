@@ -4,11 +4,12 @@
 	import { clearStores } from "$lib/stores";
 	import { AuthApi } from '$lib/api/auth';
 	import { createDefaultContext } from './http/context';
+	import { INVALIDATED_SIGN_IN_PATH } from './utils/paths';
 
 	async function logout() {
 		clearStores();
 		await new AuthApi(createDefaultContext()).logout();
-		await goto("/");
+		await goto(INVALIDATED_SIGN_IN_PATH);
 	}
 </script>
 
