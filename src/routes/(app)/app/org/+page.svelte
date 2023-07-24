@@ -9,9 +9,11 @@
 	import type { ComponentEntity, Issue, Organization } from "$lib/types";
 	import { API_KEYS_PATH } from "$lib/utils/paths";
 	import type { OrgDetailsPageData } from "./+page.server";
+	import Slack from 'svelte-material-icons/Slack.svelte';
+	import type { OrgDetailsPageHandlers } from "./+page";
 
 	/** @type {import('./$types').PageData} */  
-	export let data: OrgDetailsPageData;
+	export let data: OrgDetailsPageData & OrgDetailsPageHandlers;
 
 	let organization: Organization;
 	$: organization = data.org;
@@ -24,6 +26,11 @@
 
 	let hasIssues: boolean;
 	$: hasIssues = data.issues.length > 0;
+
+	const installSlack = async () => {
+		const url = await data.installSlackHandler();
+		window.open(url, "_blank");
+	}
 </script>
 
 <div class="flex content-center items-center flex-col h-full pt-9">
@@ -88,6 +95,20 @@
 						<div class={`${hasIssues ? "bg-echolayer-yellow/25": "bg-green-700/25" } py-1 pr-3 text-inherit md:text-start text-end`}>
 							{issues.length} issue{ issues.length === 1 ? "" : "s"}
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex flex-col">
+				<span class="text-xl text-inherit">Integrations</span>
+				<div class="flex md:flex-row flex-col md:my-9 my-6">
+					<div class="md:w-1/2 md:pr-2 md:pt-0 w-full pt-2">
+						<Button type="special" handleClick={installSlack} full class="items-center justify-between">
+							<div class="flex flex-row items-center justify-start gap-2">
+								<Slack size=20 />
+								<span class="text-lg text-inherit">Slack Notifications</span>
+							</div>
+							<OpenNewTab />
+						</Button>
 					</div>
 				</div>
 			</div>
