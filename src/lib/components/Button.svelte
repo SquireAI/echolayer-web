@@ -4,7 +4,7 @@
 
 	export let href: string | undefined = undefined;
 	export let full: boolean | undefined = false;
-	export let type: "button" | "primary" | "secondary" | "link" | "special" = "button";
+	export let type: "button" | "primary" | "secondary" | "link" | "special" | "flat" = "button";
 	let clazz: string = "";
 	export { clazz as class };
 	export let disabled: boolean = false;
@@ -22,6 +22,8 @@
 		buttonClasses = `${buttonClasses} bg-transparent hover:underline text-black ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	} else if (type === "special") {
 		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-3 h-12 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+	} else if (type === "flat") {
+		buttonClasses = `flex flex-row text-sm py-3 cursor-pointer font-medium bg-white text-neutral-800 rounded-sm px-3 hover:bg-neutral-200 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	}
 
 	async function clickHandler(): Promise<boolean> {

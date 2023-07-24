@@ -55,15 +55,7 @@
                 teams={$teamStore.entity}
                 origin={$originStore.entity}
             />
-        {:else}
-        <!-- TODO: Should this be a separate page? -->
-            <div>
-                NO ORIGIN SET VIEW
-            </div>
-        </div>
-        <div class="">
-            TABS COMPONENT WITH DETAILS
-        </div>
+        {/if}
     </div>
 </Panels>
 

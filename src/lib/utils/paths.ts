@@ -10,6 +10,7 @@ export const ORGS_PATH =  "/app/org";
 export const CREATE_ORG_PATH = "/app/org/new";
 export const ACCOUNT_PATH = "/app/account";
 export const API_KEYS_PATH = "/app/account/api-keys";
+export const DISCOVERY_HOME_PATH = "/discovery/home";
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
@@ -20,7 +21,13 @@ export const REDIRECT_PATHS = [
 	ORGS_PATH,
 	CREATE_ORG_PATH,
 	ACCOUNT_PATH,
-	API_KEYS_PATH
+	API_KEYS_PATH,
+	DISCOVERY_HOME_PATH
 ] as const;
 
 export type RedirectPath = typeof REDIRECT_PATHS[number];
+
+
+// External URLs
+export const NOTION_GETTING_STARTED_DOCS = "https://www.notion.so/codexbuild/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4";
+export const SUPPORT_URL = "mailto:support@echolayer.com";

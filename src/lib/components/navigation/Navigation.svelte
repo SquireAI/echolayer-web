@@ -9,6 +9,7 @@
 	import Button from '../Button.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
+	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
 
 	const userStore = getContext('user') as UserStore;
 	const orgStore = getContext('org') as OrganizationStore;
@@ -25,7 +26,7 @@
 	$: organization = $orgStore?.entity;
 </script>
 
-<div class="h-full flex flex-col justify-between bg-neutral-50">
+<div class="h-full flex flex-col justify-between bg-neutral-25">
 	<div class="p-3 flex flex-col gap-4 border-b border-solid border-neutral-200">
 		<div class="flex items-center flex-row gap-x-3 px-3">
 			<div
@@ -42,13 +43,13 @@
 		</div>
 		<div>
 			<div class="flex flex-col w-full gap-2">
-				<NavigationItem name="Home" href="/discovery" OutlineIcon={HomeOutline} SolidIcon={Home} />
-				<NavigationItem name="Settings" href="/settings" OutlineIcon={CogOutline} SolidIcon={Cog} />
+				<NavigationItem name="Home" href={DISCOVERY_HOME_PATH} OutlineIcon={HomeOutline} SolidIcon={Home} />
+				<NavigationItem name="Settings" href={API_KEYS_PATH} OutlineIcon={CogOutline} SolidIcon={Cog} />
 			</div>
 		</div>
 	</div>
 	<div class="flex flex-col items-center justify-end p-3 gap-4">
-		<Button full={true} type="special" href="mailto:support@echolayer.com" target="_blank">
+		<Button full={true} type="special" href={SUPPORT_URL} target="_blank">
 			<div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
 				<HelpCircle width={20} height={20} class={'text-echolayer-blue'} />Support
 			</div>
@@ -56,7 +57,7 @@
 		<Button
 			full={true}
 			type="special"
-			href="https://www.notion.so/codexbuild/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4"
+			href={NOTION_GETTING_STARTED_DOCS}
 			target="_blank"
 		>
 			<div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">

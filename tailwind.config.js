@@ -4,11 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        neutral: {
+          "25": "#FAFAFA",
+        },
         "echolayer": {
           "blue": {
             DEFAULT: "#2654F4",
             100: "#2654F4",
             200: "#001C7F",
+          },
+          "lightBlue": {
+            DEFAULT: "#D4DDFD",
           },
           "content": {
             DEFAULT: "#F2F2F2",
