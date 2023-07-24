@@ -26,7 +26,7 @@
 </script>
 
 <div class="h-full flex flex-col justify-between bg-neutral-50">
-	<div class="p-3 flex flex-col gap-4 border-b-[1px] border-solid border-neutral-200">
+	<div class="p-3 flex flex-col gap-4 border-b border-solid border-neutral-200">
 		<div class="flex items-center flex-row gap-x-3 px-3">
 			<div
 				class="flex items-center justify-center w-8 h-8 rounded-2xl bg-neutral-400 sm:hidden lg:flex"

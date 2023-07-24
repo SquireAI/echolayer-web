@@ -60,9 +60,11 @@
             <div>
                 NO ORIGIN SET VIEW
             </div>
-        {/if}
+        </div>
+        <div class="">
+            TABS COMPONENT WITH DETAILS
+        </div>
     </div>
-    <Details slot="details" />
 </Panels>
 
 <style lang="scss">
