@@ -7,14 +7,25 @@
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import GreenCheckIcon from "$lib/svgs/GreenCheckIcon.svg?component";
 	import type { ComponentEntity, Issue, Organization } from "$lib/types";
-	import { API_KEYS_PATH } from "$lib/utils/paths";
+	import { API_KEYS_PATH, CREATE_ORG_PATH } from "$lib/utils/paths";
 	import type { OrgDetailsPageData } from "./+page.server";
+	import Plus from "svelte-material-icons/Plus.svelte";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgDetailsPageData;
 
-	let organization: Organization;
-	$: organization = data.org;
+	let organizations: Organization[];
+	$: organizations = data.orgs;
+	
+
+	let selectedOrg: Organization;
+	$ : selectedOrg = selectedOrg ? selectedOrg : organizations[0];
+
+	const handleSelected = (org: Organization) => {
+		selectedOrg = org;
+		// TODO:
+		// Refetch components / issues data on org change
+	}
 
 
 	let components: ComponentEntity[] = [];
@@ -28,9 +39,23 @@
 
 <div class="flex content-center items-center flex-col h-full pt-9">
 	<div class="flex flex-col lg:flex-row gap-y-6 w-full h-full lg:divide-x-2 lg:divide-y-0 divide-y-2 text-neutral-900">
-		<div class="flex flex-col lg:w-1/4 w-full">
-			<span class="text-neutral-700 text-xs uppercase">Joined {new Date(organization.createdAt).getFullYear()}</span>
-			<span class="text-3xl text-inherit">{organization.name}</span>
+		<div class="flex flex-col lg:w-1/4 w-full pr-3 gap-6">
+			<div class="flex flex-col">
+				<span class="text-neutral-700 text-xs uppercase">Joined {new Date(selectedOrg.createdAt).getFullYear()}</span>
+				<span class="text-3xl text-inherit">{selectedOrg.name}</span>
+			</div>
+			<div class="py-3 flex flex-col gap-3">
+				<Button type="special" full={true} href={CREATE_ORG_PATH}>
+					<Plus width={20} height={20} class="text-echolayer-blue-100" /> <p class="leading-5">Add new org</p>
+				</Button>
+				<span class="text-neutral-700 text-xs uppercase py-2">Organizations</span>
+				{#each organizations as org (org.publicName)}
+					<Button type="link" class={org.publicName === selectedOrg.publicName ? "bg-echolayer-lightBlue text-echolayer-blue": ""} handleClick={() => handleSelected(org)}>
+						{org.name}
+					</Button>
+				{/each}
+			</div>
+
 		</div>
 		<div class="flex flex-col lg:w-3/4 lg:pl-4 lg:pt-0 gap-16 w-full pt-4">
 			<div class="flex flex-col">
@@ -68,7 +93,7 @@
 							Members
 						</div>
 						<div class="py-1 pr-3 text-inherit md:text-start text-end">
-							{organization.members.length}
+							{selectedOrg.members.length}
 						</div>
 						<div class="border-l-4 border-neutral-300 pl-3 py-1 flex flex-row items-center gap-1 text-inherit">
 							<DataIcon />

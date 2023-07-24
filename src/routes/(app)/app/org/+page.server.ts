@@ -11,7 +11,7 @@ import {orgRequired} from "$lib/utils/access";
 
 export type OrgDetailsPageData = {
 	user: User;
-	org: Organization;
+	orgs: Organization[];
 	issues: Issue[];
 	components: ComponentEntity[];
 }
@@ -32,7 +32,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 			orgs = await new OrganizationApi(context).list();
 			components = await new ComponentApi(context).list();
 			issues = await new IssueApi(context).list();
-			return { user, org: orgs[0], issues, components };
+			return { user, orgs, issues, components };
 		} catch (err) {
 			if ((err as HttpError).status === 401) {
 				throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });

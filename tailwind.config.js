@@ -10,6 +10,9 @@ export default {
             100: "#2654F4",
             200: "#001C7F",
           },
+          "lightBlue": {
+            DEFAULT: "#D4DDFD",
+          },
           "content": {
             DEFAULT: "#F2F2F2",
           },

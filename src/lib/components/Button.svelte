@@ -10,7 +10,7 @@
 	export let disabled: boolean = false;
 	export let target: HTMLAttributeAnchorTarget = "_self";
 
-	export let handleClick: () => Promise<void> = async () => {};
+	export let handleClick: () => Promise<void> | void = async () => {};
 
 	const baseButtonClassNames = "inline-flex justify-center font-medium text-sm py-3 cursor-pointer text-center rounded leading-4";
 	let buttonClasses = `${baseButtonClassNames}`;
