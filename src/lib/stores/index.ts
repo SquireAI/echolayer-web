@@ -4,6 +4,7 @@ import userStore, { USER_STORE_NAME } from "./user-store";
 import entityRelationshipStore, { RELATIONS_GRAPH_STORE_NAME } from "./entity-relations-store";
 import teamStore, { TEAM_STORE_NAME } from "./team-store";
 import originStore, { ORIGIN_STORE_NAME } from "./origin-store";
+import selectedStore, { SELECTED_STORE_NAME } from "./selected-store";
 
 export function clearStores() {
 	componentStore.clear();
@@ -12,6 +13,7 @@ export function clearStores() {
 	entityRelationshipStore.clear();
 	teamStore.clear();
 	originStore.clear();
+	selectedStore.clear();
 }
 
 export {
@@ -21,4 +23,5 @@ export {
 	RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore,
 	TEAM_STORE_NAME, teamStore,
 	ORIGIN_STORE_NAME, originStore,
+	SELECTED_STORE_NAME, selectedStore,
 };

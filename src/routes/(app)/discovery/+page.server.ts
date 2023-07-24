@@ -22,8 +22,9 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
 
     if(originId) {
         // Find component with ID
-        const origin = [...components, ...teams].find(component => component.publicId === originId);
-    
+        origin = [...components, ...teams].find(component => component.publicId === originId);
+
+
         if(origin) {
             relations = await graphApi.list({ sourcePublicId: origin?.publicId, direction: "downstream" });
         }
