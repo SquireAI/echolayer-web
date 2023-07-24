@@ -53,6 +53,7 @@
                 components={$componentStore.entity}
                 relations={$relationStore.entity}
                 teams={$teamStore.entity}
+                origin={$originStore.entity}
             />
         {:else}
         <!-- TODO: Should this be a separate page? -->
@@ -63,3 +64,9 @@
     </div>
     <Details slot="details" />
 </Panels>
+
+<style lang="scss">
+    .content {
+        height: calc(100vh - 65px);
+    }
+</style>

@@ -6,9 +6,10 @@
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
 	export let relations: RelationGraphEntity[] = [];
+	export let origin: BaseEntity;
 
 	const nodes: BaseEntity[]  = [...components, ...teams];
-	const nodesByRow: LeveledNodeLayout = layout(nodes, relations, "teamteam");
+	const nodesByRow: LeveledNodeLayout = layout(nodes, relations, origin.publicId);
 </script>
 
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">
