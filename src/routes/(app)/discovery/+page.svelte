@@ -8,11 +8,17 @@
         ComponentStore,
         EntityRelationshipStore,
         TeamStore,
-        OriginStore
+        OriginStore, SelectedStore, BaseEntity
     } from "$lib/types";
     import {getContext} from "svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
-    import {COMPONENT_STORE_NAME, ORIGIN_STORE_NAME, RELATIONS_GRAPH_STORE_NAME, TEAM_STORE_NAME} from "$lib/stores";
+    import {
+        COMPONENT_STORE_NAME,
+        ORIGIN_STORE_NAME,
+        RELATIONS_GRAPH_STORE_NAME,
+        SELECTED_STORE_NAME,
+        TEAM_STORE_NAME
+    } from "$lib/stores";
 
     export let data: OriginAndComponentData;
 
@@ -20,6 +26,7 @@
     let relationStore: EntityRelationshipStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
     let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
     let originStore: OriginStore = getContext(ORIGIN_STORE_NAME) as OriginStore;
+    let selectedStore: SelectedStore = getContext(SELECTED_STORE_NAME) as SelectedStore;
 
     if(data.components) {
         componentStore.setComponents(data.components);
@@ -27,28 +34,21 @@
     if(data.teams) {
         teamStore.setTeams(data.teams);
     }
+    if (data.origin) {
+        originStore.setEntity(data.origin);
+    }
     if(data.relations) {
         relationStore.setEntityRelationships(data.relations);
     }
-    $ : {
-        if(origin && !data.relations) {
-            // TODO: load relations when origin is set.
-        }
-    }
-    
-    if (data.origin) {
-        console.log("SET ORIGIN HERE", data.origin);
-        // componentStore.setOrigin(data.origin);
-    }
 
-    $: origin = componentStore.origin;
+    let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
 </script>
 
 <Panels>
     <Navigation slot="nav" />
     <div class="content" slot="content">
         <PanelsHeader title="Content" />
-        {#if $origin}
+        {#if $originStore.entity}
             <Canvas
                 components={$componentStore.entity}
                 relations={$relationStore.entity}
