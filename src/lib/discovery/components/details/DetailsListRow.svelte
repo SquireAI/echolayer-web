@@ -9,7 +9,7 @@
       @apply border-l-2 border-gray-200;
       @apply grid;
       @apply text-xs;
-      grid-template-columns: 1fr 2fr;
+      @apply grid-cols-1/3-2/3;
 
       &.warning {
         @apply border-echolayer-yellow;

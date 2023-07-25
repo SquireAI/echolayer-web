@@ -4,6 +4,8 @@ import { getHttpContext } from "$lib/http/context";
 import { ComponentApi } from "$lib/api/component";
 import { RelationsGraphApi } from "$lib/api/relationsGraph";
 import { TeamApi } from "$lib/api/team";
+import { redirect } from "$lib/utils/redirects";
+import { DISCOVERY_HOME_PATH } from "$lib/utils/paths";
 
 export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponentData> => {
     const context = getHttpContext(fetch, cookies);
@@ -28,6 +30,8 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
         if(origin) {
             relations = await graphApi.list({ sourcePublicId: origin?.publicId, direction: "downstream" });
         }
+    } else {
+        throw redirect(DISCOVERY_HOME_PATH);
     }
 
     return {

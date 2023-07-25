@@ -7,7 +7,7 @@
 	import WarningAmberIcon from "$lib/svgs/WarningAmberIcon.svg?component";
 	import GreenCheckIcon from "$lib/svgs/GreenCheckIcon.svg?component";
 	import type { ComponentEntity, Issue, Organization } from "$lib/types";
-	import { API_KEYS_PATH } from "$lib/utils/paths";
+	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
 	import type { OrgDetailsPageData } from "./+page.server";
 
 	/** @type {import('./$types').PageData} */  
@@ -45,7 +45,7 @@
 						</Button>
 					</div>
 					<div class="md:w-1/2 md:pl-2 md:pt-0 w-full pt-2">
-						<Button type="special" href="https://codexbuild.notion.site/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4" target="_blank" full class="items-center justify-between">
+						<Button type="special" href={NOTION_GETTING_STARTED_DOCS} target="_blank" full class="items-center justify-between">
 							<div class="flex flex-row items-center justify-start gap-2">
 								<WorldWideWeb />
 								<span class="text-lg text-inherit">Documentation</span>
@@ -56,7 +56,7 @@
 				</div>
 				<div class="flex flex-col gap-1">
 					<p class="text-inherit uppercase text-xs">Need Support?</p>
-					<p><span class="text-neutral-500">Contact us at </span><a href="mailto:support@echolayer.com" class="underline text-echolayer-blue">support@echolayer.com</a><span class="text-neutral-500"> &nbsp;on email or Slack for assistance in any issues you may be facing.</span></p>
+					<p><span class="text-neutral-500">Contact us at </span><a href={SUPPORT_URL} class="underline text-echolayer-blue">support@echolayer.com</a><span class="text-neutral-500"> &nbsp;on email or Slack for assistance in any issues you may be facing.</span></p>
 				</div>
 			</div>
 			<div class="flex flex-col gap-9">
