@@ -22,19 +22,14 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
     let relations: RelationGraphEntity[] = [];
     let origin: BaseEntity | undefined;
 
-    try {
-        if(originId) {
-            // Find component with ID
-            origin = [...components, ...teams].find(component => component.publicId === originId);
+    if(originId) {
+        // Find component with ID
+        origin = [...components, ...teams].find(component => component.publicId === originId);
 
-            if (origin) {
-                relations = await graphApi.list({sourcePublicId: origin?.publicId, direction: "downstream"});
-            } else throw Error("Origin not found");
-        } else throw Error("Origin ID not found");
-    } catch (err) {
-        console.log(err);
-        throw redirect(307, DISCOVERY_HOME_PATH);
-    }
+        if (origin) {
+            relations = await graphApi.list({sourcePublicId: origin?.publicId, direction: "downstream"});
+        } else throw redirect(307, DISCOVERY_HOME_PATH);
+    } else throw redirect(307, DISCOVERY_HOME_PATH);
 
     return {
         ...(teams && {teams}),
