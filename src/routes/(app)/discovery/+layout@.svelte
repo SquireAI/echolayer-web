@@ -17,6 +17,24 @@
         selectedStore,
         SELECTED_STORE_NAME
     } from '$lib/stores';
+    import { page } from "$app/stores";
+	import { goto } from '$app/navigation';
+
+    $: console.log($page.url.searchParams.toString());
+
+    if ($selectedStore.entity) {
+        console.log("HERE2");
+        $page.url.searchParams.set("selected", $selectedStore.entity?.publicId);
+    }
+
+    function foo() {
+        if ($selectedStore.entity) {
+            console.log("HERE");
+            $page.url.searchParams.set("selected", $selectedStore.entity?.publicId);
+            goto(`?${$page.url.searchParams.toString()}`);
+        }
+    }
+    $: $selectedStore && foo() 
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
