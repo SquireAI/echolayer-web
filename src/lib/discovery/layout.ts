@@ -1,7 +1,7 @@
 import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout } from "$lib/types";
 import type { ComponentType } from "svelte";
-import TeamEntityNode from "./components/TeamEntityNode.svelte";
-import ComponentEntityNode from "./components/ComponentEntityNode.svelte";
+import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
+import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
 import { getConnectionForNode } from "./components/anchors";
 
 type NodeLayoutMap = Map<string, NodeMetadata>;

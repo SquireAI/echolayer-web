@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
     import DetailsTitle from "$lib/discovery/components/details/DetailsTitle.svelte";
     import DetailsList from "$lib/discovery/components/details/DetailsList.svelte";
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
+	  import { selectedStore } from "$lib/stores";
 
     // Panel controls
     export let open = true;
@@ -59,5 +60,7 @@
         <DetailsList properties={properties} />
     </div>
 
-    <SetOriginButton bind:open={open} />
+    {#if $selectedStore.entity}
+      <SetOriginButton bind:open={open} />
+    {/if}
 </div>

@@ -1,5 +1,5 @@
 <script>
-    export let open;
+    export let open = false;
 
     const onClick = () => {
         console.log('Set as origin based on selected node');
