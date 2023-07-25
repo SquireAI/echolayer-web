@@ -3,7 +3,7 @@
     import DetailsList from "$lib/discovery/components/details/DetailsList.svelte";
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
-	  import { selectedStore } from "$lib/stores";
+	  import { selectedStore, entityDetailsStore } from "$lib/stores";
 
     // Panel controls
     export let open = true;
@@ -55,7 +55,7 @@
     </div>
 
     <div class="content divide-neutral-200 divide-solid divide-y">
-        <DetailsTitle></DetailsTitle>
+        <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
 
         <DetailsList properties={properties} />
     </div>
