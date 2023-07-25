@@ -19,7 +19,7 @@ type Connections = {
 
 type NodeConnections = Map<string, Connections>;
 
-const ROW_GAP: number = 120;
+const ROW_GAP: number = 60;
 const COLUMN_GAP: number = 50;
 const NODE_WIDTH: number = 240;
 const NODE_HEIGHT: number = 140;
@@ -152,7 +152,7 @@ function getNodeOrigins(rowIndices: number[], rowNodes: BaseEntity[][], nodeConn
 	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
 		const rowEntities: BaseEntity[] = rowNodes[rowIndex];
-		const rowY = rowIndex !== 0 ? (rowIndex * NODE_HEIGHT) + ROW_GAP : 0;
+		const rowY = rowIndex !== 0 ? (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : 0;
 		const nodeOrigins: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
