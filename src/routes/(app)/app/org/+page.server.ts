@@ -1,6 +1,6 @@
 import { OrganizationApi } from "$lib/api/organization";
-import { UserApi } from "$lib/api/user.js";
-import { getHttpContext, type httpContext } from "$lib/http/context.js";
+import { UserApi } from "$lib/api/user";
+import { getHttpContext, type httpContext } from "$lib/http/context";
 import type { ComponentEntity, Issue, Organization, User } from "$lib/types";
 import { error, type HttpError } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";

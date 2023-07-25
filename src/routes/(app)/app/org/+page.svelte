@@ -26,10 +26,16 @@
 
 	let hasIssues: boolean;
 	$: hasIssues = data.issues.length > 0;
+	$: isSlackInstallationError = false;
 
 	const installSlack = async () => {
-		const url = await data.installSlackHandler();
-		window.open(url, "_blank");
+		try {
+			const url = await data.installSlackHandler();
+			window.open(url, "_blank");
+		} catch {
+			isSlackInstallationError = true;
+		}
+		
 	}
 </script>
 
@@ -101,7 +107,7 @@
 			<div class="flex flex-col">
 				<span class="text-xl text-inherit">Integrations</span>
 				<div class="flex md:flex-row flex-col md:my-9 my-6">
-					<div class="md:w-1/2 md:pr-2 md:pt-0 w-full pt-2">
+					<div class="flex flex-col md:w-1/2 md:pr-2 md:pt-0 w-full pt-2">
 						<Button type="special" handleClick={installSlack} full class="items-center justify-between">
 							<div class="flex flex-row items-center justify-start gap-2">
 								<Slack size=20 />
@@ -109,6 +115,9 @@
 							</div>
 							<OpenNewTab />
 						</Button>
+						{#if isSlackInstallationError}
+							<p class="text-red-700 select-none mt-1">Something went wrong. Please try again later or <a href="mailto:support@echolayer.com" class="ext-blue-600 dark:text-blue-500 hover:underline">contact support</a>.</p>
+						{/if}
 					</div>
 				</div>
 			</div>
