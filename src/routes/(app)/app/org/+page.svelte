@@ -9,9 +9,11 @@
 	import type { ComponentEntity, Issue, Organization } from "$lib/types";
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
 	import type { OrgDetailsPageData } from "./+page.server";
+	import Slack from 'svelte-material-icons/Slack.svelte';
+	import type { OrgDetailsPageHandlers } from "./+page";
 
 	/** @type {import('./$types').PageData} */  
-	export let data: OrgDetailsPageData;
+	export let data: OrgDetailsPageData & OrgDetailsPageHandlers;
 
 	let organization: Organization;
 	$: organization = data.org;
@@ -24,6 +26,17 @@
 
 	let hasIssues: boolean;
 	$: hasIssues = data.issues.length > 0;
+	$: isSlackInstallationError = false;
+
+	const installSlack = async () => {
+		try {
+			const url = await data.installSlackHandler();
+			window.open(url, "_blank");
+		} catch {
+			isSlackInstallationError = true;
+		}
+		
+	}
 </script>
 
 <div class="flex content-center items-center flex-col h-full pt-9">
@@ -88,6 +101,23 @@
 						<div class={`${hasIssues ? "bg-echolayer-yellow/25": "bg-green-700/25" } py-1 pr-3 text-inherit md:text-start text-end`}>
 							{issues.length} issue{ issues.length === 1 ? "" : "s"}
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex flex-col">
+				<span class="text-xl text-inherit">Integrations</span>
+				<div class="flex md:flex-row flex-col md:my-9 my-6">
+					<div class="flex flex-col md:w-1/2 md:pr-2 md:pt-0 w-full pt-2">
+						<Button type="special" handleClick={installSlack} full class="items-center justify-between">
+							<div class="flex flex-row items-center justify-start gap-2">
+								<Slack size=20 />
+								<span class="text-lg text-inherit">Slack Notifications</span>
+							</div>
+							<OpenNewTab />
+						</Button>
+						{#if isSlackInstallationError}
+							<p class="text-red-700 select-none mt-1">Something went wrong. Please try again later or <a href="mailto:support@echolayer.com" class="ext-blue-600 dark:text-blue-500 hover:underline">contact support</a>.</p>
+						{/if}
 					</div>
 				</div>
 			</div>

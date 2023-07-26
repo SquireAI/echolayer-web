@@ -1,6 +1,6 @@
 import { OrganizationApi } from "$lib/api/organization";
-import { UserApi } from "$lib/api/user.js";
-import { getHttpContext } from "$lib/http/context.js";
+import { UserApi } from "$lib/api/user";
+import { getHttpContext, type httpContext } from "$lib/http/context";
 import type { ComponentEntity, Issue, Organization, User } from "$lib/types";
 import { error, type HttpError } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
@@ -14,6 +14,8 @@ export type OrgDetailsPageData = {
 	org: Organization;
 	issues: Issue[];
 	components: ComponentEntity[];
+	baseHeaders: httpContext["baseHeaders"];
+	baseUrl: httpContext["baseUrl"];
 }
 
 export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> => {
@@ -32,7 +34,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 			orgs = await new OrganizationApi(context).list();
 			components = await new ComponentApi(context).list();
 			issues = await new IssueApi(context).list();
-			return { user, org: orgs[0], issues, components };
+			return { user, org: orgs[0], issues, components, baseHeaders: context.baseHeaders, baseUrl: context.baseUrl };
 		} catch (err) {
 			if ((err as HttpError).status === 401) {
 				throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
