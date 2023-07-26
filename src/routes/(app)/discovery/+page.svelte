@@ -4,9 +4,7 @@
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
     import type {
-        OriginAndComponentData,
         ComponentStore,
-        EntityRelationshipStore,
         TeamStore,
         BaseEntity
     } from "$lib/types";
@@ -14,39 +12,46 @@
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
     import {
         COMPONENT_STORE_NAME,
-        ORIGIN_STORE_NAME,
-        RELATIONS_GRAPH_STORE_NAME,
-        SELECTED_STORE_NAME,
         TEAM_STORE_NAME,
         selectedStore,
-        originStore
+        originStore,
+        entityRelationshipStore,
     } from "$lib/stores";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { browser } from "$app/environment";
+	import type { DiscoveryPage } from "./+page";
 
-    export let data: OriginAndComponentData;
+    export let data: DiscoveryPage;
+
+    const { teams, origin, components, relations, getRelationsGraph } = data;
 
     let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-    let relationStore: EntityRelationshipStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
     let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
-    // let originStore: OriginStore = getContext(ORIGIN_STORE_NAME) as OriginStore;
-    // let selectedStore: SelectedStore = getContext(SELECTED_STORE_NAME) as SelectedStore;
 
-    if(data.components) {
-        componentStore.setComponents(data.components);
+    if(components) {
+        componentStore.setComponents(components);
     }
-    if(data.teams) {
-        teamStore.setTeams(data.teams);
+    if(teams) {
+        teamStore.setTeams(teams);
     }
-    if (data.origin) {
-        originStore.setEntity(data.origin);
+    if (origin) {
+        originStore.setEntity(origin);
     }
-    if(data.relations) {
-        relationStore.setEntityRelationships(data.relations);
+    if(relations) {
+        entityRelationshipStore.setEntityRelationships(relations);
     }
 
     let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
+
+    async function updateRelationsOnOriginChange() {
+        const nextOrigin = $originStore.entity;
+        if (!nextOrigin) {
+            return;
+        }
+        const relations = await getRelationsGraph(nextOrigin);
+        entityRelationshipStore.setEntityRelationships(relations);
+    }
 
     function updateQueryParameters({ originPublicId, selectedPublicId }: { originPublicId?: string, selectedPublicId?: string}) {
         if (!browser) {
@@ -70,6 +75,8 @@
         goto(`?${$page.url.searchParams.toString()}`);
     }
 
+    // when originStore updates, fetch the new downstream relations
+    $: $originStore, updateRelationsOnOriginChange();
     $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
 </script>
 
@@ -80,7 +87,7 @@
         {#if $originStore.entity}
             <Canvas
                 components={$componentStore.entity}
-                relations={$relationStore.entity}
+                relations={$entityRelationshipStore.entity}
                 teams={$teamStore.entity}
                 origin={$originStore.entity}
             />

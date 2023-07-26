@@ -13,5 +13,6 @@
 </script>
 
 <div class="component__node--wrapper">
+	<!-- TODO: draw the origin pill in here if this node is the origin -->
 	<slot />
 </div>

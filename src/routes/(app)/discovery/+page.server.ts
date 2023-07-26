@@ -31,10 +31,13 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
         } else throw redirect(307, DISCOVERY_HOME_PATH);
     } else throw redirect(307, DISCOVERY_HOME_PATH);
 
+    const { baseHeaders, baseUrl } = context;
     return {
         ...(teams && {teams}),
         ...(components && {components}),
         ...(origin && {origin}),
         ...(relations && {relations}),
+        baseHeaders,
+        baseUrl,
     };
 }) satisfies PageServerLoad;

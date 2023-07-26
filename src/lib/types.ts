@@ -1,5 +1,6 @@
 import type { ComponentType } from "svelte";
 import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { FetchHeader } from "./api/apiUtils";
 
 export interface BaseEntity {
 	publicId: string;
@@ -149,6 +150,8 @@ export type OriginAndComponentData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
+	baseHeaders: FetchHeader;
+	baseUrl: string;
 }
 export const AnchorConnectionTypes = {
 	INPUT: "INPUT",
