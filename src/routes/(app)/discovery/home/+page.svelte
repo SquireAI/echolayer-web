@@ -8,19 +8,52 @@
     import HelpCircle from "svelte-material-icons/HelpCircle.svelte";
     import ScriptTextOutline from "svelte-material-icons/ScriptTextOutline.svelte";
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
-    import TabContent from "$lib/components/tabs/TabContent.svelte";
+    import TabTitle from "$lib/components/tabs/TabTitle.svelte";
+    import TabSwitch from "$lib/components/tabs/TabSwitch.svelte";
+    import type {ComponentStore, TeamAndComponentData, TeamStore} from "$lib/types";
+    import {getContext} from "svelte";
+    import {COMPONENT_STORE_NAME, TEAM_STORE_NAME} from "$lib/stores";
+    import EntityList from "$lib/discovery/components/entities/EntityList.svelte";
+
+    export let data: TeamAndComponentData;
+
+    let tabs = ["teams", "components"];
+    let tabTitles = ["Team Catalog", "Component Catalog"];
+    let selected = 0;
+
+    let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
+    let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
+
+    if(data.components) {
+        componentStore.setComponents(data.components);
+    }
+    if(data.teams) {
+        teamStore.setTeams(data.teams);
+    }
 </script>
 
+<style lang="scss">
+  .content {
+    min-height: 100px;
+    @apply overflow-y-auto;
+    .content-block {
+      @apply hidden;
+
+      &.selected {
+        @apply block;
+      }
+    }
+  }
+</style>
 
 <Panels>
     <Navigation slot="nav" />
-    <!-- Divider is neutral 300 -->
-    <div class="bg-neutral-100 grid grid-cols-1/3-2/3 gap-4 divide-neutral-300 divide-x h-full" slot="content">
+    <div class="bg-neutral-100 grid grid-cols-1/3-2/3 divide-neutral-300 divide-x h-screen" slot="content">
         <div class="flex flex-col">
             <div class="p-6 pt-16 flex flex-col items-stretch gap-8">
                 <div class="flex flex-col gap-4 items-start">
                     <EchoLayerLogo />
-                    <h1 class="text-lg leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
+                    <h1 class="text-2xl leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
                     <p class="text-md text-neutral-400">
                         Select a team, person, or object to view connections and more information. The home lets you access your recent or favourite components, and some tips on how to use EchoLayer better.
                     </p>
@@ -39,8 +72,24 @@
                 </div>
             </div>
         </div>
-        <div class="">
-            <TabContent />
+
+        <div class="h-screen flex flex-col p-6 pt-24 gap-4">
+            <div class="flex flex-row items-center">
+                <div class="title flex-1">
+                    <TabTitle tabs={tabTitles} bind:selected={selected} />
+                </div>
+                <div class="flex-1">
+                    <TabSwitch tabs={tabs} bind:selected={selected} />
+                </div>
+            </div>
+            <div class="content flex flex-col items-stretch overflow-y-auto overflow-x-hidden">
+                <div class="content-block" class:selected="{'teams' === tabs[selected]}">
+                    <EntityList entities={$teamStore.entity} />
+                </div>
+                <div class="content-block" class:selected="{'components' === tabs[selected]}">
+                    <EntityList entities={$componentStore.entity} />
+                </div>
+            </div>
         </div>
     </div>
 </Panels>

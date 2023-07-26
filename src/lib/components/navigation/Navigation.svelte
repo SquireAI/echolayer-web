@@ -28,19 +28,21 @@
 
 <div class="h-full flex flex-col justify-between bg-neutral-25">
 	<div class="p-3 flex flex-col gap-4 border-b border-solid border-neutral-200">
-		<div class="flex items-center flex-row gap-x-3 px-3">
-			<div
-				class="flex items-center justify-center w-8 h-8 rounded-2xl bg-neutral-400 sm:hidden lg:flex"
-			>
-				<span class="text-white">{userInitials}</span>
+		{#if $userStore.entity}
+			<div class="flex items-center flex-row gap-x-3 px-3">
+				<div
+					class="flex items-center justify-center w-8 h-8 rounded-2xl bg-neutral-400 sm:hidden lg:flex"
+				>
+					<span class="text-white">{userInitials}</span>
+				</div>
+				<div class="flex flex-col items-start">
+					<p class="font-medium leading-5 text-neutral-800">{$userStore.entity?.name}</p>
+					{#if organization}
+						<p class="font-normal leading-4 text-sm text-neutral-400">{organization.name}</p>
+					{/if}
+				</div>
 			</div>
-			<div class="flex flex-col items-start">
-				<p class="font-medium leading-5 text-neutral-800">{$userStore?.entity?.name}</p>
-				{#if organization}
-					<p class="font-normal leading-4 text-sm text-neutral-400">{organization.name}</p>
-				{/if}
-			</div>
-		</div>
+		{/if}
 		<div>
 			<div class="flex flex-col w-full gap-2">
 				<NavigationItem name="Home" href={DISCOVERY_HOME_PATH} OutlineIcon={HomeOutline} SolidIcon={Home} />
