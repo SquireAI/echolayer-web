@@ -44,6 +44,10 @@
 
     let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
 
+    /**
+     * Gets the new downstream relations for the next selected origin.
+     * Replaces the relations currently set in the entity relations store.
+     */
     async function updateRelationsOnOriginChange() {
         const nextOrigin = $originStore.entity;
         if (!nextOrigin) {
@@ -53,6 +57,11 @@
         entityRelationshipStore.setEntityRelationships(relations);
     }
 
+    /**
+     * Resposible for updating the query parameters of the URL the user sees in their browser. It will add / update / remove the
+     * "origin" and "selected" query parameter keys and their values as the state of the origin and selected nodes updates in the
+     * graph. The function figures out the new current path and appends it to the URL
+     */
     function updateQueryParameters({ originPublicId, selectedPublicId }: { originPublicId?: string, selectedPublicId?: string}) {
         if (!browser) {
             return;
@@ -77,6 +86,8 @@
 
     // when originStore updates, fetch the new downstream relations
     $: $originStore, updateRelationsOnOriginChange();
+
+    // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
     $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
 </script>
 
