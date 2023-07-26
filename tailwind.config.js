@@ -27,6 +27,10 @@ export default {
             DEFAULT: "#D50000",
             100: "#FBF0F0",
           },
+          "green": {
+            DEFAULT: "#1B543F",
+            200: "#35A77E33",
+          },
         }
       },
       gridTemplateColumns: {
