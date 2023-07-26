@@ -23,6 +23,8 @@ const ROW_GAP: number = 60;
 const COLUMN_GAP: number = 50;
 const NODE_WIDTH: number = 240;
 const NODE_HEIGHT: number = 140;
+const INITIAL_ROW_OFFSET: number = 40;
+const INITIAL_COLUMN_OFFSET: number = 40;
 
 const { INPUT, OUTPUT } = AnchorConnectionTypes;
 
@@ -152,11 +154,11 @@ function getNodeOrigins(rowIndices: number[], rowNodes: BaseEntity[][], nodeConn
 	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
 		const rowEntities: BaseEntity[] = rowNodes[rowIndex];
-		const rowY = rowIndex !== 0 ? (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : 0;
+		const rowY = rowIndex !== 0 ? INITIAL_ROW_OFFSET + (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : INITIAL_ROW_OFFSET;
 		const nodeOrigins: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
+			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "team" ? TeamEntityNode : ComponentEntityNode };
 		});

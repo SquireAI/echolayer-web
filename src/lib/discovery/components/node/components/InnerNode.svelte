@@ -14,5 +14,8 @@
 
 <div class="component__node--wrapper">
 	<!-- TODO: draw the origin pill in here if this node is the origin -->
+	{#if component.isOrigin}
+		<div class="flex absolute rounded-md bg-green-200 w-12 h-4 -top-6 left-0">ORIGIN</div>
+	{/if}
 	<slot />
 </div>

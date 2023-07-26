@@ -1,5 +1,5 @@
 import type { ComponentType } from "svelte";
-import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
 import type { FetchHeader } from "./api/apiUtils";
 
 export interface BaseEntity {
@@ -7,6 +7,7 @@ export interface BaseEntity {
 	name: string;
 	metadata: any;
 	type: "team" | "component" | "member";
+	isOrigin?: boolean;
 }
 
 export interface Member extends BaseEntity {
@@ -177,6 +178,6 @@ export type NodeMetadata = {
 	outputConnections: AnchorConnectionTuple[];
 };
 
-type NodeMetadataTuple = [string, NodeMetadata];
+export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
