@@ -6,7 +6,7 @@
 	  import { selectedStore, entityDetailsStore } from "$lib/stores";
 
     // Panel controls
-    export let open = true;
+    export let open: boolean;
 
     // Panel content
     let properties = [
@@ -17,7 +17,25 @@
         {title: 'Sample', value: 'Sample Value', type: 'string'},
         {title: 'Sample', value: 'Sample Value', type: 'string'},
     ];
+
+    $: console.log("OPEN:", open);
 </script>
+
+<div class="details-panel" class:open={open}>
+    <div class="header">
+        <CollapsePanelsHeader title="Details" bind:open={open} />
+    </div>
+
+    <div class="content divide-neutral-200 divide-solid divide-y">
+        <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
+
+        <DetailsList properties={properties} />
+    </div>
+
+    {#if $selectedStore.entity}
+      <SetOriginButton bind:open={open} />
+    {/if}
+</div>
 
 <style lang="scss">
   .details-panel {
@@ -48,19 +66,3 @@
     }
   }
 </style>
-
-<div class="details-panel" class:open={open}>
-    <div class="header">
-        <CollapsePanelsHeader title="Details" bind:open={open} />
-    </div>
-
-    <div class="content divide-neutral-200 divide-solid divide-y">
-        <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
-
-        <DetailsList properties={properties} />
-    </div>
-
-    {#if $selectedStore.entity}
-      <SetOriginButton bind:open={open} />
-    {/if}
-</div>

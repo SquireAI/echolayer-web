@@ -3,31 +3,25 @@
 	import Canvas from "$lib/discovery/canvas.svelte";
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
-    import type {
-        ComponentStore,
-        TeamStore,
-        BaseEntity
-    } from "$lib/types";
-    import {getContext} from "svelte";
+    import type { BaseEntity } from "$lib/types";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
     import {
-        COMPONENT_STORE_NAME,
-        TEAM_STORE_NAME,
-        selectedStore,
-        originStore,
+        componentStore,
         entityRelationshipStore,
+        originStore,
+        selectedStore,
+        teamStore,
     } from "$lib/stores";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { browser } from "$app/environment";
 	import type { DiscoveryPage } from "./+page";
+	import { writable } from "svelte/store";
 
     export let data: DiscoveryPage;
 
     const { teams, origin, components, relations, getRelationsGraph } = data;
-
-    let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-    let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
+    const isDetailsPanelOpen = writable<boolean>(false);
 
     if(components) {
         componentStore.setComponents(components);
@@ -89,6 +83,18 @@
 
     // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
     $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
+
+    // TODO: refactor this to a new home in $lib
+    let timer: NodeJS.Timeout;
+	const debounceNodeSelectionChange = (shouldBeOpen: boolean) => {
+        clearTimeout(timer);
+		timer = setTimeout(() => {
+            isDetailsPanelOpen.set(shouldBeOpen);
+        }, 100);
+	}
+
+    // Toggle the details panel open / closed if there's a node selected or not, respectively
+    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined)
 </script>
 
 <Panels>
@@ -104,6 +110,7 @@
             />
         {/if}
     </div>
+    <Details slot="details" open={$isDetailsPanelOpen} />
 </Panels>
 
 <style lang="scss">
