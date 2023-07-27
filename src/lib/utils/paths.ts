@@ -5,12 +5,18 @@ export const INVALIDATED_SIGN_IN_PATH = `/sign-in?${INVALIDATE_QUERY_PARAMETER_N
 export const NOT_FOUND_PATH = "/not-found";
 export const ERROR_PATH = "/error";
 export const AUTH_ERROR_PATH = "/auth-error";
+/**
+ * @deprecated
+ */
 export const APP_PATH = "/app";
-export const ORGS_PATH =  "/app/org";
-export const CREATE_ORG_PATH = "/app/org/new";
+export const ORGS_PATH =  "/org";
+export const CREATE_ORG_PATH = "/org/new";
+/**
+ * @deprecated
+ */
 export const ACCOUNT_PATH = "/app/account";
-export const API_KEYS_PATH = "/app/account/api-keys";
-export const DISCOVERY_HOME_PATH = "/discovery/home";
+export const API_KEYS_PATH = (publicId: string) => `/org/${publicId}/api-keys`;
+export const DISCOVERY_HOME_PATH = (publicId: string) => `/org/${publicId}/discovery/home`;
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,

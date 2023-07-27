@@ -18,16 +18,24 @@ export function createDefaultContext(fetchFn = fetch, baseHeaders:FetchHeader = 
 	};
 }
 
-export function getHttpContext(fetchFn?: typeof fetch, cookies?: Cookies, baseUrl?: string){
-	return createDefaultContext(fetchFn, createHeaders(cookies), baseUrl);
+
+
+export function getHttpContext(fetchFn?: typeof fetch, headers: FetchHeader = {}, baseUrl?: string){ // TODO: Is BaseUrl Needed? Not used anywhere...
+	return createDefaultContext(fetchFn, headers, baseUrl);
 }
 
-export function createHeaders(cookies?: Cookies): FetchHeader {
+export function createHeaders(cookies?: Cookies, routeParams?: { [key: string]: string }): FetchHeader {
 	const headers: FetchHeader = {};
 	if (cookies !== undefined) {
 		const xsrfToken = cookies.get("CSRF-TOKEN");
 		if (xsrfToken !== undefined) {
 			headers["X-XSRF-TOKEN"] = xsrfToken;
+		}
+	}
+
+	if(routeParams !== undefined){
+		if(routeParams.publicId !== undefined){
+			headers["X-ORGANIZATION-ID"] = routeParams.publicId;
 		}
 	}
 	return headers;

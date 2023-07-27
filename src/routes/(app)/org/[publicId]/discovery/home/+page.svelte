@@ -8,12 +8,14 @@
     import HelpCircle from "svelte-material-icons/HelpCircle.svelte";
     import ScriptTextOutline from "svelte-material-icons/ScriptTextOutline.svelte";
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
+	import { page } from "$app/stores";
+
+    const { publicId } = $page.params;
 </script>
 
 
 <Panels>
     <Navigation slot="nav" />
-    <!-- Divider is neutral 300 -->
     <div class="bg-neutral-100 grid grid-cols-1/3-2/3 gap-4 divide-neutral-300 divide-x h-full" slot="content">
         <div class="flex flex-col">
             <div class="p-6 pt-16 flex flex-col items-stretch gap-8">
@@ -26,7 +28,7 @@
                 </div>
                 <div class="flex flex-col gap-4">
                     <h3 class="text-md font-normal text-neutral-800">Tips</h3>
-                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={API_KEYS_PATH}>
+                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={`${API_KEYS_PATH(publicId)}`}>
                         <IconBox Icon={Key} /> View our API keys panel
                     </Button>
                     <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={NOTION_GETTING_STARTED_DOCS}>

@@ -18,6 +18,7 @@ export interface TeamEntity extends BaseEntity {
 
 export type Organization = {
 	id: number;
+	publicId: string;
 	name: string;
 	publicName: string;
 	email: string;
@@ -93,7 +94,8 @@ interface BaseStoreEntity<T> {
 }
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
-export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
+export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
 export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
@@ -114,9 +116,15 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
+// TODO: Do we still need an individual organization store?
 export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
+}
+
+export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
+	setOrganizations: (org: Organization[]) => void;
+	updateOrganizations: (org: Organization[]) => void;
 }
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {

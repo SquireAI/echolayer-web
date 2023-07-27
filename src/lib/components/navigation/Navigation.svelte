@@ -10,7 +10,9 @@
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
 	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
+	import { page } from '$app/stores';
 
+	const { publicId } = $page.params;
 	const userStore = getContext('user') as UserStore;
 	const orgStore = getContext('org') as OrganizationStore;
 	let userInitials: string;
@@ -43,8 +45,8 @@
 		</div>
 		<div>
 			<div class="flex flex-col w-full gap-2">
-				<NavigationItem name="Home" href={DISCOVERY_HOME_PATH} OutlineIcon={HomeOutline} SolidIcon={Home} />
-				<NavigationItem name="Settings" href={API_KEYS_PATH} OutlineIcon={CogOutline} SolidIcon={Cog} />
+				<NavigationItem name="Home" href={`${DISCOVERY_HOME_PATH(publicId)}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
+				<NavigationItem name="Settings" href={`${API_KEYS_PATH(publicId)}`} OutlineIcon={CogOutline} SolidIcon={Cog} />
 			</div>
 		</div>
 	</div>

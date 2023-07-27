@@ -10,7 +10,9 @@
 		USER_STORE_NAME,
 		organizationStore,
 		userStore,
-		teamStore
+		teamStore,
+		ORGS_STORE_NAME,
+		organizationsStore
 	} from '$lib/stores';
     import AdminLayout from "$lib/layouts/admin/AdminLayout.svelte";
 
@@ -19,6 +21,7 @@
 	setContext(TEAM_STORE_NAME, teamStore);
 	setContext(USER_STORE_NAME, userStore);
 	setContext(ORG_STORE_NAME, organizationStore);
+	setContext(ORGS_STORE_NAME, organizationsStore);
 </script>
 
 <AdminLayout>

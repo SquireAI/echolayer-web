@@ -6,9 +6,10 @@
 
 	import type { OrgNewPageData } from "./+page";
 	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData } from "$lib/types";
+	import type { SpecificOrgLayoutServerLoad } from "../+layout.server";
 
-	export let data: OrgNewPageData & OrgAndUserData;
-	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens } = data;
+	export let data: OrgNewPageData & OrgAndUserData & SpecificOrgLayoutServerLoad;
+	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens, org } = data;
 
 	let createdAccessToken: CreatedAccessTokenType | undefined;
 	$: createdAccessToken = undefined;
@@ -85,8 +86,8 @@
 		<h2>Settings</h2>
 		<div class="flex flex-col w-full">
 			<div class="row flex flex-row items-center w-full pb-4 border-b border-neutral-700">
-				<h3>Keys</h3>
-				<Button class="self-end ml-auto" handleClick={createAccessToken} disabled={isCreating}>Generate a new key</Button>
+				<h3>{org.name}'s Keys</h3>
+				<Button class="self-end ml-auto" handleClick={createAccessToken} disabled={isCreating}>Generate a new key for {org.name}</Button>
 			</div>
 		</div>
 		<div class="flex w-full">
