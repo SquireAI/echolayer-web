@@ -4,8 +4,14 @@
     export let entities = [];
 </script>
 
-<div class="component-list flex flex-col gap-4 items-stretch">
+<style lang="scss">
+  .component-list {
+    @apply flex flex-col gap-4 items-stretch;
+  }
+</style>
+
+<div class="component-list">
     {#each entities as entity}
-        <EntityListItem {entity} />
+        <EntityListItem {entity}/>
     {/each}
 </div>

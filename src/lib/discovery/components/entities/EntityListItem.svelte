@@ -6,12 +6,26 @@
     export let entity = undefined;
 </script>
 
+<style lang="scss">
+  .entity {
+    @apply w-full px-2 py-2 flex flex-row gap-2 items-center rounded-md;
+
+    &:hover {
+      @apply bg-neutral-200;
+    }
+
+    .icon {
+      @apply block p-1 rounded-sm text-white;
+    }
+  }
+</style>
+
 {#if entity}
     <a href={`${DISCOVERY_PATH}?origin=${entity.publicId}`}
-       class="w-full px-2 py-2 hover:bg-neutral-200 flex flex-row gap-2 items-center rounded-md">
+       class="entity">
         {#if entity.type === "Team"}
             <div>
-                <span class="block p-1 bg-echolayer-blue rounded-sm text-white">
+                <span class="icon bg-echolayer-blue">
                     <AccountGroup/>
                 </span>
             </div>
@@ -21,7 +35,7 @@
             </div>
         {:else if entity.type === "Component"}
             <div>
-                <span class="block p-1 bg-echolayer-yellow rounded-sm text-white">
+                <span class="icon bg-echolayer-yellow">
                     <Database/>
                 </span>
             </div>

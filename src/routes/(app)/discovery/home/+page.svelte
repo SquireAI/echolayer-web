@@ -2,12 +2,12 @@
     import Panels from "$lib/discovery/panels.svelte";
     import Navigation from "$lib/components/navigation/Navigation.svelte";
     import EchoLayerLogo from "$lib/EchoLayerLogo.svelte";
-	import Button from "$lib/components/Button.svelte";
-	import IconBox from "$lib/components/IconBox.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import IconBox from "$lib/components/IconBox.svelte";
     import Key from "svelte-material-icons/Key.svelte";
     import HelpCircle from "svelte-material-icons/HelpCircle.svelte";
     import ScriptTextOutline from "svelte-material-icons/ScriptTextOutline.svelte";
-	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
+    import {API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL} from "$lib/utils/paths";
     import TabTitle from "$lib/components/tabs/TabTitle.svelte";
     import TabSwitch from "$lib/components/tabs/TabSwitch.svelte";
     import type {ComponentStore, TeamAndComponentData, TeamStore} from "$lib/types";
@@ -24,50 +24,52 @@
     let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
     let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
 
-    if(data.components) {
+    if (data.components) {
         componentStore.setComponents(data.components);
     }
-    if(data.teams) {
+    if (data.teams) {
         teamStore.setTeams(data.teams);
     }
 </script>
 
 <style lang="scss">
-  .content {
-    min-height: 100px;
-    @apply overflow-y-auto;
-    .content-block {
-      @apply hidden;
+  .content-block {
+    @apply hidden;
 
-      &.selected {
-        @apply block;
-      }
+    &.selected {
+      @apply block;
     }
-  }
 </style>
 
 <Panels>
-    <Navigation slot="nav" />
+    <Navigation slot="nav"/>
     <div class="bg-neutral-100 grid grid-cols-1/3-2/3 divide-neutral-300 divide-x h-screen" slot="content">
         <div class="flex flex-col">
             <div class="p-6 pt-16 flex flex-col items-stretch gap-8">
                 <div class="flex flex-col gap-4 items-start">
-                    <EchoLayerLogo />
+                    <EchoLayerLogo/>
                     <h1 class="text-2xl leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
                     <p class="text-md text-neutral-400">
-                        Select a team, person, or object to view connections and more information. The home lets you access your recent or favourite components, and some tips on how to use EchoLayer better.
+                        Select a team, person, or object to view connections and more information. The home lets you
+                        access your recent or favourite components, and some tips on how to use EchoLayer better.
                     </p>
                 </div>
                 <div class="flex flex-col gap-4">
                     <h3 class="text-md font-normal text-neutral-800">Tips</h3>
-                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={API_KEYS_PATH}>
-                        <IconBox Icon={Key} /> View our API keys panel
+                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true}
+                            href={API_KEYS_PATH}>
+                        <IconBox Icon={Key}/>
+                        View our API keys panel
                     </Button>
-                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={NOTION_GETTING_STARTED_DOCS}>
-                        <IconBox Icon={ScriptTextOutline} /> Read our documentation
+                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true}
+                            href={NOTION_GETTING_STARTED_DOCS}>
+                        <IconBox Icon={ScriptTextOutline}/>
+                        Read our documentation
                     </Button>
-                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true} href={SUPPORT_URL}>
-                        <IconBox Icon={HelpCircle} /> Contact support for any help
+                    <Button type="flat" class="leading-6 items-center justify-start gap-2" full={true}
+                            href={SUPPORT_URL}>
+                        <IconBox Icon={HelpCircle}/>
+                        Contact support for any help
                     </Button>
                 </div>
             </div>
@@ -76,18 +78,18 @@
         <div class="h-screen flex flex-col p-6 pt-24 gap-4">
             <div class="flex flex-row items-center">
                 <div class="title flex-1">
-                    <TabTitle tabs={tabTitles} bind:selected={selected} />
+                    <TabTitle tabs={tabTitles} bind:selected={selected}/>
                 </div>
                 <div class="flex-1">
-                    <TabSwitch tabs={tabs} bind:selected={selected} />
+                    <TabSwitch tabs={tabs} bind:selected={selected}/>
                 </div>
             </div>
-            <div class="content flex flex-col items-stretch overflow-y-auto overflow-x-hidden">
+            <div class="flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit">
                 <div class="content-block" class:selected="{'teams' === tabs[selected]}">
-                    <EntityList entities={$teamStore.entity} />
+                    <EntityList entities={$teamStore.entity}/>
                 </div>
                 <div class="content-block" class:selected="{'components' === tabs[selected]}">
-                    <EntityList entities={$componentStore.entity} />
+                    <EntityList entities={$componentStore.entity}/>
                 </div>
             </div>
         </div>
