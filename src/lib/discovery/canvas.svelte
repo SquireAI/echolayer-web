@@ -15,7 +15,7 @@
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">
 	{#each nodesByRow as rowEntry}
 		{#each rowEntry as entry}
-			<svelte:component this={entry[1].nodeType} component={entry[1].node} origin={entry[1].origin} outputConnections={entry[1].outputConnections} inputConnections={entry[1].inputConnections} />
+			<svelte:component this={entry[1].nodeType} component={entry[1].node} origin={entry[1].origin} outputConnections={entry[1].outputConnections} inputConnections={entry[1].inputConnections} isOrigin={origin.publicId === entry[1].node.publicId}/>
 		{/each}
 	{/each}
 	<Background dotColor="#D4D4D4" bgColor="transparent" gridWidth={30} dotSize={3} slot="background" />
