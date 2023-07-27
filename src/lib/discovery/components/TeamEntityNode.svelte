@@ -34,7 +34,7 @@
 				<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
 			</div>
 		{/if}
-		<div class="-top-7 absolute">
+		<div class="left-0 -top-7 absolute">
 			<OriginTag isHidden={!isOrigin}/>
 		</div>
 		<div class="component__node--inner">

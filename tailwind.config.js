@@ -29,7 +29,7 @@ export default {
           },
           "green": {
             DEFAULT: "#1B543F",
-            200: "#35A77E33",
+            100: "#35A77E",
           },
         }
       },
