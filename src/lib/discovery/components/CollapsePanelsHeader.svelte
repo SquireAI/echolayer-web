@@ -5,18 +5,22 @@
 	import ArrowCollapseLeft from "svelte-material-icons/ArrowCollapseLeft.svelte";
 	export let title: string;
 	export let open = true;
-	const onToggle = () => open = !open;
+	export let disabled = false;
+	const onToggle = () => {
+		if (disabled) return;
+		open = !open;
+	};
 </script>
 
-<PanelsHeader title={title}>
+<PanelsHeader {title} bind:disabled={disabled}>
 	<span slot="left-action" class="flex">
-	{#if open}
-		<Text />
-	{:else}
-		<button class="cursor-pointer" on:click={() => onToggle()}>
-			<ArrowCollapseLeft />
-		</button>
-	{/if}
+		{#if open}
+			<Text />
+		{:else}
+			<button class="cursor-pointer" on:click={() => onToggle()}>
+				<ArrowCollapseLeft  />
+			</button>
+		{/if}
 	</span>
 
 	<button slot="right-action" class="cursor-pointer" on:click={() => onToggle()}>

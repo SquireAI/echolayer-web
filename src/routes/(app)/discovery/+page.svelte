@@ -83,8 +83,9 @@
                 origin={$originStore.entity}
             />
         {/if}
+
+            <Details slot="details" open={$isDetailsPanelOpen} />
     </div>
-    <Details slot="details" open={$isDetailsPanelOpen} />
 </Panels>
 
 <style lang="scss">
