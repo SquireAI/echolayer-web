@@ -27,7 +27,7 @@
 	}
 </style>
 
-<Edge let:path width={3} step cornerRadius={4}>
+<Edge let:path width={3} step straight cornerRadius={4}>
 	<defs>
 		<!--
 			Marker: this element will be bound as the end marker to the path declared below

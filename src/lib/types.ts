@@ -6,7 +6,7 @@ export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
-	type: "team" | "component" | "member";
+	type: "Team" | "Component" | "Member";
 }
 
 export interface GraphBaseEntity extends BaseEntity {

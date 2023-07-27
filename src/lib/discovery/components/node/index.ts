@@ -10,8 +10,8 @@ type NodeSize = {
 };
 
 const nodeDimensionsByType = new Map<BaseEntity["type"], NodeSize>([
-	["component", { width: 240, height: 108 }],
-	["team", { width: 240, height: 120 }],
+	["Component", { width: 240, height: 108 }],
+	["Team", { width: 240, height: 120 }],
 ]);
 
 export function setSelectedNode(entity: BaseEntity): void {
@@ -31,6 +31,7 @@ export function toggleSelectedComponent(component: BaseEntity, selected: boolean
 }
 
 export function getNodeSize(type: BaseEntity["type"]): NodeSize {
+	console.log("TYPE: ", type);
 	if (!nodeDimensionsByType.has(type) || nodeDimensionsByType.get(type) === undefined) {
 		throw new Error("Invalid node ComponentType");
 	}
