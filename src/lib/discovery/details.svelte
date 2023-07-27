@@ -17,8 +17,6 @@
         {title: 'Sample', value: 'Sample Value', type: 'string'},
         {title: 'Sample', value: 'Sample Value', type: 'string'},
     ];
-
-    $: console.log("OPEN:", open);
 </script>
 
 <div class="details-panel" class:open={open}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BaseEntity, TeamEntity } from '$lib/types';
+	import type { GraphTeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
 	import TeamIcon from '../TeamIcon.svelte';
 	import AvatarPlaceholder from '../AvatarPlaceholder.svelte';
@@ -7,17 +7,19 @@
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
 	import InnerNode from './components/InnerNode.svelte';
+	import { getNodeSize } from '.';
 
-	export let component: TeamEntity;
+	export let component: GraphTeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: Connections = [];
 	export let inputConnections: Connections = [];
 
 	const id = getNodeId(component.publicId);
+	const nodeSize = getNodeSize(component.type);
 
 </script>
 
-<Node id={id} let:grabHandle let:selected borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={{ width: 240, height: 120 }}>
+<Node id={id} let:grabHandle let:selected borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode selected={selected} component={component}>
 		<div use:grabHandle class={`component__node ${selected ? "component__node--selected" : ""}`}>
 			{#if inputConnections.length > 0}

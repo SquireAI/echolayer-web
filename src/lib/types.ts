@@ -7,7 +7,10 @@ export interface BaseEntity {
 	name: string;
 	metadata: any;
 	type: "team" | "component" | "member";
-	isOrigin?: boolean;
+}
+
+export interface GraphBaseEntity extends BaseEntity {
+	isOrigin: boolean;
 }
 
 export interface Member extends BaseEntity {
@@ -17,6 +20,8 @@ export interface Member extends BaseEntity {
 export interface TeamEntity extends BaseEntity {
 	members: Member[];
 }
+
+export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {};
 
 export type Organization = {
 	id: number;
@@ -38,6 +43,8 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
+
+export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {};
 
 export const EntityRelationshipNames = {
 	OWNER_OF: "ownerOf",
@@ -173,7 +180,7 @@ export type NodeCoordinates = {
 export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
-	node: BaseEntity;
+	node: GraphBaseEntity;
 	inputConnections: AnchorConnectionTuple[];
 	outputConnections: AnchorConnectionTuple[];
 };

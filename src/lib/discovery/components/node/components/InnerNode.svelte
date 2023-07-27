@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { BaseEntity } from "$lib/types";
+	import type { GraphBaseEntity } from "$lib/types";
 	import { toggleSelectedComponent } from "..";
 
 	export let selected: boolean;
-	export let component: BaseEntity;
+	export let component: GraphBaseEntity;
 
 	/**
 	 * Yes, this looks silly, but we need to know when `selected` changes its value
