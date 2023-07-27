@@ -17,6 +17,7 @@
 	import { browser } from "$app/environment";
 	import type { DiscoveryPage } from "./+page";
 	import { writable } from "svelte/store";
+	import { updateQueryParameters } from "$lib/discovery/utils";
 
     export let data: DiscoveryPage;
 
@@ -49,33 +50,6 @@
         }
         const relations = await getRelationsGraph(nextOrigin);
         entityRelationshipStore.setEntityRelationships(relations);
-    }
-
-    /**
-     * Resposible for updating the query parameters of the URL the user sees in their browser. It will add / update / remove the
-     * "origin" and "selected" query parameter keys and their values as the state of the origin and selected nodes updates in the
-     * graph. The function figures out the new current path and appends it to the URL
-     */
-    function updateQueryParameters({ originPublicId, selectedPublicId }: { originPublicId?: string, selectedPublicId?: string}) {
-        if (!browser) {
-            return;
-        }
-        const ORIGIN_KEY = "origin";
-        const SELECTED_KEY = "selected";
-        const searchParams: URLSearchParams = $page.url.searchParams;
-        if (searchParams.has(ORIGIN_KEY) && originPublicId === undefined) {
-            $page.url.searchParams.delete(ORIGIN_KEY);
-        }
-        if (searchParams.has(SELECTED_KEY) && selectedPublicId === undefined) {
-            $page.url.searchParams.delete(SELECTED_KEY);
-        }
-        if (originPublicId !== undefined) {
-            $page.url.searchParams.set(ORIGIN_KEY, originPublicId);
-        }
-        if (selectedPublicId !== undefined) {
-            $page.url.searchParams.set(SELECTED_KEY, selectedPublicId);
-        }
-        goto(`?${$page.url.searchParams.toString()}`);
     }
 
     // when originStore updates, fetch the new downstream relations
