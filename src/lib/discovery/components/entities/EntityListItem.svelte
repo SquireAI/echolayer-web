@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
     import AccountGroup from "svelte-material-icons/AccountGroup.svelte";
     import Database from "svelte-material-icons/Database.svelte";
     import {DISCOVERY_PATH} from "$lib/utils/paths";
+    import type {BaseEntity} from "$lib/types";
 
-    export let entity = undefined;
+    export let entity: BaseEntity | undefined;
 </script>
 
 <style lang="scss">

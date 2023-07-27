@@ -52,7 +52,7 @@
                     <h1 class="text-2xl leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
                     <p class="text-md text-neutral-400">
                         Select a team, person, or object to view connections and more information. The home lets you
-                        access your recent or favourite components, and some tips on how to use EchoLayer better.
+                        access your recent or favorite components, and some tips on how to use EchoLayer better.
                     </p>
                 </div>
                 <div class="flex flex-col gap-4">

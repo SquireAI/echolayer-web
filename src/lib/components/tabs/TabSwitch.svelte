@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
     export let tabs = [];
     export let selected = 0;
-    export let onSelect = (tab, position) => undefined;
+    export let onSelect: (tab: string, position: number) => void = () => undefined;
     let _onSelect = (i) => {
         selected = i;
         if (onSelect) onSelect(tabs[selected], selected);

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import EntityListItem from "$lib/discovery/components/entities/EntityListItem.svelte";
 
     export let entities = [];
@@ -11,7 +11,7 @@
 </style>
 
 <div class="component-list">
-    {#each entities as entity}
+    {#each entities as entity (entity.publicId)}
         <EntityListItem {entity}/>
     {/each}
 </div>

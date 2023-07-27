@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     export let tabs = [];
     export let selected = 0;
 </script>
