@@ -34,9 +34,9 @@
 				<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
 			</div>
 		{/if}
-		{#if isOrigin}
-			<OriginTag />
-		{/if}
+		<div class="-top-7 absolute">
+			<OriginTag isHidden={!isOrigin}/>
+		</div>
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">
 				<div class="component__info">
