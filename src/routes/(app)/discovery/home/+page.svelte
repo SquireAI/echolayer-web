@@ -39,6 +39,7 @@
     &.selected {
       @apply block;
     }
+  }
 </style>
 
 <Panels>
