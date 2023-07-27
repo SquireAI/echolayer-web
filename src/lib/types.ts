@@ -150,6 +150,12 @@ export type OriginAndComponentData = {
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
 }
+
+export type TeamAndComponentData = {
+	teams?: TeamEntity[];
+	components?: ComponentEntity[];
+}
+
 export const AnchorConnectionTypes = {
 	INPUT: "INPUT",
 	OUTPUT: "OUTPUT"
