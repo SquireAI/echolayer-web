@@ -16,7 +16,7 @@ export const load = (async ({ cookies, fetch, url }) => {
 		throw error(404, { message: ErrorMessageTypes.GITHUB_OAUTH_CODE });
 	}
 
-	let context = getHttpContext(fetch, createHeaders(cookies));
+	let context = getHttpContext(fetch, cookies);
 	try {
 		const res = await new AuthApi(context).gitHubAuthentication(code);
 		const responseCookies = getCookies(res);
@@ -28,7 +28,7 @@ export const load = (async ({ cookies, fetch, url }) => {
 		throw error(404, { message: err.message });
 	}
 	try {
-		context = getHttpContext(fetch, createHeaders(cookies));
+		context = getHttpContext(fetch, cookies);
 		orgs = await new OrganizationApi(context).list();
 		user = await new UserApi(context).get("");
 	} catch (err) {

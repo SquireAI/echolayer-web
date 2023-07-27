@@ -9,14 +9,14 @@ export const AUTH_ERROR_PATH = "/auth-error";
  * @deprecated
  */
 export const APP_PATH = "/app";
-export const ORGS_PATH =  "/org";
+export const ORGS_INDEX_PATH =  "/org";
 export const CREATE_ORG_PATH = "/org/new";
 /**
  * @deprecated
  */
 export const ACCOUNT_PATH = "/app/account";
-export const API_KEYS_PATH = (publicId: string) => `/org/${publicId}/api-keys`;
-export const DISCOVERY_HOME_PATH = (publicId: string) => `/org/${publicId}/discovery/home`;
+export const API_KEYS_PATH = "/org/api-keys";
+export const DISCOVERY_HOME_PATH = "/org/discovery/home";
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
@@ -24,7 +24,7 @@ export const REDIRECT_PATHS = [
 	ERROR_PATH,
 	AUTH_ERROR_PATH,
 	APP_PATH,
-	ORGS_PATH,
+	ORGS_INDEX_PATH,
 	CREATE_ORG_PATH,
 	ACCOUNT_PATH,
 	API_KEYS_PATH,

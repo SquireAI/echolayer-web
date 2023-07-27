@@ -1,7 +1,7 @@
 import { AccessTokenApi } from '$lib/api/access-token.js';
 import { xsrfToken, type FetchHeader } from '$lib/api/apiUtils.js';
 import { ErrorMessageTypes } from '$lib/error';
-import { createHeaders, getHttpContext, type httpContext } from '$lib/http/context';
+import { getHttpContext, type httpContext } from '$lib/http/context';
 import type { AccessToken } from "$lib/types";
 import type { PageServerLoad } from './$types';
 import { error, type HttpError } from '@sveltejs/kit';
@@ -11,9 +11,9 @@ export type ApiKeysPageServerData = Pick<httpContext, "baseHeaders" | "baseUrl">
 	accessTokens: AccessToken[];
 }
 
-export const load = (async ({ cookies, fetch, params }): Promise<ApiKeysPageServerData> => {
+export const load = (async ({ cookies, fetch }): Promise<ApiKeysPageServerData> => {
 	// TODO: Pass publicId for org into http context to get correct context.
-	const context = getHttpContext(fetch, createHeaders(cookies, params));
+	const context = getHttpContext(fetch, cookies);
 
 	let accessTokens: AccessToken[] = [];
 	try {

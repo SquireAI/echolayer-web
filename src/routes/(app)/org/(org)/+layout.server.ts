@@ -3,12 +3,13 @@ import { OrganizationApi } from "$lib/api/organization.js";
 import { AuthApi } from "$lib/api/auth.js";
 import { getCookies, normalizeCookie } from '$lib/utils/cookies.js';
 import { createHeaders, getHttpContext } from '$lib/http/context.js';
-import type { LayoutServerLoad } from './$types';
 import { UserApi } from '$lib/api/user.js';
 import { ErrorMessageTypes } from '$lib/error/index.js';
 import type { Organization, User } from '$lib/types';
-import { authRequired, flagRequired } from '$lib/utils/access';
+import { authRequired, flagRequired, orgRequired } from '$lib/utils/access';
 import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
+import { ORGANIZATION_ID_COOKIE_NAME } from '$lib/constants';
+import type { LayoutServerLoad } from '../../$types';
 
 export interface SpecificOrgLayoutServerLoad {
 	org: Organization;
@@ -16,15 +17,17 @@ export interface SpecificOrgLayoutServerLoad {
 }
 
 // Load user and org for any nested pages automatically.
-export const load = (async ({ cookies, fetch, params }) => {
+export const load = (async ({ cookies, fetch }) => {
     flagRequired(PUBLIC_DISCOVERY_ENABLED);
 
 	let org: Organization | undefined;
 	let user: User | undefined;
-	const context = getHttpContext(fetch, createHeaders(cookies, params));
+	const context = getHttpContext(fetch, cookies);
     await authRequired(context);
+	await orgRequired(context);
 	try {
-		org = await new OrganizationApi(context).get(params.publicId);
+		const orgPublicId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
+		org = await new OrganizationApi(context).get(orgPublicId!);
 		user = await new UserApi(context).get("");
 	} catch (err) {
 		if ((err as HttpError).status === 401) {

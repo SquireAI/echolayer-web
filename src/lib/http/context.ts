@@ -1,6 +1,7 @@
 import { PUBLIC_BASE_API_URL } from '$env/static/public';
 import type { Cookies } from '@sveltejs/kit';
 import type { FetchHeader } from '../api/apiUtils';
+import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME, ORGANIZATION_ID_COOKIE_NAME, ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 
 export const DEFAULT_BASE_URL:string = PUBLIC_BASE_API_URL || "";
 
@@ -20,23 +21,22 @@ export function createDefaultContext(fetchFn = fetch, baseHeaders:FetchHeader = 
 
 
 
-export function getHttpContext(fetchFn?: typeof fetch, headers: FetchHeader = {}, baseUrl?: string){ // TODO: Is BaseUrl Needed? Not used anywhere...
-	return createDefaultContext(fetchFn, headers, baseUrl);
+export function getHttpContext(fetchFn?: typeof fetch, cookies?: Cookies, baseUrl?: string){ // TODO: Is BaseUrl Needed? Not used anywhere...
+	return createDefaultContext(fetchFn, createHeaders(cookies), baseUrl);
 }
 
-export function createHeaders(cookies?: Cookies, routeParams?: { [key: string]: string }): FetchHeader {
+export function createHeaders(cookies?: Cookies): FetchHeader {
 	const headers: FetchHeader = {};
 	if (cookies !== undefined) {
-		const xsrfToken = cookies.get("CSRF-TOKEN");
+		const xsrfToken = cookies.get(CSRF_COOKIE_NAME);
 		if (xsrfToken !== undefined) {
-			headers["X-XSRF-TOKEN"] = xsrfToken;
+			headers[CSRF_HEADER_NAME] = xsrfToken;
 		}
-	}
 
-	if(routeParams !== undefined){
-		if(routeParams.publicId !== undefined){
-			headers["X-ORGANIZATION-ID"] = routeParams.publicId;
-		}
+		const orgId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
+		if (orgId !== undefined) {
+			headers[ORGANIZATION_ID_HEADER_NAME] = orgId;
+		}	
 	}
 	return headers;
 }

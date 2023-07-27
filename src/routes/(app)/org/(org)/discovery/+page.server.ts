@@ -1,17 +1,18 @@
 import type { BaseEntity, OriginAndComponentData, RelationGraphEntity} from "$lib/types";
 import type { PageServerLoad } from "./$types";
-import { createHeaders, getHttpContext } from "$lib/http/context";
+import { getHttpContext } from "$lib/http/context";
 import { ComponentApi } from "$lib/api/component";
 import { RelationsGraphApi } from "$lib/api/relationsGraph";
 import { TeamApi } from "$lib/api/team";
-import { DISCOVERY_HOME_PATH, ORGS_PATH } from "$lib/utils/paths";
+import { DISCOVERY_HOME_PATH, ORGS_INDEX_PATH } from "$lib/utils/paths";
 import { redirect } from "@sveltejs/kit";
+import { ORGANIZATION_ID_COOKIE_NAME } from "$lib/constants";
 
-export const load = (async ({ url, cookies, fetch, params }): Promise<OriginAndComponentData> => {
-    const context = getHttpContext(fetch, createHeaders(cookies, params));
-    const { publicId } = params;
+export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponentData> => {
+    const context = getHttpContext(fetch, cookies);
+    const publicId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
     if(!publicId) {
-        throw redirect(307, ORGS_PATH);
+        throw redirect(307, ORGS_INDEX_PATH);
     }
 
     const teamApi = new TeamApi(context);
@@ -32,8 +33,8 @@ export const load = (async ({ url, cookies, fetch, params }): Promise<OriginAndC
 
         if (origin) {
             relations = await graphApi.list({sourcePublicId: origin?.publicId, direction: "downstream"});
-        } else throw redirect(307, DISCOVERY_HOME_PATH(publicId));
-    } else throw redirect(307, DISCOVERY_HOME_PATH(publicId));
+        } else throw redirect(307, DISCOVERY_HOME_PATH);
+    } else throw redirect(307, DISCOVERY_HOME_PATH);
 
     return {
         ...(teams && {teams}),
