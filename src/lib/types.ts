@@ -1,11 +1,16 @@
 import type { ComponentType } from "svelte";
-import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { FetchHeader } from "./api/apiUtils";
 
 export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
-	type: "team" | "component" | "member";
+	type: "Team" | "Component" | "Member";
+}
+
+export interface GraphBaseEntity extends BaseEntity {
+	isOrigin: boolean;
 }
 
 export interface Member extends BaseEntity {
@@ -15,6 +20,8 @@ export interface Member extends BaseEntity {
 export interface TeamEntity extends BaseEntity {
 	members: Member[];
 }
+
+export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {};
 
 export type Organization = {
 	id: number;
@@ -36,6 +43,8 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
+
+export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {};
 
 export const EntityRelationshipNames = {
 	OWNER_OF: "ownerOf",
@@ -149,6 +158,8 @@ export type OriginAndComponentData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
+	baseHeaders: FetchHeader;
+	baseUrl: string;
 }
 
 export type TeamAndComponentData = {
@@ -175,11 +186,11 @@ export type NodeCoordinates = {
 export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
-	node: BaseEntity;
+	node: GraphBaseEntity;
 	inputConnections: AnchorConnectionTuple[];
 	outputConnections: AnchorConnectionTuple[];
 };
 
-type NodeMetadataTuple = [string, NodeMetadata];
+export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;

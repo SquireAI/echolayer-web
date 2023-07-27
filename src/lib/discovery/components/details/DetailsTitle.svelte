@@ -19,7 +19,7 @@
     </div>
 
     <div class="font-normal text-2xl -mb-1">
-        <span>Team A</span>
+        <slot />
     </div>
 
     <div class="mb-1">

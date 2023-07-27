@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
     import DetailsTitle from "$lib/discovery/components/details/DetailsTitle.svelte";
     import DetailsList from "$lib/discovery/components/details/DetailsList.svelte";
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
+	  import { selectedStore, entityDetailsStore } from "$lib/stores";
 
     // Panel controls
-    export let open = true;
+    export let open: boolean;
 
     // Panel content
     let properties = [
@@ -17,6 +18,22 @@
         {title: 'Sample', value: 'Sample Value', type: 'string'},
     ];
 </script>
+
+<div class="details-panel" class:open={open}>
+    <div class="header">
+        <CollapsePanelsHeader title="Details" bind:open={open} />
+    </div>
+
+    <div class="content divide-neutral-200 divide-solid divide-y">
+        <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
+
+        <DetailsList properties={properties} />
+    </div>
+
+    {#if $selectedStore.entity}
+      <SetOriginButton bind:open={open} />
+    {/if}
+</div>
 
 <style lang="scss">
   .details-panel {
@@ -47,17 +64,3 @@
     }
   }
 </style>
-
-<div class="details-panel" class:open={open}>
-    <div class="header">
-        <CollapsePanelsHeader title="Details" bind:open={open} />
-    </div>
-
-    <div class="content divide-neutral-200 divide-solid divide-y">
-        <DetailsTitle></DetailsTitle>
-
-        <DetailsList properties={properties} />
-    </div>
-
-    <SetOriginButton bind:open={open} />
-</div>

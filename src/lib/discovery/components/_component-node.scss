@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.component__node--wrapper {
+	@apply w-full;
+	@apply h-full;
+	@apply relative;
+}
+
 .component__node {
 	$self: &;
 	@apply bg-transparent;

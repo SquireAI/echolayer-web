@@ -43,7 +43,6 @@ p {
     grid-area: main;
     @apply w-full h-screen;
     @apply relative;
-    @apply bg-neutral-300;
 
     .svelvet-wrapper.svelte:focus {
       box-shadow: none;

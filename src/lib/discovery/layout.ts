@@ -1,7 +1,7 @@
-import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout } from "$lib/types";
+import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout, type GraphBaseEntity } from "$lib/types";
 import type { ComponentType } from "svelte";
-import TeamEntityNode from "./components/TeamEntityNode.svelte";
-import ComponentEntityNode from "./components/ComponentEntityNode.svelte";
+import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
+import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
 import { getConnectionForNode } from "./components/anchors";
 
 type NodeLayoutMap = Map<string, NodeMetadata>;
@@ -19,10 +19,12 @@ type Connections = {
 
 type NodeConnections = Map<string, Connections>;
 
-const ROW_GAP: number = 120;
+const ROW_GAP: number = 60;
 const COLUMN_GAP: number = 50;
 const NODE_WIDTH: number = 240;
 const NODE_HEIGHT: number = 140;
+const INITIAL_ROW_OFFSET: number = 40;
+const INITIAL_COLUMN_OFFSET: number = 40;
 
 const { INPUT, OUTPUT } = AnchorConnectionTypes;
 
@@ -43,12 +45,12 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	}
 
 	// set the origin as our source nodes to begin with
-	let sourceNodes: BaseEntity[] = [sourceNode];
+	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true }];
 
 	// we're going to build an array of rows so we know how to render this
 	// the nodes in the first index are the top, the next index are nodes that are targets for the 
 	// preview row, etc.
-	const rowNodes: BaseEntity[][] = [];
+	const rowNodes: GraphBaseEntity[][] = [];
 
 	// As we calculate connections for nodes, we'll collect them in this map
 	let nodeConnections: NodeConnections = new Map();
@@ -64,9 +66,10 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 		const targetPublicIds = entityRelationships
 			.filter((n) => sourcePublicIds.some((spid) => spid === n.sourcePublicId))
 			.map((rel) => rel.targetPublicId);
-		const targetNodes: BaseEntity[] = targetPublicIds
+		const targetNodes: GraphBaseEntity[] = targetPublicIds
 			.map((publicId) => nodes.find((n) => n.publicId === publicId))
-			.filter((n): n is BaseEntity => !!n);
+			.filter((n): n is BaseEntity => !!n)
+			.map((n) => ({ ...n, isOrigin: false }));
 
 		// Make the bi-directional connections for source nodes and their targets
 		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
@@ -81,7 +84,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 	
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = getNodeOrigins(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
+	const nodesMap: NodeLayoutMap = positionNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
@@ -145,32 +148,33 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function getNodeOrigins(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+function positionNodes(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
 	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
 		const rowEntities: BaseEntity[] = rowNodes[rowIndex];
-		const rowY = rowIndex !== 0 ? (rowIndex * NODE_HEIGHT) + ROW_GAP : 0;
-		const nodeOrigins: NodeOrigin[] = rowEntities.map((entity, index) => {
+		const rowY = rowIndex !== 0 ? INITIAL_ROW_OFFSET + (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : INITIAL_ROW_OFFSET;
+		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
+			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "team" ? TeamEntityNode : ComponentEntityNode };
 		});
 		rowWidths[rowIndex] = rowWidth;
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;
 		
-		nodeOrigins.forEach((nodeOrigin) => {
+		positionedNodes.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
+			const node = rowEntities.find((n) => n.publicId === pid)!
 			nodesMap.set(pid, { 
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
-				node: rowEntities.find((n) => n.publicId === pid)! });
+				node: { ...node, isOrigin: false } });
 		});
 	}
 	return nodesMap;

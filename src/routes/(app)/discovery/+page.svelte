@@ -3,45 +3,72 @@
 	import Canvas from "$lib/discovery/canvas.svelte";
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
-    import type {
-        OriginAndComponentData,
-        ComponentStore,
-        EntityRelationshipStore,
-        TeamStore,
-        OriginStore, SelectedStore, BaseEntity
-    } from "$lib/types";
-    import {getContext} from "svelte";
+    import type { BaseEntity } from "$lib/types";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
     import {
-        COMPONENT_STORE_NAME,
-        ORIGIN_STORE_NAME,
-        RELATIONS_GRAPH_STORE_NAME,
-        SELECTED_STORE_NAME,
-        TEAM_STORE_NAME
+        componentStore,
+        entityRelationshipStore,
+        originStore,
+        selectedStore,
+        teamStore,
     } from "$lib/stores";
+	import { page } from "$app/stores";
+	import { goto } from "$app/navigation";
+	import { browser } from "$app/environment";
+	import type { DiscoveryPage } from "./+page";
+	import { writable } from "svelte/store";
+	import { updateQueryParameters } from "$lib/discovery/utils";
 
-    export let data: OriginAndComponentData;
+    export let data: DiscoveryPage;
 
-    let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-    let relationStore: EntityRelationshipStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
-    let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
-    let originStore: OriginStore = getContext(ORIGIN_STORE_NAME) as OriginStore;
-    let selectedStore: SelectedStore = getContext(SELECTED_STORE_NAME) as SelectedStore;
+    const { teams, origin, components, relations, getRelationsGraph } = data;
+    const isDetailsPanelOpen = writable<boolean>(false);
 
-    if(data.components) {
-        componentStore.setComponents(data.components);
+    if(components) {
+        componentStore.setComponents(components);
     }
-    if(data.teams) {
-        teamStore.setTeams(data.teams);
+    if(teams) {
+        teamStore.setTeams(teams);
     }
-    if (data.origin) {
-        originStore.setEntity(data.origin);
+    if (origin) {
+        originStore.setEntity(origin);
     }
-    if(data.relations) {
-        relationStore.setEntityRelationships(data.relations);
+    if(relations) {
+        entityRelationshipStore.setEntityRelationships(relations);
     }
 
     let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
+
+    /**
+     * Gets the new downstream relations for the next selected origin.
+     * Replaces the relations currently set in the entity relations store.
+     */
+    async function updateRelationsOnOriginChange() {
+        const nextOrigin = $originStore.entity;
+        if (!nextOrigin) {
+            return;
+        }
+        const relations = await getRelationsGraph(nextOrigin);
+        entityRelationshipStore.setEntityRelationships(relations);
+    }
+
+    // when originStore updates, fetch the new downstream relations
+    $: $originStore, updateRelationsOnOriginChange();
+
+    // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
+    $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
+
+    // TODO: refactor this to a new home in $lib
+    let timer: NodeJS.Timeout;
+	const debounceNodeSelectionChange = (shouldBeOpen: boolean) => {
+        clearTimeout(timer);
+		timer = setTimeout(() => {
+            isDetailsPanelOpen.set(shouldBeOpen);
+        }, 100);
+	}
+
+    // Toggle the details panel open / closed if there's a node selected or not, respectively
+    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined)
 </script>
 
 <Panels>
@@ -51,12 +78,13 @@
         {#if $originStore.entity}
             <Canvas
                 components={$componentStore.entity}
-                relations={$relationStore.entity}
+                relations={$entityRelationshipStore.entity}
                 teams={$teamStore.entity}
                 origin={$originStore.entity}
             />
         {/if}
     </div>
+    <Details slot="details" open={$isDetailsPanelOpen} />
 </Panels>
 
 <style lang="scss">

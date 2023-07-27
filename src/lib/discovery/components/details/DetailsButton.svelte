@@ -1,6 +1,6 @@
-<script>
-    export let label = null;
-    export let onClick = null;
+<script lang="ts">
+    export let label: string = "";
+    export let onClick: () => void = () => {};
 </script>
 
 <style lang="scss">
