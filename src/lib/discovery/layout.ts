@@ -161,7 +161,7 @@ function positionNodes(rowIndices: number[], rowNodes: BaseEntity[][], nodeConne
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
 			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
-			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "team" ? TeamEntityNode : ComponentEntityNode };
+			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "Team" ? TeamEntityNode : ComponentEntityNode };
 		});
 		rowWidths[rowIndex] = rowWidth;
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;

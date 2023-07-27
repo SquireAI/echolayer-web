@@ -31,7 +31,6 @@ export function toggleSelectedComponent(component: BaseEntity, selected: boolean
 }
 
 export function getNodeSize(type: BaseEntity["type"]): NodeSize {
-	console.log("TYPE: ", type);
 	if (!nodeDimensionsByType.has(type) || nodeDimensionsByType.get(type) === undefined) {
 		throw new Error("Invalid node ComponentType");
 	}

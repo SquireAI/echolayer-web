@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { GraphTeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
-	import TeamIcon from '../TeamIcon.svelte';
+	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
 	import AvatarPlaceholder from '../AvatarPlaceholder.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
@@ -27,7 +27,7 @@
 					<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
 				</div>
 			{/if}
-			{#if outputConnections.length> 0}
+			{#if outputConnections.length > 0}
 				<div class="output__anchor">
 					<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
 				</div>
@@ -36,7 +36,7 @@
 				<div class="component__node--inner-wrapper component__info--wrapper">
 					<div class="component__info">
 						<div class="component__info--icon">
-							<TeamIcon />
+							<AccountMultiple size="24"  />
 						</div>
 						<div class="component__info--name">
 							<p>{component.name}</p>
