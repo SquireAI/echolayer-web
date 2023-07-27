@@ -6,7 +6,9 @@
 	import InputAnchor from './anchors/InputAnchor.svelte';
 	import OutputAnchor from './anchors/OutputAnchor.svelte';
 	import { getNodeId } from './anchors';
+	import OriginTag from './details/OriginTag.svelte';
 
+	export let isOrigin: boolean;
 	export let component: ComponentEntity;
 	export let owners: TeamEntity[] = [];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
@@ -35,6 +37,9 @@
 				<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
 			</div>
 		{/if}
+		<div class="left-0 -top-7 absolute">
+			<OriginTag isHidden={!isOrigin}/>
+		</div>
 		<div class="component__node--inner">
 			<div class="component__node--inner-wrapper component__info--wrapper">
 				<div class="component__info">
