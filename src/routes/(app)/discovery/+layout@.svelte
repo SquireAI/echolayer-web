@@ -30,15 +30,12 @@
 	setContext(SELECTED_STORE_NAME, selectedStore);
 
     // we will peek into the searchParams to see what has changed so we can update the state(s) as needed
-    function isNavigating(from: NavigationTarget | null, to: NavigationTarget | null, type: Omit<NavigationType, 'enter'>): void {
-        console.log("HERE")
+    function isNavigating(to: NavigationTarget | null, type: Omit<NavigationType, 'enter'>): void {
         if (type !== "popstate" && type !== "goto") {
             return;
         }
         const { ORIGIN, SELECTED } = URL_SEARCH_PARAMS_KEYS;
-        const fromSearchParms: URLSearchParams | undefined = from?.url.searchParams;
         const toSearchParams: URLSearchParams | undefined = to?.url.searchParams;
-        // console.log(fromSearchParms, toSearchParams);
         if (!toSearchParams) {
             return;
         }
@@ -72,9 +69,7 @@
         }
     }
 
-    $: if ($navigating) isNavigating($navigating.from, $navigating.to, $navigating.type);
-
-    $: $navigating, console.log($navigating);
+    $: if ($navigating) isNavigating($navigating.to, $navigating.type);
 </script>
 
 <DiscoveryLayout>

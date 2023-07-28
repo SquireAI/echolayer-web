@@ -7,7 +7,7 @@
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
 	import InnerNode from './components/InnerNode.svelte';
-	import { getNodeSize } from '.';
+	import { getNodeSize, toggleSelectedComponent } from '.';
 
 	export let component: GraphTeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
@@ -23,7 +23,7 @@
 
 </script>
 
-<Node id={id} let:grabHandle let:selected borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
+<Node id={id} let:grabHandle on:nodeReleased={() => toggleSelectedComponent(component, true)} let:selected borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode selected={selected} component={component}>
 		<div use:grabHandle class={`component__node ${isSelected(selected) ? "component__node--selected" : ""}`}>
 			{#if inputConnections.length > 0}

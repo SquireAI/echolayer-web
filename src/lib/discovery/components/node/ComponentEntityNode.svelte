@@ -7,7 +7,7 @@
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
 	import InnerNode from './components/InnerNode.svelte';
-	import { getNodeSize } from '.';
+	import { getNodeSize, toggleSelectedComponent } from '.';
 
 	export let component: GraphComponentEntity;
 	export let owners: TeamEntity[] = [];
@@ -19,14 +19,13 @@
 
 	const id = getNodeId(component.publicId);
 	const nodeSize = getNodeSize(component.type);
-	console.log(`${component.publicId}: ${component.isSelected}`);
 	const isSelected = (nodeSelected: boolean): boolean => {
 		return nodeSelected || component.isSelected;
 	}
 
 </script>
 
-<Node id={id} let:node let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
+<Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode selected={selected} component={component}>
 		<div use:grabHandle class={`component__node ${isSelected(selected) ? "component__node--selected " : ""}component__entity`}>
 			{#if inputConnections.length > 0}

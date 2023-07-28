@@ -38,7 +38,6 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
 export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 2, selectedPublicId?: string): LeveledNodeLayout {
-	console.log("layout selectedID ", selectedPublicId)
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
@@ -70,7 +69,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 		const targetNodes: GraphBaseEntity[] = targetPublicIds
 			.map((publicId) => nodes.find((n) => n.publicId === publicId))
 			.filter((n): n is BaseEntity => !!n)
-			.map((n) => ({ ...n, isOrigin: false, isSelected: sourceNode.publicId === selectedPublicId }));
+			.map((n) => ({ ...n, isOrigin: false, isSelected: n.publicId === selectedPublicId })); // set if the node isSelected here!!
 
 		// Make the bi-directional connections for source nodes and their targets
 		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
