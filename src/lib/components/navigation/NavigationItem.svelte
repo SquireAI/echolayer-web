@@ -5,7 +5,7 @@
 	export let href: string;
 	export let SolidIcon: any;
 	export let OutlineIcon: any;
-	export let reload: boolean = false;
+	export let reload: true | "" | "off" | null | undefined = undefined;
 
 	$: isActive = $page.url.pathname === href;
 </script>
@@ -15,8 +15,7 @@
 		isActive ? 'bg-gray-200 text-neutral-800' : 'text-neutral-400'
 	}`}
 >
-{#if reload}
-	<a class="flex flex-row gap-3 place-items-center" {href} data-sveltekit-reload>
+	<a class="flex flex-row gap-3 place-items-center" {href} data-sveltekit-reload={reload}>
 		{#if isActive}
 			<svelte:component this={SolidIcon} width={20} height={20} />
 		{:else}
@@ -24,15 +23,4 @@
 		{/if}
 		<p class="text-md leading-4">{name}</p>
 	</a>
-{:else}
-	<a class="flex flex-row gap-3 place-items-center" {href}>
-		{#if isActive}
-			<svelte:component this={SolidIcon} width={20} height={20} />
-		{:else}
-			<svelte:component this={OutlineIcon} width={20} height={20} />
-		{/if}
-		<p class="text-md leading-4">{name}</p>
-	</a>
-{/if}
-	
 </div>
