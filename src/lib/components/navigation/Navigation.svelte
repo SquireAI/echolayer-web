@@ -36,7 +36,7 @@
                 <div class="flex flex-col items-start">
                     <p class="font-medium leading-5 text-neutral-800">{$userStore.entity?.name}</p>
                     {#if organization}
-                        <p class="font-normal leading-4 text-sm text-neutral-400">{organization.name}</p>
+                        <p class="font-medium leading-4 text-sm text-neutral-400">{organization.name}</p>
                     {/if}
                 </div>
             </div>
@@ -50,7 +50,7 @@
     </div>
     <div class="flex flex-col items-center justify-end p-3 gap-4">
         <Button full={true} type="special" href={SUPPORT_URL} target="_blank">
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
                 <HelpCircle width={20} height={20} class={'text-echolayer-blue'}/>
                 Support
             </div>
@@ -61,7 +61,7 @@
                 href={NOTION_GETTING_STARTED_DOCS}
                 target="_blank"
         >
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
                 <OpenInNew width={20} height={20} class={'text-echolayer-blue'}/>
                 Documentation
             </div>

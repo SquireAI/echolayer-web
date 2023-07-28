@@ -18,7 +18,7 @@
     <div class="rounded-sm h-14 w-14 bg-neutral-200 mb-2">
     </div>
 
-    <div class="font-normal text-2xl -mb-1">
+    <div class="font-medium text-2xl -mb-1">
         <slot />
     </div>
 
