@@ -44,7 +44,7 @@
         <div>
             <div class="flex flex-col w-full gap-2">
                 <NavigationItem name="Home" href={DISCOVERY_HOME_PATH} OutlineIcon={HomeOutline} SolidIcon={Home}/>
-                <NavigationItem name="Settings" href={API_KEYS_PATH} OutlineIcon={CogOutline} SolidIcon={Cog}/>
+                <NavigationItem name="Settings" href={API_KEYS_PATH} OutlineIcon={CogOutline} SolidIcon={Cog} reload/>
             </div>
         </div>
     </div>
