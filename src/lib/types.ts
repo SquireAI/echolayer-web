@@ -7,6 +7,12 @@ export interface BaseEntity {
 	name: string;
 	metadata: any;
 	type: "Team" | "Component" | "Member";
+	links: Link[];
+}
+
+export interface Link {
+	name: string;
+	url: string;
 }
 
 export interface GraphBaseEntity extends BaseEntity {
