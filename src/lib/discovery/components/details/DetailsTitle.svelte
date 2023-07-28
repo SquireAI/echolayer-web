@@ -1,5 +1,6 @@
 <script>
     import DetailsButton from "$lib/discovery/components/details/DetailsButton.svelte";
+	import { entityDetailsStore } from "$lib/stores";
     import OpenInNew from "svelte-material-icons/OpenInNew.svelte";
 </script>
 
@@ -26,12 +27,13 @@
         <span class="text-neutral-500 text-xs">Created 2023</span>
     </div>
 
-    <div class="actions">
-        <DetailsButton label="Main Channel">
-            <span slot="icon"><OpenInNew width={15} height={15} color="#2654F4" /></span>
-        </DetailsButton>
-        <DetailsButton label="Message DRI">
-            <span slot="icon"><OpenInNew width={15} height={15} color="#2654F4" /></span>
-        </DetailsButton>
-    </div>
+    {#if $entityDetailsStore.entity?.links?.length}
+        <div class="actions">
+            {#each $entityDetailsStore.entity.links as link}
+                <DetailsButton label={link.name[0].toUpperCase() + link.name.substring(1).toLowerCase()} href={link.url} target="_blank">
+                    <span slot="icon"><OpenInNew width={15} height={15} color="#2654F4" /></span>     
+                </DetailsButton>
+            {/each}
+        </div>
+    {/if}
 </div>
