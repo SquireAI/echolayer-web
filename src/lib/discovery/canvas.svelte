@@ -3,6 +3,7 @@
 	import { layout } from "./layout";
 	import type { BaseEntity, ComponentEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 	import { setOriginOnNodeLayout } from "./utils";
+	import { selectedStore } from "$lib/stores";
 
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
@@ -13,7 +14,7 @@
 	let nodesByRow: LeveledNodeLayout = [];
 
 	function updateGraph() {
-		nodesByRow = layout(nodes, relations, origin.publicId);
+		nodesByRow = layout(nodes, relations, origin.publicId, 2, $selectedStore.entity?.publicId);
 		nodesByRow = setOriginOnNodeLayout(nodesByRow, origin.publicId);
 	}
 
@@ -26,12 +27,13 @@
 	 * we need to draw it.
 	*/
 	$: relations, updateGraph();
+	$: $selectedStore, updateGraph();
 </script>
 
 <!-- Each entry being drawn needs to be keyed for when updates to the graph are made, else you get an error -->
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">
 	{#each nodesByRow as rowEntry}
-		{#each rowEntry as entry (entry[1].node.publicId)}
+		{#each rowEntry as entry (`${entry[1].node.publicId}-${entry[1].node.isSelected}`)}
 			<svelte:component this={entry[1].nodeType} component={entry[1].node} origin={entry[1].origin} outputConnections={entry[1].outputConnections} inputConnections={entry[1].inputConnections} />
 		{/each}
 	{/each}

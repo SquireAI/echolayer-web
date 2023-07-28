@@ -35,8 +35,6 @@
         entityRelationshipStore.setEntityRelationships(relations);
     }
 
-    let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
-
     /**
      * Gets the new downstream relations for the next selected origin.
      * Replaces the relations currently set in the entity relations store.
@@ -54,19 +52,10 @@
     $: $originStore, updateRelationsOnOriginChange();
 
     // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
-    $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
-
-    // TODO: refactor this to a new home in $lib
-    let timer: NodeJS.Timeout;
-	const debounceNodeSelectionChange = (shouldBeOpen: boolean) => {
-        clearTimeout(timer);
-		timer = setTimeout(() => {
-            isDetailsPanelOpen.set(shouldBeOpen);
-        }, 100);
-	}
+    $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId});
 
     // Toggle the details panel open / closed if there's a node selected or not, respectively
-    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined)
+    $: $selectedStore.entity, isDetailsPanelOpen.set($selectedStore.entity !== undefined);
 </script>
 
 <Panels>

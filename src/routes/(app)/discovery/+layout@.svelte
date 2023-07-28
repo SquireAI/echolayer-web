@@ -17,6 +17,9 @@
         selectedStore,
         SELECTED_STORE_NAME
     } from '$lib/stores';
+	import { navigating } from '$app/stores';
+	import type { NavigationTarget, NavigationType } from '@sveltejs/kit';
+    import { URL_SEARCH_PARAMS_KEYS } from "$lib/discovery/utils";
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
@@ -25,6 +28,48 @@
 	setContext(ORG_STORE_NAME, organizationStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
+
+    // we will peek into the searchParams to see what has changed so we can update the state(s) as needed
+    function isNavigating(to: NavigationTarget | null, type: Omit<NavigationType, 'enter'>): void {
+        if (type !== "popstate" && type !== "goto") {
+            return;
+        }
+        const { ORIGIN, SELECTED } = URL_SEARCH_PARAMS_KEYS;
+        const toSearchParams: URLSearchParams | undefined = to?.url.searchParams;
+        if (!toSearchParams) {
+            return;
+        }
+        const selectedPublicId: string | null = toSearchParams.get(SELECTED);
+        const originPublicId: string | null = toSearchParams.get(ORIGIN);
+        if ($originStore.entity?.publicId !== originPublicId) {
+            if (originPublicId) {
+                const entity = [...Array.from($componentStore.entity || []), ...Array.from($teamStore.entity || [])].find((e) => e.publicId === originPublicId);
+                if (entity) {
+                    originStore.setEntity(entity)
+                } else {
+                    // entity is not in the store. Possibility is that originPublicId was tampered with
+                    throw new Error("Could not find entity for given origin public ID in URL");
+                }   
+            } else {
+                originStore.clear();
+            }
+        }
+        if ($selectedStore.entity?.publicId !== selectedPublicId) {
+            if (selectedPublicId) {
+                const entity = [...Array.from($componentStore.entity || []), ...Array.from($teamStore.entity || [])].find((e) => e.publicId === selectedPublicId);
+                if (entity) {
+                    selectedStore.setEntity(entity);
+                } else {
+                    // entity is not in the store. Possibility is that selectedPublicId was tampered with
+                    throw new Error("Could not find entity for given selected public ID in URL");
+                }
+            } else {
+                selectedStore.clear();
+            }
+        }
+    }
+
+    $: if ($navigating) isNavigating($navigating.to, $navigating.type);
 </script>
 
 <DiscoveryLayout>

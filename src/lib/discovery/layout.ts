@@ -33,19 +33,19 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * by the node given by sourcePublicId.
  * @param nodes The full collection of nodes we are to render
  * @param entityRelationships The collection of entity relationships
- * @param sourcePublicId The publicId of the node marked as the origin
+ * @param originPublicId The publicId of the node marked as the origin
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], sourcePublicId: string, depth: number = 2): LeveledNodeLayout {
-	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === sourcePublicId);
+export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 2, selectedPublicId?: string): LeveledNodeLayout {
+	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
 		throw new Error("Could not find a node for given sourcePublicId");
 	}
 
 	// set the origin as our source nodes to begin with
-	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true }];
+	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true, isSelected: sourceNode.publicId === selectedPublicId }];
 
 	// we're going to build an array of rows so we know how to render this
 	// the nodes in the first index are the top, the next index are nodes that are targets for the 
@@ -69,7 +69,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 		const targetNodes: GraphBaseEntity[] = targetPublicIds
 			.map((publicId) => nodes.find((n) => n.publicId === publicId))
 			.filter((n): n is BaseEntity => !!n)
-			.map((n) => ({ ...n, isOrigin: false }));
+			.map((n) => ({ ...n, isOrigin: false, isSelected: n.publicId === selectedPublicId })); // set if the node isSelected here!!
 
 		// Make the bi-directional connections for source nodes and their targets
 		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
@@ -148,13 +148,13 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function positionNodes(rowIndices: number[], rowNodes: BaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
 	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
-		const rowEntities: BaseEntity[] = rowNodes[rowIndex];
+		const rowEntities: GraphBaseEntity[] = rowNodes[rowIndex];
 		const rowY = rowIndex !== 0 ? INITIAL_ROW_OFFSET + (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : INITIAL_ROW_OFFSET;
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
@@ -174,7 +174,8 @@ function positionNodes(rowIndices: number[], rowNodes: BaseEntity[][], nodeConne
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
-				node: { ...node, isOrigin: false } });
+				node
+			});
 		});
 	}
 	return nodesMap;

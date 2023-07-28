@@ -23,11 +23,7 @@ export function clearSelectedNode(): void {
 }
 
 export function toggleSelectedComponent(component: BaseEntity, selected: boolean): void {
-	if (selected) {
-		// the setTimeout is needed to make sure the next selected node is set AFTER the previously selected node is toggled off
-		return void setTimeout(() => setSelectedNode(component), 100);
-	}
-	return clearSelectedNode();
+	return setSelectedNode(component);
 }
 
 export function getNodeSize(type: BaseEntity["type"]): NodeSize {
