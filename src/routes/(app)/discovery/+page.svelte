@@ -34,8 +34,6 @@
         entityRelationshipStore.setEntityRelationships(relations);
     }
 
-    // let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
-
     /**
      * Gets the new downstream relations for the next selected origin.
      * Replaces the relations currently set in the entity relations store.

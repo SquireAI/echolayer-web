@@ -19,7 +19,7 @@ export function setSelectedNode(entity: BaseEntity): void {
 }
 
 export function clearSelectedNode(): void {
-	// selectedStore.clear();
+	selectedStore.clear();
 }
 
 export function toggleSelectedComponent(component: BaseEntity, selected: boolean): void {

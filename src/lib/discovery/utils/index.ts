@@ -55,14 +55,3 @@ export function updateQueryParameters({ originPublicId, selectedPublicId }: { or
 		goto(`?${get(page).url.searchParams.toString()}`);
 	}
 }
-
-// export function debounceUpdateQueryParams(originStore: OriginStore, selectedStore: SelectedStore): void {
-// 	// let timer: NodeJS.Timeout;
-// 	// const debounce = () => {
-// 	// 	clearTimeout(timer);
-// 	// 	timer = setTimeout(() => {
-// 			updateQueryParameters({ originPublicId: get(originStore).entity?.publicId, selectedPublicId: get(selectedStore).entity?.publicId })
-// 	// 	}, 100);
-// 	// }
-// 	// return debounce;
-// }
