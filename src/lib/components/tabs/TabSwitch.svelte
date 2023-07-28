@@ -15,7 +15,7 @@
 
     button {
       @apply relative flex-1 items-center;
-      @apply bg-white border-0 px-3 py-1 font-medium text-center text-gray-900 hover:bg-neutral-200 rounded-md shadow-none drop-shadow-none ring-0 capitalize;
+      @apply bg-white border-0 px-3 py-0.5 font-medium text-center text-gray-900 hover:bg-neutral-200 rounded-md shadow-none drop-shadow-none ring-0 capitalize;
 
       &.selected {
         @apply bg-echolayer-lightBlue text-echolayer-blue-200 border-echolayer-lightBlue border;
