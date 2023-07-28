@@ -19,7 +19,7 @@
 	let nodesByRow: LeveledNodeLayout = [];
 
 	function updateGraph() {
-		console.log("updateGraph...")
+		console.log("update")
 		nodesByRow = layout(nodes, relations, origin.publicId, 2, $selectedPublicIdStore);
 		nodesByRow = setOriginOnNodeLayout(nodesByRow, origin.publicId);
 	}
@@ -44,7 +44,7 @@
 	 * we need to draw it.
 	*/
 	$: relations, updateGraph();
-	$: $selectedStore.entity || $selectedStore.entity === "", updateGraph();
+	$: $selectedPublicIdStore || $selectedPublicIdStore === "", updateGraph();
 	$: selected, updateSelectedPublicId();
 </script>
 
