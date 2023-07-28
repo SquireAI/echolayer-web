@@ -14,7 +14,7 @@
     } from "$lib/stores";
 	import type { DiscoveryPage } from "./+page";
 	import { writable } from "svelte/store";
-	import { debounceUpdateQueryParams, updateQueryParameters } from "$lib/discovery/utils";
+	import { updateQueryParameters } from "$lib/discovery/utils";
 
     export let data: DiscoveryPage;
 
@@ -53,21 +53,10 @@
     $: $originStore, updateRelationsOnOriginChange();
 
     // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
-    $: $originStore || $selectedStore, debounceUpdateQueryParams(originStore, selectedStore)();
-
-    // TODO: refactor this to a new home in $lib
-    let timer: NodeJS.Timeout;
-	const debounceNodeSelectionChange = (shouldBeOpen: boolean) => {
-        clearTimeout(timer);
-		timer = setTimeout(() => {
-            isDetailsPanelOpen.set(shouldBeOpen);
-        }, 100);
-	}
+    $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId});
 
     // Toggle the details panel open / closed if there's a node selected or not, respectively
-    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined);
-
-    $selectedStore.entity, console.log("CHANGED! ", $selectedStore.entity?.publicId);
+    $: $selectedStore.entity, isDetailsPanelOpen.set($selectedStore.entity !== undefined);
 </script>
 
 <Panels>
@@ -80,7 +69,6 @@
                 relations={$entityRelationshipStore.entity}
                 teams={$teamStore.entity}
                 origin={$originStore.entity}
-                selected={$selectedStore.entity}
             />
         {/if}
     </div>

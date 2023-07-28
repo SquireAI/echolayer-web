@@ -26,7 +26,7 @@
 </script>
 
 <Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
-	<InnerNode selected={selected} component={component}>
+	<InnerNode component={component}>
 		<div use:grabHandle class={`component__node ${isSelected(selected) ? "component__node--selected " : ""}component__entity`}>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
