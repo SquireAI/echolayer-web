@@ -1,4 +1,6 @@
 <script>
+    import titlelize from "titleize";
+
     import DetailsButton from "$lib/discovery/components/details/DetailsButton.svelte";
 	import { entityDetailsStore } from "$lib/stores";
     import OpenInNew from "svelte-material-icons/OpenInNew.svelte";
@@ -30,7 +32,7 @@
     {#if $entityDetailsStore.entity?.links?.length}
         <div class="actions">
             {#each $entityDetailsStore.entity.links as link}
-                <DetailsButton label={link.name[0].toUpperCase() + link.name.substring(1).toLowerCase()} href={link.url} target="_blank">
+                <DetailsButton label={titlelize(link.name)} href={link.url} target="_blank">
                     <span slot="icon"><OpenInNew width={15} height={15} color="#2654F4" /></span>     
                 </DetailsButton>
             {/each}
