@@ -11,6 +11,7 @@ export interface BaseEntity {
 
 export interface GraphBaseEntity extends BaseEntity {
 	isOrigin: boolean;
+	isSelected: boolean;
 }
 
 export interface Member extends BaseEntity {

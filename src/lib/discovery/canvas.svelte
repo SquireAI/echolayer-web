@@ -3,20 +3,38 @@
 	import { layout } from "./layout";
 	import type { BaseEntity, ComponentEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 	import { setOriginOnNodeLayout } from "./utils";
+	import { selectedStore } from "$lib/stores";
+	import { writable } from "svelte/store";
 
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
 	export let relations: RelationGraphEntity[] = [];
 	export let origin: BaseEntity;
+	export let selected: BaseEntity | undefined;
+
+	// keep track of when a selected node changes (could be from a click or navigating history)
+	const selectedPublicIdStore = writable<string>(selected?.publicId || "");
 
 	const nodes: BaseEntity[]  = [...components, ...teams];
 	let nodesByRow: LeveledNodeLayout = [];
 
 	function updateGraph() {
-		nodesByRow = layout(nodes, relations, origin.publicId);
+		console.log("updateGraph...")
+		nodesByRow = layout(nodes, relations, origin.publicId, 2, $selectedPublicIdStore);
 		nodesByRow = setOriginOnNodeLayout(nodesByRow, origin.publicId);
 	}
 
+	function updateSelectedPublicId() {
+		if ($selectedPublicIdStore !== selected?.publicId) {
+			if (selected) {
+				selectedPublicIdStore.set(selected.publicId);
+			} else {
+				selectedPublicIdStore.set("");
+			}
+		}
+	}
+
+	$: $selectedStore, console.log("SELECTED: ", $selectedStore.entity?.publicId);
 	/**
 	 * Update the graph by figuring out a new layout when we get a new collection
 	 * of relations.
@@ -26,6 +44,8 @@
 	 * we need to draw it.
 	*/
 	$: relations, updateGraph();
+	$: $selectedStore.entity || $selectedStore.entity === "", updateGraph();
+	$: selected, updateSelectedPublicId();
 </script>
 
 <!-- Each entry being drawn needs to be keyed for when updates to the graph are made, else you get an error -->

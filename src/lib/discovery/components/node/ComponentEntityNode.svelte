@@ -19,20 +19,24 @@
 
 	const id = getNodeId(component.publicId);
 	const nodeSize = getNodeSize(component.type);
+	console.log(`${component.publicId}: ${component.isSelected}`);
+	const isSelected = (nodeSelected: boolean): boolean => {
+		return nodeSelected || component.isSelected;
+	}
 
 </script>
 
-<Node id={id} let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
+<Node id={id} let:node let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode selected={selected} component={component}>
-		<div use:grabHandle class={`component__node ${selected ? "component__node--selected " : ""}component__entity`}>
+		<div use:grabHandle class={`component__node ${isSelected(selected) ? "component__node--selected " : ""}component__entity`}>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
-					<InputAnchor parentId={id} selected={selected} anchorConnections={inputConnections} />
+					<InputAnchor parentId={id} selected={isSelected(selected)} anchorConnections={inputConnections} />
 				</div>
 			{/if}
 			{#if outputConnections.length > 0}
 				<div class="output__anchor">
-					<OutputAnchor parentId={id} selected={selected} anchorConnections={outputConnections} />
+					<OutputAnchor parentId={id} selected={isSelected(selected)} anchorConnections={outputConnections} />
 				</div>
 			{/if}
 			<div class="component__node--inner">

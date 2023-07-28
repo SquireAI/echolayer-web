@@ -12,12 +12,9 @@
         selectedStore,
         teamStore,
     } from "$lib/stores";
-	import { page } from "$app/stores";
-	import { goto } from "$app/navigation";
-	import { browser } from "$app/environment";
 	import type { DiscoveryPage } from "./+page";
 	import { writable } from "svelte/store";
-	import { updateQueryParameters } from "$lib/discovery/utils";
+	import { debounceUpdateQueryParams, updateQueryParameters } from "$lib/discovery/utils";
 
     export let data: DiscoveryPage;
 
@@ -37,7 +34,7 @@
         entityRelationshipStore.setEntityRelationships(relations);
     }
 
-    let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
+    // let toggleSelected = (entity: BaseEntity) => selectedStore.setEntity(entity);
 
     /**
      * Gets the new downstream relations for the next selected origin.
@@ -56,7 +53,7 @@
     $: $originStore, updateRelationsOnOriginChange();
 
     // if the origin or selected node update in our stores, we update the query params in the URL in the user's browser
-    $: $originStore || $selectedStore, updateQueryParameters({ originPublicId: $originStore.entity?.publicId, selectedPublicId: $selectedStore.entity?.publicId });
+    $: $originStore || $selectedStore, debounceUpdateQueryParams(originStore, selectedStore)();
 
     // TODO: refactor this to a new home in $lib
     let timer: NodeJS.Timeout;
@@ -68,7 +65,9 @@
 	}
 
     // Toggle the details panel open / closed if there's a node selected or not, respectively
-    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined)
+    $: $selectedStore.entity, debounceNodeSelectionChange($selectedStore.entity !== undefined);
+
+    $selectedStore.entity, console.log("CHANGED! ", $selectedStore.entity?.publicId);
 </script>
 
 <Panels>
@@ -81,6 +80,7 @@
                 relations={$entityRelationshipStore.entity}
                 teams={$teamStore.entity}
                 origin={$originStore.entity}
+                selected={$selectedStore.entity}
             />
         {/if}
     </div>
