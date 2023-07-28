@@ -9,7 +9,7 @@ const config = {
 		preprocess({
 			postcss: true,
 			scss: {
-				prependData: '@use "src/variables.scss" as *;'
+				prependData: '@use "src/styles/main.scss" as *;'
 			}
 		})
 	],

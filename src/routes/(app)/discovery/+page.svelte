@@ -12,12 +12,10 @@
         selectedStore,
         teamStore,
     } from "$lib/stores";
-	import { page } from "$app/stores";
-	import { goto } from "$app/navigation";
-	import { browser } from "$app/environment";
 	import type { DiscoveryPage } from "./+page";
 	import { writable } from "svelte/store";
 	import { updateQueryParameters } from "$lib/discovery/utils";
+    import SitemapOutline from "svelte-material-icons/SitemapOutline.svelte";
 
     export let data: DiscoveryPage;
 
@@ -74,7 +72,11 @@
 <Panels>
     <Navigation slot="nav" />
     <div class="content" slot="content">
-        <PanelsHeader title="Content" />
+        <PanelsHeader title="Connections">
+            <span slot="left-action" class="flex">
+                <SitemapOutline />
+	        </span>
+        </PanelsHeader>
         {#if $originStore.entity}
             <Canvas
                 components={$componentStore.entity}
@@ -89,6 +91,6 @@
 
 <style lang="scss">
     .content {
-        height: calc(100vh - 65px);
+        height: calc(100vh - 55px);
     }
 </style>

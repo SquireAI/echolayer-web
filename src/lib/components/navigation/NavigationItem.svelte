@@ -21,6 +21,6 @@
 		{:else}
 			<svelte:component this={OutlineIcon} width={20} height={20} />
 		{/if}
-		<p class="text-md leading-4">{name}</p>
+		<p class="text-md font-medium leading-4">{name}</p>
 	</a>
 </div>

@@ -9,6 +9,7 @@
     import Button from '../Button.svelte';
     import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
     import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
+    import Logout from 'svelte-material-icons/Logout.svelte';
     import {API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL} from '$lib/utils/paths';
 
     const userStore = getContext('user') as UserStore;
@@ -36,7 +37,7 @@
                 <div class="flex flex-col items-start">
                     <p class="font-medium leading-5 text-neutral-800">{$userStore.entity?.name}</p>
                     {#if organization}
-                        <p class="font-normal leading-4 text-sm text-neutral-400">{organization.name}</p>
+                        <p class="font-medium leading-4 text-sm text-neutral-400">{organization.name}</p>
                     {/if}
                 </div>
             </div>
@@ -48,22 +49,28 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-col items-center justify-end p-3 gap-4">
-        <Button full={true} type="special" href={SUPPORT_URL} target="_blank">
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
+    <div class="flex flex-col items-center justify-end p-3 gap-2">
+        <Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
                 <HelpCircle width={20} height={20} class={'text-echolayer-blue'}/>
                 Support
             </div>
         </Button>
         <Button
                 full={true}
-                type="special"
+                type="grey"
                 href={NOTION_GETTING_STARTED_DOCS}
                 target="_blank"
         >
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
                 <OpenInNew width={20} height={20} class={'text-echolayer-blue'}/>
                 Documentation
+            </div>
+        </Button>
+        <Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+                <Logout width={20} height={20} class={'text-echolayer-blue'}/>
+                Logout
             </div>
         </Button>
     </div>

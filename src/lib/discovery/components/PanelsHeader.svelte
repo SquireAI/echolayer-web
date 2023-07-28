@@ -5,8 +5,8 @@
 <style lang="scss">
 	.panel-header {
 		@apply flex items-center;
-		@apply px-4 py-4;
-		@apply leading-8;
+		@apply px-4 py-2.5;
+		@apply leading-8 font-medium;
 		@apply border-b border-neutral-300;
 		@apply flex flex-row;
 		@apply bg-white;

@@ -39,7 +39,7 @@
   .details-panel {
     @apply w-1/2 h-full top-0;
     @apply flex flex-col absolute;
-    left: calc(100% - 110px);
+    left: calc(100% - 120px);
     transition: left 0.1s ease-in-out;
 
     .header {

@@ -12,18 +12,20 @@
 
 	export let handleClick: () => Promise<void> = async () => {};
 
-	const baseButtonClassNames = "inline-flex justify-center font-medium text-sm py-3 cursor-pointer text-center rounded leading-4";
+	const baseButtonClassNames = "inline-flex justify-center font-medium text-sm cursor-pointer text-center rounded leading-4";
 	let buttonClasses = `${baseButtonClassNames}`;
 	if (type === "button" || type === "primary") {
-		buttonClasses = `${buttonClasses} bg-echolayer-blue border radius-4 border-white text-white px-8 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+		buttonClasses = `${buttonClasses} bg-echolayer-blue border radius-4 border-white text-white px-8 py-3 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	} else if (type === "secondary") {
-		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-8 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-8 py-3 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	} else if (type === "link") {
-		buttonClasses = `${buttonClasses} bg-transparent hover:underline text-black ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+		buttonClasses = `${buttonClasses} bg-transparent hover:underline text-black py-3 ${clazz} ${disabled ? "cursor-not-allowed bg-neutral-500" : "" }`;
 	} else if (type === "special") {
-		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-3 h-12 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+		buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black p-3 ${clazz} ${disabled ? "cursor-not-allowed bg-neutral-500" : "" }`;
+	} else if (type === "grey") {
+		buttonClasses = `${buttonClasses} bg-neutral-100 border border-neutral-300 text-black px-3 py-1.5 rounded-sm ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	} else if (type === "flat") {
-		buttonClasses = `flex flex-row text-sm py-3 cursor-pointer font-medium bg-white text-neutral-800 rounded-sm px-3 hover:bg-neutral-200 ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
+		buttonClasses = `flex flex-row text-sm cursor-pointer font-medium bg-white text-neutral-800 p-2 hover:bg-neutral-200 rounded ${clazz} ${disabled ? "cursor-not-allowed	bg-neutral-500" : "" }`;
 	}
 
 	async function clickHandler(): Promise<boolean> {

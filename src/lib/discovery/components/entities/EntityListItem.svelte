@@ -31,8 +31,8 @@
                 </span>
             </div>
             <div class="flex-1 flex-col gap-1">
-                <p class="text-sm">{entity.name}</p>
-                <p class="text-xs">{entity.members?.length} members</p>
+                <p class="text-sm font-medium">{entity.name}</p>
+                <p class="text-xs font-medium">{entity.members?.length} members</p>
             </div>
         {:else if entity.type === "Component"}
             <div>
@@ -41,7 +41,7 @@
                 </span>
             </div>
             <div class="flex-1 flex-col gap-1">
-                <p class="text-sm">{entity.name}</p>
+                <p class="text-sm font-medium">{entity.name}</p>
             </div>
         {/if}
     </a>

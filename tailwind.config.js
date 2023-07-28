@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
@@ -33,9 +35,12 @@ export default {
           },
         }
       },
+      fontFamily: {
+        'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+      },
       gridTemplateColumns: {
         '1/3-2/3': "1fr 2fr",
-      }
+      },
     },
   },
   plugins: [],

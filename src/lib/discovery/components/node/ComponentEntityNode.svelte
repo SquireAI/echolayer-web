@@ -42,7 +42,7 @@
 							<ComponentEntityIcon />
 						</div>
 						<div class="component__info--name">
-							<p>{component.name}</p>
+							<p class="font-medium">{component.name}</p>
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 					<div class="component__members">
 						<div class="component__members--count">
 							<TeamIcon />
-							<p>
+							<p class="font-medium">
 								<span>{`${numOwningTeams} team${numOwningTeams !== 1 ? "s": ""}`}</span>
 							</p>
 						</div>
