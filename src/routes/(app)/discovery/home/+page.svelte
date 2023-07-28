@@ -85,11 +85,11 @@
                     <TabSwitch tabs={tabs} bind:selected={selected}/>
                 </div>
             </div>
-            <div class="flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit">
-                <div class="content-block" class:selected="{'teams' === tabs[selected]}">
+            <div class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit">
+                <div class="content-block flex-1" class:selected="{'teams' === tabs[selected]}">
                     <EntityList entities={$teamStore.entity}/>
                 </div>
-                <div class="content-block" class:selected="{'components' === tabs[selected]}">
+                <div class="content-block flex-1" class:selected="{'components' === tabs[selected]}">
                     <EntityList entities={$componentStore.entity}/>
                 </div>
             </div>
