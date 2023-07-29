@@ -5,7 +5,9 @@
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
     import { selectedStore, entityDetailsStore } from "$lib/stores";
 	  import MembersList from "./components/details/MembersList.svelte";
-	import { EntityTypes } from "$lib/types";
+	  import { EntityTypes } from "$lib/types";
+    import DetailsJson from "$lib/discovery/components/details/DetailsJson.svelte";
+    import DetailsSectionHeader from "$lib/discovery/components/details/DetailsSectionHeader.svelte";
 
     // Panel controls
     export let open: boolean;
@@ -18,11 +20,16 @@
         <CollapsePanelsHeader title="Details" bind:open={open} disabled={!$selectedStore.entity} />
     </div>
 
-    <div class="content divide-neutral-200 divide-solid divide-y">
+    <div class="content divide-neutral-200 divide-solid divide-y flex-1 flex flex-col">
         <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
         {#if entity?.type === EntityTypes.TEAM}
           <MembersList members={entity.members}></MembersList>
         {/if}
+
+        <DetailsSectionHeader label="Metadata" />
+        <div class="flex-1 overflow-y-auto">
+            <DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
+        </div>
     </div>
 
     {#if $selectedStore.entity}
@@ -43,7 +50,6 @@
     }
 
     .content {
-      @apply flex-1 flex flex-col;
       @apply bg-white;
       @apply border-l;
       @apply border-neutral-300;
