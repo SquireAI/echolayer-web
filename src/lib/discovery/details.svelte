@@ -1,11 +1,10 @@
 <script lang="ts">
     import DetailsTitle from "$lib/discovery/components/details/DetailsTitle.svelte";
-    import DetailsList from "$lib/discovery/components/details/DetailsList.svelte";
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
     import { selectedStore, entityDetailsStore } from "$lib/stores";
 	  import MembersList from "./components/details/MembersList.svelte";
-	  import { EntityTypes } from "$lib/types";
+	  import { EntityTypes, type ComponentEntity, type TeamEntity } from "$lib/types";
     import DetailsJson from "$lib/discovery/components/details/DetailsJson.svelte";
     import DetailsSectionHeader from "$lib/discovery/components/details/DetailsSectionHeader.svelte";
 
@@ -13,6 +12,12 @@
     export let open: boolean;
     $: entity = $entityDetailsStore.entity;
 
+    const hasMetadata = (entity?: TeamEntity|ComponentEntity) => {
+        if (!entity || !entity.metadata) return false;
+        if (Array.isArray(entity.metadata) && !entity.metadata.length) return false;
+        if (Object.keys(entity.metadata).length === 0) return false;
+        return true;
+    }
 </script>
 
 <div class="details-panel" class:open={open}>
@@ -26,10 +31,12 @@
           <MembersList members={entity.members}></MembersList>
         {/if}
 
-        <DetailsSectionHeader label="Metadata" />
-        <div class="flex-1 overflow-y-auto">
-            <DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
-        </div>
+        {#if hasMetadata($entityDetailsStore.entity)}
+            <DetailsSectionHeader label="Metadata" />
+            <div class="flex-1 overflow-y-auto">
+                <DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
+            </div>
+        {/if}
     </div>
 
     {#if $selectedStore.entity}
