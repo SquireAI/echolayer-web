@@ -1,6 +1,7 @@
 import { AccessTokenApi } from "$lib/api/access-token";
 import { createDefaultContext } from "$lib/http/context";
 import type { CreatedAccessToken } from "$lib/types";
+import { orgRequired } from "$lib/utils/access";
 import type { PageLoad } from "./$types";
 import type { ApiKeysPageServerData } from "./+page.server";
 
@@ -14,6 +15,7 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgNewPageData> =>
 	// we're getting the xsrf header from the parent (page.server.ts) since we don't have access to cookies here
 	const { baseHeaders, baseUrl, accessTokens } = data;
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
+	await orgRequired(context);
 
 	async function createAccessTokenHandler(): Promise<CreatedAccessToken> {
 		return (await new AccessTokenApi(context).create() as CreatedAccessToken)

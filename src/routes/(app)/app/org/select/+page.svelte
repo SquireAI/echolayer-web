@@ -29,11 +29,9 @@
     $: orgs = $orgsStore.entity;
 
     const handleSelect = async (publicId: string) => {
-        console.log("SELECTING....", publicId);
         setOrgCookie(publicId);
         const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
         selectedOrg && orgStore.setOrganization(selectedOrg);
-        console.log("FOUND ORG & set org", selectedOrg);
         if(PUBLIC_DISCOVERY_ENABLED) {
             goto(DISCOVERY_HOME_PATH);
         } else {

@@ -9,8 +9,14 @@
 	import Button from '../Button.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
-	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, ORGS_SELECT_PATH, SUPPORT_URL } from '$lib/utils/paths';
+	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, NOTION_GETTING_STARTED_DOCS, ORGS_SELECT_PATH, SUPPORT_URL } from '$lib/utils/paths';
 	import { ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import { clearStores } from '$lib/stores';
+	import { AuthApi } from '$lib/api/auth';
+	import { createDefaultContext } from '$lib/http/context';
+	import { goto } from '$app/navigation';
+	import LogoutIcon from 'svelte-material-icons/Logout.svelte';
+	import { removeOrgCookie } from '$lib/utils/cookies';
 
 	const userStore = getContext(USER_STORE_NAME) as UserStore;
 	const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
@@ -25,6 +31,13 @@
 
 	let organization: Organization | undefined;
 	$: organization = $orgStore?.entity;
+
+	async function logout() {
+		clearStores();
+		await new AuthApi(createDefaultContext()).logout();
+		await goto(INVALIDATED_SIGN_IN_PATH);
+		removeOrgCookie();
+	}
 </script>
 
 <div class="h-full flex flex-col justify-between bg-neutral-25">
@@ -51,20 +64,28 @@
 		</div>
 	</div>
 	<div class="flex flex-col items-center justify-end p-3 gap-4">
-		<Button full={true} type="special" href={SUPPORT_URL} target="_blank">
-			<div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
-				<HelpCircle width={20} height={20} class={'text-echolayer-blue'} />Support
-			</div>
-		</Button>
-		<Button
-			full={true}
-			type="special"
-			href={NOTION_GETTING_STARTED_DOCS}
-			target="_blank"
-		>
-			<div class="flex gap-2 justify-start items-center w-full leading-4 font-normal">
-				<OpenInNew width={20} height={20} class={'text-echolayer-blue'} />Documentation
-			</div>
-		</Button>
+        <Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+                <HelpCircle width={20} height={20} class={'text-echolayer-blue'}/>
+                Support
+            </div>
+        </Button>
+        <Button
+                full={true}
+                type="grey"
+                href={NOTION_GETTING_STARTED_DOCS}
+                target="_blank"
+        >
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+                <OpenInNew width={20} height={20} class={'text-echolayer-blue'}/>
+                Documentation
+            </div>
+        </Button>
+        <Button full={true} type="grey" handleClick={logout}>
+            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+                <LogoutIcon width={20} height={20} class={'text-echolayer-blue'}/>
+                Logout
+            </div>
+        </Button>
 	</div>
 </div>
