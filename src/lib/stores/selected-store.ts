@@ -1,5 +1,5 @@
 import { writable, derived, type Readable } from "svelte/store";
-import type {StoreSelectedEntity, SelectedStore, BaseEntity} from "../types";
+import type {StoreSelectedEntity, SelectedStore, BaseEntity, TeamEntity, ComponentEntity} from "../types";
 import ComponentStore from "./component-store";
 import TeamStore from "./team-store";
 
@@ -32,7 +32,7 @@ const createStore = (): SelectedStore => {
 		clear: () => set(initialValue),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
-		setEntity: (entity: BaseEntity) => set({ loading: false, error: false, entity })
+		setEntity: (entity: TeamEntity|ComponentEntity) => set({ loading: false, error: false, entity })
 	}
 };
 

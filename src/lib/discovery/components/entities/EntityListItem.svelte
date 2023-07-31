@@ -2,9 +2,9 @@
     import AccountGroup from "svelte-material-icons/AccountGroup.svelte";
     import Database from "svelte-material-icons/Database.svelte";
     import {DISCOVERY_PATH} from "$lib/utils/paths";
-    import type {BaseEntity} from "$lib/types";
+    import { EntityTypes, type TeamEntity, type ComponentEntity } from "$lib/types";
 
-    export let entity: BaseEntity | undefined;
+    export let entity: TeamEntity | ComponentEntity | undefined;
 </script>
 
 <style lang="scss">
@@ -24,7 +24,7 @@
 {#if entity}
     <a href={`${DISCOVERY_PATH}?origin=${entity.publicId}`}
        class="entity">
-        {#if entity.type === "Team"}
+        {#if entity.type === EntityTypes.TEAM}
             <div>
                 <span class="icon bg-echolayer-blue">
                     <AccountGroup/>
@@ -34,7 +34,7 @@
                 <p class="text-sm font-medium">{entity.name}</p>
                 <p class="text-xs font-medium">{entity.members?.length} members</p>
             </div>
-        {:else if entity.type === "Component"}
+        {:else if entity.type === EntityTypes.COMPONENT}
             <div>
                 <span class="icon bg-echolayer-yellow">
                     <Database/>

@@ -1,11 +1,27 @@
 import type { ComponentType } from "svelte";
 import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
+export enum EntityTypes {
+	TEAM = "Team",
+	COMPONENT = "Component",
+	MEMBER = "Member",
+}
 export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
-	type: "team" | "component" | "member";
+	type: EntityTypes;
+	links: Link[];
+}
+
+export interface Link {
+	name: string;
+	url: string;
+}
+
+export interface GraphBaseEntity extends BaseEntity {
+	isOrigin: boolean;
+	isSelected: boolean;
 }
 
 export interface Member extends BaseEntity {
@@ -13,8 +29,13 @@ export interface Member extends BaseEntity {
 }
 
 export interface TeamEntity extends BaseEntity {
+	type: EntityTypes.TEAM;
 	members: Member[];
 }
+
+export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {
+	type: EntityTypes.TEAM;
+};
 
 export type Organization = {
 	id: number;
@@ -35,7 +56,12 @@ export type Issue = {
 };
 
 export interface ComponentEntity extends BaseEntity {
+	type: EntityTypes.COMPONENT;
 	organizationId: number;
+};
+
+export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {
+	type: EntityTypes.COMPONENT;
 };
 
 export const EntityRelationshipNames = {
@@ -100,7 +126,7 @@ export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]>
 export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
-export interface StoreSelectedEntity extends BaseStoreEntity<BaseEntity> {};
+export interface StoreSelectedEntity extends BaseStoreEntity<TeamEntity|ComponentEntity> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -144,7 +170,7 @@ export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
 }
 
 export interface SelectedStore extends BaseStore<BaseEntity, StoreSelectedEntity> {
-	setEntity: (entity: BaseEntity) => void;
+	setEntity: (entity: TeamEntity|ComponentEntity) => void;
 }
 
 export type OrgAndUserData = {

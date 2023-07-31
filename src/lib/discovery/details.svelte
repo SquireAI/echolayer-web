@@ -4,19 +4,13 @@
     import CollapsePanelsHeader from "$lib/discovery/components/CollapsePanelsHeader.svelte";
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
     import { selectedStore, entityDetailsStore } from "$lib/stores";
+	  import MembersList from "./components/details/MembersList.svelte";
+	import { EntityTypes } from "$lib/types";
 
     // Panel controls
     export let open: boolean;
+    $: entity = $entityDetailsStore.entity;
 
-    // Panel content
-    let properties = [
-        {title: 'Sample', value: 'Sample Value', type: 'string', status: 'warning'},
-        {title: 'Sample', value: 'Sample Value', type: 'string', status: 'warning'},
-        {title: 'Sample', value: 'Sample Value', type: 'string', status: 'error'},
-        {title: 'Sample', value: 'Sample Value', type: 'string'},
-        {title: 'Sample', value: 'Sample Value', type: 'string'},
-        {title: 'Sample', value: 'Sample Value', type: 'string'},
-    ];
 </script>
 
 <div class="details-panel" class:open={open}>
@@ -26,8 +20,9 @@
 
     <div class="content divide-neutral-200 divide-solid divide-y">
         <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
-
-        <DetailsList properties={properties} />
+        {#if entity?.type === EntityTypes.TEAM}
+          <MembersList members={entity.members}></MembersList>
+        {/if}
     </div>
 
     {#if $selectedStore.entity}
