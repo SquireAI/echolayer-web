@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout, type GraphBaseEntity } from "$lib/types";
+import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout, type GraphBaseEntity, EntityTypes } from "$lib/types";
 import type { ComponentType } from "svelte";
 import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
 import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
@@ -161,7 +161,7 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
 			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
-			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === "Team" ? TeamEntityNode : ComponentEntityNode };
+			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode };
 		});
 		rowWidths[rowIndex] = rowWidth;
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;
