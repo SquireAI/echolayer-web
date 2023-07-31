@@ -2,11 +2,16 @@ import type { ComponentType } from "svelte";
 import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
 import type { FetchHeader } from "./api/apiUtils";
 
+export enum EntityTypes {
+	TEAM = "Team",
+	COMPONENT = "Component",
+	MEMBER = "Member",
+}
 export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
-	type: "Team" | "Component" | "Member";
+	type: EntityTypes;
 	links: Link[];
 }
 
@@ -25,12 +30,12 @@ export interface Member extends BaseEntity {
 }
 
 export interface TeamEntity extends BaseEntity {
-	type: "Team";
+	type: EntityTypes.TEAM;
 	members: Member[];
 }
 
 export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {
-	type: "Team";
+	type: EntityTypes.TEAM;
 };
 
 export type Organization = {
@@ -51,13 +56,12 @@ export type Issue = {
 };
 
 export interface ComponentEntity extends BaseEntity {
-	type: "Component";
+	type: EntityTypes.COMPONENT;
 	organizationId: number;
 };
 
 export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {
-	type: "Component";
-
+	type: EntityTypes.COMPONENT;
 };
 
 export const EntityRelationshipNames = {

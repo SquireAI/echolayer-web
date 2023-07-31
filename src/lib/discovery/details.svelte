@@ -5,6 +5,7 @@
     import SetOriginButton from "$lib/discovery/components/SetOriginButton.svelte";
     import { selectedStore, entityDetailsStore } from "$lib/stores";
 	  import MembersList from "./components/details/MembersList.svelte";
+	import { EntityTypes } from "$lib/types";
 
     // Panel controls
     export let open: boolean;
@@ -19,7 +20,7 @@
 
     <div class="content divide-neutral-200 divide-solid divide-y">
         <DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
-        {#if entity?.type == "Team"}
+        {#if entity?.type === EntityTypes.TEAM}
           <MembersList members={entity.members}></MembersList>
         {/if}
     </div>

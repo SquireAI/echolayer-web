@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Member } from "$lib/types";
-	import DetailsListRow from "./DetailsListRow.svelte";
 	import DetailsSection from "./DetailsSection.svelte";
 
 	export let members: Member[] = [];

@@ -1,4 +1,4 @@
-import type { BaseEntity, ComponentEntity, TeamEntity } from "$lib/types";
+import { EntityTypes, type BaseEntity, type ComponentEntity, type TeamEntity } from "$lib/types";
 import { selectedStore } from "$lib/stores";
 
 type NodeSize = {
@@ -7,8 +7,8 @@ type NodeSize = {
 };
 
 const nodeDimensionsByType = new Map<BaseEntity["type"], NodeSize>([
-	["Component", { width: 240, height: 108 }],
-	["Team", { width: 240, height: 120 }],
+	[EntityTypes.COMPONENT, { width: 240, height: 108 }],
+	[EntityTypes.TEAM, { width: 240, height: 120 }],
 ]);
 
 export function setSelectedNode(entity: TeamEntity|ComponentEntity): void {
@@ -19,7 +19,7 @@ export function clearSelectedNode(): void {
 	selectedStore.clear();
 }
 
-export function toggleSelectedComponent(component: BaseEntity, selected: boolean): void {
+export function toggleSelectedComponent(component: TeamEntity|ComponentEntity, selected: boolean): void {
 	return setSelectedNode(component);
 }
 
