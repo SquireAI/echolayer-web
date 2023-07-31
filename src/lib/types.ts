@@ -142,7 +142,6 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
-// TODO: Do we still need an individual organization store?
 export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
@@ -184,6 +183,12 @@ export type OriginAndComponentData = {
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
 }
+
+export type TeamAndComponentData = {
+	teams?: TeamEntity[];
+	components?: ComponentEntity[];
+}
+
 export const AnchorConnectionTypes = {
 	INPUT: "INPUT",
 	OUTPUT: "OUTPUT"
@@ -203,11 +208,11 @@ export type NodeCoordinates = {
 export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
-	node: BaseEntity;
+	node: GraphBaseEntity;
 	inputConnections: AnchorConnectionTuple[];
 	outputConnections: AnchorConnectionTuple[];
 };
 
-type NodeMetadataTuple = [string, NodeMetadata];
+export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
