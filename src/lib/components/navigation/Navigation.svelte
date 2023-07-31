@@ -9,8 +9,12 @@
     import Button from '../Button.svelte';
     import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
     import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
-    import Logout from 'svelte-material-icons/Logout.svelte';
-    import {API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL} from '$lib/utils/paths';
+    import LogoutIcon from 'svelte-material-icons/Logout.svelte';
+    import {API_KEYS_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL} from '$lib/utils/paths';
+	import { clearStores } from '$lib/stores';
+	import { AuthApi } from '$lib/api/auth';
+	import { createDefaultContext } from '$lib/http/context';
+	import { goto } from '$app/navigation';
 
     const userStore = getContext('user') as UserStore;
     const orgStore = getContext('org') as OrganizationStore;
@@ -25,6 +29,14 @@
 
     let organization: Organization | undefined;
     $: organization = $orgStore?.entity;
+
+
+	async function logout() {
+		clearStores();
+		await new AuthApi(createDefaultContext()).logout();
+		await goto(INVALIDATED_SIGN_IN_PATH);
+	}
+
 </script>
 
 <div class="h-full flex flex-col justify-between bg-neutral-25">
@@ -67,9 +79,9 @@
                 Documentation
             </div>
         </Button>
-        <Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
+        <Button full={true} type="grey" handleClick={logout}>
             <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-                <Logout width={20} height={20} class={'text-echolayer-blue'}/>
+                <LogoutIcon width={20} height={20} class={'text-echolayer-blue'}/>
                 Logout
             </div>
         </Button>
