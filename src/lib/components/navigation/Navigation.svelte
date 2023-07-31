@@ -9,7 +9,7 @@
     import Button from '../Button.svelte';
     import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
     import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
-    import Logout from 'svelte-material-icons/Logout.svelte';
+    import LogoutIcon from 'svelte-material-icons/Logout.svelte';
     import {API_KEYS_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL} from '$lib/utils/paths';
 	import { clearStores } from '$lib/stores';
 	import { AuthApi } from '$lib/api/auth';
@@ -81,7 +81,7 @@
         </Button>
         <Button full={true} type="grey" handleClick={logout}>
             <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-                <Logout width={20} height={20} class={'text-echolayer-blue'}/>
+                <LogoutIcon width={20} height={20} class={'text-echolayer-blue'}/>
                 Logout
             </div>
         </Button>
