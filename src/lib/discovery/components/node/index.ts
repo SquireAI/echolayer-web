@@ -1,8 +1,5 @@
-import type { BaseEntity } from "$lib/types";
+import type { BaseEntity, ComponentEntity, TeamEntity } from "$lib/types";
 import { selectedStore } from "$lib/stores";
-import type { ComponentType } from "svelte";
-import ComponentEntityNode from "./ComponentEntityNode.svelte";
-import TeamEntityNode from "./TeamEntityNode.svelte";
 
 type NodeSize = {
 	width: number;
@@ -14,7 +11,7 @@ const nodeDimensionsByType = new Map<BaseEntity["type"], NodeSize>([
 	["Team", { width: 240, height: 120 }],
 ]);
 
-export function setSelectedNode(entity: BaseEntity): void {
+export function setSelectedNode(entity: TeamEntity|ComponentEntity): void {
 	selectedStore.setEntity(entity);
 }
 
