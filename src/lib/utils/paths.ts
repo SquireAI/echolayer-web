@@ -1,4 +1,5 @@
 export const INVALIDATE_QUERY_PARAMETER_NAME = "invalidate";
+export const INVALIDATE_SELECTED_ORG = "invalid-org";
 
 export const SIGN_IN_PATH = "/sign-in";
 export const INVALIDATED_SIGN_IN_PATH = `/sign-in?${INVALIDATE_QUERY_PARAMETER_NAME}`;
@@ -7,6 +8,8 @@ export const ERROR_PATH = "/error";
 export const AUTH_ERROR_PATH = "/auth-error";
 export const APP_PATH = "/app";
 export const ORGS_PATH =  "/app/org";
+export const ORGS_SELECT_PATH = "/app/org/select";
+export const ORGS_SELECT_PATH_WITH_INVALIDATE = `${ORGS_SELECT_PATH}?${INVALIDATE_SELECTED_ORG}`;
 export const CREATE_ORG_PATH = "/app/org/new";
 export const ACCOUNT_PATH = "/app/account";
 export const API_KEYS_PATH = "/app/account/api-keys";

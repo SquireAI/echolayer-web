@@ -5,7 +5,9 @@
 	import { getContext } from "svelte";
 	import type { OrganizationStore, UserStore } from "$lib/types";
 	import type { OrgNewPageData } from "./+page";
-	import { ORGS_PATH } from "$lib/utils/paths";
+	import { DISCOVERY_HOME_PATH, ORGS_PATH } from "$lib/utils/paths";
+	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
+	import { setOrgCookie } from "$lib/utils/cookies";
 
 	/** @type {import('./$types').PageData} */
 	export let data: OrgNewPageData;
@@ -20,8 +22,13 @@
 	async function onCreateOrg(orgName: string): Promise<void> {
 		const createdOrg = await createOrgHandler(orgName);
 		orgStore.setOrganization(createdOrg);
+		setOrgCookie(createdOrg.publicId);
 		setTimeout(() => {
-			goto(ORGS_PATH)
+			if(PUBLIC_DISCOVERY_ENABLED) {
+				goto(DISCOVERY_HOME_PATH);
+			} else {
+				goto(ORGS_PATH);
+			}
 		}, 300);
 	}
 </script>

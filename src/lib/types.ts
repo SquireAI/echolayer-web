@@ -1,23 +1,11 @@
 import type { ComponentType } from "svelte";
-import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
-import type { FetchHeader } from "./api/apiUtils";
+import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export interface BaseEntity {
 	publicId: string;
 	name: string;
 	metadata: any;
-	type: "Team" | "Component" | "Member";
-	links: Link[];
-}
-
-export interface Link {
-	name: string;
-	url: string;
-}
-
-export interface GraphBaseEntity extends BaseEntity {
-	isOrigin: boolean;
-	isSelected: boolean;
+	type: "team" | "component" | "member";
 }
 
 export interface Member extends BaseEntity {
@@ -28,10 +16,9 @@ export interface TeamEntity extends BaseEntity {
 	members: Member[];
 }
 
-export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {};
-
 export type Organization = {
 	id: number;
+	publicId: string;
 	name: string;
 	publicName: string;
 	email: string;
@@ -50,8 +37,6 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	organizationId: number;
 };
-
-export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {};
 
 export const EntityRelationshipNames = {
 	OWNER_OF: "ownerOf",
@@ -109,7 +94,8 @@ interface BaseStoreEntity<T> {
 }
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
-export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
+export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
 export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
@@ -130,9 +116,15 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
+// TODO: Do we still need an individual organization store?
 export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
+}
+
+export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
+	setOrganizations: (org: Organization[]) => void;
+	updateOrganizations: (org: Organization[]) => void;
 }
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
@@ -165,15 +157,7 @@ export type OriginAndComponentData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
-	baseHeaders: FetchHeader;
-	baseUrl: string;
 }
-
-export type TeamAndComponentData = {
-	teams?: TeamEntity[];
-	components?: ComponentEntity[];
-}
-
 export const AnchorConnectionTypes = {
 	INPUT: "INPUT",
 	OUTPUT: "OUTPUT"
@@ -193,11 +177,11 @@ export type NodeCoordinates = {
 export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
-	node: GraphBaseEntity;
+	node: BaseEntity;
 	inputConnections: AnchorConnectionTuple[];
 	outputConnections: AnchorConnectionTuple[];
 };
 
-export type NodeMetadataTuple = [string, NodeMetadata];
+type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;

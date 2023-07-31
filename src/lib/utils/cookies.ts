@@ -1,5 +1,8 @@
 import setCookie from "set-cookie-parser";
 import type { CookieSerializeOptions } from "cookie";
+import { removeCookie, setCookie as setBrowserCookie } from "typescript-cookie";
+import { ORGANIZATION_ID_COOKIE_NAME } from "$lib/constants";
+import { env } from "$env/dynamic/public";
 
 export function getCookies(response: Response) {
 	const cookieHeader = response.headers.get("set-cookie") || "";
@@ -31,4 +34,24 @@ export function parseSameSite(sameSite: string | undefined): CookieSerializeOpti
 		default:
 			return undefined;
 	}
+}
+
+/**
+ * Set a **browser** cookie to capture the current selected organization for the user.
+ * @param publicId Organization PublicId
+ */
+export function setOrgCookie(publicId: string) {
+	if(!document) {
+		// TODO: Throw error if in development.
+		return;
+	}
+
+	setBrowserCookie(ORGANIZATION_ID_COOKIE_NAME, publicId, { expires: 7, path: "/" });
+}
+
+export function removeOrgCookie() {
+	if(!document) {
+		return;
+	}
+	removeCookie(ORGANIZATION_ID_COOKIE_NAME, { path: "/" });
 }
