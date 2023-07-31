@@ -4,6 +4,7 @@ import {authRequired} from "$lib/utils/access";
 
 
 export const load = (async ({ fetch, cookies }) => {
+	console.log("BASE LAYOUT RUNS!");
 	// Get tokens from cookies
 	const context: httpContext = getHttpContext(fetch, cookies);
 

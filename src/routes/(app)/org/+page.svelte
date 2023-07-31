@@ -7,9 +7,12 @@
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
 	import { goto } from "$app/navigation";
 	import Button from "$lib/components/Button.svelte";
-    import { setCookie } from 'typescript-cookie'
-	import { ORGANIZATION_ID_COOKIE_NAME } from "$lib/constants";
 	import { DISCOVERY_HOME_PATH } from "$lib/utils/paths";
+	import { setOrgCookie } from "$lib/utils/cookies";
+	import type { OrgsLayoutServerLoad } from "./+page.server";
+
+
+    export let data: OrgsLayoutServerLoad;
 
 	let orgsStore: OrganizationsStore;
 	orgsStore = getContext(ORGS_STORE_NAME) as OrganizationsStore;
@@ -23,13 +26,13 @@
     $: orgs = $orgsStore.entity;
 
     const handleSelect = async (publicId: string) => {
-        setCookie(ORGANIZATION_ID_COOKIE_NAME, publicId, { expires: 7 });
+        setOrgCookie(publicId);
         goto(DISCOVERY_HOME_PATH);
     }
 </script>
 
 <Panels>
-    <Navigation slot="nav" />
+    <Navigation slot="nav" currentOrg={data.org} />
     <div class="content" slot="content">
         <div>
             {#if $orgsStore.loading}

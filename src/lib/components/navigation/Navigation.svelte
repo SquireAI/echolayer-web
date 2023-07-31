@@ -9,7 +9,10 @@
 	import Button from '../Button.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
-	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
+	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, NOTION_GETTING_STARTED_DOCS, ORGS_INDEX_PATH, SUPPORT_URL } from '$lib/utils/paths';
+
+	export let currentOrg: Organization | undefined;
+	console.log("ORG:", currentOrg);
 
 	const userStore = getContext('user') as UserStore;
 	const orgStore = getContext('org') as OrganizationStore;
@@ -43,6 +46,10 @@
 		</div>
 		<div>
 			<div class="flex flex-col w-full gap-2">
+				<!-- TODO: Build proper switching button -->
+				{#key currentOrg}
+					<NavigationItem name={currentOrg ? `${currentOrg.name}`: "Select org..."} href={`${ORGS_INDEX_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
+				{/key}
 				<NavigationItem name="Home" href={`${DISCOVERY_HOME_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
 				<NavigationItem name="Settings" href={`${API_KEYS_PATH}`} OutlineIcon={CogOutline} SolidIcon={Cog} />
 			</div>

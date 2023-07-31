@@ -18,6 +18,7 @@ export interface SpecificOrgLayoutServerLoad {
 
 // Load user and org for any nested pages automatically.
 export const load = (async ({ cookies, fetch }) => {
+	console.log("ORGS LAYOUT RUNS!");
     flagRequired(PUBLIC_DISCOVERY_ENABLED);
 
 	let org: Organization | undefined;

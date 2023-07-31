@@ -8,11 +8,15 @@
     import HelpCircle from "svelte-material-icons/HelpCircle.svelte";
     import ScriptTextOutline from "svelte-material-icons/ScriptTextOutline.svelte";
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from "$lib/utils/paths";
+	import type { SpecificOrgLayoutServerLoad } from "../../+layout.server";
+
+    export let data: SpecificOrgLayoutServerLoad;
+    console.log("DATA:", data);
 </script>
 
 
 <Panels>
-    <Navigation slot="nav" />
+    <Navigation slot="nav" currentOrg={data.org} />
     <div class="bg-neutral-100 grid grid-cols-1/3-2/3 gap-4 divide-neutral-300 divide-x h-full" slot="content">
         <div class="flex flex-col">
             <div class="p-6 pt-16 flex flex-col items-stretch gap-8">

@@ -13,6 +13,10 @@ import type { LayoutServerLoad } from '../$types';
 
 export interface OrgsLayoutServerLoad {
 	orgs: Organization[];
+    /**
+     * Their currently selected org if it exists.
+     */
+    org: Organization;
 	user: User;
 }
 
@@ -20,11 +24,14 @@ export const load = (async ({ cookies, fetch }) => {
     flagRequired(PUBLIC_DISCOVERY_ENABLED);
 
 	let orgs: Organization[] | undefined;
+    let org: Organization | undefined;
 	let user: User | undefined;
 	const context = getHttpContext(fetch, cookies);
     await authRequired(context);
 	try {
 		orgs = await new OrganizationApi(context).list();
+        const orgPublicId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
+		org = orgPublicId ? await new OrganizationApi(context).get(orgPublicId): undefined;
 		user = await new UserApi(context).get("");
 	} catch (err) {
 		if ((err as HttpError).status === 401) {
@@ -32,5 +39,5 @@ export const load = (async ({ cookies, fetch }) => {
 		}
 		throw error(404, { message: ErrorMessageTypes.GENERIC });
 	}
-	return { orgs, user };
+	return { orgs, user, org };
 }) satisfies LayoutServerLoad;

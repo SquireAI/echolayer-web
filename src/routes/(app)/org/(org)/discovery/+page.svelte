@@ -19,8 +19,9 @@
         SELECTED_STORE_NAME,
         TEAM_STORE_NAME
     } from "$lib/stores";
+	import type { SpecificOrgLayoutServerLoad } from "../+layout.server";
 
-    export let data: OriginAndComponentData;
+    export let data: OriginAndComponentData & SpecificOrgLayoutServerLoad;
 
     let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
     let relationStore: EntityRelationshipStore = getContext(RELATIONS_GRAPH_STORE_NAME) as EntityRelationshipStore;
@@ -45,7 +46,7 @@
 </script>
 
 <Panels>
-    <Navigation slot="nav" />
+    <Navigation slot="nav" currentOrg={data.org} />
     <div class="content" slot="content">
         <PanelsHeader title="Content" />
         {#if $originStore.entity}
