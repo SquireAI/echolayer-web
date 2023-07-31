@@ -4,6 +4,8 @@
     import DetailsButton from "$lib/discovery/components/details/DetailsButton.svelte";
 	import { entityDetailsStore } from "$lib/stores";
     import OpenInNew from "svelte-material-icons/OpenInNew.svelte";
+    import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
+    import Shape from 'svelte-material-icons/Shape.svelte';
 </script>
 
 <style lang="scss">
@@ -18,8 +20,15 @@
 </style>
 
 <div class="details-header">
-    <div class="rounded-sm h-14 w-14 bg-neutral-200 mb-2">
-    </div>
+    {#if $entityDetailsStore.entity?.type === "Team"}
+        <div class="rounded-sm h-16 w-16 bg-neutral-200 mb-2 flex items-center justify-center">
+            <AccountMultiple size=40 />
+        </div>
+    {:else if $entityDetailsStore.entity?.type === "Component"}
+        <div class="rounded-sm h-16 w-16 bg-echolayer-blue mb-2 flex items-center justify-center">
+            <Shape size=40 color="white"/>
+        </div>
+    {/if}
 
     <div class="font-medium text-2xl -mb-1">
         <slot />

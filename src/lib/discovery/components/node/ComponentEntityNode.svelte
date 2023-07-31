@@ -2,12 +2,12 @@
 	import type { GraphComponentEntity, TeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
 	import TeamIcon from '../TeamIcon.svelte';
-	import ComponentEntityIcon from '$lib/ComponentEntityIcon.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
 	import InnerNode from './components/InnerNode.svelte';
 	import { getNodeSize, toggleSelectedComponent } from '.';
+	import Shape from 'svelte-material-icons/Shape.svelte';
 
 	export let component: GraphComponentEntity;
 	export let owners: TeamEntity[] = [];
@@ -42,7 +42,7 @@
 				<div class="component__node--inner-wrapper component__info--wrapper">
 					<div class="component__info">
 						<div class="component__info--icon component__icon--fill">
-							<ComponentEntityIcon />
+							<Shape size="24" color="white" />
 						</div>
 						<div class="component__info--name">
 							<p class="font-medium">{component.name}</p>
