@@ -33,7 +33,7 @@
 
         {#if hasMetadata($entityDetailsStore.entity)}
             <DetailsSectionHeader label="Metadata" />
-            <div class="flex-1 overflow-y-auto">
+            <div class="flex-1 overflow-y-scroll basis-0" >
                 <DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
             </div>
         {/if}
