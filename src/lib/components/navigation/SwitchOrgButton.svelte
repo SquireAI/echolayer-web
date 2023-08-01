@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
+	import OrgIcon from "$lib/org/OrgIcon.svelte";
 	import { ORG_STORE_NAME } from "$lib/stores";
 	import type { OrganizationStore } from "$lib/types";
 	import { ORGS_SELECT_PATH } from "$lib/utils/paths";
@@ -15,17 +16,17 @@
 
 <a href={`${ORGS_SELECT_PATH}`}>
     <span class={`
-        flex flex-row justify-between items-center px-1 rounded-sm
+        flex flex-row justify-between items-center px-1 rounded-md
         ${isActive ? "bg-echolayer-lightBlue-100 text-echolayer-blue-200 hover:bg-echolayer-lightBlue-100" : "hover:cursor-pointer hover:bg-gray-200"}
     `}>
         <span class="flex flex-row gap-2 items-center py-1">
             {#if organization}
-                <span class="block p-4 bg-neutral-400 rounded-sm" />
+                <OrgIcon text={organization.publicId} />
                 <p class="font-medium leading-5">
                     {organization.name}
                 </p>
             {:else}
-                <span class="block p-4 bg-neutral-400 rounded-sm" />
+                <span class="block p-4 bg-neutral-400 rounded-md" />
                 <p class="font-medium leading-5">
                     Select organization...
                 </p>
