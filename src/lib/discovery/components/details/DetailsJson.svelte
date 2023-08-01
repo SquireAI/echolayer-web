@@ -1,19 +1,18 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import {browser} from "$app/environment";
-    import DetailsSectionHeader from "$lib/discovery/components/details/DetailsSectionHeader.svelte";
+    import JSONFormatter from "json-formatter-js";
 
     export let metadata: any;
 
-    const renderJson = async (json) => {
-        const JSONFormatter = (await import('json-formatter-js')).default;
+    const renderJson = (json) => {
         const formatter = new JSONFormatter(json);
-        document.getElementById("json").replaceChildren(formatter.render());
+        document.getElementById("json")?.replaceChildren(formatter.render());
     };
 
     onMount(async () => {
         if (browser) {
-            await renderJson(metadata);
+            renderJson(metadata);
         }
     });
 
