@@ -47,6 +47,7 @@
   "type": "module",
   "dependencies": {
     "color-hash": "^2.0.2",
+    "json-formatter-js": "^2.3.4",
     "postcss-load-config": "^4.0.1",
     "query-string": "^8.1.0",
     "set-cookie-parser": "^2.6.0",

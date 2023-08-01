@@ -23,8 +23,8 @@ export const load = (async ({ cookies, fetch }) => {
 	const context = getHttpContext(fetch, cookies);
 	try {
 		orgs = await new OrganizationApi(context).list();
-        const orgPublicId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
-		org = orgPublicId ? await new OrganizationApi(context).get(orgPublicId): undefined;
+        const selectedOrgId = cookies.get(ORGANIZATION_ID_COOKIE_NAME);
+		org = selectedOrgId ? orgs.find((org) => org.publicId === selectedOrgId): undefined;
 		user = await new UserApi(context).get("");
 	} catch (err) {
 		if ((err as HttpError).status === 401) {

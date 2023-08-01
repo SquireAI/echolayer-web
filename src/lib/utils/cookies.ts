@@ -3,6 +3,7 @@ import type { CookieSerializeOptions } from "cookie";
 import { removeCookie, setCookie as setBrowserCookie } from "typescript-cookie";
 import { ORGANIZATION_ID_COOKIE_NAME } from "$lib/constants";
 import { env } from "$env/dynamic/public";
+import type { Cookies } from "@sveltejs/kit";
 
 export function getCookies(response: Response) {
 	const cookieHeader = response.headers.get("set-cookie") || "";
@@ -54,4 +55,10 @@ export function removeOrgCookie() {
 		return;
 	}
 	removeCookie(ORGANIZATION_ID_COOKIE_NAME, { path: "/" });
+}
+
+export function setServerOrgCookie(publicId: string, setCookie: Cookies["set"]) {
+	const inOneWeek = new Date();
+	inOneWeek.setDate(inOneWeek.getDate() + 7);
+	setCookie(ORGANIZATION_ID_COOKIE_NAME, publicId, { expires: inOneWeek, path: "/" });
 }

@@ -19,7 +19,7 @@
 
 	let orgStore: OrganizationStore;
 	orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
-	orgStore.setOrganization($page.data.selectedOrg);
+	orgStore.setOrganization($page.data.org);
 
 	$: if (browser) {
 		if (!$orgsStore.loading && !$orgsStore.error) {
