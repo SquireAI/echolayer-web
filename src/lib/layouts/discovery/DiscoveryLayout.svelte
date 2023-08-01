@@ -2,6 +2,6 @@
     import "./DiscoveryLayout.scss";
 </script>
 
-<div class="app-container">
+<div class="discovery-container">
     <slot />
 </div>

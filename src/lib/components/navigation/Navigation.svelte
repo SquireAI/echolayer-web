@@ -17,6 +17,7 @@
 	import { goto } from '$app/navigation';
 	import LogoutIcon from 'svelte-material-icons/Logout.svelte';
 	import { removeOrgCookie } from '$lib/utils/cookies';
+	import { PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 
 	const userStore = getContext(USER_STORE_NAME) as UserStore;
 	const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
@@ -55,9 +56,11 @@
 		<div>
 			<div class="flex flex-col w-full gap-2">
 				<!-- TODO: Build proper switching button -->
-				{#key organization}
-					<NavigationItem name={organization ? `${organization.name}`: "Select org..."} href={`${ORGS_SELECT_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
-				{/key}
+				{#if PUBLIC_MULTI_ORG_ENABLED === "true"}
+					{#key organization}
+						<NavigationItem name={organization ? `${organization.name}`: "Select org..."} href={`${ORGS_SELECT_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
+					{/key}
+				{/if}
 				<NavigationItem name="Home" href={`${DISCOVERY_HOME_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} />
 				<NavigationItem name="Settings" href={`${API_KEYS_PATH}`} OutlineIcon={CogOutline} SolidIcon={Cog} />
 			</div>

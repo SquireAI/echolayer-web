@@ -7,7 +7,7 @@
 	import { CREATE_ORG_PATH, DISCOVERY_HOME_PATH, ORGS_SELECT_PATH, ORGS_PATH } from "$lib/utils/paths";
 	import { ORGS_STORE_NAME } from "$lib/stores/orgs-store";
 	import { ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
-	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
+	import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from "$env/static/public";
 
 	let orgsStore: OrganizationsStore;
 	orgsStore = getContext(ORGS_STORE_NAME) as OrganizationsStore;
@@ -24,14 +24,18 @@
 	$: if (browser) {
 		if (!$orgsStore.loading && !$orgsStore.error) {
 			if ($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) {
-				if($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
-					if(PUBLIC_DISCOVERY_ENABLED) {
+				if(PUBLIC_MULTI_ORG_ENABLED === "true" && PUBLIC_DISCOVERY_ENABLED === "true") {
+					if($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
 						goto(DISCOVERY_HOME_PATH);
 					} else {
-						goto(ORGS_PATH);
+						goto(ORGS_SELECT_PATH);
 					}
 				} else {
-					goto(ORGS_SELECT_PATH);
+					if($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
+						// We don't allow the user to set a specific org, so just take the first one.
+						orgStore.setOrganization($orgsStore.entity[0]);
+					}
+					goto(ORGS_PATH);
 				}
 			} else {
 				goto(CREATE_ORG_PATH);

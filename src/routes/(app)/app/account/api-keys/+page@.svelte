@@ -1,19 +1,21 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
-	import DisabledKey from "$lib/account/DisabledKey.svelte";
-	import CreatedAccessToken from "$lib/account/CreatedAccessToken.svelte";
-	import ReadOnlyAccessTokens from "$lib/account/ReadOnlyAccessToken.svelte";
-
 	import type { OrgNewPageData } from "./+page";
 	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData, OrganizationStore } from "$lib/types";
 	import { ORG_STORE_NAME } from "$lib/stores";
 	import { getContext } from "svelte";
 	import Panels from "$lib/discovery/panels.svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
+	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
+	import DiscoveryLayout from "$lib/layouts/discovery/DiscoveryLayout.svelte";
+	import AdminLayout from "$lib/layouts/admin/AdminLayout.svelte";
+	import ApiKeysForm from "$lib/account/APIKeysForm.svelte";
 
 	export let data: OrgNewPageData & OrgAndUserData;
 	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens } = data;
 	const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+	if(data.org) {
+		orgStore.setOrganization(data.org);
+	}
 
 	let createdAccessToken: CreatedAccessTokenType | undefined;
 	$: createdAccessToken = undefined;
@@ -85,39 +87,37 @@
 	$: sortedAccessTokens = readOnlyAccessTokens.sort(sortDates);
 </script>
 
-<Panels>
-	<Navigation slot="nav" />
-	<div class="flex content-center items-center flex-col h-full pt-9 px-9" slot="content">
-		<div class="flex flex-col gap-y-6 items-center w-full">
-			<h2>{$orgStore.entity?.name} Settings</h2>
-			<div class="flex flex-col w-full">
-				<div class="row flex flex-row items-center w-full pb-4 border-b border-neutral-700">
-					<h3>Keys</h3>
-					<Button class="self-end ml-auto" handleClick={createAccessToken} disabled={isCreating}>Generate a new key for {$orgStore.entity?.name}</Button>
-				</div>
+{#if PUBLIC_DISCOVERY_ENABLED === "true"}
+	<DiscoveryLayout>
+		<Panels>
+			<Navigation slot="nav" />
+			<div class="flex content-center items-center flex-col h-full pt-9 px-9" slot="content">
+				<ApiKeysForm
+					createAccessToken={createAccessToken}
+					deleteAccessToken={deleteAccessToken}
+					isCreating={isCreating}
+					createdAccessToken={createdAccessToken}
+					isErrorCreatingToken={isErrorCreatingToken}
+					sortedAccessTokens={sortedAccessTokens}
+					hasTokens={hasTokens}
+				/>
 			</div>
-			<div class="flex w-full">
-				<div class="flex flex-col sm:w-full lg:w-2/3">
-					<p>You can use this section to generate API Keys to use our API.</p>
-					<p>Learn how to use the EchoLayer API in our <a href="https://codexbuild.notion.site/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4" target="_blank" class="underline">documentation.</a></p>
-				</div>
-			</div>
-			<div class="flex flex-col w-full">
-				{#if createdAccessToken !== undefined}
-					<CreatedAccessToken token={createdAccessToken} error={isErrorCreatingToken} deleteTokenHandler={deleteAccessToken} />
-				{/if}
-				{#if sortedAccessTokens.length > 0}
-					{#each sortedAccessTokens as token (token.prefix)}
-						<ReadOnlyAccessTokens token={token} deleteTokenHandler={deleteAccessToken} />
-					{/each}
-				{/if}
-				{#if !hasTokens}
-					<div class="flex justify-center p-6 my-6 gap-x-2 items-center">
-						<DisabledKey class="h-4" />
-						<p class="text-neutral-500">You do not have any access tokens.</p>
-					</div>
-				{/if}
-			</div>
+		</Panels>
+	</DiscoveryLayout>
+{:else}
+	<AdminLayout>
+		<div class="flex content-center items-center flex-col h-full pt-9">
+			<ApiKeysForm
+				createAccessToken={createAccessToken}
+				deleteAccessToken={deleteAccessToken}
+				isCreating={isCreating}
+				createdAccessToken={createdAccessToken}
+				isErrorCreatingToken={isErrorCreatingToken}
+				sortedAccessTokens={sortedAccessTokens}
+				hasTokens={hasTokens}
+			/>
 		</div>
-	</div>	
-</Panels>
+	</AdminLayout>
+{/if}
+	
+
