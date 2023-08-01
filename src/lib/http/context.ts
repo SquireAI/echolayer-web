@@ -21,7 +21,7 @@ export function createDefaultContext(fetchFn = fetch, baseHeaders:FetchHeader = 
 
 
 
-export function getHttpContext(fetchFn?: typeof fetch, cookies?: Cookies, baseUrl?: string){ // TODO: Is BaseUrl Needed? Not used anywhere...
+export function getHttpContext(fetchFn?: typeof fetch, cookies?: Cookies, baseUrl?: string){
 	return createDefaultContext(fetchFn, createHeaders(cookies), baseUrl);
 }
 

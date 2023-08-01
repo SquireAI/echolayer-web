@@ -1,7 +1,7 @@
 import { type HttpError, error } from '@sveltejs/kit';
 import { OrganizationApi } from "$lib/api/organization.js";
 import { AuthApi } from "$lib/api/auth.js";
-import { getCookies, normalizeCookie } from '$lib/utils/cookies.js';
+import { getCookies, normalizeCookie, setServerOrgCookie } from '$lib/utils/cookies.js';
 import { createHeaders, getHttpContext } from '$lib/http/context.js';
 import type { PageServerLoad } from './$types';
 import { UserApi } from '$lib/api/user.js';
@@ -32,8 +32,14 @@ export const load = (async ({ cookies, fetch, url }) => {
 	try {
 		context = getHttpContext(fetch, cookies);
 		orgs = await new OrganizationApi(context).list();
-		if(orgs?.length > 0 && context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
-			org = orgs.find(org => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
+		if(orgs?.length > 0) {
+			if(context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+				org = orgs.find(org => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
+			}
+			if(orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+				setServerOrgCookie(orgs[0].publicId, cookies.set);
+				org = orgs[0];
+			}
 		}
 		user = await new UserApi(context).get("");
 	} catch (err) {
