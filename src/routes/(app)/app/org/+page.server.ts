@@ -34,7 +34,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 			orgs = await new OrganizationApi(context).list();
 			components = await new ComponentApi(context).list();
 			issues = await new IssueApi(context).list();
-			return { user, org: orgs[0], issues, components, baseHeaders: context.baseHeaders, baseUrl: context.baseUrl };
+			return { user, org, issues, components, baseHeaders: context.baseHeaders, baseUrl: context.baseUrl };
 		} catch (err) {
 			if ((err as HttpError).status === 401) {
 				throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });

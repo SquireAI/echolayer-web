@@ -1,10 +1,13 @@
 import {AuthApi} from "$lib/api/auth";
-import {CREATE_ORG_PATH, INVALIDATED_SIGN_IN_PATH} from "./paths";
+import {CREATE_ORG_PATH, INVALIDATED_SIGN_IN_PATH, ORGS_SELECT_PATH, ORGS_SELECT_PATH_WITH_INVALIDATE} from "./paths";
 import type {Organization} from "$lib/types";
 import {OrganizationApi} from "$lib/api/organization";
-import {error, HttpError, redirect} from "@sveltejs/kit";
+import {error, redirect} from "@sveltejs/kit";
+import type {HttpError} from "@sveltejs/kit";
 import {ErrorMessageTypes} from "$lib/error";
 import type {httpContext} from "$lib/http/context";
+import { ORGANIZATION_ID_HEADER_NAME } from "$lib/constants";
+import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from "$env/static/public";
 
 // User authentication required
 export const authRequired = async (context: httpContext): Promise<boolean> => {
@@ -31,8 +34,29 @@ export const orgRequired = async (context: httpContext):Promise<Organization> =>
     }
 
     // Redirect to create a new org if none exist
-    if (orgs.length < 1) throw redirect(307, CREATE_ORG_PATH);
-    return orgs[0];
+    if (orgs.length < 1) {
+        throw redirect(307, CREATE_ORG_PATH);
+    }
+    
+    if(PUBLIC_MULTI_ORG_ENABLED === "true" && PUBLIC_DISCOVERY_ENABLED === "true") {
+        // If they haven't selected an org, redirect them to the selection page
+        if(!context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+            throw redirect(307, ORGS_SELECT_PATH);
+        }
+
+        const selectedOrg = orgs.find(org => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
+
+        // Their selection isn't valid, so we'll redirect them to pick a new selection.
+        if(!selectedOrg) {
+            throw redirect(307, ORGS_SELECT_PATH_WITH_INVALIDATE);
+        }
+
+        return selectedOrg;
+    } else {
+        // Return the first org as a default
+        return orgs[0];
+    }
+    
 };
 
 // Flag required

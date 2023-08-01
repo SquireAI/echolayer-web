@@ -10,12 +10,12 @@
 	$: isActive = $page.url.pathname === href;
 </script>
 
-<div
-	class={`hover:bg-gray-200 w-full hover:cursor-pointer rounded-md p-3 ${
-		isActive ? 'bg-gray-200 text-neutral-800' : 'text-neutral-400'
-	}`}
->
-	<a class="flex flex-row gap-3 place-items-center" {href} data-sveltekit-reload={reload}>
+<div>
+	<a class={`hover:bg-gray-200 w-full hover:cursor-pointer rounded-md p-3 
+		${
+			isActive ? 'bg-gray-200 text-neutral-800' : 'text-neutral-400'
+		}
+		flex flex-row gap-3 place-items-center`} {href} data-sveltekit-reload={reload}>
 		{#if isActive}
 			<svelte:component this={SolidIcon} width={20} height={20} />
 		{:else}

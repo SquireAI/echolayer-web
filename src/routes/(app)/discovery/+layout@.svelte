@@ -24,8 +24,6 @@
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
 	setContext(TEAM_STORE_NAME, teamStore);
-	setContext(USER_STORE_NAME, userStore);
-	setContext(ORG_STORE_NAME, organizationStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
 

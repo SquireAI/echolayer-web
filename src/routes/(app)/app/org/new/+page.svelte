@@ -5,23 +5,31 @@
 	import { getContext } from "svelte";
 	import type { OrganizationStore, UserStore } from "$lib/types";
 	import type { OrgNewPageData } from "./+page";
-	import { ORGS_PATH } from "$lib/utils/paths";
+	import { DISCOVERY_HOME_PATH, ORGS_PATH } from "$lib/utils/paths";
+	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
+	import { setOrgCookie } from "$lib/utils/cookies";
+	import { ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
 
 	/** @type {import('./$types').PageData} */
 	export let data: OrgNewPageData;
 
 	let userStore: UserStore;
-	userStore = getContext("user") as UserStore;
+	userStore = getContext(USER_STORE_NAME) as UserStore;
 	const { createOrgHandler } = data;
 
 	let orgStore: OrganizationStore;
-	orgStore = getContext("org") as OrganizationStore;
+	orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
 
 	async function onCreateOrg(orgName: string): Promise<void> {
 		const createdOrg = await createOrgHandler(orgName);
 		orgStore.setOrganization(createdOrg);
+		setOrgCookie(createdOrg.publicId);
 		setTimeout(() => {
-			goto(ORGS_PATH)
+			if(PUBLIC_DISCOVERY_ENABLED) {
+				goto(DISCOVERY_HOME_PATH);
+			} else {
+				goto(ORGS_PATH);
+			}
 		}, 300);
 	}
 </script>

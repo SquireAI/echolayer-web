@@ -1,6 +1,5 @@
 import type { ComponentType } from "svelte";
-import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
-import type { FetchHeader } from "./api/apiUtils";
+import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export enum EntityTypes {
 	TEAM = "Team",
@@ -40,6 +39,7 @@ export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {
 
 export type Organization = {
 	id: number;
+	publicId: string;
 	name: string;
 	publicName: string;
 	email: string;
@@ -120,7 +120,8 @@ interface BaseStoreEntity<T> {
 }
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
-export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {};
+export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
+export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
 export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
@@ -144,6 +145,11 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
 	setOrganization: (org: Organization) => void;
 	updateOrganization: (org: Organization) => void;
+}
+
+export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
+	setOrganizations: (org: Organization[]) => void;
+	updateOrganizations: (org: Organization[]) => void;
 }
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
@@ -176,8 +182,6 @@ export type OriginAndComponentData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
-	baseHeaders: FetchHeader;
-	baseUrl: string;
 }
 
 export type TeamAndComponentData = {
