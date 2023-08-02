@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnectionTuple, GraphTeamEntity } from '$lib/types';
+	import type { AnchorConnectionData, GraphTeamEntity } from '$lib/types';
   import { Node } from 'svelvet';
 	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
 	import AvatarPlaceholder from '../AvatarPlaceholder.svelte';
@@ -11,8 +11,8 @@
 
 	export let component: GraphTeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
-	export let outputConnections: AnchorConnectionTuple[] = [];
-	export let inputConnections: AnchorConnectionTuple[] = [];
+	export let outputConnections: AnchorConnectionData[] = [];
+	export let inputConnections: AnchorConnectionData[] = [];
 
 	const id = getNodeId(component.publicId);
 	const nodeSize = getNodeSize(component.type);

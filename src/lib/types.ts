@@ -197,10 +197,10 @@ export const AnchorConnectionTypes = {
 
 export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof AnchorConnectionTypes];
 
-/**
- * [relationshipName, [nodeId, anchorId]]
- */
-export type AnchorConnectionTuple = [string, [string, string]];
+export type AnchorConnectionData = {
+	relationshipName: string;
+	connection: [string, string];
+}
 
 export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
 
@@ -213,8 +213,8 @@ export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
 	node: GraphBaseEntity;
-	inputConnections: AnchorConnectionTuple[];
-	outputConnections: AnchorConnectionTuple[];
+	inputConnections: AnchorConnectionData[];
+	outputConnections: AnchorConnectionData[];
 };
 
 export type NodeMetadataTuple = [string, NodeMetadata];

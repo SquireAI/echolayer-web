@@ -1,26 +1,21 @@
 <script lang="ts">
+	import type { AnchorConnectionData } from "$lib/types";
+	import { getContext } from "svelte";
 	import { Anchor } from "svelvet";
 	import Edge from "../Edge.svelte";
-	import { ANCHOR_EDGE_NAMES_CONTEXT_KEY, type AnchorConnectionTuple } from "$lib/types";
-	import { setContext } from "svelte";
 	
 	export let parentId: string;
-	export let anchorConnections: AnchorConnectionTuple[] = [];
+	export let anchorConnections: AnchorConnectionData[] = [];
 	export let selected: boolean = false;
+	let nodeId: string;
 	$: {
-		for (let connection of anchorConnections) {
-			const name = `A-${connection[1][1]}/N-${connection[1][0]}`;
-			const newContext = {
-				[name]: connection[0],
-			}
-			setContext(ANCHOR_EDGE_NAMES_CONTEXT_KEY, newContext);
-		}
+		nodeId = (getContext("node") as any).id;
 	}
 </script>
 
-<Anchor id={`anchor-${parentId}-output-anchor`} output multiple connections={anchorConnections.map(connection => connection[1])} direction="south">
+<Anchor id={`anchor-${parentId}-output-anchor`} output multiple connections={anchorConnections.map(connection => connection.connection)} direction="south">
 	<div slot="edge">
-		<Edge selected={selected} />
+		<Edge selected={selected} startingNodeId={nodeId} connections={anchorConnections}/>
 	</div>
 	<div class={`anchor__output ${selected ? "anchor__output--selected" : ""}`}>	</div>
 </Anchor>

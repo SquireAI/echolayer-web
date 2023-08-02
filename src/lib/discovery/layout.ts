@@ -1,8 +1,8 @@
-import { AnchorConnectionTypes, type AnchorConnectionTuple, type BaseEntity, type RelationGraphEntity, type NodeMetadata, type NodeCoordinates, type LeveledNodeLayout, type GraphBaseEntity, EntityTypes } from "$lib/types";
+import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type BaseEntity, type GraphBaseEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity } from "$lib/types";
 import type { ComponentType } from "svelte";
-import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
-import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
 import { getConnectionForNode } from "./components/anchors";
+import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
+import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
 
 type NodeLayoutMap = Map<string, NodeMetadata>;
 
@@ -13,8 +13,8 @@ type NodeOrigin = {
 };
 
 type Connections = {
-	inputConnections: AnchorConnectionTuple[];
-	outputConnections: AnchorConnectionTuple[];
+	inputConnections: AnchorConnectionData[];
+	outputConnections: AnchorConnectionData[];
 };
 
 type NodeConnections = Map<string, Connections>;
@@ -131,7 +131,7 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 			.filter((n) =>  n.sourcePublicId === spid)
 			.map((rel) => rel.relationshipName);
 
-		const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid, index) => (getConnectionForNode(tpid, INPUT, relationshipNames[index])));
+		const sourceOutputConns: AnchorConnectionData[] = targetPublicIds.map((tpid, index) => (getConnectionForNode(tpid, INPUT, relationshipNames[index])));
 		const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
 		nodeConns.outputConnections = nodeConns.outputConnections.concat(sourceOutputConns);
 		nodeConnections.set(spid, nodeConns);

@@ -1,17 +1,36 @@
 <script lang="ts">
-	import { ANCHOR_EDGE_NAMES_CONTEXT_KEY } from '$lib/types';
+	import type { AnchorConnectionData } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { Edge } from 'svelvet';
 	import { camelCaseToTitleCase } from '../utils';
 
 	export let selected: boolean = false;
+	export let startingNodeId: string;
+	export let connections: AnchorConnectionData[];
+
 	let label = "";
 	$: {
 		const id: string = (getContext("edge") as any).id;
-		const anchors = id.split("+");
-		const context = getContext(ANCHOR_EDGE_NAMES_CONTEXT_KEY) as any;
-		const rawLabel = context[anchors[0]] || context[anchors[1]] || "oh no";
+		const rawLabel = findConnectionName(id, startingNodeId, connections);
 		label = camelCaseToTitleCase(rawLabel);
+	}
+
+	function findConnectionName(id: string, startingNodeId: string, connections: AnchorConnectionData[]) {
+		const anchors = id.split("+");
+		const nodes = anchors.map((anchor) => {
+			return anchor.split("/")[1];
+		});
+		const startingNodeIndex = nodes.findIndex((nodeId) => nodeId === startingNodeId);
+		if (startingNodeIndex < 0) {
+			return "oh no";
+		}
+		const endingNodeIndex = (startingNodeIndex + 1) % 2;
+		const endingNodeId = nodes[endingNodeIndex];
+		const edgeConnection = connections.find((connection) => {
+			// slice(2) to strip the N-
+			return connection.connection[0] === endingNodeId.slice(2);
+		});
+		return edgeConnection?.relationshipName || "lmao";
 	}
 	
 </script>
