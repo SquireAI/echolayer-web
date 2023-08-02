@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { INTERNAL_SVELVET_NODE_STORE, type AnchorConnectionData } from "$lib/types";
+	import { SVELVET_INTERNAL_NODE_STORE, type AnchorConnectionData } from "$lib/types";
 	import { getContext } from "svelte";
 	import { Anchor } from "svelvet";
 	import Edge from "../Edge.svelte";
@@ -9,7 +9,7 @@
 	export let selected: boolean = false;
 	let nodeId: string;
 	$: {
-		nodeId = (getContext(INTERNAL_SVELVET_NODE_STORE) as any).id;
+		nodeId = (getContext(SVELVET_INTERNAL_NODE_STORE) as any).id;
 	}
 </script>
 

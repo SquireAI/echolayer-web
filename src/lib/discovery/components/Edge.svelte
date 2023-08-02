@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { INTERNAL_SVELVET_EDGE_STORE, type AnchorConnectionData } from '$lib/types';
+	import { SVELVET_INTERNAL_EDGE_STORE, type AnchorConnectionData } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { Edge } from 'svelvet';
 	import { camelCaseToTitleCase } from '../utils';
@@ -10,7 +10,7 @@
 
 	let label = "";
 	$: {
-		const id: string = (getContext(INTERNAL_SVELVET_EDGE_STORE) as any).id;
+		const id: string = (getContext(SVELVET_INTERNAL_EDGE_STORE) as any).id;
 		const rawLabel = findConnectionName(id, startingNodeId, connections);
 		label = camelCaseToTitleCase(rawLabel);
 	}
