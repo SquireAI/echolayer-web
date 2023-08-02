@@ -221,4 +221,6 @@ export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
 
-export const ANCHOR_EDGE_NAMES_CONTEXT_KEY = "anchor-edge-names";
+export const INTERNAL_SVELVET_EDGE_STORE = "edge";
+
+export const INTERNAL_SVELVET_NODE_STORE = "node";
