@@ -27,7 +27,7 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
         origin = [...components, ...teams].find(component => component.publicId === originId);
 
         if (origin) {
-            relations = await graphApi.list({sourcePublicId: origin?.publicId, direction: "downstream"});
+            relations = await graphApi.list({sourcePublicId: origin?.publicId });
             relations = relations.filter(relation => relation.relationshipName !== "hasMember");
         } else throw redirect(307, DISCOVERY_HOME_PATH);
     } else throw redirect(307, DISCOVERY_HOME_PATH);

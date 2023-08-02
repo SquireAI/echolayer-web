@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import {browser} from "$app/environment";
-    import JSONFormatter from "json-formatter-js";
 
     export let metadata: any;
 
-    const renderJson = (json) => {
+    const renderJson = async (json) => {
         if (browser) {
+            const JSONFormatter = (await import("json-formatter-js")).default;
             const formatter = new JSONFormatter(json);
             document.getElementById("json")?.replaceChildren(formatter.render());
         }

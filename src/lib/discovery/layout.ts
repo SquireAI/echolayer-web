@@ -19,12 +19,12 @@ type Connections = {
 
 type NodeConnections = Map<string, Connections>;
 
-const ROW_GAP: number = 60;
+const ROW_GAP: number = 70;
 const COLUMN_GAP: number = 50;
 const NODE_WIDTH: number = 240;
 const NODE_HEIGHT: number = 140;
 const INITIAL_ROW_OFFSET: number = 40;
-const INITIAL_COLUMN_OFFSET: number = 40;
+const INITIAL_COLUMN_OFFSET: number = 70;
 
 const { INPUT, OUTPUT } = AnchorConnectionTypes;
 
@@ -37,7 +37,7 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 2, selectedPublicId?: string): LeveledNodeLayout {
+export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
@@ -162,7 +162,7 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
+			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (index - 1) * COLUMN_GAP + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode };
 		});
