@@ -21,6 +21,7 @@ const createOrgsStore = (): OrganizationsStore => {
 		set,
 		setOrganizations: (entity: Organization[]) => set({ loading: false, error: false, entity }),
 		updateOrganizations: (entity: Organization[]) => update((existing) => ({ ...existing, entity })),
+		addOrganization: (org: Organization) => update((existing) => ({ ...existing, entity: [...existing.entity ?? [], org] })),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),

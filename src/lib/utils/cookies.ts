@@ -60,5 +60,5 @@ export function removeOrgCookie() {
 export function setServerOrgCookie(publicId: string, setCookie: Cookies["set"]) {
 	const inOneWeek = new Date();
 	inOneWeek.setDate(inOneWeek.getDate() + 7);
-	setCookie(ORGANIZATION_ID_COOKIE_NAME, publicId, { expires: inOneWeek, path: "/" });
+	setCookie(ORGANIZATION_ID_COOKIE_NAME, publicId, { expires: inOneWeek, path: "/", httpOnly: false });
 }

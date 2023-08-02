@@ -3,15 +3,18 @@
 	import NewOrgForm from "$lib/org/NewOrgForm.svelte";
 	import SetupOrg from "$lib/svgs/SetupOrg.svg?component";
 	import { getContext } from "svelte";
-	import type { OrganizationStore, UserStore } from "$lib/types";
+	import type { OrganizationStore, OrganizationsStore, UserStore } from "$lib/types";
 	import type { OrgNewPageData } from "./+page";
 	import { DISCOVERY_HOME_PATH, ORGS_PATH } from "$lib/utils/paths";
 	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
 	import { setOrgCookie } from "$lib/utils/cookies";
-	import { ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
+	import { ORGS_STORE_NAME, ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
 
 	/** @type {import('./$types').PageData} */
 	export let data: OrgNewPageData;
+
+	let orgsStore: OrganizationsStore;
+	orgsStore = getContext(ORGS_STORE_NAME) as OrganizationsStore;
 
 	let userStore: UserStore;
 	userStore = getContext(USER_STORE_NAME) as UserStore;
@@ -24,6 +27,7 @@
 		const createdOrg = await createOrgHandler(orgName);
 		orgStore.setOrganization(createdOrg);
 		setOrgCookie(createdOrg.publicId);
+		orgsStore.addOrganization(createdOrg);
 		setTimeout(() => {
 			if(PUBLIC_DISCOVERY_ENABLED) {
 				goto(DISCOVERY_HOME_PATH);

@@ -4,7 +4,7 @@
 
     export let text: string;
 
-    const colorHash = new ColorHash();
+    const colorHash = new ColorHash({ saturation: .8 });
     const hex = colorHash.hex(text);
 </script>
 
