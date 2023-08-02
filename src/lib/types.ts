@@ -150,6 +150,7 @@ export interface OrganizationStore extends BaseStore<Organization, StoreOrganiza
 export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
 	setOrganizations: (org: Organization[]) => void;
 	updateOrganizations: (org: Organization[]) => void;
+	addOrganization: (org: Organization) => void;
 }
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {

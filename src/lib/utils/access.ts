@@ -15,6 +15,7 @@ export const authRequired = async (context: httpContext): Promise<boolean> => {
     try {
         await new AuthApi(context).checkAuth();
     } catch (err) {
+        console.log("AUTH REQUIRED REDIRECTING...");
         throw redirect(307, INVALIDATED_SIGN_IN_PATH);
     }
     return true;

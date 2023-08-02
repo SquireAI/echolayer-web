@@ -1,0 +1,45 @@
+<script lang="ts">
+    import Check from "svelte-material-icons/Check.svelte";
+    import ArrowRight from "svelte-material-icons/ArrowRight.svelte";
+	import type { Organization, OrganizationStore } from "$lib/types";
+	import { getContext } from "svelte";
+	import { ORG_STORE_NAME } from "$lib/stores";
+	import OrgIcon from "./OrgIcon.svelte";
+
+
+    export let organization: Organization;
+    export let handleSelect: (publicId: string) => void;
+
+    const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+
+    $: isActive = $orgStore.entity?.publicId === organization.publicId;
+
+    const isSingular = organization.members.length === 1;
+
+</script>
+
+<button on:click={() => handleSelect(organization.publicId)}>
+    <span class={`
+        flex flex-row justify-between items-center px-2 rounded-md
+        ${isActive ? "bg-echolayer-lightBlue-100 text-echolayer-blue-200 hover:bg-echolayer-lightBlue-100" : "hover:cursor-pointer hover:bg-gray-200"}
+    `}>
+        <span class="flex flex-row gap-2 items-center py-2">
+            <OrgIcon text={organization.publicId} />
+            <div class={`flex flex-col items-start 
+                ${isActive ? "text-echolayer-blue-200": "text-neutral-400"}
+            `}>
+                <p class="font-medium leading-5">
+                    {organization.name}
+                </p>
+                <p class="text-sm">
+                    {organization.members.length} {isSingular ? "member" : "members"}
+                </p>
+            </div>
+        </span>
+        {#if isActive}
+            <Check height="24" width="24" class={"text-echolayer-blue-200"} />
+        {:else}
+            <ArrowRight height="24" width="24" class="text-neutral-400" />
+        {/if}
+    </span>
+</button>
