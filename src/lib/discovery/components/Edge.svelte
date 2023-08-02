@@ -1,7 +1,49 @@
 <script lang="ts">
+	import { SVELVET_INTERNAL_EDGE_STORE, type AnchorConnectionData } from '$lib/types';
+	import { getContext } from 'svelte';
 	import { Edge } from 'svelvet';
+	import { camelCaseToTitleCase } from '../utils';
 
 	export let selected: boolean = false;
+	export let startingNodeId: string;
+	export let connections: AnchorConnectionData[];
+
+	let label = "";
+	$: {
+		const id: string = (getContext(SVELVET_INTERNAL_EDGE_STORE) as any).id;
+		const rawLabel = findConnectionName(id, startingNodeId, connections);
+		label = camelCaseToTitleCase(rawLabel);
+	}
+
+	/**
+	 * Returns connection name that matches the connection this edge represents
+	 * @param id Internal ID of the edge in the context store. e.g. A-anchor-node_4YGs-Q-output-anchor/N-node_4YGs-Q+A-anchor-node_XvA8i-input-anchor/N-node_XvA8i
+	 * @param startingNodeId e.g. N-node_4YGs-Q
+	 * @param connections AnchorConnectionData that contains relationship name and connections to destination node and anchor
+	 * Example connection:
+	 * [
+   *   "node_XvA8ig",
+   *   "anchor-node_XvA8ig-input-anchor"
+   * ]
+	 */
+	function findConnectionName(id: string, startingNodeId: string, connections: AnchorConnectionData[]) {
+		const anchors = id.split("+");
+		const nodes = anchors.map((anchor) => {
+			return anchor.split("/")[1];
+		});
+		const startingNodeIndex = nodes.findIndex((nodeId) => nodeId === startingNodeId);
+		if (startingNodeIndex < 0) {
+			return "";
+		}
+		const endingNodeIndex = (startingNodeIndex + 1) % 2;
+		const endingNodeId = nodes[endingNodeIndex];
+		const edgeConnection = connections.find((connection) => {
+			// slice(2) to strip the N-
+			return connection.connection[0] === endingNodeId.slice(2);
+		});
+		return edgeConnection?.relationshipName || "";
+	}
+	
 </script>
 
 <style lang="scss">
@@ -42,4 +84,5 @@
 		</marker>
 	</defs>
 	<path class={`edge__path ${selected ? "edge__path--selected" : ""}`} d={path} marker-end="url(#marker-end)" />
+	<span slot="label" class={`font-sans p-1 bg-white ${selected ? "text-echolayer-blue-100" : "text-neutral-500"}`}>{label}</span>
 </Edge>

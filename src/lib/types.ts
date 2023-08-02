@@ -197,7 +197,10 @@ export const AnchorConnectionTypes = {
 
 export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof AnchorConnectionTypes];
 
-export type AnchorConnectionTuple = [string, string];
+export type AnchorConnectionData = {
+	relationshipName: string;
+	connection: [string, string];
+}
 
 export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
 
@@ -210,10 +213,14 @@ export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
 	node: GraphBaseEntity;
-	inputConnections: AnchorConnectionTuple[];
-	outputConnections: AnchorConnectionTuple[];
+	inputConnections: AnchorConnectionData[];
+	outputConnections: AnchorConnectionData[];
 };
 
 export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
+
+export const SVELVET_INTERNAL_EDGE_STORE = "edge";
+
+export const SVELVET_INTERNAL_NODE_STORE = "node";
