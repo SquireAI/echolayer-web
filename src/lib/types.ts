@@ -197,7 +197,10 @@ export const AnchorConnectionTypes = {
 
 export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof AnchorConnectionTypes];
 
-export type AnchorConnectionTuple = [string, string];
+/**
+ * [relationshipName, [nodeId, anchorId]]
+ */
+export type AnchorConnectionTuple = [string, [string, string]];
 
 export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
 
@@ -217,3 +220,5 @@ export type NodeMetadata = {
 export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
+
+export const ANCHOR_EDGE_NAMES_CONTEXT_KEY = "anchor-edge-names";

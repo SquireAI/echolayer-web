@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GraphComponentEntity, TeamEntity } from '$lib/types';
+	import type { AnchorConnectionTuple, GraphComponentEntity, TeamEntity } from '$lib/types';
   import { Node, type Connections } from 'svelvet';
 	import TeamIcon from '../TeamIcon.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
@@ -12,8 +12,8 @@
 	export let component: GraphComponentEntity;
 	export let owners: TeamEntity[] = [];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
-	export let outputConnections: Connections = [];
-	export let inputConnections: Connections = [];
+	export let outputConnections: AnchorConnectionTuple[] = [];
+	export let inputConnections: AnchorConnectionTuple[] = [];
 
 	const numOwningTeams = owners.length;
 

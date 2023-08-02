@@ -55,3 +55,9 @@ export function updateQueryParameters({ originPublicId, selectedPublicId }: { or
 		goto(`?${get(page).url.searchParams.toString()}`);
 	}
 }
+
+export function camelCaseToTitleCase(original: string) {
+	const result = original.replace(/([A-Z])/g, " $1");
+	const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+	return finalResult;
+}

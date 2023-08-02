@@ -1,7 +1,19 @@
 <script lang="ts">
+	import { ANCHOR_EDGE_NAMES_CONTEXT_KEY } from '$lib/types';
+	import { getContext } from 'svelte';
 	import { Edge } from 'svelvet';
+	import { camelCaseToTitleCase } from '../utils';
 
 	export let selected: boolean = false;
+	let label = "";
+	$: {
+		const id: string = (getContext("edge") as any).id;
+		const anchors = id.split("+");
+		const context = getContext(ANCHOR_EDGE_NAMES_CONTEXT_KEY) as any;
+		const rawLabel = context[anchors[0]] || context[anchors[1]] || "oh no";
+		label = camelCaseToTitleCase(rawLabel);
+	}
+	
 </script>
 
 <style lang="scss">
@@ -42,4 +54,5 @@
 		</marker>
 	</defs>
 	<path class={`edge__path ${selected ? "edge__path--selected" : ""}`} d={path} marker-end="url(#marker-end)" />
+	<span slot="label" class={`font-sans p-1 bg-white ${selected ? "text-echolayer-blue-100" : "text-neutral-500"}`}>{label}</span>
 </Edge>

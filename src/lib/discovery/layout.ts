@@ -127,15 +127,18 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 		const targetPublicIds = entityRelationships
 			.filter((n) =>  n.sourcePublicId === spid)
 			.map((rel) => rel.targetPublicId);
+		const relationshipNames = entityRelationships
+			.filter((n) =>  n.sourcePublicId === spid)
+			.map((rel) => rel.relationshipName);
 
-		const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid) => (getConnectionForNode(tpid, INPUT)));
+		const sourceOutputConns: AnchorConnectionTuple[] = targetPublicIds.map((tpid, index) => (getConnectionForNode(tpid, INPUT, relationshipNames[index])));
 		const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
 		nodeConns.outputConnections = nodeConns.outputConnections.concat(sourceOutputConns);
 		nodeConnections.set(spid, nodeConns);
 
-		targetPublicIds.forEach((tpid) => {
+		targetPublicIds.forEach((tpid, index) => {
 			const nodeConns = nodeConnections.get(tpid) || { inputConnections: [], outputConnections: [] };
-			nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT)]);
+			nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT, relationshipNames[index])]);
 			nodeConnections.set(tpid, nodeConns);
 		});
 	});
