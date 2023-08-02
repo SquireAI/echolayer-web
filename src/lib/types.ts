@@ -221,6 +221,6 @@ export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
 
-export const SVELVET_INTERNAL_EDGE_STORE = "edge";
+export const INTERNAL_SVELVET_EDGE_STORE = "edge";
 
-export const SVELVET_INTERNAL_NODE_STORE = "node";
+export const INTERNAL_SVELVET_NODE_STORE = "node";

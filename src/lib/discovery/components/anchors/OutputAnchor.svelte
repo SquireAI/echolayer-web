@@ -1,4 +1,6 @@
-<script lang="ts">SVELVET_INTERNAL_NODE_STORE from "svelte";
+<script lang="ts">
+	import { INTERNAL_SVELVET_NODE_STORE, type AnchorConnectionData } from "$lib/types";
+	import { getContext } from "svelte";
 	import { Anchor } from "svelvet";
 	import Edge from "../Edge.svelte";
 	
@@ -10,7 +12,7 @@
 		nodeId = (getContext(INTERNAL_SVELVET_NODE_STORE) as any).id;
 	}
 </script>
-SVELVET_INTERNAL_NODE_STORE
+
 <Anchor id={`anchor-${parentId}-output-anchor`} output multiple connections={anchorConnections.map(connection => connection.connection)} direction="south">
 	<div slot="edge">
 		<Edge selected={selected} startingNodeId={nodeId} connections={anchorConnections}/>
