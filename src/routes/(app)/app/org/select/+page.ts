@@ -5,7 +5,7 @@ import type { PageLoad } from "./$types";
 
 
 export const load = (async (): Promise<void> => {
-	if(!PUBLIC_MULTI_ORG_ENABLED) {
+	if(PUBLIC_MULTI_ORG_ENABLED !== "true" && PUBLIC_DISCOVERY_ENABLED !== "true") {
         const redirectPath = PUBLIC_DISCOVERY_ENABLED ? DISCOVERY_HOME_PATH: ORGS_PATH;
         throw redirect(redirectPath);
     }
