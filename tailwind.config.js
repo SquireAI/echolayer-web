@@ -17,6 +17,7 @@ export default {
           },
           "lightBlue": {
             DEFAULT: "#D4DDFD",
+            100: "#2654f433", // Blue-100 w/ 20% opacity
           },
           "content": {
             DEFAULT: "#F2F2F2",
