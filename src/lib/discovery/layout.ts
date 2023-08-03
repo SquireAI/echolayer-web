@@ -19,12 +19,12 @@ type Connections = {
 
 type NodeConnections = Map<string, Connections>;
 
-const ROW_GAP: number = 60;
+const ROW_GAP: number = 70;
 const COLUMN_GAP: number = 50;
 const NODE_WIDTH: number = 240;
 const NODE_HEIGHT: number = 140;
 const INITIAL_ROW_OFFSET: number = 40;
-const INITIAL_COLUMN_OFFSET: number = 40;
+const INITIAL_COLUMN_OFFSET: number = 70;
 
 const { INPUT, OUTPUT } = AnchorConnectionTypes;
 
@@ -37,7 +37,7 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 2, selectedPublicId?: string): LeveledNodeLayout {
+export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
 	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
@@ -83,8 +83,11 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 	
+	// Entity IDs mapped to their owners
+	const ownersMap = buildOwnersMap(entityRelationships, nodes);
+	
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = positionNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
+	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, ownersMap);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
@@ -151,7 +154,7 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, BaseEntity[]>): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
@@ -162,7 +165,7 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (Number(!!index) * COLUMN_GAP) + rowStartOffset;
+			const rowX = INITIAL_COLUMN_OFFSET + index * NODE_WIDTH + (index - 1) * COLUMN_GAP + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode };
 		});
@@ -172,16 +175,60 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 		positionedNodes.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
 			const node = rowEntities.find((n) => n.publicId === pid)!
+			const owners = ownersMap.get(pid);
 			nodesMap.set(pid, { 
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
-				node
+				node,
+				...(owners && { owners })
 			});
 		});
 	}
 	return nodesMap;
+}
+
+
+/**
+ * Create a map from entity IDs to array of owners based on entity relationships and entities.
+ * @param entityRelationships 
+ * @param entities 
+ * @returns map from entity IDs to their owners
+ * E.g. {
+ * 	"t2w389reth": [{
+ * 		publicId: "asf45643",
+ * 		name: "that-team"
+ * 		type: "Team",
+ * 		members: []
+ * 	}]
+ * }
+ */
+function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: BaseEntity[]) {
+	const ownersMap = new Map<string, BaseEntity[]>();
+	entityRelationships.forEach((relationship) => {
+		// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
+		let ownerPublicId: string;
+		let ownedPublicId: string;
+		if (relationship.relationshipName === "ownedBy") {
+			ownerPublicId = relationship.targetPublicId;
+			ownedPublicId = relationship.sourcePublicId;
+		} else if (relationship.relationshipName === "ownerOf") {
+			ownerPublicId = relationship.sourcePublicId;
+			ownedPublicId = relationship.targetPublicId;
+		} else {
+			return;
+		}
+		const mapValue = ownersMap.get(ownedPublicId) || [];
+		const node = entities.find((node) => node.publicId === ownerPublicId);
+		if (node) {
+			mapValue.push(node);
+			ownersMap.set(ownedPublicId, mapValue);
+		} else {
+			console.warn(`Owner (${ownerPublicId}) not found in graph`);
+		}
+	});
+	return ownersMap;
 }
 
 /**

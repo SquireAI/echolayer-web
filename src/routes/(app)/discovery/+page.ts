@@ -1,3 +1,4 @@
+import { RelationsApi } from "$lib/api/relations";
 import { RelationsGraphApi } from "$lib/api/relationsGraph";
 import { createDefaultContext } from "$lib/http/context";
 import type { BaseEntity, OriginAndComponentData, RelationGraphEntity } from "$lib/types.js";
@@ -18,7 +19,7 @@ export const load = (async ({ data, fetch, parent }) => {
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 
 	const getRelationsGraph = async (origin: BaseEntity): Promise<RelationGraphEntity[]> => {
-		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, direction: "downstream" })
+		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, depth: 1 })
 		return relations.filter(relation => relation.relationshipName !== "hasMember") || [];
 	}
 

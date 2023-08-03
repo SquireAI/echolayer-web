@@ -11,6 +11,7 @@
 	import type { OrgDetailsPageData } from "./+page.server";
 	import Slack from 'svelte-material-icons/Slack.svelte';
 	import type { OrgDetailsPageHandlers } from "./+page";
+	import { browser } from "$app/environment";
 
 	/** @type {import('./$types').PageData} */  
 	export let data: OrgDetailsPageData & OrgDetailsPageHandlers;
@@ -31,7 +32,9 @@
 	const installSlack = async () => {
 		try {
 			const url = await data.installSlackHandler();
-			window.open(url, "_blank");
+			if (browser) {
+				window.open(url, "_blank");
+			}
 		} catch {
 			isSlackInstallationError = true;
 		}

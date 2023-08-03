@@ -7,7 +7,7 @@ type NodeSize = {
 };
 
 const nodeDimensionsByType = new Map<BaseEntity["type"], NodeSize>([
-	[EntityTypes.COMPONENT, { width: 240, height: 108 }],
+	[EntityTypes.COMPONENT, { width: 240, height: 104 }],
 	[EntityTypes.TEAM, { width: 240, height: 120 }],
 ]);
 
