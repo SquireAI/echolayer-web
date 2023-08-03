@@ -84,7 +84,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 	
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, entityRelationships);
+	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, entityRelationships, nodes);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
@@ -151,7 +151,7 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, entityRelationships: RelationGraphEntity[]): NodeLayoutMap {
+function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, entityRelationships: RelationGraphEntity[], nodes: BaseEntity[]): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
@@ -170,7 +170,7 @@ function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeCon
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;
 
 		// Entity IDs mapped to their owners
-		const ownersMap = new Map<string, GraphBaseEntity[]>();
+		const ownersMap = new Map<string, BaseEntity[]>();
 		entityRelationships.forEach((relationship) => {
 			// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
 			let ownerPublicId: string;
@@ -185,12 +185,13 @@ function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeCon
 				return;
 			}
 			const mapValue = ownersMap.get(ownedPublicId) || [];
-			const node = rowNodes.flat().find((node) => node.publicId === ownerPublicId);
-			if (!node) {
-				throw `Parent (${ownerPublicId}) not found in graph`;
+			const node = nodes.find((node) => node.publicId === ownerPublicId);
+			if (node) {
+				mapValue.push(node);
+				ownersMap.set(ownedPublicId, mapValue);
+			} else {
+				console.log(`Owner (${ownerPublicId}) not found in graph`);
 			}
-			mapValue.push(node);
-			ownersMap.set(ownedPublicId, mapValue);
 		});
 		
 		positionedNodes.forEach((nodeOrigin) => {

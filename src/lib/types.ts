@@ -1,5 +1,5 @@
 import type { ComponentType } from "svelte";
-import type {Readable, Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
 
 export enum EntityTypes {
 	TEAM = "Team",
@@ -215,7 +215,7 @@ export type NodeMetadata = {
 	node: GraphBaseEntity;
 	inputConnections: AnchorConnectionData[];
 	outputConnections: AnchorConnectionData[];
-	owners?: GraphBaseEntity[];
+	owners?: BaseEntity[];
 };
 
 export type NodeMetadataTuple = [string, NodeMetadata];

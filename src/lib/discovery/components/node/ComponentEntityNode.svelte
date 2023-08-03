@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AnchorConnectionData, GraphComponentEntity, TeamEntity } from '$lib/types';
   import { Node } from 'svelvet';
-	import TeamIcon from '../TeamIcon.svelte';
+	import AccountMultiple from "svelte-material-icons/AccountMultiple.svelte";
 	import InputAnchor from '../anchors/InputAnchor.svelte';
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
@@ -51,9 +51,9 @@
 				<div class="component__node--inner-wrapper component__members--wrapper">
 					<div class="component__members">
 						<div class="component__members--count">
-							<TeamIcon />
+							<AccountMultiple class="text-neutral-500" size=16/>
 							<p class="font-medium">
-								<span>{`${numOwningTeams} team${numOwningTeams !== 1 ? "s": ""}`}</span>
+								<span class="text-neutral-500">{numOwningTeams === 0 ? "unowned" : numOwningTeams === 1 ? owners[0].name : `${numOwningTeams} teams`}</span>
 							</p>
 						</div>
 					</div>

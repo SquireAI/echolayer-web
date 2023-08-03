@@ -50,7 +50,7 @@
 				<div class="component__node--inner-wrapper component__members--wrapper">
 					<div class="component__members">
 						<div class="component__members--count">
-							<p>{`${component.members.length} member${component.members.length !== 1 ? "s" : ""}`}</p>
+							<p class="text-neutral-500">{`${component.members.length} member${component.members.length !== 1 ? "s" : ""}`}</p>
 						</div>
 						<div class="component__members--avatars">
 							{#if component.members.length > 0}
