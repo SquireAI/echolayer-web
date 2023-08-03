@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { OrgNewPageData } from "./+page";
-	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData, OrganizationStore } from "$lib/types";
-	import { ORG_STORE_NAME } from "$lib/stores";
+	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData, SelectedOrganizationStore } from "$lib/types";
+	import { SELECTED_ORG_STORE_NAME } from "$lib/stores";
 	import { getContext } from "svelte";
 	import Panels from "$lib/discovery/panels.svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
@@ -12,9 +12,9 @@
 
 	export let data: OrgNewPageData & OrgAndUserData;
 	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens } = data;
-	const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 	if(data.org) {
-		orgStore.setOrganization(data.org);
+		orgStore.setOrganization(data.org.publicId);
 	}
 
 	let createdAccessToken: CreatedAccessTokenType | undefined;

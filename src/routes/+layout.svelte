@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
 	import {
-		ORG_STORE_NAME,
+		SELECTED_ORG_STORE_NAME,
 		USER_STORE_NAME,
-		organizationStore,
+		selectedOrgStore,
 		userStore,
 		ORGS_STORE_NAME,
 		organizationsStore
@@ -13,7 +13,7 @@
     // Set basic context's at root level layout - all routes will have access to these stores
     // Without being at the root, we can end up overwriting filled stores with empty stores.
 	setContext(USER_STORE_NAME, userStore);
-	setContext(ORG_STORE_NAME, organizationStore);
+	setContext(SELECTED_ORG_STORE_NAME, selectedOrgStore);
 	setContext(ORGS_STORE_NAME, organizationsStore);
 
 
@@ -23,7 +23,7 @@
     }
 
     if($page.data?.org) {
-        organizationStore.setOrganization($page.data.org);
+        selectedOrgStore.setOrganization($page.data.org.publicId);
     }
 
     if($page.data?.user) {
