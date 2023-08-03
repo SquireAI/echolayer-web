@@ -162,7 +162,7 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
 			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = INITIAL_COLUMN_OFFSET + (index * NODE_WIDTH) + (index - 1) * COLUMN_GAP + rowStartOffset;
+			const rowX = INITIAL_COLUMN_OFFSET + index * NODE_WIDTH + (index - 1) * COLUMN_GAP + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
 			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode };
 		});
