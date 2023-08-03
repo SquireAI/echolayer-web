@@ -19,7 +19,7 @@ export const load = (async ({ data, fetch, parent }) => {
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 
 	const getRelationsGraph = async (origin: BaseEntity): Promise<RelationGraphEntity[]> => {
-		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId })
+		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, depth: 1 })
 		return relations.filter(relation => relation.relationshipName !== "hasMember") || [];
 	}
 
