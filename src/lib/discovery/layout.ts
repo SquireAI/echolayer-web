@@ -45,7 +45,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	}
 
 	// set the origin as our source nodes to begin with
-	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true, isSelected: sourceNode.publicId === selectedPublicId }];
+	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true }];
 
 	// we're going to build an array of rows so we know how to render this
 	// the nodes in the first index are the top, the next index are nodes that are targets for the 
