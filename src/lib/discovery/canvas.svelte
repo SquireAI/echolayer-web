@@ -27,7 +27,6 @@
 	 * we need to draw it.
 	*/
 	$: relations, updateGraph();
-	$: $selectedStore, updateGraph();
 </script>
 
 <!-- Each entry being drawn needs to be keyed for when updates to the graph are made, else you get an error -->

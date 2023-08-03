@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { AnchorConnectionData, GraphComponentEntity, TeamEntity } from '$lib/types';
+	import { selectedStore } from "$lib/stores";
   import { Node } from 'svelvet';
 	import AccountMultiple from "svelte-material-icons/AccountMultiple.svelte";
 	import InputAnchor from '../anchors/InputAnchor.svelte';
@@ -19,22 +20,21 @@
 
 	const id = getNodeId(component.publicId);
 	const nodeSize = getNodeSize(component.type);
-	const isSelected = (nodeSelected: boolean): boolean => {
-		return nodeSelected || component.isSelected;
-	}
+
+	$: isSelected = component.publicId === $selectedStore.entity?.publicId;
 </script>
 
-<Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
+<Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode component={component}>
-		<div use:grabHandle class={`component__node ${isSelected(selected) ? "component__node--selected " : ""}component__entity`}>
+		<div use:grabHandle class={`component__node ${isSelected ? "component__node--selected " : ""}component__entity`}>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
-					<InputAnchor parentId={id} selected={isSelected(selected)} anchorConnections={inputConnections} />
+					<InputAnchor parentId={id} anchorConnections={inputConnections} />
 				</div>
 			{/if}
 			{#if outputConnections.length > 0}
 				<div class="output__anchor">
-					<OutputAnchor parentId={id} selected={isSelected(selected)} anchorConnections={outputConnections} />
+					<OutputAnchor parentId={id} anchorConnections={outputConnections} />
 				</div>
 			{/if}
 			<div class="component__node--inner">
