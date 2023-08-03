@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PanelsHeader from '$lib/discovery/components/PanelsHeader.svelte';
-	import Text from "svelte-material-icons/Text.svelte";
+	import TextIcon from "svelte-material-icons/Text.svelte";
 	import ArrowCollapseRight from "svelte-material-icons/ArrowCollapseRight.svelte";
 	import ArrowCollapseLeft from "svelte-material-icons/ArrowCollapseLeft.svelte";
 	export let title: string;
@@ -12,18 +12,18 @@
 	};
 </script>
 
-<PanelsHeader {title} bind:disabled={disabled}>
+<PanelsHeader {title} bind:disabled={disabled} onClick={() => onToggle()}>
 	<span slot="left-action" class="flex">
 		{#if open}
-			<Text />
+			<TextIcon />
 		{:else}
-			<button class="cursor-pointer" on:click={() => onToggle()}>
-				<ArrowCollapseLeft  />
-			</button>
+			<ArrowCollapseLeft  />
 		{/if}
 	</span>
 
-	<button slot="right-action" class="cursor-pointer" on:click={() => onToggle()}>
-		<ArrowCollapseRight />
-	</button>
+	<div slot="right-action" class="">
+		{#if open}
+			<ArrowCollapseRight />
+		{/if}
+	</div>
 </PanelsHeader>
