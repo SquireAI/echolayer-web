@@ -50,10 +50,12 @@
     @apply flex flex-col absolute;
     left: calc(100% - 120px);
     transition: left 0.1s ease-in-out;
+    @apply pointer-events-none;
 
     .header {
       @apply border-l;
       @apply border-neutral-300;
+      @apply pointer-events-auto;
     }
 
     .content {
@@ -68,6 +70,7 @@
 
       .content {
         @apply visible;
+        @apply pointer-events-auto;
       }
     }
   }
