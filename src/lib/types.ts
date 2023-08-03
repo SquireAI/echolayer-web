@@ -215,6 +215,7 @@ export type NodeMetadata = {
 	node: GraphBaseEntity;
 	inputConnections: AnchorConnectionData[];
 	outputConnections: AnchorConnectionData[];
+	owners?: GraphBaseEntity[];
 };
 
 export type NodeMetadataTuple = [string, NodeMetadata];

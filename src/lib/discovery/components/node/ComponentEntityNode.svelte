@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AnchorConnectionData, GraphComponentEntity, TeamEntity } from '$lib/types';
-  import { Node, type Connections } from 'svelvet';
+  import { Node } from 'svelvet';
 	import TeamIcon from '../TeamIcon.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
@@ -22,7 +22,6 @@
 	const isSelected = (nodeSelected: boolean): boolean => {
 		return nodeSelected || component.isSelected;
 	}
-
 </script>
 
 <Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle let:selected borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>

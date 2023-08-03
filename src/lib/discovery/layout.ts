@@ -84,7 +84,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 	
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = positionNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth);
+	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, entityRelationships);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
@@ -151,7 +151,7 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number): NodeLayoutMap {
+function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, entityRelationships: RelationGraphEntity[]): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
@@ -168,16 +168,42 @@ function positionNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], node
 		});
 		rowWidths[rowIndex] = rowWidth;
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;
+
+		// Entity IDs mapped to their owners
+		const ownersMap = new Map<string, GraphBaseEntity[]>();
+		entityRelationships.forEach((relationship) => {
+			// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
+			let ownerPublicId: string;
+			let ownedPublicId: string;
+			if (relationship.relationshipName === "ownedBy") {
+				ownerPublicId = relationship.targetPublicId;
+				ownedPublicId = relationship.sourcePublicId;
+			} else if (relationship.relationshipName === "ownerOf") {
+				ownerPublicId = relationship.sourcePublicId;
+				ownedPublicId = relationship.targetPublicId;
+			} else {
+				return;
+			}
+			const mapValue = ownersMap.get(ownedPublicId) || [];
+			const node = rowNodes.flat().find((node) => node.publicId === ownerPublicId);
+			if (!node) {
+				throw `Parent (${ownerPublicId}) not found in graph`;
+			}
+			mapValue.push(node);
+			ownersMap.set(ownedPublicId, mapValue);
+		});
 		
 		positionedNodes.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
 			const node = rowEntities.find((n) => n.publicId === pid)!
+			const owners = ownersMap.get(pid);
 			nodesMap.set(pid, { 
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
-				node
+				node,
+				...(owners && { owners })
 			});
 		});
 	}
