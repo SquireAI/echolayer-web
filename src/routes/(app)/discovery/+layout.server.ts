@@ -19,5 +19,6 @@ export const load = (async ({ fetch, cookies }) => {
 	return {
 		baseHeaders: context.baseHeaders,
 		baseUrl: context.baseUrl,
+		org,
 	}
 }) satisfies LayoutServerLoad;
