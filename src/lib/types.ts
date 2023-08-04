@@ -122,10 +122,10 @@ export interface StoreUserEntity extends BaseStoreEntity<User> {};
 export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
 export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
-export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
+export interface StoreOriginEntity extends BaseStoreEntity<GraphedEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
-export interface StoreSelectedEntity extends BaseStoreEntity<TeamEntity|ComponentEntity> {};
+export interface StoreSelectedEntity extends BaseStoreEntity<GraphedEntity> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -156,8 +156,8 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	setComponents: (components: ComponentEntity[]) => void;
 }
 
-export interface OriginStore extends BaseStore<BaseEntity, StoreOriginEntity> {
-	setEntity: (entity: BaseEntity) => void;
+export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {
+	setEntity: (entity?: GraphedEntity) => void;
 }
 
 export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
@@ -168,8 +168,8 @@ export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
 	setTeams: (teams: TeamEntity[]) => void;
 }
 
-export interface SelectedStore extends BaseStore<BaseEntity, StoreSelectedEntity> {
-	setEntity: (entity: TeamEntity|ComponentEntity) => void;
+export interface SelectedStore extends BaseStore<GraphedEntity, StoreSelectedEntity> {
+	setEntity: (entity?: GraphedEntity) => void;
 }
 
 export type OrgAndUserData = {
@@ -178,7 +178,7 @@ export type OrgAndUserData = {
 }
 
 export type OriginAndComponentData = {
-	origin?: BaseEntity;
+	origin?: GraphedEntity;
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
@@ -220,6 +220,8 @@ export type NodeMetadata = {
 export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
+
+export type GraphedEntity = TeamEntity | ComponentEntity;
 
 export const SVELVET_INTERNAL_EDGE_STORE = "edge";
 

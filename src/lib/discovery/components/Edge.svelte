@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { SVELVET_INTERNAL_EDGE_STORE, type AnchorConnectionData, type BaseEntity } from '$lib/types';
+	import { selectedStore } from "$lib/stores";
+	import { SVELVET_INTERNAL_EDGE_STORE, type AnchorConnectionData, type GraphedEntity } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { Edge } from 'svelvet';
 	import { camelCaseToTitleCase } from '../utils';
-	import { selectedStore } from "$lib/stores";
 
 	export let startingNodeId: string;
 	export let connections: AnchorConnectionData[];
 
 	let label = "";
 
-	const isSelected = (selectedNode?: BaseEntity) => {
+	const isSelected = (selectedNode?: GraphedEntity) => {
 		if (!selectedNode) {
 			return false;
 		}

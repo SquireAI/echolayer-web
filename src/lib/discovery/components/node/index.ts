@@ -1,17 +1,17 @@
-import { EntityTypes, type BaseEntity, type ComponentEntity, type TeamEntity } from "$lib/types";
 import { selectedStore } from "$lib/stores";
+import { EntityTypes, type GraphedEntity } from "$lib/types";
 
 type NodeSize = {
 	width: number;
 	height: number;
 };
 
-const nodeDimensionsByType = new Map<BaseEntity["type"], NodeSize>([
+const nodeDimensionsByType = new Map<GraphedEntity["type"], NodeSize>([
 	[EntityTypes.COMPONENT, { width: 240, height: 104 }],
 	[EntityTypes.TEAM, { width: 240, height: 120 }],
 ]);
 
-export function setSelectedNode(entity: TeamEntity|ComponentEntity): void {
+export function setSelectedNode(entity: GraphedEntity): void {
 	selectedStore.setEntity(entity);
 }
 
@@ -19,11 +19,11 @@ export function clearSelectedNode(): void {
 	selectedStore.clear();
 }
 
-export function toggleSelectedComponent(component: TeamEntity|ComponentEntity, selected: boolean): void {
+export function toggleSelectedComponent(component: GraphedEntity, selected: boolean): void {
 	return setSelectedNode(component);
 }
 
-export function getNodeSize(type: BaseEntity["type"]): NodeSize {
+export function getNodeSize(type: GraphedEntity["type"]): NodeSize {
 	if (!nodeDimensionsByType.has(type) || nodeDimensionsByType.get(type) === undefined) {
 		throw new Error("Invalid node ComponentType");
 	}
