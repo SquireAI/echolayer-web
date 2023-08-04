@@ -4,6 +4,7 @@
 	import { Anchor } from "svelvet";
 	import Edge from "../Edge.svelte";
 	import { selectedStore } from "$lib/stores";
+	import { isAnchorSelected } from "$lib/discovery/utils";
 
 	export let parentId: string;
 	export let anchorConnections: AnchorConnectionData[] = [];
@@ -14,14 +15,8 @@
 	$: selected = isSelected($selectedStore.entity);
 
 	const isSelected = (selectedNode?: BaseEntity) => {
-		if (!selectedNode) {
-			return false;
-		}
 		const id: string = (getContext(SVELVET_INTERNAL_NODE_STORE) as any).id;
-		const connectedNodeIds = anchorConnections.map((connection) => {
-			return connection.connection[0];
-		});
-		return id.includes(selectedNode.publicId) || connectedNodeIds.find((nodeId) => nodeId.includes(selectedNode.publicId));
+		return isAnchorSelected(id, anchorConnections, selectedNode);
 	}
 </script>
 <Anchor id={`anchor-${parentId}-input-anchor`} input multiple connections={anchorConnections.map(connection => connection.connection)} direction="north">
