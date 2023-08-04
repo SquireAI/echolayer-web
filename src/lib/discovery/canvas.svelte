@@ -3,7 +3,6 @@
 	import type { ComponentEntity, GraphedEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 	import { Background, Svelvet } from "svelvet";
 	import { layout } from "./layout";
-	import { setOriginOnNodeLayout } from "./utils";
 
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
@@ -15,7 +14,6 @@
 
 	function updateGraph() {
 		nodesByRow = layout(nodes, relations, origin.publicId, 2, $selectedStore.entity?.publicId);
-		nodesByRow = setOriginOnNodeLayout(nodesByRow, origin.publicId);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnectionData, GraphComponentEntity, TeamEntity } from '$lib/types';
+	import type { AnchorConnectionData, GraphedEntity, TeamEntity } from '$lib/types';
 	import { selectedStore } from "$lib/stores";
   import { Node } from 'svelvet';
 	import AccountMultiple from "svelte-material-icons/AccountMultiple.svelte";
@@ -10,7 +10,7 @@
 	import { getNodeSize, toggleSelectedComponent } from '.';
 	import Shape from 'svelte-material-icons/Shape.svelte';
 
-	export let component: GraphComponentEntity;
+	export let component: GraphedEntity;
 	export let owners: TeamEntity[] = [];
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: AnchorConnectionData[] = [];
@@ -26,7 +26,7 @@
 
 <Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
 	<InnerNode component={component}>
-		<div use:grabHandle class={`component__node ${isSelected ? "component__node--selected " : ""}component__entity`}>
+		<div use:grabHandle class={`component__node ${isSelected ? "component__node--selected " : ""} component__entity`}>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
 					<InputAnchor parentId={id} anchorConnections={inputConnections} />
