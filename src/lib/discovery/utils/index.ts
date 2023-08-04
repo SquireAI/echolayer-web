@@ -1,8 +1,8 @@
 import { browser } from "$app/environment";
-import type { AnchorConnectionData, BaseEntity, LeveledNodeLayout, NodeMetadataTuple, OriginStore, SelectedStore } from "$lib/types";
-import { navigating, page } from "$app/stores";
-import { get } from "svelte/store";
 import { goto } from "$app/navigation";
+import { navigating, page } from "$app/stores";
+import type { AnchorConnectionData, GraphedEntity, LeveledNodeLayout, NodeMetadataTuple } from "$lib/types";
+import { get } from "svelte/store";
 
 export const URL_SEARCH_PARAMS_KEYS = {
 	ORIGIN: "origin",
@@ -62,7 +62,7 @@ export function camelCaseToTitleCase(original: string) {
 	return finalResult;
 }
 
-export function isAnchorSelected(anchorNodeId: string, anchorConnections: AnchorConnectionData[], selectedNode?: BaseEntity) {
+export function isAnchorSelected(anchorNodeId: string, anchorConnections: AnchorConnectionData[], selectedNode?: GraphedEntity) {
 	if (!selectedNode) {
 		return false;
 	}

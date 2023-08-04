@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import type { OrganizationStore, OrganizationsStore, UserStore } from "$lib/types";
-	import { ORGS_STORE_NAME, ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
+	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from "$lib/types";
+	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from "$lib/stores";
 	import Panels from "$lib/discovery/panels.svelte";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
 	import { afterNavigate, goto } from "$app/navigation";
@@ -27,8 +27,8 @@
 	let orgsStore: OrganizationsStore;
 	orgsStore = getContext(ORGS_STORE_NAME) as OrganizationsStore;
 
-    let orgStore: OrganizationStore;
-    orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+    let orgStore: SelectedOrganizationStore;
+    orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
     $: hasOrgs = $orgsStore.entity !== undefined && $orgsStore.entity.length > 0;
     $: orgs = $orgsStore.entity;
@@ -36,7 +36,7 @@
     const handleSelect = async (publicId: string) => {
         setOrgCookie(publicId);
         const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
-        selectedOrg && orgStore.setOrganization(selectedOrg);
+        selectedOrg && orgStore.setOrganization(publicId);
         if(PUBLIC_DISCOVERY_ENABLED) {
             goto(DISCOVERY_HOME_PATH);
         } else {

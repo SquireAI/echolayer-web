@@ -119,13 +119,14 @@ interface BaseStoreEntity<T> {
 }
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
+export interface StorePublicId extends BaseStoreEntity<string> {};
 export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
 export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
-export interface StoreOriginEntity extends BaseStoreEntity<BaseEntity> {};
+export interface StoreOriginEntity extends BaseStoreEntity<GraphedEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
-export interface StoreSelectedEntity extends BaseStoreEntity<TeamEntity|ComponentEntity> {};
+export interface StoreSelectedEntity extends BaseStoreEntity<GraphedEntity> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -141,9 +142,9 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
-export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
-	setOrganization: (org: Organization) => void;
-	updateOrganization: (org: Organization) => void;
+export interface SelectedOrganizationStore extends Omit<BaseStore<Organization, StoreOrganizationEntity>, "set" | "update"> {
+	setOrganization: (publicId: string) => void;
+	updateOrganization: (publicId: string) => void;
 }
 
 export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
@@ -156,8 +157,8 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 	setComponents: (components: ComponentEntity[]) => void;
 }
 
-export interface OriginStore extends BaseStore<BaseEntity, StoreOriginEntity> {
-	setEntity: (entity: BaseEntity) => void;
+export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {
+	setEntity: (entity?: GraphedEntity) => void;
 }
 
 export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
@@ -168,8 +169,8 @@ export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
 	setTeams: (teams: TeamEntity[]) => void;
 }
 
-export interface SelectedStore extends BaseStore<BaseEntity, StoreSelectedEntity> {
-	setEntity: (entity: TeamEntity|ComponentEntity) => void;
+export interface SelectedStore extends BaseStore<GraphedEntity, StoreSelectedEntity> {
+	setEntity: (entity?: GraphedEntity) => void;
 }
 
 export type OrgAndUserData = {
@@ -178,7 +179,7 @@ export type OrgAndUserData = {
 }
 
 export type OriginAndComponentData = {
-	origin?: BaseEntity;
+	origin?: GraphedEntity;
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
@@ -220,6 +221,8 @@ export type NodeMetadata = {
 export type NodeMetadataTuple = [string, NodeMetadata];
 
 export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
+
+export type GraphedEntity = TeamEntity | ComponentEntity;
 
 export const SVELVET_INTERNAL_EDGE_STORE = "edge";
 

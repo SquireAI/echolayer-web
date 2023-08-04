@@ -1,16 +1,16 @@
 <script lang="ts">
     import Check from "svelte-material-icons/Check.svelte";
     import ArrowRight from "svelte-material-icons/ArrowRight.svelte";
-	import type { Organization, OrganizationStore } from "$lib/types";
+	import type { Organization, SelectedOrganizationStore } from "$lib/types";
 	import { getContext } from "svelte";
-	import { ORG_STORE_NAME } from "$lib/stores";
+	import { SELECTED_ORG_STORE_NAME } from "$lib/stores";
 	import OrgIcon from "./OrgIcon.svelte";
 
 
     export let organization: Organization;
     export let handleSelect: (publicId: string) => void;
 
-    const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+    const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
     $: isActive = $orgStore.entity?.publicId === organization.publicId;
 
