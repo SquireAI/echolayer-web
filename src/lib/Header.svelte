@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { getContext } from "svelte";
-	import type { Organization, OrganizationStore, UserStore } from "./types";
+	import type { Organization, SelectedOrganizationStore, UserStore } from "./types";
 	import EchoLayerNameBranding from "./EchoLayerNameBranding.svelte";
 	import EchoLayerLogo from "./EchoLayerLogo.svelte";
 	import LogoutButton from "./LogoutButton.svelte";
+	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from "./stores";
 
-	const userStore = getContext("user") as UserStore;
-	const orgStore = getContext("org") as OrganizationStore;
+	const userStore = getContext(USER_STORE_NAME) as UserStore;
+	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 	let userInitials: string;
 	$: userInitials = $userStore.entity?.name.trim().split(" ").map((part) => part[0]).join("").toUpperCase() || "";
 

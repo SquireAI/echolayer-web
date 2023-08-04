@@ -1,5 +1,5 @@
 import componentStore, { COMPONENT_STORE_NAME } from "./component-store";
-import organizationStore, { ORG_STORE_NAME } from "./org-store";
+import selectedOrgStore, { SELECTED_ORG_STORE_NAME } from "./org-store";
 import userStore, { USER_STORE_NAME } from "./user-store";
 import entityRelationshipStore, { RELATIONS_GRAPH_STORE_NAME } from "./entity-relations-store";
 import teamStore, { TEAM_STORE_NAME } from "./team-store";
@@ -10,7 +10,7 @@ import entityDetailsStore, { ENTITY_DETAILS_STORE_NAME } from "./entity-details-
 
 export function clearStores() {
 	componentStore.clear();
-	organizationStore.clear();
+	selectedOrgStore.clear();
 	organizationsStore.clear();
 	userStore.clear();
 	entityRelationshipStore.clear();
@@ -22,7 +22,7 @@ export function clearStores() {
 
 export {
 	COMPONENT_STORE_NAME, componentStore,
-	ORG_STORE_NAME, organizationStore,
+	SELECTED_ORG_STORE_NAME, selectedOrgStore,
 	ORGS_STORE_NAME, organizationsStore,
 	USER_STORE_NAME, userStore,
 	RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore,

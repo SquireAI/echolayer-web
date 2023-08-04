@@ -4,11 +4,11 @@
 	import CreatedAccessToken from "./CreatedAccessToken.svelte";
 	import DisabledKey from "./DisabledKey.svelte";
 	import ReadOnlyAccessToken from "./ReadOnlyAccessToken.svelte";
-	import { ORG_STORE_NAME} from "$lib/stores";
-    import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrganizationStore } from "$lib/types";
+	import { SELECTED_ORG_STORE_NAME} from "$lib/stores";
+    import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, SelectedOrganizationStore } from "$lib/types";
 	import { NOTION_GETTING_STARTED_DOCS } from "$lib/utils/paths";
 
-    const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+    const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
     export let createAccessToken: () => Promise<void>;
     export let deleteAccessToken: (prefix: string) => Promise<void>;

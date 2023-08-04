@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type BaseEntity, type GraphBaseEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity, type NodeMetadataTuple } from "$lib/types";
+import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphBaseEntity, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity, type NodeMetadataTuple } from "$lib/types";
 import type { ComponentType } from "svelte";
 import { getConnectionForNode } from "./components/anchors";
 import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
@@ -37,8 +37,8 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
-	const sourceNode: BaseEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
+export function layout(nodes: GraphedEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
+	const sourceNode: GraphedEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
 		throw new Error("Could not find a node for given sourcePublicId");
@@ -68,7 +68,7 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 			.map((rel) => rel.targetPublicId);
 		const targetNodes: GraphBaseEntity[] = targetPublicIds
 			.map((publicId) => nodes.find((n) => n.publicId === publicId))
-			.filter((n): n is BaseEntity => !!n)
+			.filter((n): n is GraphedEntity => !!n)
 			.map((n) => ({ ...n, isOrigin: false, isSelected: n.publicId === selectedPublicId })); // set if the node isSelected here!!
 
 		// Make the bi-directional connections for source nodes and their targets
@@ -165,7 +165,7 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, BaseEntity[]>): NodeLayoutMap {
+function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, GraphedEntity[]>): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
@@ -215,8 +215,8 @@ function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeCon
  * 	}]
  * }
  */
-function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: BaseEntity[]) {
-	const ownersMap = new Map<string, BaseEntity[]>();
+function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: GraphedEntity[]) {
+	const ownersMap = new Map<string, GraphedEntity[]>();
 	entityRelationships.forEach((relationship) => {
 		// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
 		let ownerPublicId: string;
@@ -250,7 +250,7 @@ function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: Ba
  * @param rowNodes The collection of row collections of nodes that we are to graph
  * @returns an ordered array of indices from rowNodes about which have to most to least nodes
  */
-function getRowIndicesDesc(rowNodes: BaseEntity[][]): number[] {
+function getRowIndicesDesc(rowNodes: GraphedEntity[][]): number[] {
 	const numNodesPerRow: [number, number][] = rowNodes.map((row, index) => ([index, row.length]));
 	const sortedNumNodesPerRow = numNodesPerRow.sort(([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA);
 	return sortedNumNodesPerRow.map(([index, _]) => index);

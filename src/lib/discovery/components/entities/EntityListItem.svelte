@@ -1,10 +1,15 @@
 <script lang="ts">
+    import { selectedStore } from "$lib/stores";
+    import { EntityTypes, type GraphedEntity } from "$lib/types";
+    import { DISCOVERY_PATH } from "$lib/utils/paths";
     import AccountGroup from "svelte-material-icons/AccountGroup.svelte";
     import Database from "svelte-material-icons/Database.svelte";
-    import {DISCOVERY_PATH} from "$lib/utils/paths";
-    import { EntityTypes, type TeamEntity, type ComponentEntity } from "$lib/types";
 
-    export let entity: TeamEntity | ComponentEntity | undefined;
+    export let entity: GraphedEntity | undefined;
+
+    const setSelectedStore = () => {
+        selectedStore.setEntity(entity);
+    }
 </script>
 
 <style lang="scss">

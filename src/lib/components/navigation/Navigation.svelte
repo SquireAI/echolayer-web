@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { Organization, OrganizationStore, UserStore } from '$lib/types';
+	import type { Organization, SelectedOrganizationStore, UserStore } from '$lib/types';
 	import NavigationItem from './NavigationItem.svelte';
 	import Home from 'svelte-material-icons/Home.svelte';
 	import HomeOutline from 'svelte-material-icons/HomeOutline.svelte';
@@ -10,7 +10,7 @@
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
 	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, NOTION_GETTING_STARTED_DOCS, ORGS_SELECT_PATH, SUPPORT_URL } from '$lib/utils/paths';
-	import { ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
 	import { AuthApi } from '$lib/api/auth';
 	import { createDefaultContext } from '$lib/http/context';
@@ -21,7 +21,7 @@
 	import SwitchOrgButton from './SwitchOrgButton.svelte';
 
 	const userStore = getContext(USER_STORE_NAME) as UserStore;
-	const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 	let userInitials: string;
 	$: userInitials =
 		$userStore?.entity?.name

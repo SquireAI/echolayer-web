@@ -1,33 +1,40 @@
-import { writable } from "svelte/store";
-import { browser } from '$app/environment';
-import type { Organization, StoreOrganizationEntity, OrganizationStore } from "../types";
+import { writable, derived, type Readable } from "svelte/store";
+import type { StoreOrganizationEntity, Organization, SelectedOrganizationStore, StorePublicId} from "../types";
+import organizationsStore from "./orgs-store";
 
-export const ORG_STORE_NAME = "org";
+export const SELECTED_ORG_STORE_NAME = "selectedOrg";
 
-let initialValue: StoreOrganizationEntity;
-const storageValue: string | undefined = browser ? localStorage.getItem(ORG_STORE_NAME) ?? undefined : undefined;
+const initialValue = { loading: false, error: false, entity: undefined };
+const orgStore = writable<StorePublicId>(initialValue);
 
-if (browser && storageValue) {
-	initialValue = JSON.parse(storageValue);
-} else {
-	initialValue = { loading: false, error: false };
-}
+const derivedOrgStore: Readable<StoreOrganizationEntity> = derived(
+	[orgStore, organizationsStore],
+	([$selectedOrg, $orgsStore]) => {
+		if (!$selectedOrg.entity || !$orgsStore.entity) {
+			return initialValue;
+		};
+		const derivedSelected: Organization | undefined = $orgsStore.entity.find((entity: Organization) => {
+			return entity.publicId === $selectedOrg?.entity;
+		});
 
-const createOrgStore = (): OrganizationStore => {
-	const { set, update, subscribe } = writable<StoreOrganizationEntity>(initialValue);
+		return {
+			...initialValue,
+			entity: derivedSelected,
+		}
+	});
+
+const { set, update } = orgStore;
+const { subscribe } = derivedOrgStore;
+const createStore = (): SelectedOrganizationStore => {
 	return {
-		update,
 		subscribe,
-		set,
-		setOrganization: (entity: Organization) => set({ loading: false, error: false, entity }),
-		updateOrganization: (entity: Organization) => update((existing) => ({ ...existing, entity })),
-		clear: () => set({ loading: false, error: false, entity: undefined }),
+		clear: () => set(initialValue),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
+		setOrganization: (publicId: string) => set({ loading: false, error: false, entity: publicId }),
+		updateOrganization: (publicId: string) => set({ loading: false, error: false, entity: publicId })
 	}
-}
+};
 
-const store = createOrgStore();
-store.subscribe((value) => browser && localStorage.setItem(ORG_STORE_NAME, JSON.stringify(value)));
-
+const store = createStore();
 export default store;

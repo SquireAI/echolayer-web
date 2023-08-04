@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { selectedStore, originStore } from "$lib/stores";
-	import type { BaseEntity } from "$lib/types";
+  import { originStore, selectedStore } from "$lib/stores";
+  import type { GraphedEntity } from "$lib/types";
 
   export let open = false;
 
@@ -10,7 +10,7 @@
       if (!$selectedStore.entity) {
         return;
       }
-      const selectedNode: BaseEntity = $selectedStore.entity;
+      const selectedNode: GraphedEntity = $selectedStore.entity;
       originStore.setEntity(selectedNode);
   }
 

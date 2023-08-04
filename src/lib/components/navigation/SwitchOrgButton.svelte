@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import OrgIcon from "$lib/org/OrgIcon.svelte";
-	import { ORG_STORE_NAME } from "$lib/stores";
-	import type { OrganizationStore } from "$lib/types";
+	import { SELECTED_ORG_STORE_NAME } from "$lib/stores";
+	import type { SelectedOrganizationStore } from "$lib/types";
 	import { ORGS_SELECT_PATH } from "$lib/utils/paths";
 	import { getContext } from "svelte";
     import Switch from "svelte-material-icons/Cached.svelte";
 
-    const orgStore = getContext(ORG_STORE_NAME) as OrganizationStore;
+    const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
     $: organization = $orgStore.entity;
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { SVELVET_INTERNAL_NODE_STORE, type AnchorConnectionData, type BaseEntity, SVELVET_INTERNAL_EDGE_STORE } from "$lib/types";
 	import { selectedStore } from "$lib/stores";
+	import { SVELVET_INTERNAL_NODE_STORE, type AnchorConnectionData, type GraphedEntity } from "$lib/types";
 
+	import { isAnchorSelected } from "$lib/discovery/utils";
 	import { getContext } from "svelte";
 	import { Anchor } from "svelvet";
 	import Edge from "../Edge.svelte";
-	import { isAnchorSelected } from "$lib/discovery/utils";
 	
 	export let parentId: string;
 	export let anchorConnections: AnchorConnectionData[] = [];
@@ -15,7 +15,7 @@
 	}
 	$: selected = isSelected($selectedStore.entity);
 
-	const isSelected = (selectedNode?: BaseEntity) => {
+	const isSelected = (selectedNode?: GraphedEntity) => {
 		const id: string = (getContext(SVELVET_INTERNAL_NODE_STORE) as any).id;
 		return isAnchorSelected(id, anchorConnections, selectedNode);
 	}
