@@ -19,6 +19,7 @@
 
 <style lang="scss">
   .set-origin-button {
+    @apply pointer-events-auto;
     @apply absolute block bottom-3;
     @apply cursor-pointer;
     @apply z-10 px-2 py-1;
@@ -34,6 +35,7 @@
 
     &.closed {
       right: auto;
+      left: 1rem;
     }
 
     &.disabled {
