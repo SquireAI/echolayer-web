@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import { browser } from '$app/environment';
-import type { Organization, StoreOrganizationsEntity, OrganizationStore, OrganizationsStore } from "../types";
+import type { Organization, StoreOrganizationsEntity, SelectedOrganizationStore, OrganizationsStore } from "../types";
 
 export const ORGS_STORE_NAME = "orgs";
 

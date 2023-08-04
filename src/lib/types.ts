@@ -119,6 +119,7 @@ interface BaseStoreEntity<T> {
 }
 
 export interface StoreUserEntity extends BaseStoreEntity<User> {};
+export interface StorePublicId extends BaseStoreEntity<string> {};
 export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
 export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
 export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
@@ -141,9 +142,9 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
-export interface OrganizationStore extends BaseStore<Organization, StoreOrganizationEntity> {
-	setOrganization: (org: Organization) => void;
-	updateOrganization: (org: Organization) => void;
+export interface SelectedOrganizationStore extends Omit<BaseStore<Organization, StoreOrganizationEntity>, "set" | "update"> {
+	setOrganization: (publicId: string) => void;
+	updateOrganization: (publicId: string) => void;
 }
 
 export interface OrganizationsStore extends BaseStore<Organization[], StoreOrganizationsEntity> {
