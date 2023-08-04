@@ -3,7 +3,6 @@
 	import Canvas from "$lib/discovery/canvas.svelte";
     import PanelsHeader from "$lib/discovery/components/PanelsHeader.svelte";
     import Details from "$lib/discovery/details.svelte";
-    import type { BaseEntity } from "$lib/types";
 	import Navigation from "$lib/components/navigation/Navigation.svelte";
     import {
         componentStore,
@@ -30,6 +29,7 @@
     }
     if (origin) {
         originStore.setEntity(origin);
+        selectedStore.setEntity(origin);
     }
     if(relations) {
         entityRelationshipStore.setEntityRelationships(relations);

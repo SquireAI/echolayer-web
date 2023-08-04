@@ -1,8 +1,9 @@
 <script lang="ts">
     import EntityListItem from "$lib/discovery/components/entities/EntityListItem.svelte";
     import Shape from "svelte-material-icons/Shape.svelte";
+    import type { GraphedEntity } from "$lib/types";
 
-    export let entities = [];
+    export let entities: GraphedEntity[] = [];
 </script>
 
 <style lang="scss">

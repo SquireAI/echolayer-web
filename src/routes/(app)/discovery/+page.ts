@@ -1,11 +1,10 @@
-import { RelationsApi } from "$lib/api/relations";
 import { RelationsGraphApi } from "$lib/api/relationsGraph";
 import { createDefaultContext } from "$lib/http/context";
-import type { BaseEntity, OriginAndComponentData, RelationGraphEntity } from "$lib/types.js";
+import type { GraphedEntity, OriginAndComponentData, RelationGraphEntity } from "$lib/types.js";
 import type { PageLoad } from "./$types";
 
 export type DiscoveryPage = Pick<OriginAndComponentData, "components" | "origin" | "relations" | "teams"> & {
-	getRelationsGraph: (origin: BaseEntity) => Promise<RelationGraphEntity[]>;
+	getRelationsGraph: (origin: GraphedEntity) => Promise<RelationGraphEntity[]>;
 }
 
 /**
@@ -18,7 +17,7 @@ export const load = (async ({ data, fetch, parent }) => {
 	const { baseHeaders, baseUrl, ...rest } = data;
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 
-	const getRelationsGraph = async (origin: BaseEntity): Promise<RelationGraphEntity[]> => {
+	const getRelationsGraph = async (origin: GraphedEntity): Promise<RelationGraphEntity[]> => {
 		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, depth: 1 })
 		return relations.filter(relation => relation.relationshipName !== "hasMember") || [];
 	}

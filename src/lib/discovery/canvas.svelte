@@ -1,16 +1,16 @@
 <script lang="ts">
+	import { selectedStore } from "$lib/stores";
+	import type { ComponentEntity, GraphedEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 	import { Background, Svelvet } from "svelvet";
 	import { layout } from "./layout";
-	import type { BaseEntity, ComponentEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
 	import { setOriginOnNodeLayout } from "./utils";
-	import { selectedStore } from "$lib/stores";
 
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
 	export let relations: RelationGraphEntity[] = [];
-	export let origin: BaseEntity;
+	export let origin: GraphedEntity;
 
-	const nodes: BaseEntity[]  = [...components, ...teams];
+	const nodes: GraphedEntity[]  = [...components, ...teams];
 	let nodesByRow: LeveledNodeLayout = [];
 
 	function updateGraph() {
