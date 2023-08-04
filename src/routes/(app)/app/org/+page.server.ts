@@ -2,12 +2,13 @@ import { OrganizationApi } from "$lib/api/organization";
 import { UserApi } from "$lib/api/user";
 import { getHttpContext, type httpContext } from "$lib/http/context";
 import type { ComponentEntity, Issue, Organization, User } from "$lib/types";
-import { error, type HttpError } from "@sveltejs/kit";
+import { error, redirect, type HttpError } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { ErrorMessageTypes } from "$lib/error";
 import { ComponentApi } from "$lib/api/component";
 import { IssueApi } from "$lib/api/issue";
 import {orgRequired} from "$lib/utils/access";
+import { INVALIDATED_SIGN_IN_PATH } from "$lib/utils/paths";
 
 export type OrgDetailsPageData = {
 	user: User;
@@ -37,7 +38,7 @@ export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | un
 			return { user, org, issues, components, baseHeaders: context.baseHeaders, baseUrl: context.baseUrl };
 		} catch (err) {
 			if ((err as HttpError).status === 401) {
-				throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
+				throw redirect(307, INVALIDATED_SIGN_IN_PATH);
 			} else {
 				throw error(404, { message: ErrorMessageTypes.GENERIC });
 			}

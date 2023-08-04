@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let title: string;
 	export let disabled = false;
+	export let onClick: () => void;
 </script>
 
 <style lang="scss">
@@ -18,7 +19,7 @@
 	}
 </style>
 
-<div class="panel-header" class:disabled={disabled}>
+<div class={`panel-header ${!!onClick && !disabled && "cursor-pointer"} ${disabled && "cursor-not-allowed"}`} class:disabled={disabled} on:click={onClick}>
 	<div class="flex-1 flex flex-row items-center">
 		<span><slot name="left-action"></slot></span>
 		<span class="mx-3 flex-1">{title}</span>

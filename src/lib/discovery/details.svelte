@@ -39,9 +39,7 @@
         {/if}
     </div>
 
-    {#if $selectedStore.entity}
-      <SetOriginButton bind:open={open} />
-    {/if}
+    <SetOriginButton open={open} />
 </div>
 
 <style lang="scss">

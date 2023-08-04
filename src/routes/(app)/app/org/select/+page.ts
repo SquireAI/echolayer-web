@@ -6,7 +6,7 @@ import { ErrorMessageTypes } from "$lib/error";
 import { createDefaultContext } from "$lib/http/context";
 import type { Organization, User } from "$lib/types";
 import { authRequired, orgRequired } from "$lib/utils/access";
-import { CREATE_ORG_PATH, DISCOVERY_HOME_PATH, ORGS_PATH } from "$lib/utils/paths";
+import { CREATE_ORG_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, ORGS_PATH } from "$lib/utils/paths";
 import { } from "$lib/utils/redirects";
 import type { PageLoad } from "./$types";
 import { type HttpError, error, redirect  } from '@sveltejs/kit';
@@ -45,7 +45,7 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
         user = await new UserApi(context).get("");
 	} catch (err) {
 		if ((err as HttpError).status === 401) {
-			throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
+			throw redirect(307, INVALIDATED_SIGN_IN_PATH);
 		}
 		throw error(404, { message: ErrorMessageTypes.GENERIC });
 	}
