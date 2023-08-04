@@ -13,15 +13,6 @@ export function getAvatarInitials(fullName: string): string {
 	return fullName.trim().split(/\s+/).map((part) => part[0]).join("").toUpperCase();
 };
 
-export function setOriginOnNodeLayout(nodeLayout: LeveledNodeLayout, originPublicId: string): LeveledNodeLayout {
-	return nodeLayout.map((row) => {
-		return row.map(([publicId, nodeMetadata]) => {
-			const metadata = {...nodeMetadata, node: {...nodeMetadata.node, isOrigin: (originPublicId === publicId ? true : false) }}
-			return <NodeMetadataTuple>[publicId, metadata];
-		})
-	});
-}
-
 /**
  * Resposible for updating the query parameters of the URL the user sees in their browser. It will add / update / remove the
  * "origin" and "selected" query parameter keys and their values as the state of the origin and selected nodes updates in the

@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphBaseEntity, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity, type NodeMetadataTuple } from "$lib/types";
+import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type NodeMetadataTuple, type RelationGraphEntity } from "$lib/types";
 import type { ComponentType } from "svelte";
 import { getConnectionForNode } from "./components/anchors";
 import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
@@ -45,12 +45,12 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 	}
 
 	// set the origin as our source nodes to begin with
-	let sourceNodes: GraphBaseEntity[] = [{ ...sourceNode, isOrigin: true }];
+	let sourceNodes: GraphedEntity[] = [sourceNode];
 
 	// we're going to build an array of rows so we know how to render this
 	// the nodes in the first index are the top, the next index are nodes that are targets for the 
 	// preview row, etc.
-	const rowNodes: GraphBaseEntity[][] = [];
+	const rowNodes: GraphedEntity[][] = [];
 
 	// As we calculate connections for nodes, we'll collect them in this map
 	let nodeConnections: NodeConnections = new Map();
@@ -66,10 +66,9 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 		const targetPublicIds = entityRelationships
 			.filter((n) => sourcePublicIds.some((spid) => spid === n.sourcePublicId))
 			.map((rel) => rel.targetPublicId);
-		const targetNodes: GraphBaseEntity[] = targetPublicIds
+		const targetNodes: GraphedEntity[] = targetPublicIds
 			.map((publicId) => nodes.find((n) => n.publicId === publicId))
-			.filter((n): n is GraphedEntity => !!n)
-			.map((n) => ({ ...n, isOrigin: false, isSelected: n.publicId === selectedPublicId })); // set if the node isSelected here!!
+			.filter((n): n is GraphedEntity => !!n);
 
 		// Make the bi-directional connections for source nodes and their targets
 		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
@@ -165,13 +164,13 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 	 * We start with the row that has the most nodes and then use its width
 	 * to center the nodes of other rows
 	 */
-function placeNodes(rowIndices: number[], rowNodes: GraphBaseEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, GraphedEntity[]>): NodeLayoutMap {
+function placeNodes(rowIndices: number[], rowNodes: GraphedEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, GraphedEntity[]>): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
 	for (const rowIndex of rowIndices) {
 		let rowWidth: number = 0;
-		const rowEntities: GraphBaseEntity[] = rowNodes[rowIndex];
+		const rowEntities: GraphedEntity[] = rowNodes[rowIndex];
 		const rowY = rowIndex !== 0 ? INITIAL_ROW_OFFSET + (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : INITIAL_ROW_OFFSET;
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row

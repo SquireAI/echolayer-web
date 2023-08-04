@@ -19,10 +19,6 @@ export interface Link {
 	url: string;
 }
 
-export interface GraphBaseEntity extends BaseEntity {
-	isOrigin: boolean;
-}
-
 export interface Member extends BaseEntity {
 	email: string;
 }
@@ -31,10 +27,6 @@ export interface TeamEntity extends BaseEntity {
 	type: EntityTypes.TEAM;
 	members: Member[];
 }
-
-export interface GraphTeamEntity extends TeamEntity, GraphBaseEntity {
-	type: EntityTypes.TEAM;
-};
 
 export type Organization = {
 	id: number;
@@ -57,10 +49,6 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	type: EntityTypes.COMPONENT;
 	organizationId: number;
-};
-
-export interface GraphComponentEntity extends ComponentEntity, GraphBaseEntity {
-	type: EntityTypes.COMPONENT;
 };
 
 export const EntityRelationshipNames = {
@@ -212,7 +200,7 @@ export type NodeCoordinates = {
 export type NodeMetadata = {
 	origin: NodeCoordinates;
 	nodeType: ComponentType;
-	node: GraphBaseEntity;
+	node: GraphedEntity;
 	inputConnections: AnchorConnectionData[];
 	outputConnections: AnchorConnectionData[];
 	owners?: BaseEntity[];

@@ -1,14 +1,16 @@
 <script lang="ts">
-	import type { GraphBaseEntity } from "$lib/types";
+	import { originStore } from "$lib/stores";
+	import type { GraphedEntity } from "$lib/types";
 	import OriginTag from "./OriginTag.svelte";
 
-	export let component: GraphBaseEntity;
+	export let component: GraphedEntity;
+	$: isOrigin = $originStore.entity?.publicId === component.publicId;
 
 </script>
 
 <div class="component__node--wrapper">
 	<!-- TODO: draw the origin pill in here if this node is the origin -->
-	{#if component.isOrigin}
+	{#if isOrigin}
 		<div class="absolute -top-6 left-0">
 			<OriginTag />
 		</div>

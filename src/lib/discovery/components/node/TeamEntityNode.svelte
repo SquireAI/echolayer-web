@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnectionData, GraphTeamEntity } from '$lib/types';
+	import type { AnchorConnectionData, TeamEntity } from '$lib/types';
 	import { selectedStore } from "$lib/stores";
   import { Node } from 'svelvet';
 	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
@@ -10,7 +10,7 @@
 	import InnerNode from './components/InnerNode.svelte';
 	import { getNodeSize, toggleSelectedComponent } from '.';
 
-	export let component: GraphTeamEntity;
+	export let component: TeamEntity;
 	export let origin: {x: number, y: number} = {x: 0, y: 0};
 	export let outputConnections: AnchorConnectionData[] = [];
 	export let inputConnections: AnchorConnectionData[] = [];
