@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type BaseEntity, type GraphBaseEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity } from "$lib/types";
+import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type BaseEntity, type GraphBaseEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity, type NodeMetadataTuple } from "$lib/types";
 import type { ComponentType } from "svelte";
 import { getConnectionForNode } from "./components/anchors";
 import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
@@ -89,10 +89,21 @@ export function layout(nodes: BaseEntity[], entityRelationships: RelationGraphEn
 	// This map will collect origins and other node metadata as we uncover them
 	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, ownersMap);
 
+	const placedNodes = new Set<string>();
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
 	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		return nodes.map((node) => ([node.publicId, nodesMap.get(node.publicId)!]));
+		return nodes.map((node) => {
+			if(placedNodes.has(node.publicId)) {
+				// TODO:
+				// - A node can be both a SOURCE and TARGET for a given row, in this scenario we need to dedupe that node
+				//   & figure out how we should display it. 
+				return;
+			} else {
+				placedNodes.add(node.publicId);
+				return [node.publicId, nodesMap.get(node.publicId)!]
+			}
+		}).filter(Boolean) as NodeMetadataTuple[];
 	});
 	return leveled;
 }
