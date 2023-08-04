@@ -4,7 +4,7 @@
 	import { Edge } from 'svelvet';
 	import { camelCaseToTitleCase } from '../utils';
 	import { selectedStore } from "$lib/stores";
-	import { pseudoRandomId } from '$lib/utils/random';
+	import { nanoid } from 'nanoid';
 
 	export let startingNodeId: string;
 	export let connections: AnchorConnectionData[];
@@ -19,7 +19,7 @@
 		return id.includes(selectedNode.publicId);
 	}
 
-	const internalId = pseudoRandomId(10);
+	const internalId = nanoid(10);
 	$: selected = isSelected($selectedStore.entity);
 	$: {
 		const id: string = (getContext(SVELVET_INTERNAL_EDGE_STORE) as any).id;
