@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import type { LeveledNodeLayout, NodeMetadataTuple, OriginStore, SelectedStore } from "$lib/types";
+import type { AnchorConnectionData, BaseEntity, LeveledNodeLayout, NodeMetadataTuple, OriginStore, SelectedStore } from "$lib/types";
 import { navigating, page } from "$app/stores";
 import { get } from "svelte/store";
 import { goto } from "$app/navigation";
@@ -60,4 +60,14 @@ export function camelCaseToTitleCase(original: string) {
 	const result = original.replace(/([A-Z])/g, " $1");
 	const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
 	return finalResult;
+}
+
+export function isAnchorSelected(anchorNodeId: string, anchorConnections: AnchorConnectionData[], selectedNode?: BaseEntity) {
+	if (!selectedNode) {
+		return false;
+	}
+	const connectedNodeIds = anchorConnections.map((connection) => {
+		return connection.connection[0];
+	})
+	return anchorNodeId.includes(selectedNode.publicId) || !!connectedNodeIds.find((nodeId) => nodeId.includes(selectedNode.publicId));
 }

@@ -27,13 +27,12 @@
 	 * we need to draw it.
 	*/
 	$: relations, updateGraph();
-	$: $selectedStore, updateGraph();
 </script>
 
 <!-- Each entry being drawn needs to be keyed for when updates to the graph are made, else you get an error -->
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">
 	{#each nodesByRow as rowEntry}
-		{#each rowEntry as entry (`${entry[1].node.publicId}-${entry[1].node.isSelected}`)}
+		{#each rowEntry as entry (entry[1].node.publicId)}
 			<svelte:component this={entry[1].nodeType} component={entry[1].node} origin={entry[1].origin} outputConnections={entry[1].outputConnections} inputConnections={entry[1].inputConnections} owners={entry[1].owners}/>
 		{/each}
 	{/each}
