@@ -4,6 +4,7 @@
 	import { Edge } from 'svelvet';
 	import { camelCaseToTitleCase } from '../utils';
 	import { selectedStore } from "$lib/stores";
+	import { pseudoRandomId } from '$lib/utils/random';
 
 	export let startingNodeId: string;
 	export let connections: AnchorConnectionData[];
@@ -18,6 +19,7 @@
 		return id.includes(selectedNode.publicId);
 	}
 
+	const internalId = pseudoRandomId(10);
 	$: selected = isSelected($selectedStore.entity);
 	$: {
 		const id: string = (getContext(SVELVET_INTERNAL_EDGE_STORE) as any).id;
@@ -89,10 +91,10 @@
 
 			The path is drawing the marker at its end by referencing the marker by its ID against the `marker-end` attribute.
 		-->
-		<marker markerWidth="16" markerHeight="14" refX="4" refY="5" viewBox="0 0 16 14" orient="auto" id="marker-end">
+		<marker markerWidth="16" markerHeight="14" refX="4" refY="5" viewBox="0 0 16 14" orient="auto" id={`${internalId}marker-end`}>
 			<polyline class={`path__end-marker ${selected ? "path__end-marker--selected" : ""}`} points="0,7 3,3.5 0,0" fill="none" stroke-width="1" stroke-linecap="round" transform="matrix(1,0,0,1,1,1.5)" stroke-linejoin="round"></polyline>
 		</marker>
 	</defs>
-	<path class={`edge__path ${selected ? "edge__path--selected" : ""}`} d={path} marker-end="url(#marker-end)" />
+	<path class={`edge__path ${selected ? "edge__path--selected" : ""}`} d={path} marker-end={`url(#${internalId}marker-end)`} />
 	<span slot="label" class={`font-sans p-1 bg-white ${selected ? "text-echolayer-blue-100" : "text-neutral-500"}`}>{label}</span>
 </Edge>
