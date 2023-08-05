@@ -28,7 +28,9 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
 
         if (origin) {
             relations = await graphApi.list({sourcePublicId: origin?.publicId, depth: 2 });
-            relations = relations.filter(relation => relation.relationshipName !== "hasMember");
+            relations = relations.filter(
+                (relation) => relation.relationshipName !== "hasMember" && relation.relationshipName !== "memberOf"
+            );
         } else throw redirect(307, DISCOVERY_HOME_PATH);
     } else throw redirect(307, DISCOVERY_HOME_PATH);
 

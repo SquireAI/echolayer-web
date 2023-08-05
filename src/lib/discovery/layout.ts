@@ -60,7 +60,9 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 	 * collection of source nodes from target nodes for given iteration and the next iteration will
 	 * then figure out their target nodes until the depth condition is met
 	 */
+	const visitedNodeIds = new Set<string>();
 	for (let i = 0; i <= depth; i++) {
+		sourceNodes.forEach((node) => visitedNodeIds.add(node.publicId));
 		rowNodes[i] = sourceNodes;
 		const sourcePublicIds = sourceNodes.map((s) => s.publicId);
 		const targetPublicIds = entityRelationships
@@ -76,7 +78,7 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 		nodeConnections = updateNodeConnections(rowNodeConnections, nodeConnections);
 
 		// Set the target nodes to be the source nodes for the next iteration
-		sourceNodes = [...targetNodes];
+		sourceNodes = targetNodes.filter((targetNode) => !visitedNodeIds.has(targetNode.publicId));
 	}
 	
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
