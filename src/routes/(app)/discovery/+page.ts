@@ -19,7 +19,9 @@ export const load = (async ({ data, fetch, parent }) => {
 
 	const getRelationsGraph = async (origin: GraphedEntity): Promise<RelationGraphEntity[]> => {
 		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, depth: 2 })
-		return relations.filter(relation => relation.relationshipName !== "hasMember") || [];
+		return relations.filter(
+			(relation) => relation.relationshipName !== "hasMember" && relation.relationshipName !== "memberOf"
+		);
 	}
 
 	return {

@@ -15,24 +15,25 @@
 	import { writable } from "svelte/store";
 	import { updateQueryParameters } from "$lib/discovery/utils";
     import SitemapOutline from "svelte-material-icons/SitemapOutline.svelte";
+	import type { RelationGraphEntity } from "$lib/types";
 
     export let data: DiscoveryPage;
 
     const { teams, origin, components, relations, getRelationsGraph } = data;
     const isDetailsPanelOpen = writable<boolean>(false);
 
-    if(components) {
-        componentStore.setComponents(components);
-    }
-    if(teams) {
-        teamStore.setTeams(teams);
-    }
-    if (origin) {
-        originStore.setEntity(origin);
-        selectedStore.setEntity(origin);
-    }
-    if(relations) {
-        entityRelationshipStore.setEntityRelationships(relations);
+    /**
+     * Filters out relations invilving members
+     * @param relations
+     */
+     function getNonMemberRelations(relations: RelationGraphEntity[]) {
+        const componentIds = components?.map(component => component.publicId) || [];
+        const teamIds = teams?.map(team => team.publicId) || [];
+        const idArray = componentIds.concat(teamIds);
+        const graphedIds = new Set<string>(idArray);
+        return relations.filter((relation) => {
+            return graphedIds.has(relation.sourcePublicId) && graphedIds.has(relation.targetPublicId);
+        });
     }
 
     /**
@@ -45,7 +46,7 @@
             return;
         }
         const relations = await getRelationsGraph(nextOrigin);
-        entityRelationshipStore.setEntityRelationships(relations);
+        entityRelationshipStore.setEntityRelationships(getNonMemberRelations(relations));
     }
 
     // when originStore updates, fetch the new downstream relations
@@ -56,6 +57,21 @@
 
     // Toggle the details panel open / closed if there's a node selected or not, respectively
     $: $selectedStore.entity, isDetailsPanelOpen.set($selectedStore.entity !== undefined);
+
+    
+    if(components) {
+        componentStore.setComponents(components);
+    }
+    if(teams) {
+        teamStore.setTeams(teams);
+    }
+    if (origin) {
+        originStore.setEntity(origin);
+        selectedStore.setEntity(origin);
+    }
+    if(relations) {
+        entityRelationshipStore.setEntityRelationships(getNonMemberRelations(relations));
+    }
 </script>
 
 <Panels>

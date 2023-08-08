@@ -1,4 +1,4 @@
-import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type NodeMetadataTuple, type RelationGraphEntity } from "$lib/types";
+import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity } from "$lib/types";
 import type { ComponentType } from "svelte";
 import { getConnectionForNode } from "./components/anchors";
 import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
@@ -37,7 +37,7 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: GraphedEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 2, selectedPublicId?: string): LeveledNodeLayout {
+export function layout(nodes: GraphedEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
 	const sourceNode: GraphedEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
@@ -60,7 +60,9 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 	 * collection of source nodes from target nodes for given iteration and the next iteration will
 	 * then figure out their target nodes until the depth condition is met
 	 */
+	const visitedNodeIds = new Set<string>();
 	for (let i = 0; i <= depth; i++) {
+		sourceNodes.forEach((node) => visitedNodeIds.add(node.publicId));
 		rowNodes[i] = sourceNodes;
 		const sourcePublicIds = sourceNodes.map((s) => s.publicId);
 		const targetPublicIds = entityRelationships
@@ -76,7 +78,7 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 		nodeConnections = updateNodeConnections(rowNodeConnections, nodeConnections);
 
 		// Set the target nodes to be the source nodes for the next iteration
-		sourceNodes = [...targetNodes];
+		sourceNodes = targetNodes.filter((targetNode) => !visitedNodeIds.has(targetNode.publicId));
 	}
 	
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
@@ -88,21 +90,10 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 	// This map will collect origins and other node metadata as we uncover them
 	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, ownersMap);
 
-	const placedNodes = new Set<string>();
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
 	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		return nodes.map((node) => {
-			if(placedNodes.has(node.publicId)) {
-				// TODO:
-				// - A node can be both a SOURCE and TARGET for a given row, in this scenario we need to dedupe that node
-				//   & figure out how we should display it. 
-				return;
-			} else {
-				placedNodes.add(node.publicId);
-				return [node.publicId, nodesMap.get(node.publicId)!]
-			}
-		}).filter(Boolean) as NodeMetadataTuple[];
+		return nodes.map((node) => ([node.publicId, nodesMap.get(node.publicId)!]));
 	});
 	return leveled;
 }
