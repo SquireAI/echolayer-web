@@ -115,6 +115,7 @@ export interface StoreOriginEntity extends BaseStoreEntity<GraphedEntity> {};
 export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
 export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
 export interface StoreSelectedEntity extends BaseStoreEntity<GraphedEntity> {};
+export interface StoreHomeTabIndex extends BaseStoreEntity<number> {};
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -159,6 +160,10 @@ export interface TeamStore extends BaseStore<TeamEntity[], StoreTeamEntity> {
 
 export interface SelectedStore extends BaseStore<GraphedEntity, StoreSelectedEntity> {
 	setEntity: (entity?: GraphedEntity) => void;
+}
+
+export interface HomeTabStore extends BaseStore<number, StoreHomeTabIndex> {
+	setHomeTabIndex: (index: number) => void;
 }
 
 export type OrgAndUserData = {

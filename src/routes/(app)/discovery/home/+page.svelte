@@ -12,7 +12,7 @@
     import TabSwitch from "$lib/components/tabs/TabSwitch.svelte";
     import type {ComponentStore, TeamAndComponentData, TeamStore} from "$lib/types";
     import {getContext} from "svelte";
-    import {COMPONENT_STORE_NAME, TEAM_STORE_NAME} from "$lib/stores";
+    import {COMPONENT_STORE_NAME, TEAM_STORE_NAME, homeTabStore} from "$lib/stores";
     import EntityList from "$lib/discovery/components/entities/EntityList.svelte";
 
     export let data: TeamAndComponentData;
@@ -79,17 +79,17 @@
         <div class="h-screen flex flex-col p-6 pt-24 gap-4">
             <div class="flex flex-row items-center">
                 <div class="title flex-1">
-                    <TabTitle tabs={tabTitles} bind:selected={selected}/>
+                    <TabTitle tabs={tabTitles} bind:selected={$homeTabStore.entity}/>
                 </div>
                 <div class="flex-1">
-                    <TabSwitch tabs={tabs} bind:selected={selected}/>
+                    <TabSwitch tabs={tabs} bind:selected={$homeTabStore.entity}/>
                 </div>
             </div>
             <div class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit">
-                <div class="content-block flex-1" class:selected="{'teams' === tabs[selected]}">
+                <div class="content-block flex-1" class:selected="{'teams' === tabs[$homeTabStore.entity || 0]}">
                     <EntityList entities={$teamStore.entity}/>
                 </div>
-                <div class="content-block flex-1" class:selected="{'components' === tabs[selected]}">
+                <div class="content-block flex-1" class:selected="{'components' === tabs[$homeTabStore.entity || 0]}">
                     <EntityList entities={$componentStore.entity}/>
                 </div>
             </div>
