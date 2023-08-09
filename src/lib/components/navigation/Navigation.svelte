@@ -78,14 +78,14 @@
 				/>
 				<NavigationItem
 					name="API keys"
-					href={`${INTEGRATIONS_PATH}`}
+					href={`${API_KEYS_PATH}`}
 					OutlineIcon={KeyOutline}
 					SolidIcon={Key}
 					disabled={!organization}
 				/>
 				<NavigationItem
 						name="Integrations"
-						href={`${API_KEYS_PATH}`}
+						href={`${INTEGRATIONS_PATH}`}
 						OutlineIcon={CogOutline}
 						SolidIcon={Cog}
 						disabled={!organization}
