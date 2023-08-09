@@ -1,15 +1,15 @@
-import { AccessTokenApi } from "$lib/api/access-token";
-import { createDefaultContext } from "$lib/http/context";
-import type { CreatedAccessToken, Organization } from "$lib/types";
-import { orgRequired } from "$lib/utils/access";
-import type { PageLoad } from "./$types";
-import type { ApiKeysPageServerData } from "./+page.server";
+import { AccessTokenApi } from '$lib/api/access-token';
+import { createDefaultContext } from '$lib/http/context';
+import type { CreatedAccessToken, Organization } from '$lib/types';
+import { orgRequired } from '$lib/utils/access';
+import type { PageLoad } from './$types';
+import type { ApiKeysPageServerData } from './+page.server';
 
-export type OrgNewPageData = Pick<ApiKeysPageServerData, "accessTokens"> & {
+export type OrgNewPageData = Pick<ApiKeysPageServerData, 'accessTokens'> & {
 	createAccessTokenHandler: () => Promise<CreatedAccessToken>;
 	deleteAccessTokenHandler: (prefix: string) => Promise<void>;
 	org: Organization;
-}
+};
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgNewPageData> => {
 	await parent();
@@ -19,9 +19,9 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgNewPageData> =>
 	const org = await orgRequired(context);
 
 	async function createAccessTokenHandler(): Promise<CreatedAccessToken> {
-		return (await new AccessTokenApi(context).create() as CreatedAccessToken)
+		return (await new AccessTokenApi(context).create()) as CreatedAccessToken;
 	}
-	
+
 	async function deleteAccessTokenHandler(prefix: string): Promise<void> {
 		return await new AccessTokenApi(context).delete(prefix);
 	}

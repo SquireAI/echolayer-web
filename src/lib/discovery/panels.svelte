@@ -1,7 +1,7 @@
 <nav>
-    <slot name="nav" />
+	<slot name="nav" />
 </nav>
 <main>
-    <slot name="content" />
-    <slot name="details" />
+	<slot name="content" />
+	<slot name="details" />
 </main>

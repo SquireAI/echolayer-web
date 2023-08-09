@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DisabledKeySvg from "$lib/svgs/DisabledKey.svg?component";
-	
-	let clazz: string = "";
+	import DisabledKeySvg from '$lib/svgs/DisabledKey.svg?component';
+
+	let clazz = '';
 	export { clazz as class };
 </script>
 

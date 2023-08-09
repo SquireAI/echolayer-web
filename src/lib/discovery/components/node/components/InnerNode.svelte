@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { originStore } from "$lib/stores";
-	import type { GraphedEntity } from "$lib/types";
-	import OriginTag from "./OriginTag.svelte";
+	import { originStore } from '$lib/stores';
+	import type { GraphedEntity } from '$lib/types';
+	import OriginTag from './OriginTag.svelte';
 
 	export let component: GraphedEntity;
 	$: isOrigin = $originStore.entity?.publicId === component.publicId;
-
 </script>
 
 <div class="component__node--wrapper">

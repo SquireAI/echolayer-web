@@ -9,7 +9,14 @@
 	import Button from '../Button.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
-	import { API_KEYS_PATH, DISCOVERY_HOME_PATH, INVALIDATED_SIGN_IN_PATH, NOTION_GETTING_STARTED_DOCS, ORGS_SELECT_PATH, SUPPORT_URL } from '$lib/utils/paths';
+	import {
+		API_KEYS_PATH,
+		DISCOVERY_HOME_PATH,
+		INVALIDATED_SIGN_IN_PATH,
+		NOTION_GETTING_STARTED_DOCS,
+		ORGS_SELECT_PATH,
+		SUPPORT_URL
+	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
 	import { AuthApi } from '$lib/api/auth';
@@ -56,37 +63,44 @@
 		</div>
 		<div>
 			<div class="flex flex-col w-full gap-2">
-				{#if PUBLIC_MULTI_ORG_ENABLED === "true"}
+				{#if PUBLIC_MULTI_ORG_ENABLED === 'true'}
 					<SwitchOrgButton />
 				{/if}
-				<NavigationItem name="Home" href={`${DISCOVERY_HOME_PATH}`} OutlineIcon={HomeOutline} SolidIcon={Home} disabled={!organization} />
-				<NavigationItem name="Settings" href={`${API_KEYS_PATH}`} OutlineIcon={CogOutline} SolidIcon={Cog} disabled={!organization} />
+				<NavigationItem
+					name="Home"
+					href={`${DISCOVERY_HOME_PATH}`}
+					OutlineIcon={HomeOutline}
+					SolidIcon={Home}
+					disabled={!organization}
+				/>
+				<NavigationItem
+					name="Settings"
+					href={`${API_KEYS_PATH}`}
+					OutlineIcon={CogOutline}
+					SolidIcon={Cog}
+					disabled={!organization}
+				/>
 			</div>
 		</div>
 	</div>
 	<div class="flex flex-col items-center justify-end p-3 gap-4">
-        <Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-                <HelpCircle width={20} height={20} class={'text-echolayer-blue'}/>
-                Support
-            </div>
-        </Button>
-        <Button
-                full={true}
-                type="grey"
-                href={NOTION_GETTING_STARTED_DOCS}
-                target="_blank"
-        >
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-                <OpenInNew width={20} height={20} class={'text-echolayer-blue'}/>
-                Documentation
-            </div>
-        </Button>
-        <Button full={true} type="grey" handleClick={logout}>
-            <div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-                <LogoutIcon width={20} height={20} class={'text-echolayer-blue'}/>
-                Logout
-            </div>
-        </Button>
+		<Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
+			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+				<HelpCircle width={20} height={20} class={'text-echolayer-blue'} />
+				Support
+			</div>
+		</Button>
+		<Button full={true} type="grey" href={NOTION_GETTING_STARTED_DOCS} target="_blank">
+			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+				<OpenInNew width={20} height={20} class={'text-echolayer-blue'} />
+				Documentation
+			</div>
+		</Button>
+		<Button full={true} type="grey" handleClick={logout}>
+			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
+				<LogoutIcon width={20} height={20} class={'text-echolayer-blue'} />
+				Logout
+			</div>
+		</Button>
 	</div>
 </div>

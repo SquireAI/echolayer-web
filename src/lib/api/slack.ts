@@ -1,4 +1,4 @@
-import { BaseApi, ENDPOINT } from "./baseApi";
+import { BaseApi, ENDPOINT } from './baseApi';
 
 export class SlackApi extends BaseApi<any> {
 	initializeVariables(): void {
@@ -6,6 +6,6 @@ export class SlackApi extends BaseApi<any> {
 	}
 
 	public async install(): Promise<string> {
-		return (await this.httpClient.fetchGET("install")).json() as Promise<string>;
+		return (await this.httpClient.fetchGET('install')).json() as Promise<string>;
 	}
 }

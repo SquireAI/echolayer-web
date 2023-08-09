@@ -1,4 +1,4 @@
-import type { RedirectPath } from "./paths";
+import type { RedirectPath } from './paths';
 
 export function redirect(path: RedirectPath): Response {
 	return new Response(null, {

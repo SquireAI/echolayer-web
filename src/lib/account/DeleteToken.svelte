@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeleteIcon from "$lib/svgs/DeleteIcon.svg?component";
+	import DeleteIcon from '$lib/svgs/DeleteIcon.svg?component';
 
 	export let prefix: string;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
@@ -13,7 +13,7 @@
 		isDeleting = true;
 		try {
 			await deleteTokenHandler(prefix);
-		} catch(error) {
+		} catch (error) {
 			isDeleteError = true;
 		}
 	}
@@ -29,8 +29,8 @@
 		<p class="text-red-700 select-none">Could not delete</p>
 	</div>
 {:else}
-	<div class="flex items-center shrink-0 cursor-pointer" on:click={deleteAccessToken}>
+	<button class="flex items-center shrink-0 cursor-pointer" on:click={deleteAccessToken}>
 		<DeleteIcon />
 		<p class="text-red-700 select-none">Delete</p>
-	</div>
+	</button>
 {/if}

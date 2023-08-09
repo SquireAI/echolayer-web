@@ -1,12 +1,16 @@
 <script lang="ts">
-	import { selectedStore } from "$lib/stores";
-	import { SVELVET_INTERNAL_NODE_STORE, type AnchorConnectionData, type GraphedEntity } from "$lib/types";
+	import { selectedStore } from '$lib/stores';
+	import {
+		SVELVET_INTERNAL_NODE_STORE,
+		type AnchorConnectionData,
+		type GraphedEntity
+	} from '$lib/types';
 
-	import { isAnchorSelected } from "$lib/discovery/utils";
-	import { getContext } from "svelte";
-	import { Anchor } from "svelvet";
-	import Edge from "../Edge.svelte";
-	
+	import { isAnchorSelected } from '$lib/discovery/utils';
+	import { getContext } from 'svelte';
+	import { Anchor } from 'svelvet';
+	import Edge from '../Edge.svelte';
+
 	export let parentId: string;
 	export let anchorConnections: AnchorConnectionData[] = [];
 	let nodeId: string;
@@ -18,14 +22,20 @@
 	const isSelected = (selectedNode?: GraphedEntity) => {
 		const id: string = (getContext(SVELVET_INTERNAL_NODE_STORE) as any).id;
 		return isAnchorSelected(id, anchorConnections, selectedNode);
-	}
+	};
 </script>
 
-<Anchor id={`anchor-${parentId}-output-anchor`} output multiple connections={anchorConnections.map(connection => connection.connection)} direction="south">
+<Anchor
+	id={`anchor-${parentId}-output-anchor`}
+	output
+	multiple
+	connections={anchorConnections.map((connection) => connection.connection)}
+	direction="south"
+>
 	<div slot="edge">
 		<Edge startingNodeId={nodeId} connections={anchorConnections} />
 	</div>
-	<div class={`anchor__output ${selected ? "anchor__output--selected" : ""}`}>	</div>
+	<div class={`anchor__output ${selected ? 'anchor__output--selected' : ''}`} />
 </Anchor>
 
 <style lang="scss">

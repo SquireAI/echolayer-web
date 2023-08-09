@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { AccessToken } from "../../types";
-	import GeneratedKey from "./GeneratedKey.svelte";
+	import type { AccessToken } from '../../types';
+	import GeneratedKey from './GeneratedKey.svelte';
 
 	export let token: AccessToken;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
 </script>
 
-
-<GeneratedKey prefix={token.prefix} createdDate={token.createdAt} deleteTokenHandler={deleteTokenHandler} />
+<GeneratedKey prefix={token.prefix} createdDate={token.createdAt} {deleteTokenHandler} />

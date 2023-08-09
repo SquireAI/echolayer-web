@@ -1,15 +1,21 @@
 <script lang="ts">
-	import { selectedStore } from "$lib/stores";
-	import type { ComponentEntity, GraphedEntity, LeveledNodeLayout, RelationGraphEntity, TeamEntity } from "$lib/types";
-	import { Background, Svelvet } from "svelvet";
-	import { layout } from "./layout";
+	import { selectedStore } from '$lib/stores';
+	import type {
+		ComponentEntity,
+		GraphedEntity,
+		LeveledNodeLayout,
+		RelationGraphEntity,
+		TeamEntity
+	} from '$lib/types';
+	import { Background, Svelvet } from 'svelvet';
+	import { layout } from './layout';
 
 	export let components: ComponentEntity[] = [];
 	export let teams: TeamEntity[] = [];
 	export let relations: RelationGraphEntity[] = [];
 	export let origin: GraphedEntity;
 
-	const nodes: GraphedEntity[]  = [...components, ...teams];
+	const nodes: GraphedEntity[] = [...components, ...teams];
 	let nodesByRow: LeveledNodeLayout = [];
 
 	function updateGraph() {
@@ -23,7 +29,7 @@
 	 * we redo the layout that a new origin is already present at this time.
 	 * The function will also assign the right node to be the origin as well for when
 	 * we need to draw it.
-	*/
+	 */
 	$: relations, updateGraph();
 </script>
 
@@ -31,8 +37,21 @@
 <Svelvet zoom={1} fixedZoom={false} theme="echolayer">
 	{#each nodesByRow as rowEntry}
 		{#each rowEntry as entry (entry[1].node.publicId)}
-			<svelte:component this={entry[1].nodeType} component={entry[1].node} origin={entry[1].origin} outputConnections={entry[1].outputConnections} inputConnections={entry[1].inputConnections} owners={entry[1].owners}/>
+			<svelte:component
+				this={entry[1].nodeType}
+				component={entry[1].node}
+				origin={entry[1].origin}
+				outputConnections={entry[1].outputConnections}
+				inputConnections={entry[1].inputConnections}
+				owners={entry[1].owners}
+			/>
 		{/each}
 	{/each}
-	<Background dotColor="#D4D4D4" bgColor="transparent" gridWidth={30} dotSize={3} slot="background" />
+	<Background
+		dotColor="#D4D4D4"
+		bgColor="transparent"
+		gridWidth={30}
+		dotSize={3}
+		slot="background"
+	/>
 </Svelvet>

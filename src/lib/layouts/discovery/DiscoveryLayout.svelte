@@ -1,7 +1,7 @@
 <script>
-    import "./DiscoveryLayout.scss";
+	import './DiscoveryLayout.scss';
 </script>
 
 <div class="discovery-container">
-    <slot />
+	<slot />
 </div>

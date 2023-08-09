@@ -1,10 +1,10 @@
-import type { ComponentType } from "svelte";
-import type { Subscriber, Unsubscriber, Updater } from "svelte/store";
+import type { ComponentType } from 'svelte';
+import type { Subscriber, Unsubscriber, Updater } from 'svelte/store';
 
 export enum EntityTypes {
-	TEAM = "Team",
-	COMPONENT = "Component",
-	MEMBER = "Member",
+	TEAM = 'Team',
+	COMPONENT = 'Component',
+	MEMBER = 'Member'
 }
 export interface BaseEntity {
 	publicId: string;
@@ -49,18 +49,18 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	type: EntityTypes.COMPONENT;
 	organizationId: number;
-};
+}
 
 export const EntityRelationshipNames = {
-	OWNER_OF: "ownerOf",
-	OWNED_BY: "ownedBy",
-	COMPONENT_OF: "componentOf",
-	HAS_COMPONENT: "hasComponent",
-	MEMBER_OF: "memberOf",
-	HAS_MEMBER: "hasMember",
+	OWNER_OF: 'ownerOf',
+	OWNED_BY: 'ownedBy',
+	COMPONENT_OF: 'componentOf',
+	HAS_COMPONENT: 'hasComponent',
+	MEMBER_OF: 'memberOf',
+	HAS_MEMBER: 'hasMember'
 } as const;
 
-export type RelationType = typeof EntityRelationshipNames[keyof typeof EntityRelationshipNames];
+export type RelationType = (typeof EntityRelationshipNames)[keyof typeof EntityRelationshipNames];
 
 export interface RelationEntity {
 	publicId: string;
@@ -75,7 +75,7 @@ export type EntityRelationship = {
 	targetPublicId: string;
 	depth: number;
 	relationshipName: RelationType;
-}
+};
 
 export interface RelationGraphEntity {
 	publicId: string;
@@ -89,33 +89,33 @@ export type User = {
 	id: number;
 	name: string;
 	email: string;
-}
+};
 
 export type AccessToken = {
 	id: number;
 	prefix: string;
 	expiresAt: string;
 	createdAt: string;
-}
+};
 
 export type CreatedAccessToken = AccessToken & { token: string };
 
 interface BaseStoreEntity<T> {
 	loading: boolean;
 	error: boolean;
-	entity?: T
+	entity?: T;
 }
 
-export interface StoreUserEntity extends BaseStoreEntity<User> {};
-export interface StorePublicId extends BaseStoreEntity<string> {};
-export interface StoreOrganizationEntity extends BaseStoreEntity<Organization> {}; 
-export interface StoreOrganizationsEntity extends BaseStoreEntity<Organization[]> {};
-export interface StoreComponentEntity extends BaseStoreEntity<ComponentEntity[]> {};
-export interface StoreOriginEntity extends BaseStoreEntity<GraphedEntity> {};
-export interface StoreEntityRelationship extends BaseStoreEntity<RelationGraphEntity[]> {};
-export interface StoreTeamEntity extends BaseStoreEntity<TeamEntity[]> {};
-export interface StoreSelectedEntity extends BaseStoreEntity<GraphedEntity> {};
-export interface StoreHomeTabIndex extends BaseStoreEntity<number> {};
+export type StoreUserEntity = BaseStoreEntity<User>;
+export type StorePublicId = BaseStoreEntity<string>;
+export type StoreOrganizationEntity = BaseStoreEntity<Organization>;
+export type StoreOrganizationsEntity = BaseStoreEntity<Organization[]>;
+export type StoreComponentEntity = BaseStoreEntity<ComponentEntity[]>;
+export type StoreOriginEntity = BaseStoreEntity<GraphedEntity>;
+export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
+export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
+export type StoreSelectedEntity = BaseStoreEntity<GraphedEntity>;
+export type StoreHomeTabIndex = BaseStoreEntity<number>;
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -131,7 +131,8 @@ export interface UserStore extends BaseStore<User, StoreUserEntity> {
 	updateUser: (user: User) => void;
 }
 
-export interface SelectedOrganizationStore extends Omit<BaseStore<Organization, StoreOrganizationEntity>, "set" | "update"> {
+export interface SelectedOrganizationStore
+	extends Omit<BaseStore<Organization, StoreOrganizationEntity>, 'set' | 'update'> {
 	setOrganization: (publicId: string) => void;
 	updateOrganization: (publicId: string) => void;
 }
@@ -150,7 +151,8 @@ export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity>
 	setEntity: (entity?: GraphedEntity) => void;
 }
 
-export interface EntityRelationshipStore extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
+export interface EntityRelationshipStore
+	extends BaseStore<RelationGraphEntity[], StoreEntityRelationship> {
 	setEntityRelationships: (entityRelationships: RelationGraphEntity[]) => void;
 }
 
@@ -169,33 +171,36 @@ export interface HomeTabStore extends BaseStore<number, StoreHomeTabIndex> {
 export type OrgAndUserData = {
 	user: User;
 	org: Organization;
-}
+};
 
 export type OriginAndComponentData = {
 	origin?: GraphedEntity;
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];
-}
+};
 
 export type TeamAndComponentData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
-}
-
-export const AnchorConnectionTypes = {
-	INPUT: "INPUT",
-	OUTPUT: "OUTPUT"
 };
 
-export type AnchorConnectionType = typeof AnchorConnectionTypes[keyof typeof AnchorConnectionTypes];
+export const AnchorConnectionTypes = {
+	INPUT: 'INPUT',
+	OUTPUT: 'OUTPUT'
+};
+
+export type AnchorConnectionType =
+	(typeof AnchorConnectionTypes)[keyof typeof AnchorConnectionTypes];
 
 export type AnchorConnectionData = {
 	relationshipName: string;
 	connection: [string, string];
-}
+};
 
-export type NodeAnchorConnectionTuple = Array<[string | number, string | number] | string | number | null>;
+export type NodeAnchorConnectionTuple = Array<
+	[string | number, string | number] | string | number | null
+>;
 
 export type NodeCoordinates = {
 	x: number;
@@ -217,6 +222,8 @@ export type LeveledNodeLayout = Array<NodeMetadataTuple[]>;
 
 export type GraphedEntity = TeamEntity | ComponentEntity;
 
-export const SVELVET_INTERNAL_EDGE_STORE = "edge";
+export const SVELVET_INTERNAL_EDGE_STORE = 'edge';
 
-export const SVELVET_INTERNAL_NODE_STORE = "node";
+export const SVELVET_INTERNAL_NODE_STORE = 'node';
+
+export type DetailPropery = { title: string; value: string; status: '' | 'warning' | 'error' };

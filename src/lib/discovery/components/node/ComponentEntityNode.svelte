@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { AnchorConnectionData, GraphedEntity, TeamEntity } from '$lib/types';
-	import { selectedStore } from "$lib/stores";
-  import { Node } from 'svelvet';
-	import AccountMultiple from "svelte-material-icons/AccountMultiple.svelte";
+	import { selectedStore } from '$lib/stores';
+	import { Node } from 'svelvet';
+	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
 	import OutputAnchor from '../anchors/OutputAnchor.svelte';
 	import { getNodeId } from '../anchors';
@@ -12,7 +12,7 @@
 
 	export let component: GraphedEntity;
 	export let owners: TeamEntity[] = [];
-	export let origin: {x: number, y: number} = {x: 0, y: 0};
+	export let origin: { x: number; y: number } = { x: 0, y: 0 };
 	export let outputConnections: AnchorConnectionData[] = [];
 	export let inputConnections: AnchorConnectionData[] = [];
 
@@ -24,9 +24,21 @@
 	$: isSelected = component.publicId === $selectedStore.entity?.publicId;
 </script>
 
-<Node id={id} on:nodeReleased={() => toggleSelectedComponent(component, true)} let:grabHandle borderRadius={10} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
-	<InnerNode component={component}>
-		<div use:grabHandle class={`component__node ${isSelected ? "component__node--selected " : ""} component__entity`}>
+<Node
+	{id}
+	on:nodeReleased={() => toggleSelectedComponent(component, true)}
+	let:grabHandle
+	borderRadius={10}
+	borderColor="transparent"
+	borderWidth={1}
+	position={origin}
+	dimensions={nodeSize}
+>
+	<InnerNode {component}>
+		<div
+			use:grabHandle
+			class={`component__node ${isSelected ? 'component__node--selected ' : ''} component__entity`}
+		>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
 					<InputAnchor parentId={id} anchorConnections={inputConnections} />
@@ -51,9 +63,15 @@
 				<div class="component__node--inner-wrapper component__members--wrapper">
 					<div class="component__members">
 						<div class="component__members--count">
-							<AccountMultiple class="text-neutral-500" size=16/>
+							<AccountMultiple class="text-neutral-500" size="16" />
 							<p class="font-medium">
-								<span class="text-neutral-500">{numOwningTeams === 0 ? "unowned" : numOwningTeams === 1 ? owners[0].name : `${numOwningTeams} teams`}</span>
+								<span class="text-neutral-500"
+									>{numOwningTeams === 0
+										? 'unowned'
+										: numOwningTeams === 1
+										? owners[0].name
+										: `${numOwningTeams} teams`}</span
+								>
 							</p>
 						</div>
 					</div>

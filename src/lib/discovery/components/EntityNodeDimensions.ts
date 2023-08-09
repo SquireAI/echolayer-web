@@ -1,23 +1,23 @@
 const EntityNodeTypes = {
-	COMPONENT: "COMPONENT",
-	TEAM: "TEAM"
+	COMPONENT: 'COMPONENT',
+	TEAM: 'TEAM'
 };
 
-export type EntityNodeType = typeof EntityNodeTypes[keyof typeof EntityNodeTypes];
+export type EntityNodeType = (typeof EntityNodeTypes)[keyof typeof EntityNodeTypes];
 
 type NodeDimensions = {
-	width: number; 
+	width: number;
 	height: number;
 };
 
 type EntityNodeDimensions = {
 	type: EntityNodeType;
 	dimensions: NodeDimensions;
-}
+};
 
 export const dimensions: EntityNodeDimensions[] = [
-	{ type: EntityNodeTypes.COMPONENT, dimensions: { width: 0, height: 0 }},
-	{ type: EntityNodeTypes.TEAM, dimensions: { width: 0, height: 0 }},
+	{ type: EntityNodeTypes.COMPONENT, dimensions: { width: 0, height: 0 } },
+	{ type: EntityNodeTypes.TEAM, dimensions: { width: 0, height: 0 } }
 ];
 
 export function getDimensionsForNode(type: EntityNodeType): NodeDimensions | undefined {

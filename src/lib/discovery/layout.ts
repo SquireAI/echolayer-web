@@ -1,8 +1,17 @@
-import { AnchorConnectionTypes, EntityTypes, type AnchorConnectionData, type GraphedEntity, type LeveledNodeLayout, type NodeCoordinates, type NodeMetadata, type RelationGraphEntity } from "$lib/types";
-import type { ComponentType } from "svelte";
-import { getConnectionForNode } from "./components/anchors";
-import ComponentEntityNode from "./components/node/ComponentEntityNode.svelte";
-import TeamEntityNode from "./components/node/TeamEntityNode.svelte";
+import {
+	AnchorConnectionTypes,
+	EntityTypes,
+	type AnchorConnectionData,
+	type GraphedEntity,
+	type LeveledNodeLayout,
+	type NodeCoordinates,
+	type NodeMetadata,
+	type RelationGraphEntity
+} from '$lib/types';
+import type { ComponentType } from 'svelte';
+import { getConnectionForNode } from './components/anchors';
+import ComponentEntityNode from './components/node/ComponentEntityNode.svelte';
+import TeamEntityNode from './components/node/TeamEntityNode.svelte';
 
 type NodeLayoutMap = Map<string, NodeMetadata>;
 
@@ -19,12 +28,12 @@ type Connections = {
 
 type NodeConnections = Map<string, Connections>;
 
-const ROW_GAP: number = 70;
-const COLUMN_GAP: number = 50;
-const NODE_WIDTH: number = 240;
-const NODE_HEIGHT: number = 140;
-const INITIAL_ROW_OFFSET: number = 40;
-const INITIAL_COLUMN_OFFSET: number = 70;
+const ROW_GAP = 70;
+const COLUMN_GAP = 50;
+const NODE_WIDTH = 240;
+const NODE_HEIGHT = 140;
+const INITIAL_ROW_OFFSET = 40;
+const INITIAL_COLUMN_OFFSET = 70;
 
 const { INPUT, OUTPUT } = AnchorConnectionTypes;
 
@@ -37,18 +46,24 @@ const { INPUT, OUTPUT } = AnchorConnectionTypes;
  * @param depth The number of levels of connections to layout from the source node
  * @returns A map that provides the details of where to draw nodes and what to connect them to
  */
-export function layout(nodes: GraphedEntity[], entityRelationships: RelationGraphEntity[], originPublicId: string, depth: number = 1, selectedPublicId?: string): LeveledNodeLayout {
+export function layout(
+	nodes: GraphedEntity[],
+	entityRelationships: RelationGraphEntity[],
+	originPublicId: string,
+	depth = 1,
+	selectedPublicId?: string
+): LeveledNodeLayout {
 	const sourceNode: GraphedEntity | undefined = nodes.find((n) => n.publicId === originPublicId);
 
 	if (!sourceNode) {
-		throw new Error("Could not find a node for given sourcePublicId");
+		throw new Error('Could not find a node for given sourcePublicId');
 	}
 
 	// set the origin as our source nodes to begin with
 	let sourceNodes: GraphedEntity[] = [sourceNode];
 
 	// we're going to build an array of rows so we know how to render this
-	// the nodes in the first index are the top, the next index are nodes that are targets for the 
+	// the nodes in the first index are the top, the next index are nodes that are targets for the
 	// preview row, etc.
 	const rowNodes: GraphedEntity[][] = [];
 
@@ -73,27 +88,36 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
 			.filter((n): n is GraphedEntity => !!n);
 
 		// Make the bi-directional connections for source nodes and their targets
-		const rowNodeConnections: [string, Connections][] = getNodeConnections(sourcePublicIds, entityRelationships);
+		const rowNodeConnections: [string, Connections][] = getNodeConnections(
+			sourcePublicIds,
+			entityRelationships
+		);
 		// Update our overall understanding of node connections as we uncover them at each row depth
 		nodeConnections = updateNodeConnections(rowNodeConnections, nodeConnections);
 
 		// Set the target nodes to be the source nodes for the next iteration
 		sourceNodes = targetNodes.filter((targetNode) => !visitedNodeIds.has(targetNode.publicId));
 	}
-	
+
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
-	
+
 	// Entity IDs mapped to their owners
 	const ownersMap = buildOwnersMap(entityRelationships, nodes);
-	
+
 	// This map will collect origins and other node metadata as we uncover them
-	const nodesMap: NodeLayoutMap = placeNodes(largestRowIndicesDesc, rowNodes, nodeConnections, depth, ownersMap);
+	const nodesMap: NodeLayoutMap = placeNodes(
+		largestRowIndicesDesc,
+		rowNodes,
+		nodeConnections,
+		depth,
+		ownersMap
+	);
 
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
 	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		return nodes.map((node) => ([node.publicId, nodesMap.get(node.publicId)!]));
+		return nodes.map((node) => [node.publicId, nodesMap.get(node.publicId)!]);
 	});
 	return leveled;
 }
@@ -105,12 +129,22 @@ export function layout(nodes: GraphedEntity[], entityRelationships: RelationGrap
  * @param nodeConnections The current input and output connections we're tracking for all nodes
  * @returns The node connections (input and output) for a set of row nodes
  */
-function updateNodeConnections(rowNodeConnections: [string, Connections][], nodeConnections: NodeConnections): NodeConnections {
+function updateNodeConnections(
+	rowNodeConnections: [string, Connections][],
+	nodeConnections: NodeConnections
+): NodeConnections {
 	rowNodeConnections.forEach((rowNodeConn) => {
-		const [ publicId, connections ] = rowNodeConn;
-		const currentNodeConnections = nodeConnections.get(publicId) || { inputConnections: [], outputConnections: [] };
-		currentNodeConnections.inputConnections = currentNodeConnections.inputConnections.concat(connections.inputConnections);
-		currentNodeConnections.outputConnections = currentNodeConnections.outputConnections.concat(connections.outputConnections);
+		const [publicId, connections] = rowNodeConn;
+		const currentNodeConnections = nodeConnections.get(publicId) || {
+			inputConnections: [],
+			outputConnections: []
+		};
+		currentNodeConnections.inputConnections = currentNodeConnections.inputConnections.concat(
+			connections.inputConnections
+		);
+		currentNodeConnections.outputConnections = currentNodeConnections.outputConnections.concat(
+			connections.outputConnections
+		);
 		nodeConnections.set(publicId, currentNodeConnections);
 	});
 	return nodeConnections;
@@ -123,26 +157,36 @@ function updateNodeConnections(rowNodeConnections: [string, Connections][], node
  * @param entityRelationships The full set of entity source to target relationships to search through
  * @returns collection of tuples that tell us the collection of input and output connections for a node
  */
-function getNodeConnections(sourcePublicIds: string[], entityRelationships: RelationGraphEntity[]): [string, Connections][] {
+function getNodeConnections(
+	sourcePublicIds: string[],
+	entityRelationships: RelationGraphEntity[]
+): [string, Connections][] {
 	const nodeConnections: Map<string, Connections> = new Map();
 
 	// Make the bi-directional connections for source nodes and their targets
 	sourcePublicIds.forEach((spid) => {
 		const targetPublicIds = entityRelationships
-			.filter((n) =>  n.sourcePublicId === spid)
+			.filter((n) => n.sourcePublicId === spid)
 			.map((rel) => rel.targetPublicId);
 		const relationshipNames = entityRelationships
-			.filter((n) =>  n.sourcePublicId === spid)
+			.filter((n) => n.sourcePublicId === spid)
 			.map((rel) => rel.relationshipName);
 
-		const sourceOutputConns: AnchorConnectionData[] = targetPublicIds.map((tpid, index) => (getConnectionForNode(tpid, INPUT, relationshipNames[index])));
+		const sourceOutputConns: AnchorConnectionData[] = targetPublicIds.map((tpid, index) =>
+			getConnectionForNode(tpid, INPUT, relationshipNames[index])
+		);
 		const nodeConns = nodeConnections.get(spid) || { inputConnections: [], outputConnections: [] };
 		nodeConns.outputConnections = nodeConns.outputConnections.concat(sourceOutputConns);
 		nodeConnections.set(spid, nodeConns);
 
 		targetPublicIds.forEach((tpid, index) => {
-			const nodeConns = nodeConnections.get(tpid) || { inputConnections: [], outputConnections: [] };
-			nodeConns.inputConnections = nodeConns.inputConnections.concat([getConnectionForNode(spid, OUTPUT, relationshipNames[index])]);
+			const nodeConns = nodeConnections.get(tpid) || {
+				inputConnections: [],
+				outputConnections: []
+			};
+			nodeConns.inputConnections = nodeConns.inputConnections.concat([
+				getConnectionForNode(spid, OUTPUT, relationshipNames[index])
+			]);
 			nodeConnections.set(tpid, nodeConns);
 		});
 	});
@@ -151,33 +195,51 @@ function getNodeConnections(sourcePublicIds: string[], entityRelationships: Rela
 }
 
 /**
-	 * Calculate the origins for each node.
-	 * We start with the row that has the most nodes and then use its width
-	 * to center the nodes of other rows
-	 */
-function placeNodes(rowIndices: number[], rowNodes: GraphedEntity[][], nodeConnections: NodeConnections, depth: number, ownersMap: Map<string, GraphedEntity[]>): NodeLayoutMap {
+ * Calculate the origins for each node.
+ * We start with the row that has the most nodes and then use its width
+ * to center the nodes of other rows
+ */
+function placeNodes(
+	rowIndices: number[],
+	rowNodes: GraphedEntity[][],
+	nodeConnections: NodeConnections,
+	depth: number,
+	ownersMap: Map<string, GraphedEntity[]>
+): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
 	const nodesMap: NodeLayoutMap = new Map();
 	for (const rowIndex of rowIndices) {
-		let rowWidth: number = 0;
+		let rowWidth = 0;
 		const rowEntities: GraphedEntity[] = rowNodes[rowIndex];
-		const rowY = rowIndex !== 0 ? INITIAL_ROW_OFFSET + (rowIndex * NODE_HEIGHT) + (rowIndex * ROW_GAP) : INITIAL_ROW_OFFSET;
+		const rowY =
+			rowIndex !== 0
+				? INITIAL_ROW_OFFSET + rowIndex * NODE_HEIGHT + rowIndex * ROW_GAP
+				: INITIAL_ROW_OFFSET;
 		const positionedNodes: NodeOrigin[] = rowEntities.map((entity, index) => {
 			// since we're centering things, we need to know how much to shift rows from the left against the largest row
-			const rowStartOffset = getRowXOffset(maxRowWidth, rowNodes[rowIndices[0]].length, rowNodes[rowIndex].length);
-			const rowX = INITIAL_COLUMN_OFFSET + index * NODE_WIDTH + (index - 1) * COLUMN_GAP + rowStartOffset;
+			const rowStartOffset = getRowXOffset(
+				maxRowWidth,
+				rowNodes[rowIndices[0]].length,
+				rowNodes[rowIndex].length
+			);
+			const rowX =
+				INITIAL_COLUMN_OFFSET + index * NODE_WIDTH + (index - 1) * COLUMN_GAP + rowStartOffset;
 			rowWidth = rowX >= COLUMN_GAP ? rowX - COLUMN_GAP : 0;
-			return { publicId: entity.publicId, origin: { x: rowX, y: rowY }, nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode };
+			return {
+				publicId: entity.publicId,
+				origin: { x: rowX, y: rowY },
+				nodeType: entity.type === EntityTypes.TEAM ? TeamEntityNode : ComponentEntityNode
+			};
 		});
 		rowWidths[rowIndex] = rowWidth;
 		maxRowWidth = maxRowWidth < rowWidth ? rowWidth : maxRowWidth;
-		
+
 		positionedNodes.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
-			const node = rowEntities.find((n) => n.publicId === pid)!
+			const node = rowEntities.find((n) => n.publicId === pid)!;
 			const owners = ownersMap.get(pid);
-			nodesMap.set(pid, { 
+			nodesMap.set(pid, {
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
@@ -190,11 +252,10 @@ function placeNodes(rowIndices: number[], rowNodes: GraphedEntity[][], nodeConne
 	return nodesMap;
 }
 
-
 /**
  * Create a map from entity IDs to array of owners based on entity relationships and entities.
- * @param entityRelationships 
- * @param entities 
+ * @param entityRelationships
+ * @param entities
  * @returns map from entity IDs to their owners
  * E.g. {
  * 	"t2w389reth": [{
@@ -211,10 +272,10 @@ function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: Gr
 		// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
 		let ownerPublicId: string;
 		let ownedPublicId: string;
-		if (relationship.relationshipName === "ownedBy") {
+		if (relationship.relationshipName === 'ownedBy') {
 			ownerPublicId = relationship.targetPublicId;
 			ownedPublicId = relationship.sourcePublicId;
-		} else if (relationship.relationshipName === "ownerOf") {
+		} else if (relationship.relationshipName === 'ownerOf') {
 			ownerPublicId = relationship.sourcePublicId;
 			ownedPublicId = relationship.targetPublicId;
 		} else {
@@ -241,24 +302,34 @@ function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: Gr
  * @returns an ordered array of indices from rowNodes about which have to most to least nodes
  */
 function getRowIndicesDesc(rowNodes: GraphedEntity[][]): number[] {
-	const numNodesPerRow: [number, number][] = rowNodes.map((row, index) => ([index, row.length]));
-	const sortedNumNodesPerRow = numNodesPerRow.sort(([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA);
+	const numNodesPerRow: [number, number][] = rowNodes.map((row, index) => [index, row.length]);
+	const sortedNumNodesPerRow = numNodesPerRow.sort(
+		([_indexA, sizeA], [_indexB, sizeB]) => sizeB - sizeA
+	);
 	return sortedNumNodesPerRow.map(([index, _]) => index);
 }
 
 /**
  * Returns a integer of how many pixels to offset a set of nodes for a given row.
- * Takes into account the widest row and uses it give an x-axis offset of where to lay the x-origin 
+ * Takes into account the widest row and uses it give an x-axis offset of where to lay the x-origin
  * for number of nodes for the given row.
  * @param maxRowWidth The width of the row with the most nodes
  * @param numMaxRowEntities The number of nodes in a row so we can account for the gaps between nodes
  * @param currentRowNumEntities The number of nodes the current row will need to draw
  * @returns a number to be used for calculating part of the x-axis origin value for nodes in a given row
  */
-function getRowXOffset(maxRowWidth: number, numMaxRowEntities: number, currentRowNumEntities: number): number {
+function getRowXOffset(
+	maxRowWidth: number,
+	numMaxRowEntities: number,
+	currentRowNumEntities: number
+): number {
 	// since we always find the origins for the largest row first, it's implied they don't need an x-offset
 	if (maxRowWidth === 0) {
 		return 0;
 	}
-	return (maxRowWidth / 2) + (((numMaxRowEntities - 1) * COLUMN_GAP) / 2) - (((currentRowNumEntities - 1) * COLUMN_GAP) / 2);
+	return (
+		maxRowWidth / 2 +
+		((numMaxRowEntities - 1) * COLUMN_GAP) / 2 -
+		((currentRowNumEntities - 1) * COLUMN_GAP) / 2
+	);
 }

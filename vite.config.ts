@@ -1,24 +1,23 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import svg from '@poppanator/sveltekit-svg'
-import { defineConfig, loadEnv } from 'vite'
-
+import svg from '@poppanator/sveltekit-svg';
+import { defineConfig, loadEnv } from 'vite';
 
 /** @type {import('vite').defineConfig} */
 export default defineConfig(({ command, mode }) => {
-	const env = loadEnv(mode, process.cwd(), '')
+	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		server: {
-			port: Number(env.VITE_PORT),
+			port: Number(env.VITE_PORT)
 		},
 		plugins: [
 			sveltekit(),
 			svg({
-		includePaths: ['./src/lib/svgs/'],
-		svgoOptions: {
-			multipass: true,
-			plugins: ['preset-default'],
-		},
-		})
+				includePaths: ['./src/lib/svgs/'],
+				svgoOptions: {
+					multipass: true,
+					plugins: ['preset-default']
+				}
+			})
 		],
 		css: {
 			preprocessorOptions: {
@@ -30,5 +29,5 @@ export default defineConfig(({ command, mode }) => {
 		test: {
 			include: ['src/**/*.{test,spec}.{js,ts}']
 		}
-	}
+	};
 });
