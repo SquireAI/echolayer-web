@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import NewOrgForm from '$lib/org/NewOrgForm.svelte';
-	import SetupOrg from '$lib/svgs/SetupOrg.svg?component';
 	import { getContext } from 'svelte';
 	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
 	import type { OrgNewPageData } from './+page';
@@ -9,6 +8,8 @@
 	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import Panels from "$lib/discovery/panels.svelte";
+	import Navigation from "$lib/components/navigation/Navigation.svelte";
 
 	/** @type {import('./$types').PageData} */
 	export let data: OrgNewPageData;
@@ -38,15 +39,17 @@
 	}
 </script>
 
-<div class="flex content-center justify-center items-center flex-col h-full">
-	<div class="flex flex-col gap-y-12 items-center w-96">
-		<SetupOrg />
-		<div class="flex flex-col gap-y-6 items-center text-center">
-			<span class="text-3xl text-neutral-900">Set up new organization</span>
-			<span class="text-neutral-500"
-				>Let’s get started with EchoLayer! Please enter your organization’s name below.</span
-			>
-		</div>
-		<NewOrgForm handleSubmit={onCreateOrg} />
-	</div>
-</div>
+<Panels>
+    <Navigation slot="nav" />
+    <div class="content" slot="content">
+        <div class="flex flex-col gap-6 w-96 mx-auto mt-16">
+            <div class="flex flex-col items-center">
+                <h2 class="font-medium text-2xl">Set up new organization</h2>
+                <p class="text-neutral-400 text-center">Let’s get started with EchoLayer! Please enter your organization’s name below.</p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <NewOrgForm handleSubmit={onCreateOrg} />
+            </div>
+        </div>
+    </div>
+</Panels>

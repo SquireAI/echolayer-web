@@ -19,7 +19,6 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import OrgItem from '$lib/org/OrgItem.svelte';
-	import { browser } from '$app/environment';
 
 	onMount(() => {
 		if ($page.url.searchParams.has(INVALIDATE_SELECTED_ORG)) {

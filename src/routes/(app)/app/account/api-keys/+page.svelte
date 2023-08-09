@@ -10,9 +10,6 @@
 	import { getContext } from 'svelte';
 	import Panels from '$lib/discovery/panels.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
-	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
-	import DiscoveryLayout from '$lib/layouts/discovery/DiscoveryLayout.svelte';
-	import AdminLayout from '$lib/layouts/admin/AdminLayout.svelte';
 	import ApiKeysForm from '$lib/account/APIKeysForm.svelte';
 
 	export let data: OrgNewPageData & OrgAndUserData;
@@ -92,35 +89,20 @@
 	$: sortedAccessTokens = readOnlyAccessTokens.sort(sortDates);
 </script>
 
-{#if PUBLIC_DISCOVERY_ENABLED === 'true'}
-	<DiscoveryLayout>
-		<Panels>
-			<Navigation slot="nav" />
-			<div class="flex content-center items-center flex-col h-full pt-9 px-9" slot="content">
-				<ApiKeysForm
-					{createAccessToken}
-					{deleteAccessToken}
-					{isCreating}
-					{createdAccessToken}
-					{isErrorCreatingToken}
-					{sortedAccessTokens}
-					{hasTokens}
-				/>
-			</div>
-		</Panels>
-	</DiscoveryLayout>
-{:else}
-	<AdminLayout>
-		<div class="flex content-center items-center flex-col h-full pt-9">
+<Panels>
+	<Navigation slot="nav" />
+	<div class="content" slot="content">
+		<div class="flex content-center items-center max-w-4xl mx-auto mt-16">
 			<ApiKeysForm
-				{createAccessToken}
-				{deleteAccessToken}
-				{isCreating}
-				{createdAccessToken}
-				{isErrorCreatingToken}
-				{sortedAccessTokens}
-				{hasTokens}
+				createAccessToken={createAccessToken}
+				deleteAccessToken={deleteAccessToken}
+				isCreating={isCreating}
+				createdAccessToken={createdAccessToken}
+				isErrorCreatingToken={isErrorCreatingToken}
+				sortedAccessTokens={sortedAccessTokens}
+				hasTokens={hasTokens}
 			/>
 		</div>
-	</AdminLayout>
-{/if}
+	</div>
+</Panels>
+	
