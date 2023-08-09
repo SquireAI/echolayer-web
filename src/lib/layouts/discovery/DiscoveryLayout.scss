@@ -42,7 +42,7 @@ p {
 
 	main {
 		grid-area: main;
-		@apply w-full h-screen relative overflow-hidden;
+		@apply w-full h-screen relative overflow-hidden bg-neutral-100;
 
 		.svelvet-wrapper:focus {
 			box-shadow: none;

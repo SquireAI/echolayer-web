@@ -1,7 +1,7 @@
 <script lang="ts">
-	import AdminLayout from '$lib/layouts/admin/AdminLayout.svelte';
+	import DiscoveryLayout from '$lib/layouts/discovery/DiscoveryLayout.svelte';
 </script>
 
-<AdminLayout>
+<DiscoveryLayout>
 	<slot />
-</AdminLayout>
+</DiscoveryLayout>

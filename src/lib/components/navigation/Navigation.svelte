@@ -6,6 +6,8 @@
 	import HomeOutline from 'svelte-material-icons/HomeOutline.svelte';
 	import Cog from 'svelte-material-icons/Cog.svelte';
 	import CogOutline from 'svelte-material-icons/CogOutline.svelte';
+	import Key from 'svelte-material-icons/Key.svelte';
+	import KeyOutline from 'svelte-material-icons/KeyOutline.svelte';
 	import Button from '../Button.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
@@ -15,7 +17,8 @@
 		INVALIDATED_SIGN_IN_PATH,
 		NOTION_GETTING_STARTED_DOCS,
 		ORGS_SELECT_PATH,
-		SUPPORT_URL
+		SUPPORT_URL,
+		INTEGRATIONS_PATH
 	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
@@ -74,8 +77,15 @@
 					disabled={!organization}
 				/>
 				<NavigationItem
-					name="Settings"
+					name="API keys"
 					href={`${API_KEYS_PATH}`}
+					OutlineIcon={KeyOutline}
+					SolidIcon={Key}
+					disabled={!organization}
+				/>
+				<NavigationItem
+					name="Integrations"
+					href={`${INTEGRATIONS_PATH}`}
 					OutlineIcon={CogOutline}
 					SolidIcon={Cog}
 					disabled={!organization}

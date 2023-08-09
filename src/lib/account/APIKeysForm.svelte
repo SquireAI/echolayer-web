@@ -24,10 +24,10 @@
 </script>
 
 <div class="flex flex-col gap-y-6 items-center w-full">
-	<h2>{$orgStore.entity?.name} Settings</h2>
+	<h2 class="font-medium text-2xl">{$orgStore.entity?.name} Settings</h2>
 	<div class="flex flex-col w-full">
 		<div class="row flex flex-row items-center w-full pb-4 border-b border-neutral-700">
-			<h3>Keys</h3>
+			<h3 class="font-normal">Keys</h3>
 			<Button class="self-end ml-auto" handleClick={createAccessToken} disabled={isCreating}
 				>Generate a new key for {$orgStore.entity?.name}</Button
 			>
