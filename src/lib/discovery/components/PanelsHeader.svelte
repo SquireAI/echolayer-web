@@ -5,7 +5,7 @@
 </script>
 
 <button
-	class={`panel-header ${!!onClick && !disabled && 'cursor-pointer'} ${
+	class={`panel-header w-full text-left ${!!onClick && !disabled && 'cursor-pointer'} ${
 		disabled && 'cursor-not-allowed'
 	}`}
 	class:disabled
