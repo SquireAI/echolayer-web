@@ -86,12 +86,14 @@
 			</span>
 		</PanelsHeader>
 		{#if $originStore.entity}
-			<Canvas
-				components={$componentStore.entity}
-				relations={$entityRelationshipStore.entity}
-				teams={$teamStore.entity}
-				origin={$originStore.entity}
-			/>
+			<div class="canvas">
+				<Canvas
+					components={$componentStore.entity}
+					relations={$entityRelationshipStore.entity}
+					teams={$teamStore.entity}
+					origin={$originStore.entity}
+				/>
+			</div>
 		{/if}
 
 		<Details slot="details" open={$isDetailsPanelOpen} />
@@ -99,7 +101,7 @@
 </Panels>
 
 <style lang="scss">
-	.content {
+	.canvas {
 		height: calc(100vh - 55px);
 		@apply bg-white;
 	}

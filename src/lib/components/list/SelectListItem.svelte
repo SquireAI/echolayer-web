@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ArrowRight from 'svelte-material-icons/ArrowRight.svelte';
-	import { goto } from '$app/navigation';
 
 	export let label: any;
 	export let disabled: boolean = false;
