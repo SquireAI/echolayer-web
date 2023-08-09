@@ -101,5 +101,6 @@
 <style lang="scss">
 	.content {
 		height: calc(100vh - 55px);
+		@apply bg-white;
 	}
 </style>
