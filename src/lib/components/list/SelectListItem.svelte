@@ -3,8 +3,10 @@
 	import { goto } from '$app/navigation';
 
 	export let label: any;
-	export let disabled: boolean = false;
-	export let handleClick: () => Promise<void> = async () => {};
+	export let disabled = false;
+	export let handleClick: () => Promise<void> = async () => {
+		return;
+	};
 
 	async function clickHandler(): Promise<boolean> {
 		if (!disabled) await handleClick();
