@@ -13,7 +13,7 @@
 </script>
 
 <div>
-	<a
+	<button
 		on:click={clickHandler}
 		class={`text-neutral-600 hover:bg-neutral-200 w-full hover:cursor-pointer rounded p-2 flex flex-row gap-3 place-items-center
 		${
@@ -26,11 +26,11 @@
 		<div class="bg-white rounded h-9 w-9 flex items-center justify-center">
 			<slot name="icon" />
 		</div>
-		<div class="flex-1"><p class="text-lg font-normal leading-4">{label}</p></div>
+		<div class="flex-1 text-left"><p class="text-lg font-normal leading-4">{label}</p></div>
 		{#if !disabled}
 			<div>
 				<ArrowRight size="24" />
 			</div>
 		{/if}
-	</a>
+	</button>
 </div>
