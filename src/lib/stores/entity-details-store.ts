@@ -1,8 +1,8 @@
-import { derived, get, writable, type Readable } from "svelte/store";
-import type { GraphedEntity, SelectedStore, StoreSelectedEntity } from "../types";
-import selectedEntityStore from "./selected-store";
+import { derived, get, writable, type Readable } from 'svelte/store';
+import type { GraphedEntity, SelectedStore, StoreSelectedEntity } from '../types';
+import selectedEntityStore from './selected-store';
 
-export const ENTITY_DETAILS_STORE_NAME = "entity-details";
+export const ENTITY_DETAILS_STORE_NAME = 'entity-details';
 
 const initialValue = { loading: false, error: false, entity: undefined };
 const currentEntityDetailsStore = writable<StoreSelectedEntity>(initialValue);
@@ -17,8 +17,9 @@ const derivedSelectedStore: Readable<StoreSelectedEntity> = derived(
 		if ($selectedEntityStore.entity !== undefined) {
 			currentEntityDetailsStore.set({ ...initialValue, entity: $selectedEntityStore.entity });
 		}
-		return get(currentEntityDetailsStore)
-	});
+		return get(currentEntityDetailsStore);
+	}
+);
 
 const { set, update } = currentEntityDetailsStore;
 const { subscribe } = derivedSelectedStore;
@@ -31,7 +32,7 @@ const createStore = (): SelectedStore => {
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
 		setEntity: (entity?: GraphedEntity) => set({ loading: false, error: false, entity })
-	}
+	};
 };
 
 const store = createStore();

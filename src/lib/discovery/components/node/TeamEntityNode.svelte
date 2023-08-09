@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AnchorConnectionData, TeamEntity } from '$lib/types';
-	import { selectedStore } from "$lib/stores";
-  import { Node } from 'svelvet';
+	import { selectedStore } from '$lib/stores';
+	import { Node } from 'svelvet';
 	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
 	import AvatarPlaceholder from '../AvatarPlaceholder.svelte';
 	import InputAnchor from '../anchors/InputAnchor.svelte';
@@ -11,7 +11,7 @@
 	import { getNodeSize, toggleSelectedComponent } from '.';
 
 	export let component: TeamEntity;
-	export let origin: {x: number, y: number} = {x: 0, y: 0};
+	export let origin: { x: number; y: number } = { x: 0, y: 0 };
 	export let outputConnections: AnchorConnectionData[] = [];
 	export let inputConnections: AnchorConnectionData[] = [];
 
@@ -21,9 +21,18 @@
 	$: isSelected = component.publicId === $selectedStore.entity?.publicId;
 </script>
 
-<Node id={id} let:grabHandle on:nodeReleased={() => toggleSelectedComponent(component, true)} borderRadius={0} borderColor="transparent" borderWidth={1} position={origin} dimensions={nodeSize}>
-	<InnerNode component={component}>
-		<div use:grabHandle class={`component__node ${isSelected ? "component__node--selected" : ""}`}>
+<Node
+	{id}
+	let:grabHandle
+	on:nodeReleased={() => toggleSelectedComponent(component, true)}
+	borderRadius={0}
+	borderColor="transparent"
+	borderWidth={1}
+	position={origin}
+	dimensions={nodeSize}
+>
+	<InnerNode {component}>
+		<div use:grabHandle class={`component__node ${isSelected ? 'component__node--selected' : ''}`}>
 			{#if inputConnections.length > 0}
 				<div class="input__anchor">
 					<InputAnchor parentId={id} anchorConnections={inputConnections} />
@@ -38,7 +47,7 @@
 				<div class="component__node--inner-wrapper component__info--wrapper">
 					<div class="component__info">
 						<div class="component__info--icon">
-							<AccountMultiple size="24"  />
+							<AccountMultiple size="24" />
 						</div>
 						<div class="component__info--name">
 							<p>{component.name}</p>
@@ -48,7 +57,9 @@
 				<div class="component__node--inner-wrapper component__members--wrapper">
 					<div class="component__members">
 						<div class="component__members--count">
-							<p class="text-neutral-500">{`${component.members.length} member${component.members.length !== 1 ? "s" : ""}`}</p>
+							<p class="text-neutral-500">
+								{`${component.members.length} member${component.members.length !== 1 ? 's' : ''}`}
+							</p>
 						</div>
 						<div class="component__members--avatars">
 							{#if component.members.length > 0}

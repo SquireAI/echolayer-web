@@ -1,24 +1,24 @@
-import { PUBLIC_BASE_API_URL } from "$env/static/public"
-import { browser } from "$app/environment";
-import type { Cookies } from "@sveltejs/kit";
-export const BASE_API_URL: string = PUBLIC_BASE_API_URL || "";
+import { PUBLIC_BASE_API_URL } from '$env/static/public';
+import { browser } from '$app/environment';
+import type { Cookies } from '@sveltejs/kit';
+export const BASE_API_URL: string = PUBLIC_BASE_API_URL || '';
 
 export type Fetch = (input: URL | RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
 
-export const XSRF_TOKEN_COOKIE_NAME = "CSRF-TOKEN";
-export const XSRF_REQUEST_HEADER = "X-XSRF-TOKEN";
+export const XSRF_TOKEN_COOKIE_NAME = 'CSRF-TOKEN';
+export const XSRF_REQUEST_HEADER = 'X-XSRF-TOKEN';
 
 const FetchMethod = {
-	GET: "GET",
-	POST: "POST",
-	PUT: "PUT",
-	DELETE: "DELETE"
-}
-type FETCH_METHOD = typeof FetchMethod[keyof typeof FetchMethod];
+	GET: 'GET',
+	POST: 'POST',
+	PUT: 'PUT',
+	DELETE: 'DELETE'
+};
+type FETCH_METHOD = (typeof FetchMethod)[keyof typeof FetchMethod];
 
 type FetchBodyValue = string | number | boolean;
 type FetchBody = {
-	[key: string]: string | number | boolean | Array<FetchBodyValue>
+	[key: string]: string | number | boolean | Array<FetchBodyValue>;
 };
 
 export type FetchHeader = {
@@ -26,9 +26,7 @@ export type FetchHeader = {
 };
 
 export class FetchError extends Error {
-	constructor(
-		message: string, public status?: number, public statusText?: string
-	) {
+	constructor(message: string, public status?: number, public statusText?: string) {
 		super(message);
 		Object.setPrototypeOf(this, FetchError.prototype);
 	}
@@ -38,7 +36,7 @@ export function xsrfToken(cookies?: Cookies): { [key: string]: string } {
 	if (cookies === undefined) {
 		return {};
 	}
-	let value = "";
+	let value = '';
 	const cookieValue = cookies.get(XSRF_TOKEN_COOKIE_NAME);
 	if (cookieValue !== undefined) {
 		value = cookieValue;
@@ -49,31 +47,19 @@ export function xsrfToken(cookies?: Cookies): { [key: string]: string } {
 const { GET, POST, PUT, DELETE } = FetchMethod;
 
 export const get = async (fetch: Fetch, path: string, headers?: FetchHeader) => {
-	return await request(
-		fetch, path, GET, undefined, headers
-	);
+	return await request(fetch, path, GET, undefined, headers);
 };
 
-export const post = async (
-	fetch: Fetch, path: string, body: FetchBody, headers?: FetchHeader
-) => {
-	return await request(
-		fetch, path, POST, body, headers
-	);
+export const post = async (fetch: Fetch, path: string, body: FetchBody, headers?: FetchHeader) => {
+	return await request(fetch, path, POST, body, headers);
 };
 
-export const put = async (
-	fetch: Fetch, path: string, body: FetchBody, headers?: FetchHeader
-) => {
-	return await request(
-		fetch, path, PUT, body, headers
-	);
+export const put = async (fetch: Fetch, path: string, body: FetchBody, headers?: FetchHeader) => {
+	return await request(fetch, path, PUT, body, headers);
 };
 
 export const del = async (fetch: Fetch, path: string, headers?: FetchHeader) => {
-	return await request(
-		fetch, path, DELETE, undefined, headers
-	);
+	return await request(fetch, path, DELETE, undefined, headers);
 };
 
 /**
@@ -90,13 +76,15 @@ export const del = async (fetch: Fetch, path: string, headers?: FetchHeader) => 
  * @throws {FetchError} if response is an error
  */
 const request = async (
-	fetch: Fetch, path: string, method: FETCH_METHOD, body?: FetchBody, headers?: FetchHeader
+	fetch: Fetch,
+	path: string,
+	method: FETCH_METHOD,
+	body?: FetchBody,
+	headers?: FetchHeader
 ) => {
-	path = path.charAt(0) === "/" ? path : `/${path}`;
+	path = path.charAt(0) === '/' ? path : `/${path}`;
 	// This can throw {TypeError} for any of these reasons: https://developer.mozilla.org/en-US/docs/Web/API/fetch#exceptions
-	const response: Response = await fetch(`${BASE_API_URL}${path}`, config(
-		method, body, headers
-	));
+	const response: Response = await fetch(`${BASE_API_URL}${path}`, config(method, body, headers));
 	if (response) {
 		if (response.ok) {
 			// This can throw a {SyntaxError} if the response body is not well formatted JSON!
@@ -113,23 +101,19 @@ const request = async (
 			const { status, statusText } = response;
 			const json = await response.json();
 			// Something went wrong handling the request.. caller can check status (4xx)
-			throw new FetchError(
-				json.message, status, statusText
-			);
+			throw new FetchError(json.message, status, statusText);
 		}
 	}
 	// no response.. shouldn't get here but throw an error for completeness
-	throw new FetchError("Did not receive a response.");
+	throw new FetchError('Did not receive a response.');
 };
 
-const config = (
-	method: FETCH_METHOD, body?: FetchBody, headers?: FetchHeader
-): RequestInit => {
+const config = (method: FETCH_METHOD, body?: FetchBody, headers?: FetchHeader): RequestInit => {
 	return {
 		method,
-		...(browser && { credentials: "include" }), // needed to send cookies to only our server
+		...(browser && { credentials: 'include' }), // needed to send cookies to only our server
 		headers: {
-			"Content-Type": "application/json",
+			'Content-Type': 'application/json',
 			...(headers !== undefined && headers)
 		},
 		...(method !== GET && { body: JSON.stringify(body) })

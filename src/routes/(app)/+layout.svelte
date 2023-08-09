@@ -1,7 +1,7 @@
 <script lang="ts">
-    import AdminLayout from "$lib/layouts/admin/AdminLayout.svelte";
+	import AdminLayout from '$lib/layouts/admin/AdminLayout.svelte';
 </script>
 
 <AdminLayout>
-    <slot />
+	<slot />
 </AdminLayout>

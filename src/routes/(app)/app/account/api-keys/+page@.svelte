@@ -1,19 +1,24 @@
 <script lang="ts">
-	import type { OrgNewPageData } from "./+page";
-	import type { AccessToken, CreatedAccessToken as CreatedAccessTokenType, OrgAndUserData, SelectedOrganizationStore } from "$lib/types";
-	import { SELECTED_ORG_STORE_NAME } from "$lib/stores";
-	import { getContext } from "svelte";
-	import Panels from "$lib/discovery/panels.svelte";
-	import Navigation from "$lib/components/navigation/Navigation.svelte";
-	import { PUBLIC_DISCOVERY_ENABLED } from "$env/static/public";
-	import DiscoveryLayout from "$lib/layouts/discovery/DiscoveryLayout.svelte";
-	import AdminLayout from "$lib/layouts/admin/AdminLayout.svelte";
-	import ApiKeysForm from "$lib/account/APIKeysForm.svelte";
+	import type { OrgNewPageData } from './+page';
+	import type {
+		AccessToken,
+		CreatedAccessToken as CreatedAccessTokenType,
+		OrgAndUserData,
+		SelectedOrganizationStore
+	} from '$lib/types';
+	import { SELECTED_ORG_STORE_NAME } from '$lib/stores';
+	import { getContext } from 'svelte';
+	import Panels from '$lib/discovery/panels.svelte';
+	import Navigation from '$lib/components/navigation/Navigation.svelte';
+	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
+	import DiscoveryLayout from '$lib/layouts/discovery/DiscoveryLayout.svelte';
+	import AdminLayout from '$lib/layouts/admin/AdminLayout.svelte';
+	import ApiKeysForm from '$lib/account/APIKeysForm.svelte';
 
 	export let data: OrgNewPageData & OrgAndUserData;
 	const { createAccessTokenHandler, deleteAccessTokenHandler, accessTokens } = data;
 	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
-	if(data.org) {
+	if (data.org) {
 		orgStore.setOrganization(data.org.publicId);
 	}
 
@@ -43,7 +48,7 @@
 			return;
 		}
 		const { token: _token, ...rest } = createdAccessToken;
-		readOnlyAccessTokens = [...readOnlyAccessTokens, rest]
+		readOnlyAccessTokens = [...readOnlyAccessTokens, rest];
 		createdAccessToken = undefined;
 	}
 
@@ -87,19 +92,19 @@
 	$: sortedAccessTokens = readOnlyAccessTokens.sort(sortDates);
 </script>
 
-{#if PUBLIC_DISCOVERY_ENABLED === "true"}
+{#if PUBLIC_DISCOVERY_ENABLED === 'true'}
 	<DiscoveryLayout>
 		<Panels>
 			<Navigation slot="nav" />
 			<div class="flex content-center items-center flex-col h-full pt-9 px-9" slot="content">
 				<ApiKeysForm
-					createAccessToken={createAccessToken}
-					deleteAccessToken={deleteAccessToken}
-					isCreating={isCreating}
-					createdAccessToken={createdAccessToken}
-					isErrorCreatingToken={isErrorCreatingToken}
-					sortedAccessTokens={sortedAccessTokens}
-					hasTokens={hasTokens}
+					{createAccessToken}
+					{deleteAccessToken}
+					{isCreating}
+					{createdAccessToken}
+					{isErrorCreatingToken}
+					{sortedAccessTokens}
+					{hasTokens}
 				/>
 			</div>
 		</Panels>
@@ -108,16 +113,14 @@
 	<AdminLayout>
 		<div class="flex content-center items-center flex-col h-full pt-9">
 			<ApiKeysForm
-				createAccessToken={createAccessToken}
-				deleteAccessToken={deleteAccessToken}
-				isCreating={isCreating}
-				createdAccessToken={createdAccessToken}
-				isErrorCreatingToken={isErrorCreatingToken}
-				sortedAccessTokens={sortedAccessTokens}
-				hasTokens={hasTokens}
+				{createAccessToken}
+				{deleteAccessToken}
+				{isCreating}
+				{createdAccessToken}
+				{isErrorCreatingToken}
+				{sortedAccessTokens}
+				{hasTokens}
 			/>
 		</div>
 	</AdminLayout>
 {/if}
-	
-

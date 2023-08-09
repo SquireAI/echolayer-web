@@ -1,64 +1,87 @@
-import { browser } from "$app/environment";
-import { goto } from "$app/navigation";
-import { navigating, page } from "$app/stores";
-import type { AnchorConnectionData, GraphedEntity, LeveledNodeLayout, NodeMetadataTuple } from "$lib/types";
-import { get } from "svelte/store";
+import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
+import { navigating, page } from '$app/stores';
+import type {
+	AnchorConnectionData,
+	GraphedEntity,
+	LeveledNodeLayout,
+	NodeMetadataTuple
+} from '$lib/types';
+import { get } from 'svelte/store';
 
 export const URL_SEARCH_PARAMS_KEYS = {
-	ORIGIN: "origin",
-	SELECTED: "selected",
+	ORIGIN: 'origin',
+	SELECTED: 'selected'
 } as const;
 
 export function getAvatarInitials(fullName: string): string {
-	return fullName.trim().split(/\s+/).map((part) => part[0]).join("").toUpperCase();
-};
+	return fullName
+		.trim()
+		.split(/\s+/)
+		.map((part) => part[0])
+		.join('')
+		.toUpperCase();
+}
 
 /**
  * Resposible for updating the query parameters of the URL the user sees in their browser. It will add / update / remove the
  * "origin" and "selected" query parameter keys and their values as the state of the origin and selected nodes updates in the
  * graph. The function figures out the new current path and appends it to the URL
  */
-export function updateQueryParameters({ originPublicId, selectedPublicId }: { originPublicId?: string, selectedPublicId?: string}) {
+export function updateQueryParameters({
+	originPublicId,
+	selectedPublicId
+}: {
+	originPublicId?: string;
+	selectedPublicId?: string;
+}) {
 	if (!browser) {
-			return;
+		return;
 	}
 	const { ORIGIN, SELECTED } = URL_SEARCH_PARAMS_KEYS;
 	const searchParams: URLSearchParams = get(page).url.searchParams;
 	let isSearchParamsModified = false;
 	if (searchParams.has(ORIGIN) && originPublicId === undefined) {
-			get(page).url.searchParams.delete(ORIGIN);
-			isSearchParamsModified = true;
+		get(page).url.searchParams.delete(ORIGIN);
+		isSearchParamsModified = true;
 	}
 	if (searchParams.has(SELECTED) && selectedPublicId === undefined) {
-			get(page).url.searchParams.delete(SELECTED);
-			isSearchParamsModified = true;
+		get(page).url.searchParams.delete(SELECTED);
+		isSearchParamsModified = true;
 	}
 	if (originPublicId !== undefined && searchParams.get(ORIGIN) !== originPublicId) {
-			get(page).url.searchParams.set(ORIGIN, originPublicId);
-			isSearchParamsModified = true;
+		get(page).url.searchParams.set(ORIGIN, originPublicId);
+		isSearchParamsModified = true;
 	}
 	if (selectedPublicId !== undefined && searchParams.get(SELECTED) !== selectedPublicId) {
-			get(page).url.searchParams.set(SELECTED, selectedPublicId);
-			isSearchParamsModified = true;
+		get(page).url.searchParams.set(SELECTED, selectedPublicId);
+		isSearchParamsModified = true;
 	}
 	const navType = get(navigating)?.type;
-	if (isSearchParamsModified && navType !== "popstate") {
+	if (isSearchParamsModified && navType !== 'popstate') {
 		goto(`?${get(page).url.searchParams.toString()}`);
 	}
 }
 
 export function camelCaseToTitleCase(original: string) {
-	const result = original.replace(/([A-Z])/g, " $1");
+	const result = original.replace(/([A-Z])/g, ' $1');
 	const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
 	return finalResult;
 }
 
-export function isAnchorSelected(anchorNodeId: string, anchorConnections: AnchorConnectionData[], selectedNode?: GraphedEntity) {
+export function isAnchorSelected(
+	anchorNodeId: string,
+	anchorConnections: AnchorConnectionData[],
+	selectedNode?: GraphedEntity
+) {
 	if (!selectedNode) {
 		return false;
 	}
 	const connectedNodeIds = anchorConnections.map((connection) => {
 		return connection.connection[0];
-	})
-	return anchorNodeId.includes(selectedNode.publicId) || !!connectedNodeIds.find((nodeId) => nodeId.includes(selectedNode.publicId));
+	});
+	return (
+		anchorNodeId.includes(selectedNode.publicId) ||
+		!!connectedNodeIds.find((nodeId) => nodeId.includes(selectedNode.publicId))
+	);
 }

@@ -1,11 +1,13 @@
 import { browser } from '$app/environment';
-import { writable } from "svelte/store";
-import type { HomeTabStore, StoreHomeTabIndex } from "../types";
+import { writable } from 'svelte/store';
+import type { HomeTabStore, StoreHomeTabIndex } from '../types';
 
-export const HOME_TAB_STORE_NAME = "home-tab"
+export const HOME_TAB_STORE_NAME = 'home-tab';
 
 let initialValue: StoreHomeTabIndex;
-const storageValue: string | undefined = browser ? localStorage.getItem(HOME_TAB_STORE_NAME) ?? undefined : undefined;
+const storageValue: string | undefined = browser
+	? localStorage.getItem(HOME_TAB_STORE_NAME) ?? undefined
+	: undefined;
 
 if (browser && storageValue) {
 	initialValue = JSON.parse(storageValue);
@@ -25,10 +27,12 @@ const createHomeTabStore = (): HomeTabStore => {
 		setHomeTabIndex: (index: number) => set({ loading: false, error: false, entity: index }),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
-		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
-	}
-}
+		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError }))
+	};
+};
 
 const store = createHomeTabStore();
-store.subscribe((value) => browser && localStorage.setItem(HOME_TAB_STORE_NAME, JSON.stringify(value)));
+store.subscribe(
+	(value) => browser && localStorage.setItem(HOME_TAB_STORE_NAME, JSON.stringify(value))
+);
 export default store;

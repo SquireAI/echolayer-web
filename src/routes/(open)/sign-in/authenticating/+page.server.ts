@@ -1,6 +1,6 @@
 import { type HttpError, error } from '@sveltejs/kit';
-import { OrganizationApi } from "$lib/api/organization.js";
-import { AuthApi } from "$lib/api/auth.js";
+import { OrganizationApi } from '$lib/api/organization.js';
+import { AuthApi } from '$lib/api/auth.js';
 import { getCookies, normalizeCookie, setServerOrgCookie } from '$lib/utils/cookies.js';
 import { createHeaders, getHttpContext } from '$lib/http/context.js';
 import type { PageServerLoad } from './$types';
@@ -10,7 +10,7 @@ import type { Organization, User } from '$lib/types';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 
 export const load = (async ({ cookies, fetch, url }) => {
-	const code = url.searchParams.get("code");
+	const code = url.searchParams.get('code');
 	let orgs: Organization[] | undefined;
 	let org: Organization | undefined;
 	let user: User | undefined;
@@ -32,16 +32,16 @@ export const load = (async ({ cookies, fetch, url }) => {
 	try {
 		context = getHttpContext(fetch, cookies);
 		orgs = await new OrganizationApi(context).list();
-		if(orgs?.length > 0) {
-			if(context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
-				org = orgs.find(org => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
+		if (orgs?.length > 0) {
+			if (context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+				org = orgs.find((org) => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
 			}
-			if(orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+			if (orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
 				setServerOrgCookie(orgs[0].publicId, cookies.set);
 				org = orgs[0];
 			}
 		}
-		user = await new UserApi(context).get("");
+		user = await new UserApi(context).get('');
 	} catch (err) {
 		if ((err as HttpError).status === 401) {
 			throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });

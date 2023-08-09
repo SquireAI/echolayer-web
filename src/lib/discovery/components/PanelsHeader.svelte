@@ -4,6 +4,20 @@
 	export let onClick: () => void;
 </script>
 
+<button
+	class={`panel-header ${!!onClick && !disabled && 'cursor-pointer'} ${
+		disabled && 'cursor-not-allowed'
+	}`}
+	class:disabled
+	on:click={onClick}
+>
+	<div class="flex-1 flex flex-row items-center">
+		<span><slot name="left-action" /></span>
+		<span class="mx-3 flex-1">{title}</span>
+		<span><slot name="right-action" /></span>
+	</div>
+</button>
+
 <style lang="scss">
 	.panel-header {
 		@apply flex items-center;
@@ -18,11 +32,3 @@
 		}
 	}
 </style>
-
-<div class={`panel-header ${!!onClick && !disabled && "cursor-pointer"} ${disabled && "cursor-not-allowed"}`} class:disabled={disabled} on:click={onClick}>
-	<div class="flex-1 flex flex-row items-center">
-		<span><slot name="left-action"></slot></span>
-		<span class="mx-3 flex-1">{title}</span>
-		<span><slot name="right-action"></slot></span>
-	</div>
-</div>

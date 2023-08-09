@@ -1,33 +1,33 @@
-import type { httpContext } from "$lib/http/context";
-import urlJoin from "url-join";
-import { HttpClient } from "../http/httpClient";
+import type { httpContext } from '$lib/http/context';
+import urlJoin from 'url-join';
+import { HttpClient } from '../http/httpClient';
 
 export const ENDPOINT = {
-	organization: "organization",
-	component: "component",
-	componentType: "component-type",
-	relations: "relations",
-	relationsGraph: "relations/graph",
-	member: "member",
-	team: "team",
-	owner: "owner",
-	issue: "issue",
-	slack: "slack-client",
-	auth: "auth",
-	apiKey: "auth/api-key",
-	user: "user",
-	root: "",
+	organization: 'organization',
+	component: 'component',
+	componentType: 'component-type',
+	relations: 'relations',
+	relationsGraph: 'relations/graph',
+	member: 'member',
+	team: 'team',
+	owner: 'owner',
+	issue: 'issue',
+	slack: 'slack-client',
+	auth: 'auth',
+	apiKey: 'auth/api-key',
+	user: 'user',
+	root: ''
 } as const;
-export type EndpointType = typeof ENDPOINT[keyof typeof ENDPOINT];
+export type EndpointType = (typeof ENDPOINT)[keyof typeof ENDPOINT];
 
 export type FetchBody = {
-	[key: string]: string | number | boolean | Array<FetchBodyValue>
+	[key: string]: string | number | boolean | Array<FetchBodyValue>;
 };
 export type FetchBodyValue = string | number | boolean;
 
 export abstract class BaseApi<T> {
 	protected httpClient: HttpClient;
-	protected endpoint: EndpointType = "";
+	protected endpoint: EndpointType = '';
 
 	constructor(context: httpContext) {
 		this.initializeVariables();
@@ -38,7 +38,7 @@ export abstract class BaseApi<T> {
 
 	abstract initializeVariables(): void;
 	public async list(queryParams?: FetchBody): Promise<T[]> {
-		const resp = await this.httpClient.fetchGET("/", queryParams);
+		const resp = await this.httpClient.fetchGET('/', queryParams);
 		return resp.json() as Promise<T[]>;
 	}
 	public async get(publicId: string): Promise<T> {
@@ -46,7 +46,7 @@ export abstract class BaseApi<T> {
 		return resp.json() as Promise<T>;
 	}
 	public async create(data?: FetchBody): Promise<T> {
-		const resp = await this.httpClient.fetchPOST("", undefined, data);
+		const resp = await this.httpClient.fetchPOST('', undefined, data);
 		return resp.json() as Promise<T>;
 	}
 	public async update(publicId: string, data: FetchBody): Promise<T> {

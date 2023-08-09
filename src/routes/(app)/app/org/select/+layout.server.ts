@@ -1,6 +1,5 @@
-import {getHttpContext, type httpContext} from "$lib/http/context";
-import type { LayoutServerLoad } from "./$types";
-
+import { getHttpContext, type httpContext } from '$lib/http/context';
+import type { LayoutServerLoad } from './$types';
 
 export const load = (async ({ fetch, cookies }) => {
 	// Get tokens from cookies
@@ -8,6 +7,6 @@ export const load = (async ({ fetch, cookies }) => {
 
 	return {
 		baseHeaders: context.baseHeaders,
-		baseUrl: context.baseUrl,
-	}
+		baseUrl: context.baseUrl
+	};
 }) satisfies LayoutServerLoad;

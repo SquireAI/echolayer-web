@@ -1,11 +1,18 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { Organization, StoreOrganizationsEntity, SelectedOrganizationStore, OrganizationsStore } from "../types";
+import type {
+	Organization,
+	StoreOrganizationsEntity,
+	SelectedOrganizationStore,
+	OrganizationsStore
+} from '../types';
 
-export const ORGS_STORE_NAME = "orgs";
+export const ORGS_STORE_NAME = 'orgs';
 
 let initialValue: StoreOrganizationsEntity;
-const storageValue: string | undefined = browser ? localStorage.getItem(ORGS_STORE_NAME) ?? undefined : undefined;
+const storageValue: string | undefined = browser
+	? localStorage.getItem(ORGS_STORE_NAME) ?? undefined
+	: undefined;
 
 if (browser && storageValue) {
 	initialValue = JSON.parse(storageValue);
@@ -20,13 +27,15 @@ const createOrgsStore = (): OrganizationsStore => {
 		subscribe,
 		set,
 		setOrganizations: (entity: Organization[]) => set({ loading: false, error: false, entity }),
-		updateOrganizations: (entity: Organization[]) => update((existing) => ({ ...existing, entity })),
-		addOrganization: (org: Organization) => update((existing) => ({ ...existing, entity: [...existing.entity ?? [], org] })),
+		updateOrganizations: (entity: Organization[]) =>
+			update((existing) => ({ ...existing, entity })),
+		addOrganization: (org: Organization) =>
+			update((existing) => ({ ...existing, entity: [...(existing.entity ?? []), org] })),
 		clear: () => set({ loading: false, error: false, entity: undefined }),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
-		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
-	}
-}
+		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError }))
+	};
+};
 
 const store = createOrgsStore();
 store.subscribe((value) => browser && localStorage.setItem(ORGS_STORE_NAME, JSON.stringify(value)));

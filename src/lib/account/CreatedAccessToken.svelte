@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { CreatedAccessToken } from "$lib/types";
-	import GeneratedKey from "./GeneratedKey.svelte";
+	import type { CreatedAccessToken } from '$lib/types';
+	import GeneratedKey from './GeneratedKey.svelte';
 
 	export let token: CreatedAccessToken;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
-	export let error: boolean = false;
+	export let error = false;
 </script>
 
 {#if error}
@@ -16,6 +16,12 @@
 		<div class="flex justify-center p-6 mb-3 border bg-blue-200 border-blue-300">
 			<p>Make sure to copy your new key address now. You won’t be able to see it again.</p>
 		</div>
-		<GeneratedKey isNew={true} token={token.token} prefix={token.prefix} createdDate={token.createdAt} deleteTokenHandler={deleteTokenHandler} />
+		<GeneratedKey
+			isNew={true}
+			token={token.token}
+			prefix={token.prefix}
+			createdDate={token.createdAt}
+			{deleteTokenHandler}
+		/>
 	</div>
 {/if}

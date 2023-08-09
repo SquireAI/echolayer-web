@@ -1,11 +1,14 @@
-import { RelationsGraphApi } from "$lib/api/relationsGraph";
-import { createDefaultContext } from "$lib/http/context";
-import type { GraphedEntity, OriginAndComponentData, RelationGraphEntity } from "$lib/types.js";
-import type { PageLoad } from "./$types";
+import { RelationsGraphApi } from '$lib/api/relationsGraph';
+import { createDefaultContext } from '$lib/http/context';
+import type { GraphedEntity, OriginAndComponentData, RelationGraphEntity } from '$lib/types.js';
+import type { PageLoad } from './$types';
 
-export type DiscoveryPage = Pick<OriginAndComponentData, "components" | "origin" | "relations" | "teams"> & {
+export type DiscoveryPage = Pick<
+	OriginAndComponentData,
+	'components' | 'origin' | 'relations' | 'teams'
+> & {
 	getRelationsGraph: (origin: GraphedEntity) => Promise<RelationGraphEntity[]>;
-}
+};
 
 /**
  * Provides a function to the page that has the proper HTTP context to make API requests
@@ -18,14 +21,18 @@ export const load = (async ({ data, fetch, parent }) => {
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 
 	const getRelationsGraph = async (origin: GraphedEntity): Promise<RelationGraphEntity[]> => {
-		const relations = await new RelationsGraphApi(context).list({ sourcePublicId: origin?.publicId, depth: 2 })
+		const relations = await new RelationsGraphApi(context).list({
+			sourcePublicId: origin?.publicId,
+			depth: 2
+		});
 		return relations.filter(
-			(relation) => relation.relationshipName !== "hasMember" && relation.relationshipName !== "memberOf"
+			(relation) =>
+				relation.relationshipName !== 'hasMember' && relation.relationshipName !== 'memberOf'
 		);
-	}
+	};
 
 	return {
 		...rest,
 		getRelationsGraph
-	}
+	};
 }) satisfies PageLoad;
