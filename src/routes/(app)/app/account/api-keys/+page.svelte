@@ -94,15 +94,14 @@
 	<div class="content" slot="content">
 		<div class="flex content-center items-center max-w-4xl mx-auto mt-16">
 			<ApiKeysForm
-				createAccessToken={createAccessToken}
-				deleteAccessToken={deleteAccessToken}
-				isCreating={isCreating}
-				createdAccessToken={createdAccessToken}
-				isErrorCreatingToken={isErrorCreatingToken}
-				sortedAccessTokens={sortedAccessTokens}
-				hasTokens={hasTokens}
+				{createAccessToken}
+				{deleteAccessToken}
+				{isCreating}
+				{createdAccessToken}
+				{isErrorCreatingToken}
+				{sortedAccessTokens}
+				{hasTokens}
 			/>
 		</div>
 	</div>
 </Panels>
-	

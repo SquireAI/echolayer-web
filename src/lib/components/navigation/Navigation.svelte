@@ -84,11 +84,11 @@
 					disabled={!organization}
 				/>
 				<NavigationItem
-						name="Integrations"
-						href={`${INTEGRATIONS_PATH}`}
-						OutlineIcon={CogOutline}
-						SolidIcon={Cog}
-						disabled={!organization}
+					name="Integrations"
+					href={`${INTEGRATIONS_PATH}`}
+					OutlineIcon={CogOutline}
+					SolidIcon={Cog}
+					disabled={!organization}
 				/>
 			</div>
 		</div>
