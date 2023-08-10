@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { originStore, selectedStore } from '$lib/stores';
+	import { entityRelationshipStore, originStore, selectedStore } from '$lib/stores';
 	import type { GraphedEntity } from '$lib/types';
 
 	export let open = false;
@@ -11,6 +11,8 @@
 			return;
 		}
 		const selectedNode: GraphedEntity = $selectedStore.entity;
+		originStore.clear();
+		entityRelationshipStore.clear();
 		originStore.setEntity(selectedNode);
 	};
 
