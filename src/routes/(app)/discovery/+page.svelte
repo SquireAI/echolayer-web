@@ -71,7 +71,6 @@
 	}
 	if (origin) {
 		originStore.setEntity(origin);
-		selectedStore.setEntity(origin);
 	}
 	if (selected) {
 		selectedStore.setEntity(selected);
