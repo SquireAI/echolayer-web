@@ -1,9 +1,21 @@
 import type { PageServerLoad } from './$types';
-import { redirect } from '@sveltejs/kit';
-import { HOME_PATH, ORGS_PATH } from '$lib/utils/paths';
-import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
+import { getHttpContext } from '$lib/http/context';
+import { ComponentApi } from '$lib/api/component';
+import { TeamApi } from '$lib/api/team';
+import type { TeamAndComponentData } from '$lib/types';
+import { orgRequired } from '$lib/utils/access';
 
-export const load = (async (): Promise<void> => {
-	// Send user to org page
-	throw redirect(307, PUBLIC_DISCOVERY_ENABLED === 'true' ? HOME_PATH : ORGS_PATH);
+export const load = (async ({ cookies, fetch }): Promise<TeamAndComponentData> => {
+	const context = getHttpContext(fetch, cookies);
+
+	const teamApi = new TeamApi(context);
+	const componentApi = new ComponentApi(context);
+
+	const teams = await teamApi.list();
+	const components = await componentApi.list();
+
+	return {
+		...(teams && { teams }),
+		...(components && { components })
+	};
 }) satisfies PageServerLoad;

@@ -13,7 +13,7 @@ export const ORGS_SELECT_PATH_WITH_INVALIDATE = `${ORGS_SELECT_PATH}?${INVALIDAT
 export const CREATE_ORG_PATH = '/org/new';
 export const ACCOUNT_PATH = '/account';
 export const API_KEYS_PATH = '/org/api';
-export const DISCOVERY_PATH = '/discovery';
+export const DISCOVERY_PATH = '/explore';
 export const INTEGRATIONS_PATH = '/org/integrations';
 
 export const REDIRECT_PATHS = [
