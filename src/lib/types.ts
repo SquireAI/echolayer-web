@@ -1,6 +1,6 @@
 import type { ComponentType } from 'svelte';
 import type { Subscriber, Unsubscriber, Updater } from 'svelte/store';
-import type {FetchHeader} from "$lib/api/apiUtils";
+import type { FetchHeader } from '$lib/api/apiUtils';
 
 export enum EntityTypes {
 	TEAM = 'Team',
