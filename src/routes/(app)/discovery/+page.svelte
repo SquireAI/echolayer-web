@@ -85,7 +85,7 @@
 				<SitemapOutline />
 			</span>
 		</PanelsHeader>
-		{#if $originStore.entity}
+		{#if $originStore.entity && $entityRelationshipStore.entity}
 			<div class="canvas">
 				<Canvas
 					components={$componentStore.entity}
