@@ -92,7 +92,7 @@
 <Panels>
 	<Navigation slot="nav" />
 	<div class="content" slot="content">
-		<div class="flex content-center items-center max-w-4xl mx-auto mt-16">
+		<div class="flex flex-col gap-6 w-[400px] mx-auto mt-16">
 			<ApiKeysForm
 				{createAccessToken}
 				{deleteAccessToken}

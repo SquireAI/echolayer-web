@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeleteIcon from '$lib/svgs/DeleteIcon.svg?component';
+	import DeleteForeverOutline from 'svelte-material-icons/DeleteForeverOutline.svelte';
 
 	export let prefix: string;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
@@ -10,6 +10,9 @@
 	$: isDeleteError = false;
 
 	async function deleteAccessToken() {
+		if (isDeleting) {
+			return;
+		}
 		isDeleting = true;
 		try {
 			await deleteTokenHandler(prefix);
@@ -20,17 +23,20 @@
 </script>
 
 {#if isDeleting}
-	<div class="flex items-center shrink-0 cursor-pointer">
-		<DeleteIcon />
-		<p class="text-red-700 select-none">Deleting...</p>
+	<div class="text-red-700 flex items-center shrink-0 cursor-pointer">
+		<DeleteForeverOutline />
+		<span class="select-none">Deleting...</span>
 	</div>
 {:else if isDeleteError}
-	<div class="flex items-center shrink-0 cursor-pointer">
-		<p class="text-red-700 select-none">Could not delete</p>
+	<div class="text-red-700 flex items-center shrink-0 cursor-pointer">
+		<p class="select-none">Could not delete</p>
 	</div>
 {:else}
-	<button class="flex items-center shrink-0 cursor-pointer" on:click={deleteAccessToken}>
-		<DeleteIcon />
-		<p class="text-red-700 select-none">Delete</p>
+	<button
+		class="text-red-700 flex items-center shrink-0 cursor-pointer"
+		on:click={deleteAccessToken}
+	>
+		<DeleteForeverOutline />
+		<p class="select-none">Delete</p>
 	</button>
 {/if}
