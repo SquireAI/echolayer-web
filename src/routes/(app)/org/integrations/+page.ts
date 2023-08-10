@@ -1,6 +1,6 @@
 import { SlackApi } from '$lib/api/slack';
 import { createDefaultContext } from '$lib/http/context';
-import type { PageLoad } from './$types';
+import type { PageLoad } from '../../../../../../.svelte-kit/types/src/routes';
 import type { IntegrationsPageData } from './+page.server';
 
 export type IntegrationsPageHandlers = {
