@@ -19,7 +19,7 @@
 
 	export let data: DiscoveryPage;
 
-	const { teams, origin, components, relations, getRelationsGraph } = data;
+	const { teams, origin, selected, components, relations, getRelationsGraph } = data;
 	const isDetailsPanelOpen = writable<boolean>(false);
 
 	/**
@@ -62,6 +62,7 @@
 	// Toggle the details panel open / closed if there's a node selected or not, respectively
 	$: $selectedStore.entity, isDetailsPanelOpen.set($selectedStore.entity !== undefined);
 
+	// Set pageload defaults in stores
 	if (components) {
 		componentStore.setComponents(components);
 	}
@@ -70,6 +71,11 @@
 	}
 	if (origin) {
 		originStore.setEntity(origin);
+		selectedStore.setEntity(origin);
+	}
+	if (selected) {
+		selectedStore.setEntity(selected);
+	} else {
 		selectedStore.setEntity(origin);
 	}
 	if (relations) {

@@ -1,11 +1,13 @@
 import type { ComponentType } from 'svelte';
 import type { Subscriber, Unsubscriber, Updater } from 'svelte/store';
+import type {FetchHeader} from "$lib/api/apiUtils";
 
 export enum EntityTypes {
 	TEAM = 'Team',
 	COMPONENT = 'Component',
 	MEMBER = 'Member'
 }
+
 export interface BaseEntity {
 	publicId: string;
 	name: string;
@@ -168,6 +170,11 @@ export interface HomeTabStore extends BaseStore<number, StoreHomeTabIndex> {
 	setHomeTabIndex: (index: number) => void;
 }
 
+export type BaseContextData = {
+	baseUrl: string;
+	baseHeaders: FetchHeader;
+};
+
 export type OrgAndUserData = {
 	user: User;
 	org: Organization;
@@ -175,6 +182,7 @@ export type OrgAndUserData = {
 
 export type OriginAndComponentData = {
 	origin?: GraphedEntity;
+	selected?: GraphedEntity;
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	relations?: RelationGraphEntity[];

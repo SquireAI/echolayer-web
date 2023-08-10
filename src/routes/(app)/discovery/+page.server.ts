@@ -2,12 +2,21 @@ import { ComponentApi } from '$lib/api/component';
 import { RelationsGraphApi } from '$lib/api/relationsGraph';
 import { TeamApi } from '$lib/api/team';
 import { getHttpContext } from '$lib/http/context';
-import type { GraphedEntity, OriginAndComponentData, RelationGraphEntity } from '$lib/types';
+import type {
+	BaseContextData,
+	GraphedEntity,
+	OriginAndComponentData,
+	RelationGraphEntity
+} from '$lib/types';
 import { DISCOVERY_HOME_PATH } from '$lib/utils/paths';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponentData> => {
+export const load = (async ({
+	url,
+	cookies,
+	fetch
+}): Promise<BaseContextData & OriginAndComponentData> => {
 	const context = getHttpContext(fetch, cookies);
 
 	const teamApi = new TeamApi(context);
@@ -18,9 +27,11 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
 	const components = await componentApi.list();
 
 	const originId: string | null = url.searchParams.get('origin');
+	const selectedId: string | null = url.searchParams.get('selected');
 
 	let relations: RelationGraphEntity[] = [];
 	let origin: GraphedEntity | undefined;
+	let selected: GraphedEntity | undefined;
 
 	if (originId) {
 		// Find component with ID
@@ -35,13 +46,19 @@ export const load = (async ({ url, cookies, fetch }): Promise<OriginAndComponent
 		} else throw redirect(307, DISCOVERY_HOME_PATH);
 	} else throw redirect(307, DISCOVERY_HOME_PATH);
 
+	if (selectedId) {
+		// Find component with ID
+		selected = [...components, ...teams].find((component) => component.publicId === selectedId);
+	}
+
 	const { baseHeaders, baseUrl } = context;
 	return {
+		baseHeaders,
+		baseUrl,
 		...(teams && { teams }),
 		...(components && { components }),
 		...(origin && { origin }),
-		...(relations && { relations }),
-		baseHeaders,
-		baseUrl
+		...(selected && { selected }),
+		...(relations && { relations })
 	};
 }) satisfies PageServerLoad;
