@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeleteIcon from '$lib/svgs/DeleteIcon.svg?component';
+	import DeleteForeverOutline from 'svelte-material-icons/DeleteForeverOutline.svelte';
 
 	export let prefix: string;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
@@ -10,27 +10,28 @@
 	$: isDeleteError = false;
 
 	async function deleteAccessToken() {
+		if (isDeleting) {
+			return;
+		}
+		isDeleteError = false;
 		isDeleting = true;
 		try {
 			await deleteTokenHandler(prefix);
 		} catch (error) {
 			isDeleteError = true;
+		} finally {
+			isDeleting = false;
 		}
 	}
 </script>
 
-{#if isDeleting}
-	<div class="flex items-center shrink-0 cursor-pointer">
-		<DeleteIcon />
-		<p class="text-red-700 select-none">Deleting...</p>
-	</div>
-{:else if isDeleteError}
-	<div class="flex items-center shrink-0 cursor-pointer">
-		<p class="text-red-700 select-none">Could not delete</p>
-	</div>
-{:else}
-	<button class="flex items-center shrink-0 cursor-pointer" on:click={deleteAccessToken}>
-		<DeleteIcon />
-		<p class="text-red-700 select-none">Delete</p>
-	</button>
-{/if}
+<button
+	class="flex items-center shrink-0 gap-1 bg-white py-1 px-2.5 border-neutral-300 border-2"
+	on:click={deleteAccessToken}
+	disabled={isDeleting && !isDeleteError}
+>
+	<span class="text-echolayer-red"><DeleteForeverOutline size="20" /></span>
+	<span class={`select-none font-medium ${isDeleteError ? 'text-echolayer-red' : 'text-black'}`}>
+		{isDeleteError ? 'Retry' : isDeleting ? 'Deleting...' : 'Delete'}
+	</span>
+</button>

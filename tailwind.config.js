@@ -7,9 +7,17 @@ export default {
 		extend: {
 			colors: {
 				neutral: {
-					25: '#FAFAFA'
+					25: '#FAFAFA',
+					500: '#737373'
 				},
 				echolayer: {
+					orange: {
+						DEFAULT: '#FB7124',
+						50: '#FB7124',
+						200: '#FEE3D3',
+						500: '#FB7124',
+						900: '#7E3912'
+					},
 					blue: {
 						DEFAULT: '#2654F4',
 						100: '#2654F4',
@@ -32,7 +40,8 @@ export default {
 					},
 					green: {
 						DEFAULT: '#1B543F',
-						100: '#35A77E'
+						100: '#35A77E',
+						900: '#1B543F'
 					}
 				}
 			},

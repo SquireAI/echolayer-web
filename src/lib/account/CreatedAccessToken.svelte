@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CreatedAccessToken } from '$lib/types';
 	import GeneratedKey from './GeneratedKey.svelte';
+	import Alert from 'svelte-material-icons/Alert.svelte';
 
 	export let token: CreatedAccessToken;
 	export let deleteTokenHandler: (prefix: string) => Promise<void>;
@@ -8,13 +9,19 @@
 </script>
 
 {#if error}
-	<div class="flex justify-center p-6 my-6 bg-red-400">
+	<div class="flex justify-center p-1 my-1 bg-red-400">
 		<p>There was an error when generating a new API key. Please try again.</p>
 	</div>
 {:else if token}
 	<div class="flex flex-col w-full">
-		<div class="flex justify-center p-6 mb-3 border bg-blue-200 border-blue-300">
-			<p>Make sure to copy your new key address now. You won’t be able to see it again.</p>
+		<div
+			class="flex flex-row justify-center px-1 py-2 mb-3 border-l-4 gap-2 rounded-md border-echolayer-orange-500 bg-echolayer-orange-50/20 text-echolayer-orange-900"
+		>
+			<Alert size="32" />
+			<span class="text-sm"
+				>Make sure to copy your new key address now. You won't be able to see it again after you
+				leave this page.</span
+			>
 		</div>
 		<GeneratedKey
 			isNew={true}

@@ -1,11 +1,13 @@
 <script lang="ts">
-	import WhiteCheckIcon from '$lib/svgs/WhiteCheckIcon.svg?component';
-	import CopyIcon from '$lib/svgs/CopyIcon.svg?component';
+	import Tooltip from '$lib/components/Tooltip.svelte';
+	import Check from 'svelte-material-icons/Check.svelte';
 
 	export let token: string;
+	const HIDE_TOOLTIP_IN_MILLISECONDS = 1500;
 
 	let isCopied: boolean;
 	let isCopyError: boolean;
+	let isCopiedTooltipVisible: boolean;
 	$: isCopied = false;
 	$: isCopyError = false;
 
@@ -15,33 +17,30 @@
 		try {
 			await navigator.clipboard.writeText(token);
 			isCopied = true;
+			showCopiedTooltip();
 		} catch (error) {
 			isCopyError = true;
 		}
 	}
+
+	async function showCopiedTooltip() {
+		isCopiedTooltipVisible = true;
+		setTimeout(() => {
+			isCopiedTooltipVisible = false;
+		}, HIDE_TOOLTIP_IN_MILLISECONDS);
+	}
 </script>
 
-{#if isCopied}
-	<button
-		class="flex px-2 gap-x-2 items-center cursor-pointer shrink-0 bg-echolayer-blue"
-		on:click={copyToClipboard}
-	>
-		<WhiteCheckIcon />
-		<p class="select-none text-white">Copied!</p>
-	</button>
-{:else if isCopyError}
-	<button
-		class="flex px-2 gap-x-2 items-center cursor-pointer shrink-0 bg-echolayer-blue"
-		on:click={copyToClipboard}
-	>
-		<p class="select-none text-white">😕 Could not copy</p>
-	</button>
-{:else}
-	<button
-		class="flex px-2 gap-x-2 items-center cursor-pointer shrink-0 bg-echolayer-blue"
-		on:click={copyToClipboard}
-	>
-		<CopyIcon />
-		<p class="select-none text-white">Copy</p>
-	</button>
-{/if}
+<button
+	class={`flex w-full h-full gap-x-2 items-center relative justify-center text-center cursor-pointer ${
+		isCopied ? 'bg-echolayer-green-900' : 'bg-echolayer-blue'
+	} text-white`}
+	on:click={copyToClipboard}
+>
+	<Tooltip content="Copied!" visible={isCopiedTooltipVisible} classes="-top-10" />
+	{#if isCopied}
+		<Check />
+	{:else}
+		<span class="select-none font-medium text-sm">Copy</span>
+	{/if}
+</button>
