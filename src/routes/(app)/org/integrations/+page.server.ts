@@ -1,5 +1,5 @@
 import { getHttpContext, type httpContext } from '$lib/http/context';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from '../../../../../../.svelte-kit/types/src/routes';
 
 export type IntegrationsPageData = {
 	baseHeaders: httpContext['baseHeaders'];

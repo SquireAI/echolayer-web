@@ -1,7 +1,7 @@
 import { OrganizationApi } from '$lib/api/organization';
 import { createDefaultContext } from '$lib/http/context';
 import type { Organization } from '$lib/types';
-import type { PageLoad } from './$types';
+import type { PageLoad } from '../../../../../.svelte-kit/types/src/routes';
 
 export type OrgNewPageData = {
 	createOrgHandler: (orgName: string) => Promise<Organization>;

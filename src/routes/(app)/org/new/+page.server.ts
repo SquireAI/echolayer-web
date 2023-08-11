@@ -1,6 +1,6 @@
 import { getHttpContext, type httpContext } from '$lib/http/context.js';
 import { type HttpError, error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from '../../../../../.svelte-kit/types/src/routes';
 import { ErrorMessageTypes } from '$lib/error';
 import { INVALIDATED_SIGN_IN_PATH } from '$lib/utils/paths';
 

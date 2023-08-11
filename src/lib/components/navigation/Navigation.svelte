@@ -13,7 +13,7 @@
 	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
 	import {
 		API_KEYS_PATH,
-		DISCOVERY_HOME_PATH,
+		HOME_PATH,
 		INVALIDATED_SIGN_IN_PATH,
 		NOTION_GETTING_STARTED_DOCS,
 		ORGS_SELECT_PATH,
@@ -71,7 +71,7 @@
 				{/if}
 				<NavigationItem
 					name="Home"
-					href={`${DISCOVERY_HOME_PATH}`}
+					href={`${HOME_PATH}`}
 					OutlineIcon={HomeOutline}
 					SolidIcon={Home}
 					disabled={!organization}

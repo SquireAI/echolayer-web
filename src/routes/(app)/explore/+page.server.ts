@@ -8,15 +8,20 @@ import type {
 	OriginAndComponentData,
 	RelationGraphEntity
 } from '$lib/types';
-import { DISCOVERY_HOME_PATH } from '$lib/utils/paths';
+import { HOME_PATH } from '$lib/utils/paths';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { flagRequired } from '$lib/utils/access';
+import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
 
 export const load = (async ({
 	url,
 	cookies,
 	fetch
 }): Promise<BaseContextData & OriginAndComponentData> => {
+	// Check if flag enabled
+	flagRequired(PUBLIC_DISCOVERY_ENABLED);
+
 	const context = getHttpContext(fetch, cookies);
 
 	const teamApi = new TeamApi(context);
@@ -43,8 +48,8 @@ export const load = (async ({
 				(relation) =>
 					relation.relationshipName !== 'hasMember' && relation.relationshipName !== 'memberOf'
 			);
-		} else throw redirect(307, DISCOVERY_HOME_PATH);
-	} else throw redirect(307, DISCOVERY_HOME_PATH);
+		} else throw redirect(307, HOME_PATH);
+	} else throw redirect(307, HOME_PATH);
 
 	if (selectedId) {
 		// Find component with ID

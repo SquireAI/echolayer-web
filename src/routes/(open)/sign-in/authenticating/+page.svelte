@@ -5,7 +5,7 @@
 	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
 	import {
 		CREATE_ORG_PATH,
-		DISCOVERY_HOME_PATH,
+		HOME_PATH,
 		ORGS_SELECT_PATH,
 		ORGS_PATH
 	} from '$lib/utils/paths';
@@ -28,7 +28,7 @@
 			if ($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) {
 				if (PUBLIC_MULTI_ORG_ENABLED === 'true' && PUBLIC_DISCOVERY_ENABLED === 'true') {
 					if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
-						goto(DISCOVERY_HOME_PATH);
+						goto(HOME_PATH);
 					} else {
 						goto(ORGS_SELECT_PATH);
 					}

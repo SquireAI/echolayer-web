@@ -8,7 +8,7 @@ import type { Organization, User } from '$lib/types';
 import { authRequired, orgRequired } from '$lib/utils/access';
 import {
 	CREATE_ORG_PATH,
-	DISCOVERY_HOME_PATH,
+	HOME_PATH,
 	INVALIDATED_SIGN_IN_PATH,
 	ORGS_PATH
 } from '$lib/utils/paths';
@@ -27,7 +27,7 @@ export interface OrgsLayoutLoad {
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> => {
 	if (PUBLIC_MULTI_ORG_ENABLED !== 'true' && PUBLIC_DISCOVERY_ENABLED !== 'true') {
-		const redirectPath = PUBLIC_DISCOVERY_ENABLED ? DISCOVERY_HOME_PATH : ORGS_PATH;
+		const redirectPath = PUBLIC_DISCOVERY_ENABLED ? HOME_PATH : ORGS_PATH;
 		throw redirect(307, redirectPath);
 	}
 	const parentData = await parent();

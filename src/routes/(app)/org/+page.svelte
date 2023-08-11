@@ -15,7 +15,7 @@
 	import type { OrgDetailsPageHandlers } from './+page';
 	import { browser } from '$app/environment';
 
-	/** @type {import('./$types').PageData} */
+	/** @type {import('../../../../.svelte-kit/types/src/routes').PageData} */
 	export let data: OrgDetailsPageData & OrgDetailsPageHandlers;
 
 	let organization: Organization;

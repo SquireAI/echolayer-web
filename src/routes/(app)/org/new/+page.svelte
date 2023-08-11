@@ -4,14 +4,14 @@
 	import { getContext } from 'svelte';
 	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
 	import type { OrgNewPageData } from './+page';
-	import { DISCOVERY_HOME_PATH, ORGS_PATH } from '$lib/utils/paths';
+	import { HOME_PATH, ORGS_PATH } from '$lib/utils/paths';
 	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import Panels from '$lib/discovery/panels.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 
-	/** @type {import('./$types').PageData} */
+	/** @type {import('../../../../../.svelte-kit/types/src/routes').PageData} */
 	export let data: OrgNewPageData;
 
 	let orgsStore: OrganizationsStore;
@@ -31,7 +31,7 @@
 		orgStore.setOrganization(createdOrg.publicId);
 		setTimeout(() => {
 			if (PUBLIC_DISCOVERY_ENABLED) {
-				goto(DISCOVERY_HOME_PATH);
+				goto(HOME_PATH);
 			} else {
 				goto(ORGS_PATH);
 			}

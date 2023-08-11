@@ -8,7 +8,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import {
 		CREATE_ORG_PATH,
-		DISCOVERY_HOME_PATH,
+		HOME_PATH,
 		INVALIDATE_SELECTED_ORG,
 		ORGS_PATH,
 		ORGS_SELECT_PATH
@@ -43,7 +43,7 @@
 		const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
 		selectedOrg && orgStore.setOrganization(publicId);
 		if (PUBLIC_DISCOVERY_ENABLED) {
-			goto(DISCOVERY_HOME_PATH);
+			goto(HOME_PATH);
 		} else {
 			goto(ORGS_PATH);
 		}
@@ -53,7 +53,7 @@
 
 	afterNavigate(({ from }) => {
 		if (from?.url.pathname.includes(ORGS_SELECT_PATH)) {
-			previousPage = PUBLIC_DISCOVERY_ENABLED ? DISCOVERY_HOME_PATH : ORGS_PATH;
+			previousPage = PUBLIC_DISCOVERY_ENABLED ? HOME_PATH : ORGS_PATH;
 		} else {
 			previousPage = from?.url.pathname || previousPage;
 		}

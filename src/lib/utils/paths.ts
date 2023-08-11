@@ -6,28 +6,26 @@ export const INVALIDATED_SIGN_IN_PATH = `/sign-in?${INVALIDATE_QUERY_PARAMETER_N
 export const NOT_FOUND_PATH = '/not-found';
 export const ERROR_PATH = '/error';
 export const AUTH_ERROR_PATH = '/auth-error';
-export const APP_PATH = '/app';
-export const ORGS_PATH = '/app/org';
-export const ORGS_SELECT_PATH = '/app/org/select';
+export const HOME_PATH = '/';
+export const ORGS_PATH = '/org';
+export const ORGS_SELECT_PATH = '/org/select';
 export const ORGS_SELECT_PATH_WITH_INVALIDATE = `${ORGS_SELECT_PATH}?${INVALIDATE_SELECTED_ORG}`;
-export const CREATE_ORG_PATH = '/app/org/new';
-export const ACCOUNT_PATH = '/app/account';
-export const API_KEYS_PATH = '/app/account/api-keys';
-export const DISCOVERY_HOME_PATH = '/discovery/home';
-export const DISCOVERY_PATH = '/discovery';
-export const INTEGRATIONS_PATH = '/app/account/integrations';
+export const CREATE_ORG_PATH = '/org/new';
+export const ACCOUNT_PATH = '/account';
+export const API_KEYS_PATH = '/org/api';
+export const DISCOVERY_PATH = '/explore';
+export const INTEGRATIONS_PATH = '/org/integrations';
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
 	NOT_FOUND_PATH,
 	ERROR_PATH,
 	AUTH_ERROR_PATH,
-	APP_PATH,
+	HOME_PATH,
 	ORGS_PATH,
 	CREATE_ORG_PATH,
 	ACCOUNT_PATH,
 	API_KEYS_PATH,
-	DISCOVERY_HOME_PATH,
 	DISCOVERY_PATH,
 	INTEGRATIONS_PATH
 ] as const;
