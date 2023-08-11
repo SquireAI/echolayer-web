@@ -50,8 +50,7 @@
 		{/each}
 	{/if}
 	{#if !hasTokens}
-		<div class="flex justify-center p-6 my-6 gap-x-2 items-center">
-			<DisabledKey class="h-4" />
+		<div class="flex justify-center p-2 items-center">
 			<p class="text-neutral-500">You do not have any access tokens.</p>
 		</div>
 	{/if}
