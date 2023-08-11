@@ -11,7 +11,9 @@
 </script>
 
 <div
-	class="flex items-center justify-start w-full lg:gap-x-4 rounded-md px-4 py-2 bg-echolayer-green-100/20"
+	class={`flex items-center justify-start w-full lg:gap-x-4 rounded-md px-4 py-2 ${
+		isNew ? 'bg-echolayer-green-100/20' : 'bg-transparent'
+	}`}
 >
 	<div class="hidden sm:hidden lg:flex flex-col gap-y-3 shrink-0">
 		<Key {isNew} />

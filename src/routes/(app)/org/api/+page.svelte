@@ -76,6 +76,7 @@
 			}
 		} catch (error) {
 			isErrorDeletingToken = true;
+			throw error;
 		} finally {
 			isDeleting = false;
 		}
