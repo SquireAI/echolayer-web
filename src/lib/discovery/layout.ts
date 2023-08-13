@@ -8,6 +8,7 @@ import {
 	type NodeMetadata,
 	type RelationGraphEntity
 } from '$lib/types';
+import _ from 'lodash';
 import type { ComponentType } from 'svelte';
 import { getConnectionForNode } from './components/anchors';
 import ComponentEntityNode from './components/node/ComponentEntityNode.svelte';
@@ -117,7 +118,8 @@ export function layout(
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
 	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		return nodes.map((node) => [node.publicId, nodesMap.get(node.publicId)!]);
+		const uniqueNodes = _.uniqBy(nodes, 'publicId');
+		return uniqueNodes.map((node) => [node.publicId, nodesMap.get(node.publicId)!]);
 	});
 	return leveled;
 }
