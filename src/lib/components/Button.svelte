@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import type { HTMLAttributeAnchorTarget } from 'svelte/elements';
+	import Loader from '$lib/components/Loader.svelte';
 
 	export let href: string | undefined = undefined;
 	export let full: boolean | undefined = false;
@@ -9,6 +10,7 @@
 	let clazz = '';
 	export { clazz as class };
 	export let disabled = false;
+	export let loading = false;
 	export let target: HTMLAttributeAnchorTarget = '_self';
 
 	export let handleClick: () => Promise<void> = async () => {
@@ -16,7 +18,7 @@
 	};
 
 	const baseButtonClassNames =
-		'inline-flex justify-center font-medium text-sm cursor-pointer text-center rounded leading-4';
+		'inline-flex items-center justify-center font-medium text-sm cursor-pointer text-center rounded leading-4';
 	let buttonClasses = `${baseButtonClassNames}`;
 	if (type === 'button' || type === 'primary') {
 		buttonClasses = `${buttonClasses} bg-echolayer-blue border radius-4 border-white text-white px-8 py-3 ${clazz} ${
@@ -45,7 +47,7 @@
 	}
 
 	async function clickHandler(): Promise<boolean> {
-		if (!disabled) {
+		if (!disabled && !loading) {
 			await handleClick();
 			// if there's a link and it's not to open in a new tab / window, pass it to `goto`
 			// `goto` can also handle fully-qualified links so long as target isn't `_blank`
@@ -60,15 +62,22 @@
 </script>
 
 {#if !href}
-	<button on:click={clickHandler} class={`${buttonClasses} ${full ? 'w-full' : ''}`}
-		><slot /></button
-	>
+	<button on:click={clickHandler} class={`${buttonClasses} ${full ? 'w-full' : ''}`}>
+		{#if loading}
+			<Loader classes="mr-2" />
+			Loading
+		{:else}
+			<slot />
+		{/if}
+	</button>
 {:else}
 	<a
 		{href}
 		data-sveltekit-preload-data="hover"
 		on:click={clickHandler}
 		class={`${buttonClasses} ${full ? 'w-full' : ''}`}
-		{target}><slot /></a
+		{target}
 	>
+		<slot />
+	</a>
 {/if}
