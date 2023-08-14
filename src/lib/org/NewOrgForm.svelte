@@ -12,6 +12,9 @@
 	let apiError: boolean;
 	$: apiError = false;
 
+	let loading: boolean;
+	$: loading = false;
+
 	async function handleNameChange(e: Event) {
 		const target = e.target as HTMLInputElement;
 		orgName = target.value;
@@ -22,15 +25,25 @@
 	}
 
 	async function onSubmit() {
-		apiError = false;
+		// Validate form
 		if (orgName.trim().length === 0) {
 			formError = true;
+			loading = false;
 			return;
 		}
+
+		// One submission at a time
+		if (loading) {
+			return;
+		}
+		loading = true;
+
+		apiError = false;
 		try {
 			await handleSubmit(orgName);
 		} catch (error) {
 			apiError = true;
+			loading = false;
 		}
 	}
 
@@ -64,7 +77,9 @@
 		{/if}
 	</div>
 	<div class="w-full">
-		<Button type="primary" handleClick={onSubmit} full>Create organization</Button>
+		<Button class="h-10" type="primary" bind:loading handleClick={onSubmit} full
+			>Create organization</Button
+		>
 		{#if apiError}
 			<p class={`text-echolayer-red text-sm mt-2`}>
 				"Failed to create organization, please try again."
