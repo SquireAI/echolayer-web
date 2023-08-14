@@ -10,12 +10,38 @@
 	let clazz = '';
 	export { clazz as class };
 	export let disabled = false;
-	export let loading = false;
+	export let loading: boolean | undefined = undefined;
 	export let target: HTMLAttributeAnchorTarget = '_self';
 
 	export let handleClick: () => Promise<void> = async () => {
 		return;
 	};
+
+	async function clickHandler(): Promise<boolean> {
+		if (!disabled && !loading) {
+			// Initiate loading
+			toggleLoading();
+
+			// Call parent
+			await handleClick();
+			// if there's a link and it's not to open in a new tab / window, pass it to `goto`
+			// `goto` can also handle fully-qualified links so long as target isn't `_blank`
+			if (href && target !== '_blank') {
+				await goto(href);
+			}
+		}
+		// if there's a href that is to open in a new tab / window, we return true so the click event
+		// can continue on and let the anchor element change the window location in a new tab / window
+		return true;
+	}
+
+	function toggleLoading(): void {
+		// Check parent is set
+		if (loading === undefined) {
+			return;
+		}
+		loading = !loading;
+	}
 
 	const baseButtonClassNames =
 		'inline-flex items-center justify-center font-medium text-sm cursor-pointer text-center rounded leading-4';
@@ -44,20 +70,6 @@
 		buttonClasses = `flex flex-row text-sm cursor-pointer font-medium bg-white text-neutral-800 p-2 hover:bg-neutral-200 rounded ${clazz} ${
 			disabled ? 'cursor-not-allowed	bg-neutral-500' : ''
 		}`;
-	}
-
-	async function clickHandler(): Promise<boolean> {
-		if (!disabled && !loading) {
-			await handleClick();
-			// if there's a link and it's not to open in a new tab / window, pass it to `goto`
-			// `goto` can also handle fully-qualified links so long as target isn't `_blank`
-			if (href && target !== '_blank') {
-				await goto(href);
-			}
-		}
-		// if there's a href that is to open in a new tab / window, we return true so the click event
-		// can continue on and let the anchor element change the window location in a new tab / window
-		return true;
 	}
 </script>
 

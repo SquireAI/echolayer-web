@@ -25,17 +25,20 @@
 	}
 
 	async function onSubmit() {
-		apiError = false;
-
 		// Validate form
 		if (orgName.trim().length === 0) {
 			formError = true;
+			loading = false;
 			return;
 		}
 
 		// One submission at a time
-		if (loading) return;
+		if (loading) {
+			return;
+		}
 		loading = true;
+
+		apiError = false;
 		try {
 			await handleSubmit(orgName);
 		} catch (error) {
@@ -74,7 +77,7 @@
 		{/if}
 	</div>
 	<div class="w-full">
-		<Button class="h-10" type="primary" {loading} handleClick={onSubmit} full
+		<Button class="h-10" type="primary" bind:loading handleClick={onSubmit} full
 			>Create organization</Button
 		>
 		{#if apiError}
