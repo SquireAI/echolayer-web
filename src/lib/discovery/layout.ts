@@ -98,6 +98,7 @@ export function layout(
 
 		// Set the target nodes to be the source nodes for the next iteration
 		sourceNodes = targetNodes.filter((targetNode) => !visitedNodeIds.has(targetNode.publicId));
+		sourceNodes = _.uniqBy(sourceNodes, 'publicId');
 	}
 
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
@@ -118,8 +119,7 @@ export function layout(
 	// We need to return a collection of rows of nodes, starting from the top down
 	// This is needed so that svelvet can properly render edges from source to target
 	const leveled: LeveledNodeLayout = rowNodes.map((nodes) => {
-		const uniqueNodes = _.uniqBy(nodes, 'publicId');
-		return uniqueNodes.map((node) => [node.publicId, nodesMap.get(node.publicId)!]);
+		return nodes.map((node) => [node.publicId, nodesMap.get(node.publicId)!]);
 	});
 	return leveled;
 }
