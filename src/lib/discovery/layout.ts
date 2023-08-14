@@ -8,6 +8,7 @@ import {
 	type NodeMetadata,
 	type RelationGraphEntity
 } from '$lib/types';
+import _ from 'lodash';
 import type { ComponentType } from 'svelte';
 import { getConnectionForNode } from './components/anchors';
 import ComponentEntityNode from './components/node/ComponentEntityNode.svelte';
@@ -97,6 +98,7 @@ export function layout(
 
 		// Set the target nodes to be the source nodes for the next iteration
 		sourceNodes = targetNodes.filter((targetNode) => !visitedNodeIds.has(targetNode.publicId));
+		sourceNodes = _.uniqBy(sourceNodes, 'publicId');
 	}
 
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
