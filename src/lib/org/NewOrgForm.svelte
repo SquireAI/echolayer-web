@@ -40,6 +40,7 @@
 			await handleSubmit(orgName);
 		} catch (error) {
 			apiError = true;
+			loading = false;
 		}
 	}
 
