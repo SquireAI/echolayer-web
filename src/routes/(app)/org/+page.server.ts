@@ -20,12 +20,12 @@ export type OrgDetailsPageData = {
 };
 
 export const load = (async ({ cookies, fetch }): Promise<OrgDetailsPageData | undefined> => {
+	const context = getHttpContext(fetch, cookies);
+
+	// Check if user has an organization
+	const org = await orgRequired(context);
+
 	try {
-		const context = getHttpContext(fetch, cookies);
-
-		// Check if user has an organization
-		const org = await orgRequired(context);
-
 		let user: User | undefined;
 		let orgs: Organization[] | undefined;
 		let components: ComponentEntity[] | undefined;

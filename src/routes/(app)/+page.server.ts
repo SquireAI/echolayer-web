@@ -8,6 +8,8 @@ import { orgRequired } from '$lib/utils/access';
 export const load = (async ({ cookies, fetch }): Promise<TeamAndComponentData> => {
 	const context = getHttpContext(fetch, cookies);
 
+	const org = await orgRequired(context);
+
 	const teamApi = new TeamApi(context);
 	const componentApi = new ComponentApi(context);
 
@@ -16,6 +18,7 @@ export const load = (async ({ cookies, fetch }): Promise<TeamAndComponentData> =
 
 	return {
 		...(teams && { teams }),
-		...(components && { components })
+		...(components && { components }),
+		...(org && { org })
 	};
 }) satisfies PageServerLoad;
