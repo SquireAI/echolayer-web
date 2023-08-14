@@ -5,7 +5,7 @@
 	import type { SelectedOrganizationStore } from '$lib/types';
 	import { ORGS_SELECT_PATH } from '$lib/utils/paths';
 	import { getContext } from 'svelte';
-	import SwapHorizontal from 'svelte-material-icons/SwapHorizontal.svelte';
+	import SwapHorizontalIcon from 'svelte-material-icons/SwapHorizontal.svelte';
 
 	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
@@ -36,7 +36,7 @@
 				<p class="font-medium leading-5">Select organization...</p>
 			{/if}
 		</span>
-		<SwapHorizontal
+		<SwapHorizontalIcon
 			height="24"
 			width="24"
 			class={`
