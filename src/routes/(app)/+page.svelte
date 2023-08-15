@@ -7,6 +7,7 @@
 	import Key from 'svelte-material-icons/Key.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import ScriptTextOutline from 'svelte-material-icons/ScriptTextOutline.svelte';
+	import AlertCircleIcon from 'svelte-material-icons/AlertCircle.svelte';
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
 	import TabTitle from '$lib/components/tabs/TabTitle.svelte';
 	import TabSwitch from '$lib/components/tabs/TabSwitch.svelte';
@@ -33,6 +34,7 @@
 	}
 	let issues: Issue[] = [];
 	$: issues = data.issues || [];
+	$: hasIssues = issues && issues.length > 0;
 </script>
 
 <Panels>
@@ -51,28 +53,40 @@
 						access your recent or favorite components, and some tips on how to use EchoLayer better.
 					</p>
 				</div>
-				<div>
-					<dl class="flex flex-col gap-4">
+				<div class="flex flex-col gap-4">
+					<h3 class="text-md font-normal text-neutral-800">Stats</h3>
+					<dl class="flex flex-col divide-y divide-neutral-200">
 						{#if $teamStore.entity}
-							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
-								<div class="flex-1 truncate text-md font-medium text-gray-500">Teams</div>
-								<div class="text-md font-semibold tracking-tight text-gray-900">
+							<div class="flex flex-row items-center rounded py-3">
+								<div class="flex-1 truncate text-sm font-medium text-neutral-500">Teams</div>
+								<div class="text-sm font-semibold tracking-tight text-neutral-900">
 									{$teamStore.entity.length}
 								</div>
 							</div>
 						{/if}
 						{#if $componentStore.entity}
-							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
-								<div class="flex-1 truncate text-md font-medium text-gray-500">Components</div>
-								<div class="text-md font-semibold tracking-tight text-gray-900">
+							<div class="flex flex-row items-center rounded py-3">
+								<div class="flex-1 truncate text-sm font-medium text-neutral-500">Components</div>
+								<div class="text-sm font-semibold tracking-tight text-neutral-900">
 									{$componentStore.entity.length}
 								</div>
 							</div>
 						{/if}
 						{#if issues}
-							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
-								<div class="flex-1 truncate text-md font-medium text-gray-500">Issues</div>
-								<div class="text-md font-semibold tracking-tight text-gray-900">
+							<div class="flex flex-row items-center rounded py-3">
+								<div
+									class="flex-1 flex flex-row items-center gap-1 truncate text-sm font-medium {hasIssues
+										? 'text-echolayer-yellow-900'
+										: 'text-neutral-500'}"
+								>
+									Issues
+									{#if hasIssues}<AlertCircleIcon />{/if}
+								</div>
+								<div
+									class="text-sm font-semibold tracking-tight {hasIssues
+										? 'text-echolayer-yellow-900'
+										: 'text-neutral-900'}"
+								>
 									{issues.length}
 								</div>
 							</div>
