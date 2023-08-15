@@ -10,12 +10,13 @@
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
 	import TabTitle from '$lib/components/tabs/TabTitle.svelte';
 	import TabSwitch from '$lib/components/tabs/TabSwitch.svelte';
-	import type { ComponentStore, TeamAndComponentData, TeamStore } from '$lib/types';
+	import type { ComponentStore, Issue, TeamStore } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, TEAM_STORE_NAME, homeTabStore } from '$lib/stores';
 	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
+	import type { HomePageData } from './+page.server';
 
-	export let data: TeamAndComponentData;
+	export let data: HomePageData;
 
 	let tabs = ['teams', 'components'];
 	let tabTitles = ['Team Catalog', 'Component Catalog'];
@@ -30,6 +31,8 @@
 	if (data.teams) {
 		teamStore.setTeams(data.teams);
 	}
+	let issues: Issue[] = [];
+	$: issues = data.issues || [];
 </script>
 
 <Panels>
@@ -44,10 +47,37 @@
 					<EchoLayerLogo />
 					<h1 class="text-2xl leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
 					<p class="text-md text-neutral-400">
-						Select a team, person, or object to view connections and more information. The home lets
-						you access your recent or favorite components, and some tips on how to use EchoLayer
-						better.
+						Select a team, person, or object to view connections and more information. Home lets you
+						access your recent or favorite components, and some tips on how to use EchoLayer better.
 					</p>
+				</div>
+				<div>
+					<dl class="flex flex-col gap-4">
+						{#if $teamStore.entity}
+							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
+								<div class="flex-1 truncate text-md font-medium text-gray-500">Teams</div>
+								<div class="text-md font-semibold tracking-tight text-gray-900">
+									{$teamStore.entity.length}
+								</div>
+							</div>
+						{/if}
+						{#if $componentStore.entity}
+							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
+								<div class="flex-1 truncate text-md font-medium text-gray-500">Components</div>
+								<div class="text-md font-semibold tracking-tight text-gray-900">
+									{$componentStore.entity.length}
+								</div>
+							</div>
+						{/if}
+						{#if issues}
+							<div class="flex flex-row items-center rounded bg-white px-3 py-2">
+								<div class="flex-1 truncate text-md font-medium text-gray-500">Issues</div>
+								<div class="text-md font-semibold tracking-tight text-gray-900">
+									{issues.length}
+								</div>
+							</div>
+						{/if}
+					</dl>
 				</div>
 				<div class="flex flex-col gap-4">
 					<h3 class="text-md font-normal text-neutral-800">Tips</h3>
@@ -58,7 +88,7 @@
 						href={API_KEYS_PATH}
 					>
 						<IconBox Icon={Key} />
-						View our API keys panel
+						View API keys panel
 					</Button>
 					<Button
 						type="flat"
