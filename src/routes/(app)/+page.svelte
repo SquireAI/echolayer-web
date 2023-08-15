@@ -7,15 +7,17 @@
 	import Key from 'svelte-material-icons/Key.svelte';
 	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
 	import ScriptTextOutline from 'svelte-material-icons/ScriptTextOutline.svelte';
+	import AlertCircleIcon from 'svelte-material-icons/AlertCircle.svelte';
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
 	import TabTitle from '$lib/components/tabs/TabTitle.svelte';
 	import TabSwitch from '$lib/components/tabs/TabSwitch.svelte';
-	import type { ComponentStore, TeamAndComponentData, TeamStore } from '$lib/types';
+	import type { ComponentStore, Issue, TeamStore } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, TEAM_STORE_NAME, homeTabStore } from '$lib/stores';
 	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
+	import type { HomePageData } from './+page.server';
 
-	export let data: TeamAndComponentData;
+	export let data: HomePageData;
 
 	let tabs = ['teams', 'components'];
 	let tabTitles = ['Team Catalog', 'Component Catalog'];
@@ -30,6 +32,9 @@
 	if (data.teams) {
 		teamStore.setTeams(data.teams);
 	}
+	let issues: Issue[] = [];
+	$: issues = data.issues || [];
+	$: hasIssues = issues && issues.length > 0;
 </script>
 
 <Panels>
@@ -44,10 +49,49 @@
 					<EchoLayerLogo />
 					<h1 class="text-2xl leading-6 font-medium text-neutral-800">Welcome to EchoLayer!</h1>
 					<p class="text-md text-neutral-400">
-						Select a team, person, or object to view connections and more information. The home lets
-						you access your recent or favorite components, and some tips on how to use EchoLayer
-						better.
+						Select a team, person, or object to view connections and more information. Home lets you
+						access your recent or favorite components, and some tips on how to use EchoLayer better.
 					</p>
+				</div>
+				<div class="flex flex-col gap-4">
+					<h3 class="text-md font-normal text-neutral-800">Stats</h3>
+					<dl class="flex flex-col divide-y divide-neutral-200">
+						{#if $teamStore.entity}
+							<div class="flex flex-row items-center rounded py-3">
+								<div class="flex-1 truncate text-sm font-medium text-neutral-500">Teams</div>
+								<div class="text-sm font-semibold tracking-tight text-neutral-900">
+									{$teamStore.entity.length}
+								</div>
+							</div>
+						{/if}
+						{#if $componentStore.entity}
+							<div class="flex flex-row items-center rounded py-3">
+								<div class="flex-1 truncate text-sm font-medium text-neutral-500">Components</div>
+								<div class="text-sm font-semibold tracking-tight text-neutral-900">
+									{$componentStore.entity.length}
+								</div>
+							</div>
+						{/if}
+						{#if issues}
+							<div class="flex flex-row items-center rounded py-3">
+								<div
+									class="flex-1 flex flex-row items-center gap-1 truncate text-sm font-medium {hasIssues
+										? 'text-echolayer-yellow-900'
+										: 'text-neutral-500'}"
+								>
+									Issues
+									{#if hasIssues}<AlertCircleIcon />{/if}
+								</div>
+								<div
+									class="text-sm font-semibold tracking-tight {hasIssues
+										? 'text-echolayer-yellow-900'
+										: 'text-neutral-900'}"
+								>
+									{issues.length}
+								</div>
+							</div>
+						{/if}
+					</dl>
 				</div>
 				<div class="flex flex-col gap-4">
 					<h3 class="text-md font-normal text-neutral-800">Tips</h3>
@@ -58,7 +102,7 @@
 						href={API_KEYS_PATH}
 					>
 						<IconBox Icon={Key} />
-						View our API keys panel
+						View API keys panel
 					</Button>
 					<Button
 						type="flat"
