@@ -19,9 +19,6 @@
 
 	async function clickHandler(): Promise<boolean> {
 		if (!disabled && !loading) {
-			// Initiate loading
-			toggleLoading();
-
 			// Call parent
 			await handleClick();
 			// if there's a link and it's not to open in a new tab / window, pass it to `goto`
@@ -33,14 +30,6 @@
 		// if there's a href that is to open in a new tab / window, we return true so the click event
 		// can continue on and let the anchor element change the window location in a new tab / window
 		return true;
-	}
-
-	function toggleLoading(): void {
-		// Check parent is set
-		if (loading === undefined) {
-			return;
-		}
-		loading = !loading;
 	}
 
 	const baseButtonClassNames =
