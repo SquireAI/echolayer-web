@@ -9,6 +9,7 @@
 		organizationsStore
 	} from '$lib/stores';
 	import { page } from '$app/stores';
+	import Modal from '$lib/components/modal/Modal.svelte';
 
 	// Set basic context's at root level layout - all routes will have access to these stores
 	// Without being at the root, we can end up overwriting filled stores with empty stores.
@@ -31,3 +32,4 @@
 </script>
 
 <slot />
+<Modal />
