@@ -87,11 +87,11 @@
         </div>
         {:else}
             {#each (invites || []) as invite (invite.publicId)}
-                <div class="flex flex-row justify-between py-3 gap-2">
-                    <div class="border-l-4 border-neutral-400 pl-4 py-2 flex flex-row w-full justify-between pr-4">
+                <div class="flex flex-row justify-between py-1 gap-2">
+                    <div class="border-l-4 border-neutral-300 pl-4 py-2 flex flex-row w-full justify-between pr-4">
                         <div class="text-neutral-800 flex flex-row items-center justify-center gap-1 ">
                             <EmailIcon width=20 height=20 class="text-neutral-400" />
-                            <p></p>{invite.invitedEmail}
+                            {invite.invitedEmail}
                         </div>
                         <Button type="grey" handleClick={() => handleRevoke(invite.publicId)}>
                             <span class="flex flex-row gap-2 justify-center items-center">
