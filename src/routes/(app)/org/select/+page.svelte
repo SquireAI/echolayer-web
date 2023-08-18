@@ -1,7 +1,17 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
-	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import type {
+		SelectedOrganizationStore,
+		OrganizationsStore,
+		UserStore,
+		UserInvitationStore
+	} from '$lib/types';
+	import {
+		ORGS_STORE_NAME,
+		SELECTED_ORG_STORE_NAME,
+		USER_INVITATION_STORE_NAME,
+		USER_STORE_NAME
+	} from '$lib/stores';
 	import Panels from '$lib/discovery/panels.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import { afterNavigate, goto } from '$app/navigation';
@@ -19,6 +29,9 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import OrgItem from '$lib/org/OrgItem.svelte';
+	import type { OrgsLayoutLoad } from './+page';
+	import OrgInvitationItem from '$lib/org/OrgInvitationItem.svelte';
+	export let data: OrgsLayoutLoad;
 
 	onMount(() => {
 		if ($page.url.searchParams.has(INVALIDATE_SELECTED_ORG)) {
@@ -35,13 +48,38 @@
 	let orgStore: SelectedOrganizationStore;
 	orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
-	$: hasOrgs = $orgsStore.entity !== undefined && $orgsStore.entity.length > 0;
+	let userInvitationStore: UserInvitationStore;
+	userInvitationStore = getContext(USER_INVITATION_STORE_NAME) as UserInvitationStore;
+	userInvitationStore.setInvitations(data.userInvitations);
+
+	$: hasOrgs =
+		($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) ||
+		($userInvitationStore.entity !== undefined && $userInvitationStore.entity.length > 0);
 	$: orgs = $orgsStore.entity;
+	$: invitations = $userInvitationStore.entity;
 
 	const handleSelect = async (publicId: string) => {
 		setOrgCookie(publicId);
 		const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
 		selectedOrg && orgStore.setOrganization(publicId);
+		if (PUBLIC_DISCOVERY_ENABLED) {
+			goto(HOME_PATH);
+		} else {
+			goto(ORGS_PATH);
+		}
+	};
+
+	const handleAcceptInvite = async (publicId: string) => {
+		const invitation = await data.acceptInvitationHandler(publicId);
+		setOrgCookie(invitation.organization.publicId);
+		userInvitationStore.setInvitations(
+			$userInvitationStore.entity?.filter((inv) => inv.publicId !== publicId) || []
+		);
+		orgsStore.addOrganization(invitation.organization);
+		const selectedOrg = $orgsStore.entity?.find(
+			(org) => org.publicId === invitation.organization.publicId
+		);
+		selectedOrg && orgStore.setOrganization(invitation.organization.publicId);
 		if (PUBLIC_DISCOVERY_ENABLED) {
 			goto(HOME_PATH);
 		} else {
@@ -68,6 +106,10 @@
 				<p>Loading...</p>
 			{:else if $orgsStore.error}
 				<p>Error...</p>
+			{:else if $userInvitationStore.loading}
+				<p>Loading...</p>
+			{:else if $userInvitationStore.error}
+				<p>Error...</p>
 			{:else if hasOrgs}
 				<div class="flex flex-col gap-6 min-w-[400px]">
 					<div class="flex flex-col items-center">
@@ -77,6 +119,9 @@
 					<div class="flex flex-col gap-3">
 						{#each orgs || [] as org}
 							<OrgItem organization={org} {handleSelect} />
+						{/each}
+						{#each invitations || [] as invitation}
+							<OrgInvitationItem {invitation} handleSelect={handleAcceptInvite} />
 						{/each}
 					</div>
 					<div class="flex flex-row w-full gap-6">

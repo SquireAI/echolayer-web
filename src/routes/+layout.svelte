@@ -6,7 +6,9 @@
 		selectedOrgStore,
 		userStore,
 		ORGS_STORE_NAME,
-		organizationsStore
+		organizationsStore,
+		USER_INVITATION_STORE_NAME,
+		userInvitationStore
 	} from '$lib/stores';
 	import { page } from '$app/stores';
 
@@ -15,6 +17,7 @@
 	setContext(USER_STORE_NAME, userStore);
 	setContext(SELECTED_ORG_STORE_NAME, selectedOrgStore);
 	setContext(ORGS_STORE_NAME, organizationsStore);
+	setContext(USER_INVITATION_STORE_NAME, userInvitationStore);
 
 	// If data exists when loading the page, load the stores with the data
 	if ($page.data?.orgs) {
@@ -27,6 +30,10 @@
 
 	if ($page.data?.user) {
 		userStore.setUser($page.data.user);
+	}
+
+	if ($page.data?.userInvitations) {
+		userInvitationStore.setInvitations($page.data.userInvitations);
 	}
 </script>
 

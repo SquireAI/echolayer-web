@@ -1,19 +1,21 @@
-import { type HttpError, error } from '@sveltejs/kit';
-import { OrganizationApi } from '$lib/api/organization.js';
 import { AuthApi } from '$lib/api/auth.js';
-import { getCookies, normalizeCookie, setServerOrgCookie } from '$lib/utils/cookies.js';
-import { createHeaders, getHttpContext } from '$lib/http/context.js';
-import type { PageServerLoad } from './$types';
+import { InvitationUserApi } from '$lib/api/invitaion-user';
+import { OrganizationApi } from '$lib/api/organization.js';
 import { UserApi } from '$lib/api/user.js';
-import { ErrorMessageTypes } from '$lib/error/index.js';
-import type { Organization, User } from '$lib/types';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
+import { ErrorMessageTypes } from '$lib/error/index.js';
+import { getHttpContext } from '$lib/http/context.js';
+import type { Invitation, Organization, User } from '$lib/types';
+import { getCookies, normalizeCookie, setServerOrgCookie } from '$lib/utils/cookies.js';
+import { error, type HttpError } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 export const load = (async ({ cookies, fetch, url }) => {
 	const code = url.searchParams.get('code');
 	let orgs: Organization[] | undefined;
 	let org: Organization | undefined;
 	let user: User | undefined;
+	let userInvitations: Invitation[] | undefined;
 	if (!code) {
 		throw error(404, { message: ErrorMessageTypes.GITHUB_OAUTH_CODE });
 	}
@@ -32,6 +34,7 @@ export const load = (async ({ cookies, fetch, url }) => {
 	try {
 		context = getHttpContext(fetch, cookies);
 		orgs = await new OrganizationApi(context).list();
+		userInvitations = await new InvitationUserApi(context).list({ pending: true });
 		if (orgs?.length > 0) {
 			if (context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
 				org = orgs.find((org) => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
@@ -49,5 +52,5 @@ export const load = (async ({ cookies, fetch, url }) => {
 		throw error(404, { message: ErrorMessageTypes.GENERIC });
 	}
 
-	return { orgs, user, org };
+	return { orgs, user, org, userInvitations };
 }) satisfies PageServerLoad;

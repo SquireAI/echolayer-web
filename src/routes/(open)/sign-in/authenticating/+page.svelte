@@ -2,15 +2,19 @@
 	import { getContext } from 'svelte';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
-	import {
-		CREATE_ORG_PATH,
-		HOME_PATH,
-		ORGS_SELECT_PATH,
-		ORGS_PATH
-	} from '$lib/utils/paths';
+	import type {
+		SelectedOrganizationStore,
+		OrganizationsStore,
+		UserStore,
+		UserInvitationStore
+	} from '$lib/types';
+	import { CREATE_ORG_PATH, HOME_PATH, ORGS_SELECT_PATH, ORGS_PATH } from '$lib/utils/paths';
 	import { ORGS_STORE_NAME } from '$lib/stores/orgs-store';
-	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import {
+		SELECTED_ORG_STORE_NAME,
+		USER_INVITATION_STORE_NAME,
+		USER_STORE_NAME
+	} from '$lib/stores';
 	import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 	import { setOrgCookie } from '$lib/utils/cookies';
 
@@ -23,9 +27,20 @@
 	let orgStore: SelectedOrganizationStore;
 	orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
+	let userInvitationStore: UserInvitationStore;
+	userInvitationStore = getContext(USER_INVITATION_STORE_NAME) as UserInvitationStore;
+
 	$: if (browser) {
-		if (!$orgsStore.loading && !$orgsStore.error) {
-			if ($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) {
+		if (
+			!$orgsStore.loading &&
+			!$orgsStore.error &&
+			!$userInvitationStore.loading &&
+			!$userInvitationStore.error
+		) {
+			if (
+				($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) ||
+				($userInvitationStore.entity !== undefined && $userInvitationStore.entity.length > 0)
+			) {
 				if (PUBLIC_MULTI_ORG_ENABLED === 'true' && PUBLIC_DISCOVERY_ENABLED === 'true') {
 					if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
 						goto(HOME_PATH);
@@ -33,7 +48,12 @@
 						goto(ORGS_SELECT_PATH);
 					}
 				} else {
-					if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
+					if (
+						$orgStore.entity !== undefined &&
+						$orgStore.entity.publicId !== undefined &&
+						$orgsStore.entity !== undefined &&
+						$orgsStore.entity.length > 0
+					) {
 						// We don't allow the user to set a specific org, so just take the first one.
 						const firstOrgPublicId = $orgsStore.entity[0].publicId;
 						orgStore.setOrganization(firstOrgPublicId);

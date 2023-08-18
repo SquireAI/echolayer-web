@@ -31,7 +31,6 @@ export interface TeamEntity extends BaseEntity {
 }
 
 export type Organization = {
-	id: number;
 	publicId: string;
 	name: string;
 	publicName: string;
@@ -51,6 +50,13 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	type: EntityTypes.COMPONENT;
 	organizationId: number;
+}
+
+export interface Invitation {
+	publicId: string;
+	invitedEmail: string;
+	organization: Organization;
+	pending: boolean;
 }
 
 export const EntityRelationshipNames = {
@@ -118,6 +124,7 @@ export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
 export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
 export type StoreSelectedEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreHomeTabIndex = BaseStoreEntity<number>;
+export type StoreUserInvitationsEntity = BaseStoreEntity<Invitation[]>;
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -168,6 +175,10 @@ export interface SelectedStore extends BaseStore<GraphedEntity, StoreSelectedEnt
 
 export interface HomeTabStore extends BaseStore<number, StoreHomeTabIndex> {
 	setHomeTabIndex: (index: number) => void;
+}
+
+export interface UserInvitationStore extends BaseStore<Invitation[], StoreUserInvitationsEntity> {
+	setInvitations: (invitations: Invitation[]) => void;
 }
 
 export type BaseContextData = {
