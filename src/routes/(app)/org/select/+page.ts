@@ -1,20 +1,15 @@
 import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
+import { InvitationUserApi } from '$lib/api/invitaion-user';
 import { OrganizationApi } from '$lib/api/organization';
 import { UserApi } from '$lib/api/user';
 import { ORGANIZATION_ID_COOKIE_NAME } from '$lib/constants';
 import { ErrorMessageTypes } from '$lib/error';
 import { createDefaultContext } from '$lib/http/context';
-import type { Organization, User } from '$lib/types';
-import { authRequired, orgRequired } from '$lib/utils/access';
-import {
-	CREATE_ORG_PATH,
-	HOME_PATH,
-	INVALIDATED_SIGN_IN_PATH,
-	ORGS_PATH
-} from '$lib/utils/paths';
-import {} from '$lib/utils/redirects';
+import type { Invitation, Organization, User } from '$lib/types';
+import { authRequired } from '$lib/utils/access';
+import { CREATE_ORG_PATH, HOME_PATH, INVALIDATED_SIGN_IN_PATH, ORGS_PATH } from '$lib/utils/paths';
+import { error, redirect, type HttpError } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-import { type HttpError, error, redirect } from '@sveltejs/kit';
 
 export interface OrgsLayoutLoad {
 	orgs: Organization[];
@@ -23,6 +18,8 @@ export interface OrgsLayoutLoad {
 	 */
 	org?: Organization;
 	user: User;
+	userInvitations: Invitation[];
+	acceptInvitationHandler: (publicId: string) => Promise<Invitation>;
 }
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> => {
@@ -37,11 +34,13 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 	let orgs: Organization[] | undefined;
 	let org: Organization | undefined;
 	let user: User | undefined;
+	let userInvitations: Invitation[] | undefined;
 
 	await authRequired(context);
 	try {
 		orgs = await new OrganizationApi(context).list();
-		if (orgs.length === 0) {
+		userInvitations = await new InvitationUserApi(context).list({ pending: true });
+		if (orgs.length === 0 && userInvitations.length === 0) {
 			throw redirect(307, CREATE_ORG_PATH);
 		}
 
@@ -54,5 +53,8 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 		}
 		throw error(404, { message: ErrorMessageTypes.GENERIC });
 	}
-	return { orgs, user, org };
+	const acceptInvitationHandler = async (publicId: string): Promise<Invitation> => {
+		return await new InvitationUserApi(context).update(publicId, {});
+	};
+	return { orgs, user, org, userInvitations, acceptInvitationHandler };
 }) satisfies PageLoad;

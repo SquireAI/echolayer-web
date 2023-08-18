@@ -13,6 +13,7 @@ import { ErrorMessageTypes } from '$lib/error';
 import type { httpContext } from '$lib/http/context';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
+import { InvitationUserApi } from '$lib/api/invitaion-user';
 
 // User authentication required
 export const authRequired = async (context: httpContext): Promise<boolean> => {
@@ -40,7 +41,10 @@ export const orgRequired = async (context: httpContext): Promise<Organization> =
 
 	// Redirect to create a new org if none exist
 	if (orgs.length < 1) {
-		throw redirect(307, CREATE_ORG_PATH);
+		const invitationsToOrg = await new InvitationUserApi(context).list();
+		if (invitationsToOrg.length == 0) {
+			throw redirect(307, CREATE_ORG_PATH);
+		}
 	}
 
 	if (PUBLIC_MULTI_ORG_ENABLED === 'true' && PUBLIC_DISCOVERY_ENABLED === 'true') {

@@ -8,6 +8,7 @@ import selectedStore, { SELECTED_STORE_NAME } from './selected-store';
 import organizationsStore, { ORGS_STORE_NAME } from './orgs-store';
 import entityDetailsStore, { ENTITY_DETAILS_STORE_NAME } from './entity-details-store';
 import homeTabStore, { HOME_TAB_STORE_NAME } from './home-tab-store';
+import userInvitationStore, { USER_INVITATION_STORE_NAME } from './user-invitation-store';
 
 export function clearStores() {
 	componentStore.clear();
@@ -20,6 +21,7 @@ export function clearStores() {
 	selectedStore.clear();
 	entityDetailsStore.clear();
 	homeTabStore.clear();
+	userInvitationStore.clear();
 }
 
 export {
@@ -42,5 +44,7 @@ export {
 	ENTITY_DETAILS_STORE_NAME,
 	entityDetailsStore,
 	HOME_TAB_STORE_NAME,
-	homeTabStore
+	homeTabStore,
+	USER_INVITATION_STORE_NAME,
+	userInvitationStore
 };
