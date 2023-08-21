@@ -12,7 +12,7 @@
 	import TabTitle from '$lib/components/tabs/TabTitle.svelte';
 	import TabSwitch from '$lib/components/tabs/TabSwitch.svelte';
 	import type { ComponentStore, Issue, TeamStore } from '$lib/types';
-	import { getAllContexts, getContext } from 'svelte';
+	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, TEAM_STORE_NAME, homeTabStore } from '$lib/stores';
 	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
 	import type { HomePageData } from './+page.server';
@@ -35,8 +35,6 @@
 	let issues: Issue[] = [];
 	$: issues = data.issues || [];
 	$: hasIssues = issues && issues.length > 0;
-
-	console.log("+page.svelte", getAllContexts())
 </script>
 
 <Panels>

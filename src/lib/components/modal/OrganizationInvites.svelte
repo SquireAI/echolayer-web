@@ -10,6 +10,9 @@
 	import { ORG_INVITATION_SERVICE_CONTEXT_NAME, type OrgInvitationService } from "$lib/invitation/orgInvite.service";
 	import { onMount } from "svelte";
 	import type { Invitation } from "$lib/types";
+    import * as z from "zod";
+
+    const emailSchema = z.string().email();
 
     const inviteService = getContext(ORG_INVITATION_SERVICE_CONTEXT_NAME) as OrgInvitationService;
 
@@ -37,8 +40,7 @@
             return;
         }
 
-        // TODO: Use Zod to check email format
-        if(!email.includes("@")) {
+        if(!emailSchema.safeParse(email).success) {
             formError = true;
             errorMessage = "Please enter a valid email address";
             return;

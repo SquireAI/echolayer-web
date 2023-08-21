@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DiscoveryLayout from '$lib/layouts/discovery/DiscoveryLayout.svelte';
-	import { getAllContexts, setContext } from 'svelte';
+	import { setContext } from 'svelte';
 	import {
 		COMPONENT_STORE_NAME,
 		componentStore,
