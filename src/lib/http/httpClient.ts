@@ -85,7 +85,14 @@ export class HttpClient {
 		if (resp.ok) {
 			return resp;
 		} else {
-			throw error(resp.status, { message: ErrorMessageTypes.GENERIC });
+			let errorMessage = ErrorMessageTypes.GENERIC;
+			try {
+				const json = await resp.json();
+				errorMessage = json?.message || ErrorMessageTypes.GENERIC;
+			} catch (err) {
+				// No error message provided, use default	
+			}
+			throw error(resp.status, { message: errorMessage });
 		}
 	}
 }

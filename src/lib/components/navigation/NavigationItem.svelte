@@ -2,7 +2,8 @@
 	import { page } from '$app/stores';
 
 	export let name: string;
-	export let href: string;
+	export let href: string | undefined = undefined;
+	export let onClick: (() => void) | undefined = undefined;
 	export let SolidIcon: any;
 	export let OutlineIcon: any;
 	export let reload: true | '' | 'off' | null | undefined = undefined;
@@ -12,7 +13,7 @@
 </script>
 
 <div>
-	<a
+	<svelte:element this={href ? 'a' : 'button'} 
 		class={`hover:bg-gray-200 w-full hover:cursor-pointer rounded-md p-3 
 		${isActive ? 'bg-gray-200 text-neutral-800' : 'text-neutral-400'}
 		${
@@ -22,6 +23,7 @@
 		}
 		flex flex-row gap-3 place-items-center`}
 		{href}
+		on:click={onClick}
 		data-sveltekit-reload={reload}
 		aria-disabled={disabled}
 	>
@@ -31,5 +33,6 @@
 			<svelte:component this={OutlineIcon} width={20} height={20} />
 		{/if}
 		<p class="text-md font-medium leading-4">{name}</p>
-	</a>
+	</svelte:element>
+
 </div>

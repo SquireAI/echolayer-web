@@ -14,6 +14,7 @@ export const ENDPOINT = {
 	issue: 'issue',
 	slack: 'slack-client',
 	invitationUser: 'invitation/user',
+	invitationOrg: 'invitation/org',
 	auth: 'auth',
 	apiKey: 'auth/api-key',
 	user: 'user',

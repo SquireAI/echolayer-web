@@ -13,7 +13,7 @@ import { ErrorMessageTypes } from '$lib/error';
 import type { httpContext } from '$lib/http/context';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
-import { InvitationUserApi } from '$lib/api/invitaion-user';
+import { InvitationUserApi } from '$lib/api/invitation-user';
 
 // User authentication required
 export const authRequired = async (context: httpContext): Promise<boolean> => {
