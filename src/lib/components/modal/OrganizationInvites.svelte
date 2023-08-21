@@ -48,9 +48,9 @@
         try {
             const newInvite = await inviteService.createInvite(email);
             invites = invites.concat([newInvite]);
-        } catch (error) {
+        } catch (error: any) {
             formError = true;
-            errorMessage = "An error occurred while creating the invite";
+            errorMessage = error.body?.message || "An error occurred while creating the invite";
         }
 
         // Reset the form on success
@@ -61,8 +61,8 @@
         try {
             await inviteService.deleteInvite(publicId);
             invites = invites.filter(i => i.publicId !== publicId);
-        } catch (error) {
-            revokeErrorMessage = revokeErrorMessage.set(publicId, "An error occurred while revoking the invite");
+        } catch (error: any) {
+            revokeErrorMessage = revokeErrorMessage.set(publicId, error.body?.message || "An error occurred while revoking the invite");
             setTimeout(() => {
                 revokeErrorMessage.delete(publicId);
                 revokeErrorMessage = revokeErrorMessage;
