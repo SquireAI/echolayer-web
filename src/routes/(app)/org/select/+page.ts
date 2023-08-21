@@ -20,6 +20,7 @@ export interface OrgsLayoutLoad {
 	user: User;
 	userInvitations: Invitation[];
 	acceptInvitationHandler: (publicId: string) => Promise<Invitation>;
+	reloadInvitationsHandler: () => Promise<Invitation[]>;
 }
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> => {
@@ -56,5 +57,8 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 	const acceptInvitationHandler = async (publicId: string): Promise<Invitation> => {
 		return await new InvitationUserApi(context).update(publicId, {});
 	};
-	return { orgs, user, org, userInvitations, acceptInvitationHandler };
+	const reloadInvitationsHandler = async (): Promise<Invitation[]> => {
+		return await new InvitationUserApi(context).list({ pending: true });
+	};
+	return { orgs, user, org, userInvitations, acceptInvitationHandler, reloadInvitationsHandler };
 }) satisfies PageLoad;
