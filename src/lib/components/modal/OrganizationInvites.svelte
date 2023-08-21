@@ -75,14 +75,14 @@
 
 
 <div class="">
-    <div class="flex flex-row justify-between items-center gap-4 min-w-[500px] md:min-w-[750px] p-4 bg-neutral-50">
+    <div class="flex flex-row justify-between items-center gap-4 min-w-[500px] md:min-w-[750px] p-4">
         <h2 class="text-lg">Invite members to organization</h2>
         <button on:click={() => modalStore.close()}>
             <CloseIcon width=20 height=20 />
         </button>
     </div>
-    <div class="border-b border-t border-neutral-300 p-3 grid grid-cols-12 align-items-start gap-4">
-        <div class="flex flex-col col-span-8">
+    <div class="border-b border-t border-neutral-300 p-3 grid grid-cols-12 align-items-start gap-3">
+        <div class="flex flex-col col-span-8 md:col-span-10">
             <TextInput 
                 bind:value={invitationEmail}
                 errorMessage={errorMessage}
@@ -91,26 +91,26 @@
             />
         </div>
         {#key inactive}
-            <Button type="grey" handleClick={() => handleSubmit(invitationEmail)} class={`${inactive ? "text-neutral-400": "text-neutral-800"} col-span-4 h-min`}>
+            <Button type="grey" handleClick={() => handleSubmit(invitationEmail)} class={`${inactive ? "text-neutral-400": "text-neutral-800"} col-span-4 md:col-span-2 h-min`}>
                 <span class="flex flex-row gap-2 justify-center items-center">
-                    <AccountMultiplePlusIcon height=20 width=20 class="text-echolayer-blue" />
+                    <AccountMultiplePlusIcon height=20 width=20 class={`${inactive ? "text-neutral-400": "text-echolayer-blue"}`} />
                     Invite
                 </span>                
             </Button>
         {/key}
     </div>
-    <div class="bg-netural-50 p-3 border-neutral-300 border-b">
+    <div class="bg-netural-50 p-3 border-neutral-300 border-b bg-neutral-50">
         <h3 class="text-sm text-neutral-500">Invited/Pending users ({invites.length})</h3>
         
     </div>
     <div>
         {#if invites.length === 0}
-        <div class="flex flex-col items-center justify-center w-full p-8 text-neutral-500 text-sm">
+        <div class="flex flex-col items-center justify-center w-full p-8 text-neutral-500 text-sm bg-neutral-50">
             No pending invitations
         </div>
         {:else}
             {#each (invites || []) as invite (invite.publicId)}
-                <div class="flex flex-row justify-between py-1 gap-2">
+                <div class="flex flex-row justify-between first:pt-0 py-1 gap-2 bg-neutral-50">
                     <div class="border-l-4 border-neutral-300 pl-4 py-2 flex flex-row w-full justify-between pr-4 gap-2 md:gap-4">
                         <div class="text-neutral-800 flex flex-row items-center justify-center gap-1 ">
                             <EmailIcon width=20 height=20 class="text-neutral-400" />

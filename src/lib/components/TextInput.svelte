@@ -5,7 +5,7 @@
     export let formError = false;
 
     let classNames =
-		'w-full h-8 rounded-sm focus:ring-transparent bg-neutral-50 placeholder-shown:bg-neutral-200 placeholder-shown:text-neutral-400 text-neutral-800 filled:text-neutral-800 sm:text-md border border-neutral-300 px-4';
+		'w-full rounded-sm py-1.5 focus:ring-transparent bg-neutral-50 placeholder-shown:bg-neutral-50 placeholder-shown:text-neutral-400 text-neutral-800 filled:text-neutral-800 sm:text-sm border border-neutral-300 px-2';
 	$: if (formError && errorMessage) {
 		classNames = `${classNames} bg-neutral-200 border-echolayer-red focus:border-echolayer-red`;
 	} else {

@@ -89,7 +89,7 @@
             >
                 {#if currentComponent}
                 <!-- Modal container -->
-                    <div class={`block overflow-y-auto w-modal space-y-4 shadow-xl bg-white rounded-sm`}
+                    <div class={`block overflow-y-auto w-modal space-y-4 shadow-xl bg-white rounded-md`}
                         role="dialog"
                         aria-modal="true"
                         aria-label={$modalStore[0].title ?? ''}
