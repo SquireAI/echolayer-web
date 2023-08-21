@@ -1,5 +1,5 @@
 import { AuthApi } from '$lib/api/auth.js';
-import { InvitationUserApi } from '$lib/api/invitaion-user';
+import { InvitationUserApi } from '$lib/api/invitation-user';
 import { OrganizationApi } from '$lib/api/organization.js';
 import { UserApi } from '$lib/api/user.js';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';

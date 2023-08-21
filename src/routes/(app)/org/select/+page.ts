@@ -1,5 +1,5 @@
 import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
-import { InvitationUserApi } from '$lib/api/invitaion-user';
+import { InvitationUserApi } from '$lib/api/invitation-user';
 import { OrganizationApi } from '$lib/api/organization';
 import { UserApi } from '$lib/api/user';
 import { ORGANIZATION_ID_COOKIE_NAME } from '$lib/constants';
