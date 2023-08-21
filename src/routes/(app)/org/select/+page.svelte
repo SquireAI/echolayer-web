@@ -35,6 +35,8 @@
 
 	export let data: OrgsLayoutLoad;
 
+	const RELOAD_TIMEOUT_MILLISECONDS = 2000;
+
 	onMount(() => {
 		if ($page.url.searchParams.has(INVALIDATE_SELECTED_ORG)) {
 			removeOrgCookie();
@@ -92,7 +94,7 @@
 			setTimeout(async () => {
 				const updatedInvitations = await data.reloadInvitationsHandler();
 				userInvitationStore.setInvitations(updatedInvitations);
-			}, 2000);
+			}, RELOAD_TIMEOUT_MILLISECONDS);
 			throw e;
 		}
 	};

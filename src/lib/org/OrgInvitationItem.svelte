@@ -3,6 +3,7 @@
 	import Login from 'svelte-material-icons/Login.svelte';
 	import AlertCircle from 'svelte-material-icons/AlertCircle.svelte';
 	import OrgIcon from './OrgIcon.svelte';
+	import { ERROR_TIMEOUT_MILLISECONDS } from '$lib/constants';
 
 	export let invitation: Invitation;
 	export let handleSelect: (publicId: string) => Promise<void> | void;
@@ -18,7 +19,7 @@
 			isError = true;
 			setTimeout(() => {
 				isError = false;
-			}, 2500);
+			}, ERROR_TIMEOUT_MILLISECONDS);
 		}
 	}}
 >
