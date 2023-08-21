@@ -125,6 +125,7 @@ export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
 export type StoreSelectedEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreHomeTabIndex = BaseStoreEntity<number>;
 export type StoreUserInvitationsEntity = BaseStoreEntity<Invitation[]>;
+export type StoreOrgInvitationsEntity = BaseStoreEntity<Invitation[]>;
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -178,6 +179,10 @@ export interface HomeTabStore extends BaseStore<number, StoreHomeTabIndex> {
 }
 
 export interface UserInvitationStore extends BaseStore<Invitation[], StoreUserInvitationsEntity> {
+	setInvitations: (invitations: Invitation[]) => void;
+}
+
+export interface OrgInvitationStore extends BaseStore<Invitation[], StoreUserInvitationsEntity> {
 	setInvitations: (invitations: Invitation[]) => void;
 }
 
