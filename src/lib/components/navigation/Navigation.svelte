@@ -2,21 +2,21 @@
 	import { getContext } from 'svelte';
 	import type { Organization, SelectedOrganizationStore, UserStore } from '$lib/types';
 	import NavigationItem from './NavigationItem.svelte';
-	import Home from 'svelte-material-icons/Home.svelte';
-	import HomeOutline from 'svelte-material-icons/HomeOutline.svelte';
-	import Cog from 'svelte-material-icons/Cog.svelte';
-	import CogOutline from 'svelte-material-icons/CogOutline.svelte';
-	import Key from 'svelte-material-icons/Key.svelte';
-	import KeyOutline from 'svelte-material-icons/KeyOutline.svelte';
+	import HomeIcon from 'svelte-material-icons/Home.svelte';
+	import HomeOutlineIcon from 'svelte-material-icons/HomeOutline.svelte';
+	import CogIcon from 'svelte-material-icons/Cog.svelte';
+	import CogOutlineIcon from 'svelte-material-icons/CogOutline.svelte';
+	import PlusIcon from 'svelte-material-icons/Plus.svelte';
+	import KeyIcon from 'svelte-material-icons/Key.svelte';
+	import KeyOutlineIcon from 'svelte-material-icons/KeyOutline.svelte';
 	import Button from '../Button.svelte';
-	import HelpCircle from 'svelte-material-icons/HelpCircle.svelte';
-	import OpenInNew from 'svelte-material-icons/OpenInNew.svelte';
+	import HelpCircleIcon from 'svelte-material-icons/HelpCircle.svelte';
+	import OpenInNewIcon from 'svelte-material-icons/OpenInNew.svelte';
 	import {
 		API_KEYS_PATH,
 		HOME_PATH,
 		INVALIDATED_SIGN_IN_PATH,
 		NOTION_GETTING_STARTED_DOCS,
-		ORGS_SELECT_PATH,
 		SUPPORT_URL,
 		INTEGRATIONS_PATH
 	} from '$lib/utils/paths';
@@ -29,6 +29,9 @@
 	import { removeOrgCookie } from '$lib/utils/cookies';
 	import { PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 	import SwitchOrgButton from './SwitchOrgButton.svelte';
+	import TestModal from '../modal/OrganizationInvites.svelte';
+	import { modalStore } from '$lib/stores/modal';
+	import OrganizationInvites from '../modal/OrganizationInvites.svelte';
 
 	const userStore = getContext(USER_STORE_NAME) as UserStore;
 	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
@@ -49,6 +52,13 @@
 		await new AuthApi(createDefaultContext()).logout();
 		removeOrgCookie();
 		await goto(INVALIDATED_SIGN_IN_PATH);
+	}
+
+	const modalRegistry = {
+		organizationInvites: {
+			title: "Organization invites",
+			component: OrganizationInvites
+		}
 	}
 </script>
 
@@ -72,22 +82,29 @@
 				<NavigationItem
 					name="Home"
 					href={`${HOME_PATH}`}
-					OutlineIcon={HomeOutline}
-					SolidIcon={Home}
+					OutlineIcon={HomeOutlineIcon}
+					SolidIcon={HomeIcon}
 					disabled={!organization}
 				/>
 				<NavigationItem
 					name="API keys"
 					href={`${API_KEYS_PATH}`}
-					OutlineIcon={KeyOutline}
-					SolidIcon={Key}
+					OutlineIcon={KeyOutlineIcon}
+					SolidIcon={KeyIcon}
 					disabled={!organization}
 				/>
 				<NavigationItem
 					name="Integrations"
 					href={`${INTEGRATIONS_PATH}`}
-					OutlineIcon={CogOutline}
-					SolidIcon={Cog}
+					OutlineIcon={CogOutlineIcon}
+					SolidIcon={CogIcon}
+					disabled={!organization}
+				/>
+				<NavigationItem
+					name="Add people"
+					onClick={() => modalStore.trigger(modalRegistry.organizationInvites)}
+					OutlineIcon={PlusIcon}
+					SolidIcon={PlusIcon}
 					disabled={!organization}
 				/>
 			</div>
@@ -96,13 +113,13 @@
 	<div class="flex flex-col items-center justify-end p-3 gap-4">
 		<Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
 			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-				<HelpCircle width={20} height={20} class={'text-echolayer-blue'} />
+				<HelpCircleIcon width={20} height={20} class={'text-echolayer-blue'} />
 				Support
 			</div>
 		</Button>
 		<Button full={true} type="grey" href={NOTION_GETTING_STARTED_DOCS} target="_blank">
 			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-				<OpenInNew width={20} height={20} class={'text-echolayer-blue'} />
+				<OpenInNewIcon width={20} height={20} class={'text-echolayer-blue'} />
 				Documentation
 			</div>
 		</Button>

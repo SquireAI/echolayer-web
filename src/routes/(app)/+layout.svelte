@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DiscoveryLayout from '$lib/layouts/discovery/DiscoveryLayout.svelte';
-	import { setContext } from 'svelte';
+	import { getAllContexts, setContext } from 'svelte';
 	import {
 		COMPONENT_STORE_NAME,
 		componentStore,
@@ -15,6 +15,8 @@
 	} from '$lib/stores';
 
 	import type { LayoutData } from './$types';
+	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/invitation/orgInvite.service';
+	import Modal from '$lib/components/modal/Modal.svelte';
   
   	export let data: LayoutData;
 
@@ -24,9 +26,10 @@
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
 
-	setContext("INVITESERVICE", data.inviteService);
+	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, data.inviteService);
 </script>
 
 <DiscoveryLayout>
 	<slot />
 </DiscoveryLayout>
+<Modal />

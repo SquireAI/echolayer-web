@@ -1,8 +1,11 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
 
 	export let handleSubmit: (orgName: string) => Promise<void>;
 
+
+	let errorMessage: string;
 	let orgName: string;
 	$: orgName = '';
 
@@ -20,14 +23,16 @@
 		orgName = target.value;
 	}
 
-	async function handleKeyPress(e: KeyboardEvent): Promise<void> {
-		e.key === 'Enter' && (await onSubmit());
+	async function handleKeyPress(e: Event): Promise<void> {
+		(e as KeyboardEvent).key === 'Enter' && (await onSubmit());
 	}
 
 	async function onSubmit() {
+		errorMessage = "";
 		// Validate form
 		if (orgName.trim().length === 0) {
 			formError = true;
+			errorMessage = "Please enter an organization name"
 			loading = false;
 			return;
 		}
@@ -62,19 +67,14 @@
 
 <div class="flex flex-col overflow-hidden text-center items-center gap-y-6 w-full">
 	<div class="w-full">
-		<input
-			type="text"
-			id="name"
-			placeholder="Organization name"
-			autocomplete="organization"
+		<TextInput
 			bind:value={orgName}
 			on:input={handleNameChange}
 			on:keyup={handleKeyPress}
-			class={classNames}
+			placeholder="Organization name"
+			autocomplete="organization"
+			bind:errorMessage={errorMessage}
 		/>
-		{#if formError && !orgName}
-			<p class={`text-echolayer-red text-sm mt-2`}>Please enter an organization name.</p>
-		{/if}
 	</div>
 	<div class="w-full">
 		<Button class="h-10" type="primary" bind:loading handleClick={onSubmit} full
