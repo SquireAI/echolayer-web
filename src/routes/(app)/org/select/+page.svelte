@@ -31,7 +31,11 @@
 	import OrgItem from '$lib/org/OrgItem.svelte';
 	import type { OrgsLayoutLoad } from './+page';
 	import OrgInvitationItem from '$lib/org/OrgInvitationItem.svelte';
+	import AccountGroup from 'svelte-material-icons/AccountGroup.svelte';
+
 	export let data: OrgsLayoutLoad;
+
+	const RELOAD_TIMEOUT_MILLISECONDS = 2000;
 
 	onMount(() => {
 		if ($page.url.searchParams.has(INVALIDATE_SELECTED_ORG)) {
@@ -70,20 +74,28 @@
 	};
 
 	const handleAcceptInvite = async (publicId: string) => {
-		const invitation = await data.acceptInvitationHandler(publicId);
-		setOrgCookie(invitation.organization.publicId);
-		userInvitationStore.setInvitations(
-			$userInvitationStore.entity?.filter((inv) => inv.publicId !== publicId) || []
-		);
-		orgsStore.addOrganization(invitation.organization);
-		const selectedOrg = $orgsStore.entity?.find(
-			(org) => org.publicId === invitation.organization.publicId
-		);
-		selectedOrg && orgStore.setOrganization(invitation.organization.publicId);
-		if (PUBLIC_DISCOVERY_ENABLED) {
-			goto(HOME_PATH);
-		} else {
-			goto(ORGS_PATH);
+		try {
+			const invitation = await data.acceptInvitationHandler(publicId);
+			setOrgCookie(invitation.organization.publicId);
+			userInvitationStore.setInvitations(
+				$userInvitationStore.entity?.filter((inv) => inv.publicId !== publicId) || []
+			);
+			orgsStore.addOrganization(invitation.organization);
+			const selectedOrg = $orgsStore.entity?.find(
+				(org) => org.publicId === invitation.organization.publicId
+			);
+			selectedOrg && orgStore.setOrganization(invitation.organization.publicId);
+			if (PUBLIC_DISCOVERY_ENABLED) {
+				goto(HOME_PATH);
+			} else {
+				goto(ORGS_PATH);
+			}
+		} catch (e) {
+			setTimeout(async () => {
+				const updatedInvitations = await data.reloadInvitationsHandler();
+				userInvitationStore.setInvitations(updatedInvitations);
+			}, RELOAD_TIMEOUT_MILLISECONDS);
+			throw e;
 		}
 	};
 
@@ -137,6 +149,21 @@
 						{/if}
 						<Button type="primary" full={true} href={`${CREATE_ORG_PATH}`}>Add new...</Button>
 					</div>
+				</div>
+			{:else}
+				<div class="pt-48 flex flex-col gap-y-12 text-center items-center justify-center w-[600px]">
+					<span class="text-neutral-300">
+						<AccountGroup size="48" />
+					</span>
+					<div class="flex flex-col gap-4">
+						<h2 class="font-medium text-3xl text-neutral-800">You have no organizations.</h2>
+						<p class="text-neutral-500">
+							Your invites and organizations will appear here. You can get started creating an
+							organization by clicking “Add new...” below. If you were invited, please contact your
+							administrator to resend the invite.
+						</p>
+					</div>
+					<Button type="primary" class="w-[400px]" href={`${CREATE_ORG_PATH}`}>Add new...</Button>
 				</div>
 			{/if}
 		</div>
