@@ -39,13 +39,14 @@ export const load = (async ({ cookies, fetch, url }) => {
 			if (context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
 				org = orgs.find((org) => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
 			}
-			if (orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
+			if (orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME] && userInvitations?.length === 0) {
 				setServerOrgCookie(orgs[0].publicId, cookies.set);
 				org = orgs[0];
 			}
 		}
 		user = await new UserApi(context).get('');
 	} catch (err) {
+		console.error(err);
 		if ((err as HttpError).status === 401) {
 			throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
 		}
