@@ -21,7 +21,7 @@ export const createOrgInviteService = (context: httpContext): OrgInvitationServi
             return orgApi.delete(publicId);
         },
         getInvites: function(): Promise<Invitation[]> {
-            return orgApi.list();
+            return orgApi.list({ pending: true });
         }
     }
 }
