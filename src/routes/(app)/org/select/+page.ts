@@ -7,7 +7,7 @@ import { ErrorMessageTypes } from '$lib/error';
 import { createDefaultContext } from '$lib/http/context';
 import type { Invitation, Organization, User } from '$lib/types';
 import { authRequired } from '$lib/utils/access';
-import { CREATE_ORG_PATH, HOME_PATH, INVALIDATED_SIGN_IN_PATH, ORGS_PATH } from '$lib/utils/paths';
+import { HOME_PATH, INVALIDATED_SIGN_IN_PATH, ORGS_PATH } from '$lib/utils/paths';
 import { error, redirect, type HttpError } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
@@ -41,10 +41,6 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 	try {
 		orgs = await new OrganizationApi(context).list();
 		userInvitations = await new InvitationUserApi(context).list({ pending: true });
-		if (orgs.length === 0 && userInvitations.length === 0) {
-			throw redirect(307, CREATE_ORG_PATH);
-		}
-
 		const selectedOrgId = baseHeaders[ORGANIZATION_ID_COOKIE_NAME];
 		org = selectedOrgId ? orgs.find((org) => org.publicId === selectedOrgId) : undefined;
 		user = await new UserApi(context).get('');
