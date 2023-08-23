@@ -66,3 +66,11 @@ export function setServerOrgCookie(publicId: string, setCookie: Cookies['set']) 
 		httpOnly: false
 	});
 }
+
+export function removeServerOrgCookie(setCookie: Cookies['set']) {
+	setCookie(ORGANIZATION_ID_COOKIE_NAME, '', {
+		expires: new Date(0),
+		path: '/',
+		httpOnly: false
+	});
+}

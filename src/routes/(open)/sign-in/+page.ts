@@ -1,12 +1,17 @@
+import { browser } from '$app/environment';
 import { AuthApi } from '$lib/api/auth';
 import { createDefaultContext } from '$lib/http/context';
 import { clearStores } from '$lib/stores';
+import { removeOrgCookie } from '$lib/utils/cookies';
 import { INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ url }) => {
 	if (url.searchParams.has(INVALIDATE_QUERY_PARAMETER_NAME)) {
 		clearStores();
+		if(browser){
+			removeOrgCookie();
+		}
 		try {
 			await new AuthApi(createDefaultContext()).logout();
 		} catch (error) {
