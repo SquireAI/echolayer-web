@@ -1,8 +1,8 @@
-<script type="ts">
+<script lang="ts">
 	import DetailsListRow from '$lib/discovery/components/details/DetailsListRow.svelte';
-	import type { DetailPropery } from '$lib/types';
+	import type { DetailProperty } from '$lib/types';
 
-	export let properties: DetailPropery[] = [];
+	export let properties: DetailProperty[] = [];
 </script>
 
 <div class="details-list h-full">

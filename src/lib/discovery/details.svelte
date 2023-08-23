@@ -4,13 +4,25 @@
 	import DetailsJson from '$lib/discovery/components/details/DetailsJson.svelte';
 	import DetailsSectionHeader from '$lib/discovery/components/details/DetailsSectionHeader.svelte';
 	import DetailsTitle from '$lib/discovery/components/details/DetailsTitle.svelte';
-	import { entityDetailsStore, selectedStore } from '$lib/stores';
-	import { EntityTypes, type GraphedEntity } from '$lib/types';
+	import { entityDetailsStore, entityRelationshipStore, selectedStore, teamStore } from '$lib/stores';
+	import { EntityTypes, type DetailProperty, type GraphedEntity } from '$lib/types';
+	import { onMount } from 'svelte';
+	import DetailsList from './components/details/DetailsList.svelte';
 	import MembersList from './components/details/MembersList.svelte';
+	import OwnerIcon from './components/details/icons/OwnerIcon.svelte';
+	import { getTeamOwners } from './components/details/propertyHelpers';
 
 	// Panel controls
 	export let open: boolean;
 	$: entity = $entityDetailsStore.entity;
+	let properties: DetailProperty[] = [];
+
+	$: (entity?.publicId, properties = []) // Clear properties when entity changes
+	const owners = getTeamOwners(entityDetailsStore, teamStore, entityRelationshipStore);
+	$: (
+		entity?.publicId,
+		properties = ($owners || []).map(t => ({ title: "Owner", value: t.name, icon: OwnerIcon })) || []
+	);
 
 	const hasMetadata = (entity?: GraphedEntity) => {
 		if (!entity || !entity.metadata) return false;
@@ -29,6 +41,13 @@
 		<DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
 		{#if entity?.type === EntityTypes.TEAM}
 			<MembersList members={entity.members} />
+		{/if}
+
+		{#if entity?.type === EntityTypes.COMPONENT}
+			<DetailsSectionHeader label="Properties" />
+			<DetailsList 
+				properties={properties}
+			/>
 		{/if}
 
 		{#if hasMetadata($entityDetailsStore.entity)}
