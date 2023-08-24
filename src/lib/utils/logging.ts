@@ -138,8 +138,8 @@ const getTransports = (transports?: []) => {
 	const statsdTransport =
 		runtime.environment === 'production'
 			? new winstonStatsd.Statsd({
-					host: 'dd.usecodex.com',
-					port: 8227
+					host: runtime.statsd.host,
+					port: runtime.statsd.port
 			  })
 			: [];
 

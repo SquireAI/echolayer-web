@@ -8,8 +8,6 @@ const handleTracing: Handle = async ({ event, resolve }): Promise<Response> => {
 	const ctx: RequestContext = getContext(event, event.locals.traceId);
 	const logger = createLogger('echolayer', ctx);
 	logger.info('request', {});
-
-	// getLogger('request', );
 	return resolve(event);
 };
 
