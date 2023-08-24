@@ -104,16 +104,12 @@ export function layout(
 	// a collection of row indices of rowNodes that tell us which index has the most rows in DESC
 	const largestRowIndicesDesc: number[] = getRowIndicesDesc(rowNodes);
 
-	// Entity IDs mapped to their owners
-	const ownersMap = buildOwnersMap(entityRelationships, nodes);
-
 	// This map will collect origins and other node metadata as we uncover them
 	const nodesMap: NodeLayoutMap = placeNodes(
 		largestRowIndicesDesc,
 		rowNodes,
 		nodeConnections,
 		depth,
-		ownersMap
 	);
 
 	// We need to return a collection of rows of nodes, starting from the top down
@@ -206,7 +202,6 @@ function placeNodes(
 	rowNodes: GraphedEntity[][],
 	nodeConnections: NodeConnections,
 	depth: number,
-	ownersMap: Map<string, GraphedEntity[]>
 ): NodeLayoutMap {
 	const rowWidths: number[] = [...Array(depth).keys()].map((_) => 0);
 	let maxRowWidth = rowWidths[0];
@@ -240,59 +235,16 @@ function placeNodes(
 		positionedNodes.forEach((nodeOrigin) => {
 			const pid = nodeOrigin.publicId;
 			const node = rowEntities.find((n) => n.publicId === pid)!;
-			const owners = ownersMap.get(pid);
 			nodesMap.set(pid, {
 				origin: nodeOrigin.origin,
 				inputConnections: nodeConnections.get(pid)?.inputConnections || [],
 				outputConnections: nodeConnections.get(pid)?.outputConnections || [],
 				nodeType: nodeOrigin.nodeType,
 				node,
-				...(owners && { owners })
 			});
 		});
 	}
 	return nodesMap;
-}
-
-/**
- * Create a map from entity IDs to array of owners based on entity relationships and entities.
- * @param entityRelationships
- * @param entities
- * @returns map from entity IDs to their owners
- * E.g. {
- * 	"t2w389reth": [{
- * 		publicId: "asf45643",
- * 		name: "that-team"
- * 		type: "Team",
- * 		members: []
- * 	}]
- * }
- */
-function buildOwnersMap(entityRelationships: RelationGraphEntity[], entities: GraphedEntity[]) {
-	const ownersMap = new Map<string, GraphedEntity[]>();
-	entityRelationships.forEach((relationship) => {
-		// This will be correct unless we're getting both directions at the same time. In that case we should only count 1 side.
-		let ownerPublicId: string;
-		let ownedPublicId: string;
-		if (relationship.relationshipName === 'ownedBy') {
-			ownerPublicId = relationship.targetPublicId;
-			ownedPublicId = relationship.sourcePublicId;
-		} else if (relationship.relationshipName === 'ownerOf') {
-			ownerPublicId = relationship.sourcePublicId;
-			ownedPublicId = relationship.targetPublicId;
-		} else {
-			return;
-		}
-		const mapValue = ownersMap.get(ownedPublicId) || [];
-		const node = entities.find((node) => node.publicId === ownerPublicId);
-		if (node) {
-			mapValue.push(node);
-			ownersMap.set(ownedPublicId, mapValue);
-		} else {
-			console.warn(`Owner (${ownerPublicId}) not found in graph`);
-		}
-	});
-	return ownersMap;
 }
 
 /**

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnchorConnectionData, GraphedEntity, TeamEntity } from '$lib/types';
+	import { EntityRelationshipNames, type AnchorConnectionData, type ComponentEntity } from '$lib/types';
 	import { selectedStore } from '$lib/stores';
 	import { Node } from 'svelvet';
 	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
@@ -10,11 +10,12 @@
 	import { getNodeSize, toggleSelectedComponent } from '.';
 	import Shape from 'svelte-material-icons/Shape.svelte';
 
-	export let component: GraphedEntity;
-	export let owners: TeamEntity[] = [];
+	export let component: ComponentEntity;
 	export let origin: { x: number; y: number } = { x: 0, y: 0 };
 	export let outputConnections: AnchorConnectionData[] = [];
 	export let inputConnections: AnchorConnectionData[] = [];
+
+	const owners = component.relations.filter((relation) => relation.relationshipName === EntityRelationshipNames.OWNED_BY);
 
 	const numOwningTeams = owners.length;
 
@@ -69,7 +70,7 @@
 									>{numOwningTeams === 0
 										? 'unowned'
 										: numOwningTeams === 1
-										? owners[0].name
+										? owners[0].target.name
 										: `${numOwningTeams} teams`}</span
 								>
 							</p>

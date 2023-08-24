@@ -1,4 +1,4 @@
-import type { ComponentType } from 'svelte';
+import type { ComponentType, SvelteComponent, SvelteComponentTyped } from 'svelte';
 import type { Subscriber, Unsubscriber, Updater } from 'svelte/store';
 import type { FetchHeader } from '$lib/api/apiUtils';
 
@@ -50,6 +50,7 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	type: EntityTypes.COMPONENT;
 	organizationId: number;
+	relations: RelationEntity[];
 }
 
 export interface Invitation {
@@ -250,4 +251,4 @@ export const SVELVET_INTERNAL_EDGE_STORE = 'edge';
 
 export const SVELVET_INTERNAL_NODE_STORE = 'node';
 
-export type DetailPropery = { title: string; value: string; status: '' | 'warning' | 'error' };
+export type DetailProperty = { title: string; value: string; status?: 'warning' | 'error', icon?: ComponentType, };

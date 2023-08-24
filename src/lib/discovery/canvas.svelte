@@ -43,7 +43,6 @@
 				origin={entry[1].origin}
 				outputConnections={entry[1].outputConnections}
 				inputConnections={entry[1].inputConnections}
-				owners={entry[1].owners}
 			/>
 		{/each}
 	{/each}

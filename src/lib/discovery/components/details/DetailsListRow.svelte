@@ -1,19 +1,20 @@
-<script type="ts">
-	import type { DetailPropery } from '$lib/types';
+<script lang="ts">
+	import type { DetailProperty } from '$lib/types';
 
-	export let property: DetailPropery;
+	export let property: DetailProperty;
 	$: status = property?.status ?? null;
 </script>
 
 {#if property}
 	<div class="details-list-row {status}">
-		<div>
+		<div class="flex flex-row justify-start items-center gap-2">
+			<svelte:component this={property.icon} />
 			<span>
 				{property.title}
 			</span>
 		</div>
 
-		<div>
+		<div class="flex flex-row items-center">
 			<span>
 				{property.value}
 			</span>
