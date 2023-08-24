@@ -1,27 +1,24 @@
 import c, { type StyleFunction } from 'ansi-colors';
 import winston from 'winston';
-import winstonStatsd from 'winston-statsd';
-import {
-	PUBLIC_ENVIRONMENT,
-	PUBLIC_DOG_STATS_D_HOST,
-	PUBLIC_DOG_STATS_D_PORT
-} from '$env/static/public';
+import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+import { DOG_API_KEY } from '$env/static/private';
 import type { RequestEvent } from '@sveltejs/kit';
 
+const environment = PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
+	service = `echolayer-app-${environment}`,
+	isDev = environment === 'development';
+
 const runtime = {
-	environment: PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
-	prettyLogMetadata: PUBLIC_ENVIRONMENT?.toLowerCase() === 'development',
+	prettyLogMetadata: isDev,
 	suppressMeta: false,
-	humanLogs: PUBLIC_ENVIRONMENT?.toLowerCase() === 'development',
+	humanLogs: isDev,
 	logLevel: 'info',
 	silentLogs: false,
-	statsd: {
-		host: PUBLIC_DOG_STATS_D_HOST || 'localhost',
-		port: PUBLIC_DOG_STATS_D_PORT || 8125
+	datadog: {
+		host: 'http-intake.logs.datadoghq.com',
+		path: `/api/v2/logs?dd-api-key=${DOG_API_KEY}&host=${service}&ddsource=${service}&service=${service}`
 	}
 };
-
-export const APP_SERVICE_NAME = `echolayer-app-${runtime.environment}`;
 
 export interface RequestContext {
 	traceId?: string;
@@ -122,8 +119,8 @@ const humanFormat = winston.format.combine(
 );
 
 const unifiedServiceTags = () => ({
-	env: runtime.environment,
-	service: APP_SERVICE_NAME
+	env: environment,
+	service
 });
 
 function buildLogMeta(ctx: RequestContext, meta?: Record<string, any>) {
@@ -134,23 +131,28 @@ function buildLogMeta(ctx: RequestContext, meta?: Record<string, any>) {
 	};
 }
 
-const getTransports = (transports?: []) => {
-	const statsdTransport =
-		runtime.environment !== 'development'
-			? new winstonStatsd.Statsd({
-					host: runtime.statsd.host,
-					port: runtime.statsd.port
-			  })
-			: [];
+const getConsoleTransport = () => {
+	return new winston.transports.Console({
+		format: runtime.humanLogs ? humanFormat : winston.format.json(),
+		level: runtime.logLevel,
+		silent: runtime.silentLogs,
+		handleExceptions: true
+	});
+};
 
+const getDDTransport = () => {
+	if (isDev) return null;
+	return new winston.transports.Http({
+		host: runtime.datadog.host,
+		path: runtime.datadog.path,
+		ssl: true
+	});
+};
+
+const getTransports = (transports?: []) => {
 	return [
-		new winston.transports.Console({
-			format: runtime.humanLogs ? humanFormat : winston.format.json(),
-			level: runtime.logLevel,
-			silent: runtime.silentLogs,
-			handleExceptions: true
-		}),
-		...statsdTransport,
+		getConsoleTransport(),
+		getDDTransport(),
 		...(transports && transports.length > 0 ? transports : [])
 	];
 };
