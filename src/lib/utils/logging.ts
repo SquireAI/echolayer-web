@@ -152,7 +152,7 @@ const getDDTransport = () => {
 const getTransports = (transports?: []) => {
 	return [
 		getConsoleTransport(),
-		getDDTransport(),
+		...(getDDTransport() ? [getDDTransport()] : []),
 		...(transports && transports.length > 0 ? transports : [])
 	];
 };
