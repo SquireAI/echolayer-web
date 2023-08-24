@@ -163,7 +163,6 @@ export const getContext = (event: RequestEvent, traceId?: string): RequestContex
 	return {
 		startedAt: new Date(),
 		...(traceId && { traceId }),
-		...(event.getClientAddress() && { ipAddress: event.getClientAddress() }),
 		...(event.request.method && { method: event.request.method }),
 		...(event.platform && { clientPlatform: event.platform }),
 		...(event.url?.href && { url: event.url.href })
