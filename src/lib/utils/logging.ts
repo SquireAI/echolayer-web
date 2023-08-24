@@ -181,7 +181,6 @@ export const createLogger = (name: string, ctx: RequestContext, transports?: [])
 		debug: (msg: string, meta?: Record<string, any>) =>
 			logger.debug(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
 		info: (msg: string, meta?: Record<string, any>) => {
-			console.log(buildLogMeta(ctx, meta));
 			logger.info(`${prefix}${msg}`, buildLogMeta(ctx, meta));
 		},
 		warn: (msg: string, meta?: Record<string, any>) =>
