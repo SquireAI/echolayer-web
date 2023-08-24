@@ -1,13 +1,11 @@
-import { EntityRelationshipNames, EntityTypes, type EntityRelationshipStore, type RelationGraphEntity, type SelectedStore, type TeamEntity, type TeamStore } from "$lib/types";
+import { EntityRelationshipNames, EntityTypes, type SelectedStore, type TeamStore, type ComponentEntity, type RelationEntity } from "$lib/types";
 import { derived } from "svelte/store";
 
-export const getTeamOwners = (currentEntityStore: SelectedStore, teamStore: TeamStore, entityRelationshipStore: EntityRelationshipStore) => derived([currentEntityStore, teamStore, entityRelationshipStore], ([currentEntityStore, teamStore, entityRelationshipStore]) => {
+export const getOwners = (currentEntityStore: SelectedStore, teamStore: TeamStore) => derived([currentEntityStore], ([currentEntityStore]) => {
     if(currentEntityStore.entity === undefined || [EntityTypes.MEMBER, EntityTypes.TEAM].includes(currentEntityStore.entity.type)) {
         return [];
     }
-
-    const ownerIds = entityRelationshipStore.entity?.filter(
-        (relation: RelationGraphEntity) => relation.sourcePublicId === currentEntityStore?.entity?.publicId && relation.relationshipName === EntityRelationshipNames.OWNED_BY 
-    ).map((relation: RelationGraphEntity) => relation.targetPublicId) || [];
-    return teamStore.entity?.filter((team: TeamEntity) => ownerIds.includes(team.publicId)) || [];
+    return (currentEntityStore.entity as ComponentEntity)?.relations?.filter(
+        (relation: RelationEntity) => relation.relationshipName === EntityRelationshipNames.OWNED_BY
+    ).map((relation: RelationEntity) => relation.target) || [];
 });

@@ -4,13 +4,13 @@
 	import DetailsJson from '$lib/discovery/components/details/DetailsJson.svelte';
 	import DetailsSectionHeader from '$lib/discovery/components/details/DetailsSectionHeader.svelte';
 	import DetailsTitle from '$lib/discovery/components/details/DetailsTitle.svelte';
-	import { entityDetailsStore, entityRelationshipStore, selectedStore, teamStore } from '$lib/stores';
+	import { entityDetailsStore, selectedStore, teamStore } from '$lib/stores';
 	import { EntityTypes, type DetailProperty, type GraphedEntity } from '$lib/types';
 	import { onMount } from 'svelte';
 	import DetailsList from './components/details/DetailsList.svelte';
 	import MembersList from './components/details/MembersList.svelte';
 	import OwnerIcon from './components/details/icons/OwnerIcon.svelte';
-	import { getTeamOwners } from './components/details/propertyHelpers';
+	import { getOwners } from './components/details/propertyHelpers';
 
 	// Panel controls
 	export let open: boolean;
@@ -18,7 +18,7 @@
 	let properties: DetailProperty[] = [];
 
 	$: (entity?.publicId, properties = []) // Clear properties when entity changes
-	const owners = getTeamOwners(entityDetailsStore, teamStore, entityRelationshipStore);
+	const owners = getOwners(entityDetailsStore, teamStore);
 	$: (
 		entity?.publicId,
 		properties = ($owners || []).map(t => ({ title: "Owner", value: t.name, icon: OwnerIcon })) || []

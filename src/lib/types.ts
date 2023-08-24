@@ -50,6 +50,7 @@ export type Issue = {
 export interface ComponentEntity extends BaseEntity {
 	type: EntityTypes.COMPONENT;
 	organizationId: number;
+	relations: RelationEntity[];
 }
 
 export interface Invitation {
