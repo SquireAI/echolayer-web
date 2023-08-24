@@ -136,7 +136,7 @@ function buildLogMeta(ctx: RequestContext, meta?: Record<string, any>) {
 
 const getTransports = (transports?: []) => {
 	const statsdTransport =
-		runtime.environment === 'production'
+		runtime.environment !== 'development'
 			? new winstonStatsd.Statsd({
 					host: runtime.statsd.host,
 					port: runtime.statsd.port
