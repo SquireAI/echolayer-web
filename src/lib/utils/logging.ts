@@ -6,7 +6,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 const environment = PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
 	service = `echolayer-app-${environment}`,
-	isDev = environment === 'developmen';
+	isDev = environment === 'development';
 
 const runtime = {
 	prettyLogMetadata: isDev,
