@@ -1,17 +1,43 @@
 import c, { type StyleFunction } from 'ansi-colors';
 import winston from 'winston';
-import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+import winstonStatsd from 'winston-statsd';
+import {
+	PUBLIC_ENVIRONMENT,
+	PUBLIC_DOG_STATS_D_HOST,
+	PUBLIC_DOG_STATS_D_PORT
+} from '$env/static/public';
+import type { RequestEvent } from '@sveltejs/kit';
 
 const runtime = {
 	environment: PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
-	prettyLogMetadata: false,
+	prettyLogMetadata: PUBLIC_ENVIRONMENT?.toLowerCase() === 'development',
 	suppressMeta: false,
-	humanLogs: false,
+	humanLogs: PUBLIC_ENVIRONMENT?.toLowerCase() === 'development',
 	logLevel: 'info',
-	silentLogs: false
+	silentLogs: false,
+	statsd: {
+		host: PUBLIC_DOG_STATS_D_HOST || 'localhost',
+		port: PUBLIC_DOG_STATS_D_PORT || 8125
+	}
 };
 
 export const APP_SERVICE_NAME = `echolayer-app-${runtime.environment}`;
+
+export interface RequestContext {
+	traceId?: string;
+	url?: string;
+	clientPlatform?: Readonly<App.Platform>;
+	startedAt?: Date;
+}
+
+export type LoggerFunction = (msg: string, ctx: RequestContext, meta?: Record<string, any>) => void;
+
+export type Logger = {
+	debug: LoggerFunction;
+	info: LoggerFunction;
+	warn: LoggerFunction;
+	error: LoggerFunction;
+};
 
 const levelColour = (level: string): StyleFunction => {
 	switch (level.toLowerCase()) {
@@ -100,15 +126,6 @@ const unifiedServiceTags = () => ({
 	service: APP_SERVICE_NAME
 });
 
-interface RequestContext {
-	traceId: string;
-	ipAddress?: string;
-	method?: string;
-	clientPlatform?: string;
-	clientVersion?: string;
-	startedAt?: Date;
-}
-
 function buildLogMeta(ctx: RequestContext, meta?: Record<string, any>) {
 	return {
 		...ctx,
@@ -117,15 +134,15 @@ function buildLogMeta(ctx: RequestContext, meta?: Record<string, any>) {
 	};
 }
 
-export type LoggerFunction = (msg: string, ctx: RequestContext, meta?: Record<string, any>) => void;
-export type Logger = {
-	debug: LoggerFunction;
-	info: LoggerFunction;
-	warn: LoggerFunction;
-	error: LoggerFunction;
-};
+const getTransports = (transports?: []) => {
+	const statsdTransport =
+		runtime.environment === 'production'
+			? new winstonStatsd.Statsd({
+					host: 'dd.usecodex.com',
+					port: 8227
+			  })
+			: [];
 
-const getTransports = (transports: []) => {
 	return [
 		new winston.transports.Console({
 			format: runtime.humanLogs ? humanFormat : winston.format.json(),
@@ -133,11 +150,21 @@ const getTransports = (transports: []) => {
 			silent: runtime.silentLogs,
 			handleExceptions: true
 		}),
-		...transports
+		...statsdTransport,
+		...(transports && transports.length > 0 ? transports : [])
 	];
 };
 
-export const createLogger = (name: string, transports: [] = [], ctx: RequestContext) => {
+export const getContext = (event: RequestEvent, traceId?: string): RequestContext => {
+	return {
+		...(traceId && { traceId }),
+		...(event.url?.href && { url: event.url.href }),
+		...(event.platform && { clientPlatform: event.platform }),
+		startedAt: new Date()
+	};
+};
+
+export const createLogger = (name: string, ctx: RequestContext, transports?: []): Logger => {
 	const logger = winston.createLogger({
 		transports: getTransports(transports),
 		exitOnError: false
@@ -145,13 +172,13 @@ export const createLogger = (name: string, transports: [] = [], ctx: RequestCont
 
 	const prefix = name ? `[${name}]: ` : '';
 	return {
-		debug: (msg: string, ctx: RequestContext, meta?: Record<string, any>) =>
+		debug: (msg: string, meta?: Record<string, any>) =>
 			logger.debug(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
-		info: (msg: string, ctx: RequestContext, meta?: Record<string, any>) =>
+		info: (msg: string, meta?: Record<string, any>) =>
 			logger.info(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
-		warn: (msg: string, ctx: RequestContext, meta?: Record<string, any>) =>
+		warn: (msg: string, meta?: Record<string, any>) =>
 			logger.warn(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
-		error: (msg: string, ctx: RequestContext, meta?: Record<string, any>) =>
+		error: (msg: string, meta?: Record<string, any>) =>
 			logger.error(`${prefix}${msg}`, buildLogMeta(ctx, meta))
 	};
 };
