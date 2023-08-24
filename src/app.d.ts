@@ -8,6 +8,7 @@ declare global {
 
 		interface Locals {
 			traceId: string;
+			orgId: string | null;
 		}
 	}
 }

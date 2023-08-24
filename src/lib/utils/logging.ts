@@ -6,11 +6,11 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 const environment = PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
 	service = `echolayer-app-${environment}`,
-	isDev = environment === 'development';
+	isDev = environment === 'developmen';
 
 const runtime = {
 	prettyLogMetadata: isDev,
-	suppressMeta: false,
+	suppressMeta: isDev,
 	humanLogs: isDev,
 	logLevel: 'info',
 	silentLogs: false,
@@ -22,12 +22,14 @@ const runtime = {
 
 export interface RequestContext {
 	traceId?: string;
-	url?: string;
+	ipAddress?: string;
+	method?: string;
 	clientPlatform?: Readonly<App.Platform>;
 	startedAt?: Date;
+	url?: string;
 }
 
-export type LoggerFunction = (msg: string, ctx: RequestContext, meta?: Record<string, any>) => void;
+export type LoggerFunction = (msg: string, meta?: Record<string, any>) => void;
 
 export type Logger = {
 	debug: LoggerFunction;
@@ -159,16 +161,18 @@ const getTransports = (transports?: []) => {
 
 export const getContext = (event: RequestEvent, traceId?: string): RequestContext => {
 	return {
+		startedAt: new Date(),
 		...(traceId && { traceId }),
-		...(event.url?.href && { url: event.url.href }),
+		...(event.getClientAddress() && { ipAddress: event.getClientAddress() }),
+		...(event.request.method && { method: event.request.method }),
 		...(event.platform && { clientPlatform: event.platform }),
-		startedAt: new Date()
+		...(event.url?.href && { url: event.url.href })
 	};
 };
 
 export const createLogger = (name: string, ctx: RequestContext, transports?: []): Logger => {
 	const logger = winston.createLogger({
-		transports: getTransports(transports),
+		transports: getTransports(transports) as winston.transport | winston.transport[],
 		exitOnError: false
 	});
 
@@ -176,8 +180,10 @@ export const createLogger = (name: string, ctx: RequestContext, transports?: [])
 	return {
 		debug: (msg: string, meta?: Record<string, any>) =>
 			logger.debug(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
-		info: (msg: string, meta?: Record<string, any>) =>
-			logger.info(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
+		info: (msg: string, meta?: Record<string, any>) => {
+			console.log(buildLogMeta(ctx, meta));
+			logger.info(`${prefix}${msg}`, buildLogMeta(ctx, meta));
+		},
 		warn: (msg: string, meta?: Record<string, any>) =>
 			logger.warn(`${prefix}${msg}`, buildLogMeta(ctx, meta)),
 		error: (msg: string, meta?: Record<string, any>) =>

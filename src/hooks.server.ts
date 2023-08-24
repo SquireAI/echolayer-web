@@ -5,9 +5,14 @@ import { createLogger, getContext, type RequestContext } from '$lib/utils/loggin
 
 const handleTracing: Handle = async ({ event, resolve }): Promise<Response> => {
 	event.locals.traceId = nanoid(20);
+	event.locals.orgId = event.cookies.get('ORGANIZATION-ID') || null;
+
 	const ctx: RequestContext = getContext(event, event.locals.traceId);
 	const logger = createLogger('echolayer', ctx);
-	logger.info(event.url.pathname, {});
+	logger.info(event.url.pathname, {
+		...(event.locals.orgId ? { organizationId: event.locals.orgId } : {})
+	});
+
 	return resolve(event);
 };
 
