@@ -1,8 +1,16 @@
 <script>
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 	import GitHub from '$lib/svgs/GitHub.svg?component';
-	import { PUBLIC_GITHUB_CLIENT_ID, PUBLIC_GITHUB_REDIRECT_URI } from '$env/static/public';
-	let flowPath = '';
+
+	const gitHubLogin = async () => {
+		const url = await $page.data.loginHandler('github');
+		console.log(url);
+		if (browser) {
+			window.open(url, '_self');
+		}
+	};
 </script>
 
 <div class="flex content-center justify-center items-center flex-col h-full">
@@ -12,13 +20,7 @@
 			If you’ve already installed EchoLayer, you may login here with GitHub to access your settings.
 		</p>
 		<div class="mt-16 w-full flex justify-center">
-			<Button
-				href={`https://github.com/login/oauth/authorize?client_id=${PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=${PUBLIC_GITHUB_REDIRECT_URI}${
-					flowPath ? `?flow=${flowPath}` : ''
-				}`}
-				class="w-full md:w-2/3 lg:w-2/3"
-				type="primary"
-			>
+			<Button handleClick={gitHubLogin} class="w-full md:w-2/3 lg:w-2/3" type="primary">
 				<div class="flex items-center gap-x-2">
 					<GitHub />
 					Login with GitHub
