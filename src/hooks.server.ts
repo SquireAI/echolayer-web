@@ -1,17 +1,24 @@
 import type { Handle, HandleFetch } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { nanoid } from 'nanoid';
-import { createLogger, getContext, type RequestContext } from '$lib/utils/logging';
+import { type RequestContext, getRequestContext, Logger } from '$lib/utils/logging';
+
+// Initialize logger
+const logger = new Logger('echolayer');
 
 const handleTracing: Handle = async ({ event, resolve }): Promise<Response> => {
 	event.locals.traceId = nanoid(20);
 	event.locals.orgId = event.cookies.get('ORGANIZATION-ID') || null;
 
-	const ctx: RequestContext = getContext(event, event.locals.traceId);
-	const logger = createLogger('echolayer', ctx);
-	logger.info(event.url.pathname, {
-		...(event.locals.orgId ? { organizationId: event.locals.orgId } : {})
-	});
+	if (logger) {
+		// Add request context to logger
+		const ctx: RequestContext = getRequestContext(event, event.locals.traceId);
+		logger.addContext(ctx);
+
+		logger.info(`Request: ${event.url.pathname}`, {
+			...(event.locals.orgId ? { organizationId: event.locals.orgId } : {})
+		});
+	}
 
 	return resolve(event);
 };
