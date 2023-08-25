@@ -42,9 +42,12 @@ export type Organization = {
 
 export type Issue = {
 	id: number;
+	publicId: string;
 	organizationId: number;
 	description: string;
 	resolved: boolean;
+	component: ComponentEntity;
+	createdAt: string;
 };
 
 export interface ComponentEntity extends BaseEntity {
