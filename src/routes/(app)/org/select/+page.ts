@@ -1,4 +1,3 @@
-import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 import { InvitationUserApi } from '$lib/api/invitation-user';
 import { OrganizationApi } from '$lib/api/organization';
 import { UserApi } from '$lib/api/user';
@@ -24,10 +23,6 @@ export interface OrgsLayoutLoad {
 }
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> => {
-	if (PUBLIC_MULTI_ORG_ENABLED !== 'true' && PUBLIC_DISCOVERY_ENABLED !== 'true') {
-		const redirectPath = PUBLIC_DISCOVERY_ENABLED ? HOME_PATH : ORGS_PATH;
-		throw redirect(307, redirectPath);
-	}
 	const parentData = await parent();
 
 	const { baseHeaders, baseUrl } = parentData;

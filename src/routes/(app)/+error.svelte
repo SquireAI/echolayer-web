@@ -16,6 +16,7 @@
 		errorMessage && isErrorMessageType(errorMessage)
 			? getErrorMessage(errorMessage)
 			: displayErrorMessage;
+
 </script>
 
 <div class="grid h-full place-content-center">
@@ -25,7 +26,7 @@
 		<p class="text-center">
 			Sorry, we can’t find the page you’re looking for.<br />Try going back to the previous page or
 			contact us at
-			<a href={SUPPORT_URL} class="ext-blue-600 dark:text-blue-500 hover:underline"
+			<a href={SUPPORT_URL} class="text-blue-600 dark:text-blue-500 hover:underline"
 				>support@echolayer.com</a
 			> on email or Slack for assistance.
 		</p>

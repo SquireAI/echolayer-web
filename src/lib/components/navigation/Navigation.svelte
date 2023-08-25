@@ -27,7 +27,6 @@
 	import { goto } from '$app/navigation';
 	import LogoutIcon from 'svelte-material-icons/Logout.svelte';
 	import { removeOrgCookie } from '$lib/utils/cookies';
-	import { PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 	import SwitchOrgButton from './SwitchOrgButton.svelte';
 	import TestModal from '../modal/OrganizationInvites.svelte';
 	import { modalStore } from '$lib/stores/modal';
@@ -76,9 +75,7 @@
 		</div>
 		<div>
 			<div class="flex flex-col w-full gap-2">
-				{#if PUBLIC_MULTI_ORG_ENABLED === 'true'}
-					<SwitchOrgButton />
-				{/if}
+				<SwitchOrgButton />
 				<NavigationItem
 					name="Home"
 					href={`${HOME_PATH}`}
