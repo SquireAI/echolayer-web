@@ -19,7 +19,7 @@ export const load = (async ({ cookies, fetch, url }) => {
 	let user: User | undefined;
 	let userInvitations: Invitation[] | undefined;
 	if (!code || !provider) {
-		throw error(404, { message: ErrorMessageTypes.GITHUB_OAUTH_CODE });
+		throw error(404, { message: ErrorMessageTypes.OAUTH_ERROR });
 	}
 
 	let context = getHttpContext(fetch, cookies);
