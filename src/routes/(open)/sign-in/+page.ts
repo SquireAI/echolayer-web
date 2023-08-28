@@ -9,7 +9,7 @@ import type { PageLoad } from './$types';
 export const load = (async ({ url }) => {
 	if (url.searchParams.has(INVALIDATE_QUERY_PARAMETER_NAME)) {
 		clearStores();
-		if(browser){
+		if (browser) {
 			removeOrgCookie();
 		}
 		try {
@@ -20,4 +20,9 @@ export const load = (async ({ url }) => {
 			// cannot make network requests
 		}
 	}
+	return {
+		loginHandler: async (provider: string) => {
+			return await new AuthApi(createDefaultContext()).retrieveOAuthUrl(provider);
+		}
+	};
 }) satisfies PageLoad;
