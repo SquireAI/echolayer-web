@@ -254,4 +254,10 @@ export const SVELVET_INTERNAL_EDGE_STORE = 'edge';
 
 export const SVELVET_INTERNAL_NODE_STORE = 'node';
 
-export type DetailProperty = { title: string; value: string; status?: 'warning' | 'error', icon?: ComponentType, };
+export type DetailProperty = {
+	title: string;
+	value: string;
+	status?: 'warning' | 'error';
+	icon?: ComponentType;
+	clickHandler?: () => Promise<void> | void;
+};

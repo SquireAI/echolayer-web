@@ -16,6 +16,7 @@
 	import { navigating } from '$app/stores';
 	import type { NavigationTarget, NavigationType } from '@sveltejs/kit';
 	import { URL_SEARCH_PARAMS_KEYS } from '$lib/discovery/utils';
+	import Modal from '$lib/components/modal/Modal.svelte';
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
@@ -75,3 +76,4 @@
 <DiscoveryLayout>
 	<slot />
 </DiscoveryLayout>
+<Modal />

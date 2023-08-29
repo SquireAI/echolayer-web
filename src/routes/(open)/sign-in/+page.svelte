@@ -6,7 +6,6 @@
 
 	const gitHubLogin = async () => {
 		const url = await $page.data.loginHandler('github');
-		console.log(url);
 		if (browser) {
 			window.open(url, '_self');
 		}
