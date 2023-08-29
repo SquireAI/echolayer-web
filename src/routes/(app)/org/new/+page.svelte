@@ -4,8 +4,7 @@
 	import { getContext } from 'svelte';
 	import type { SelectedOrganizationStore, OrganizationsStore, UserStore } from '$lib/types';
 	import type { OrgNewPageData } from './+page';
-	import { HOME_PATH, ORGS_PATH } from '$lib/utils/paths';
-	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
+	import { HOME_PATH } from '$lib/utils/paths';
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import Panels from '$lib/discovery/panels.svelte';
@@ -30,11 +29,7 @@
 		orgsStore.addOrganization(createdOrg);
 		orgStore.setOrganization(createdOrg.publicId);
 		setTimeout(() => {
-			if (PUBLIC_DISCOVERY_ENABLED) {
-				goto(HOME_PATH);
-			} else {
-				goto(ORGS_PATH);
-			}
+			goto(HOME_PATH);
 		}, 300);
 	}
 </script>

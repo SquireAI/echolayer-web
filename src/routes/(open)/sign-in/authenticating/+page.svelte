@@ -15,7 +15,6 @@
 		USER_INVITATION_STORE_NAME,
 		USER_STORE_NAME
 	} from '$lib/stores';
-	import { PUBLIC_DISCOVERY_ENABLED, PUBLIC_MULTI_ORG_ENABLED } from '$env/static/public';
 	import { setOrgCookie } from '$lib/utils/cookies';
 
 	let orgsStore: OrganizationsStore;
@@ -41,25 +40,10 @@
 				($orgsStore.entity !== undefined && $orgsStore.entity.length > 0) ||
 				($userInvitationStore.entity !== undefined && $userInvitationStore.entity.length > 0)
 			) {
-				if (PUBLIC_MULTI_ORG_ENABLED === 'true' && PUBLIC_DISCOVERY_ENABLED === 'true') {
-					if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
-						goto(HOME_PATH);
-					} else {
-						goto(ORGS_SELECT_PATH);
-					}
+				if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
+					goto(HOME_PATH);
 				} else {
-					if (
-						$orgStore.entity !== undefined &&
-						$orgStore.entity.publicId !== undefined &&
-						$orgsStore.entity !== undefined &&
-						$orgsStore.entity.length > 0
-					) {
-						// We don't allow the user to set a specific org, so just take the first one.
-						const firstOrgPublicId = $orgsStore.entity[0].publicId;
-						orgStore.setOrganization(firstOrgPublicId);
-						setOrgCookie(firstOrgPublicId);
-					}
-					goto(ORGS_PATH);
+					goto(ORGS_SELECT_PATH);
 				}
 			} else {
 				goto(CREATE_ORG_PATH);

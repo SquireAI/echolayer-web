@@ -20,11 +20,9 @@
 		CREATE_ORG_PATH,
 		HOME_PATH,
 		INVALIDATE_SELECTED_ORG,
-		ORGS_PATH,
 		ORGS_SELECT_PATH
 	} from '$lib/utils/paths';
 	import { removeOrgCookie, setOrgCookie } from '$lib/utils/cookies';
-	import { PUBLIC_DISCOVERY_ENABLED } from '$env/static/public';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
@@ -66,11 +64,7 @@
 		setOrgCookie(publicId);
 		const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
 		selectedOrg && orgStore.setOrganization(publicId);
-		if (PUBLIC_DISCOVERY_ENABLED) {
-			goto(HOME_PATH);
-		} else {
-			goto(ORGS_PATH);
-		}
+		goto(HOME_PATH);
 	};
 
 	const handleAcceptInvite = async (publicId: string) => {
@@ -85,11 +79,7 @@
 				(org) => org.publicId === invitation.organization.publicId
 			);
 			selectedOrg && orgStore.setOrganization(invitation.organization.publicId);
-			if (PUBLIC_DISCOVERY_ENABLED) {
-				goto(HOME_PATH);
-			} else {
-				goto(ORGS_PATH);
-			}
+			goto(HOME_PATH);
 		} catch (e) {
 			setTimeout(async () => {
 				const updatedInvitations = await data.reloadInvitationsHandler();
@@ -103,7 +93,7 @@
 
 	afterNavigate(({ from }) => {
 		if (from?.url.pathname.includes(ORGS_SELECT_PATH)) {
-			previousPage = PUBLIC_DISCOVERY_ENABLED ? HOME_PATH : ORGS_PATH;
+			previousPage = HOME_PATH;
 		} else {
 			previousPage = from?.url.pathname || previousPage;
 		}
