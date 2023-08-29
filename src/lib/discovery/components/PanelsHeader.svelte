@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let title: string;
 	export let disabled = false;
-	export let onClick: () => void;
+	export let onClick: (() => void) | undefined = undefined;
 </script>
 
 <button

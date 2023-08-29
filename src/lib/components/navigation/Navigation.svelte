@@ -12,13 +12,16 @@
 	import Button from '../Button.svelte';
 	import HelpCircleIcon from 'svelte-material-icons/HelpCircle.svelte';
 	import OpenInNewIcon from 'svelte-material-icons/OpenInNew.svelte';
+	import BugIcon from 'svelte-material-icons/Bug.svelte';
+	import BugOutlineIcon from 'svelte-material-icons/BugOutline.svelte';
 	import {
 		API_KEYS_PATH,
 		HOME_PATH,
 		INVALIDATED_SIGN_IN_PATH,
 		NOTION_GETTING_STARTED_DOCS,
 		SUPPORT_URL,
-		INTEGRATIONS_PATH
+		INTEGRATIONS_PATH,
+		ISSUES_PATH
 	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
@@ -28,7 +31,6 @@
 	import LogoutIcon from 'svelte-material-icons/Logout.svelte';
 	import { removeOrgCookie } from '$lib/utils/cookies';
 	import SwitchOrgButton from './SwitchOrgButton.svelte';
-	import TestModal from '../modal/OrganizationInvites.svelte';
 	import { modalStore } from '$lib/stores/modal';
 	import OrganizationInvites from '../modal/OrganizationInvites.svelte';
 
@@ -81,6 +83,13 @@
 					href={`${HOME_PATH}`}
 					OutlineIcon={HomeOutlineIcon}
 					SolidIcon={HomeIcon}
+					disabled={!organization}
+				/>
+				<NavigationItem
+					name="Issues"
+					href={`${ISSUES_PATH}`}
+					OutlineIcon={BugOutlineIcon}
+					SolidIcon={BugIcon}
 					disabled={!organization}
 				/>
 				<NavigationItem

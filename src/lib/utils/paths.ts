@@ -15,6 +15,7 @@ export const ACCOUNT_PATH = '/account';
 export const API_KEYS_PATH = '/org/api';
 export const DISCOVERY_PATH = '/explore';
 export const INTEGRATIONS_PATH = '/org/integrations';
+export const ISSUES_PATH = "/org/issues";
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
@@ -27,7 +28,8 @@ export const REDIRECT_PATHS = [
 	ACCOUNT_PATH,
 	API_KEYS_PATH,
 	DISCOVERY_PATH,
-	INTEGRATIONS_PATH
+	INTEGRATIONS_PATH,
+	ISSUES_PATH
 ] as const;
 
 export type RedirectPath = (typeof REDIRECT_PATHS)[number];
