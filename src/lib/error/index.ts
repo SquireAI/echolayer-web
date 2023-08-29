@@ -1,7 +1,7 @@
 export const ErrorMessageTypes = {
 	GENERIC: 'GENERIC',
 	UNAUTHORIZED: 'UNAUTHORIZED',
-	GITHUB_OAUTH_CODE: 'GITHUB_OAUTH_CODE',
+	OAUTH_ERROR: 'OAUTH_CODE',
 	ECHOLAYER_AUTH: 'ECHOLAYER_AUTH'
 };
 
@@ -13,8 +13,8 @@ type TypedErrorMessage = {
 export const ErrorMessages: TypedErrorMessage = {
 	GENERIC: 'Something went wrong. Please refresh the page and try again.',
 	UNAUTHORIZED: 'Unauthorized',
-	GITHUB_OAUTH_CODE: 'GitHub was unable to authenticate you. Please try again.',
-	ECHOLAYER_AUTH: 'We could not authenticate you with GitHub at this time. Please try again.'
+	OAUTH_ERROR: 'Your OAuth provider was unable to authenticate you. Please try again.',
+	ECHOLAYER_AUTH: 'We could not authenticate you at this time. Please try again.'
 };
 
 export function isErrorMessageType(type: string): boolean {

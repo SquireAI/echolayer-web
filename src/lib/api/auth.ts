@@ -13,8 +13,13 @@ export class AuthApi {
 		this.httpClient = new HttpClient(httpContext);
 	}
 
-	async gitHubAuthentication(code: string): Promise<Response> {
-		return this.httpClient.fetchGET('github', { code });
+	async providerAuthentication(provider: string, params: any): Promise<Response> {
+		return this.httpClient.fetchGET(provider, params);
+	}
+
+	async retrieveOAuthUrl(provider: string): Promise<string> {
+		const resp = await this.httpClient.fetchGET(`${provider}/oauth`);
+		return resp.json() as Promise<string>;
 	}
 
 	async checkAuth(): Promise<void> {

@@ -12,17 +12,25 @@ import type { PageServerLoad } from './$types';
 
 export const load = (async ({ cookies, fetch, url }) => {
 	const code = url.searchParams.get('code');
+	const state = url.searchParams.get('state');
+	const provider = url.searchParams.get('provider');
 	let orgs: Organization[] | undefined;
 	let org: Organization | undefined;
 	let user: User | undefined;
 	let userInvitations: Invitation[] | undefined;
-	if (!code) {
-		throw error(404, { message: ErrorMessageTypes.GITHUB_OAUTH_CODE });
+	if (!code || !provider) {
+		throw error(404, { message: ErrorMessageTypes.OAUTH_ERROR });
 	}
 
 	let context = getHttpContext(fetch, cookies);
 	try {
-		const res = await new AuthApi(context).gitHubAuthentication(code);
+		let authParams = {};
+		switch (provider) {
+			case 'github':
+				authParams = { code, state };
+				break;
+		}
+		const res = await new AuthApi(context).providerAuthentication(provider, authParams);
 		const responseCookies = getCookies(res);
 		for (const cookie of responseCookies) {
 			cookies.set(cookie.name, cookie.value, normalizeCookie(cookie));
@@ -39,7 +47,11 @@ export const load = (async ({ cookies, fetch, url }) => {
 			if (context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
 				org = orgs.find((org) => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]);
 			}
-			if (orgs?.length === 1 && !context.baseHeaders[ORGANIZATION_ID_HEADER_NAME] && userInvitations?.length === 0) {
+			if (
+				orgs?.length === 1 &&
+				!context.baseHeaders[ORGANIZATION_ID_HEADER_NAME] &&
+				userInvitations?.length === 0
+			) {
 				setServerOrgCookie(orgs[0].publicId, cookies.set);
 				org = orgs[0];
 			}
