@@ -17,8 +17,9 @@
 	import type { LayoutData } from './$types';
 	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/invitation/orgInvite.service';
 	import Modal from '$lib/components/modal/Modal.svelte';
-  
-  	export let data: LayoutData;
+	import { RELATIONS_SERVICE_CONTEXT_NAME } from '$lib/relations/relations.service';
+
+	export let data: LayoutData;
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
@@ -27,6 +28,7 @@
 	setContext(SELECTED_STORE_NAME, selectedStore);
 
 	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, data.inviteService);
+	setContext(RELATIONS_SERVICE_CONTEXT_NAME, data.relationsService);
 </script>
 
 <DiscoveryLayout>

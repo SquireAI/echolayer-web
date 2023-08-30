@@ -1,85 +1,65 @@
 <script lang="ts">
 	import FuzzySearch from 'fuzzy-search';
 
-	import { modalStore } from '$lib/stores/modal';
-	import CloseIcon from 'svelte-material-icons/Close.svelte';
-	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
-	import Check from 'svelte-material-icons/Check.svelte';
-	import Magnify from 'svelte-material-icons/Magnify.svelte';
-	import TextInput from '../TextInput.svelte';
-	import Button from '../Button.svelte';
-	import { getContext } from 'svelte';
-	import {
-		ORG_INVITATION_SERVICE_CONTEXT_NAME,
-		type OrgInvitationService
-	} from '$lib/invitation/orgInvite.service';
-	import { onMount } from 'svelte';
-	import type { Invitation } from '$lib/types';
-	import * as z from 'zod';
 	import { ERROR_TIMEOUT_MILLISECONDS } from '$lib/constants';
-	import { entityDetailsStore, teamStore } from '$lib/stores';
-	import { getOwners } from '$lib/discovery/components/details/propertyHelpers';
 	import DetailsButton from '$lib/discovery/components/details/DetailsButton.svelte';
+	import { getOwners } from '$lib/discovery/components/details/propertyHelpers';
+	import {
+		RELATIONS_SERVICE_CONTEXT_NAME,
+		type RelationsService
+	} from '$lib/relations/relations.service';
+	import { entityDetailsStore, teamStore } from '$lib/stores';
+	import { modalStore } from '$lib/stores/modal';
+	import {
+		EntityRelationshipNames,
+		type ComponentEntity,
+		type Invitation,
+		type RelationEntity,
+		type TeamEntity
+	} from '$lib/types';
+	import { getContext, onMount } from 'svelte';
+	import AccountMultiple from 'svelte-material-icons/AccountMultiple.svelte';
+	import Alert from 'svelte-material-icons/Alert.svelte';
+	import Check from 'svelte-material-icons/Check.svelte';
+	import CloseIcon from 'svelte-material-icons/Close.svelte';
+	import Magnify from 'svelte-material-icons/Magnify.svelte';
+	import * as z from 'zod';
+	import TextInput from '../TextInput.svelte';
 
 	$: owners = getOwners(entityDetailsStore, teamStore);
-	const emailSchema = z.string().email();
+	$: currentOwner = $owners[0];
 
-	const inviteService = getContext(ORG_INVITATION_SERVICE_CONTEXT_NAME) as OrgInvitationService;
-
-	let invites: Invitation[] = [];
-
-	onMount(async () => {
-		invites = (await inviteService.getInvites()) || [];
-	});
+	const relationsService = getContext(RELATIONS_SERVICE_CONTEXT_NAME) as RelationsService;
 
 	let filter = '';
 	let errorMessage = '';
 	let formError = false;
-	let revokeErrorMessage = new Map<string, string>();
+	let filteredTeams: TeamEntity[] = [];
 	$: filteredTeams = new FuzzySearch(
-		$teamStore.entity?.filter((t) => t.publicId !== $owners[0].publicId) || [],
+		$teamStore.entity?.filter((t) => t.publicId !== currentOwner.publicId) || [],
 		['name'],
 		{ caseSensitive: false }
 	).search(filter);
 
-	const handleSubmit = async (email: string) => {
-		errorMessage = '';
-		formError = false;
-		if (email.trim().length === 0) {
-			formError = true;
-			errorMessage = 'Please enter an email address';
-			return;
-		}
-
-		if (!emailSchema.safeParse(email).success) {
-			formError = true;
-			errorMessage = 'Please enter a valid email address';
-			return;
-		}
+	const handleSelect = async (ownerPublicId: string) => {
 		try {
-			const newInvite = await inviteService.createInvite(email);
-			invites = invites.concat([newInvite]);
-		} catch (error: any) {
-			formError = true;
-			errorMessage = error.body?.message || 'An error occurred while creating the invite';
-		}
-
-		// Reset the form on success
-		filter = '';
-	};
-
-	const handleRevoke = async (publicId: string) => {
-		try {
-			await inviteService.deleteInvite(publicId);
-			invites = invites.filter((i) => i.publicId !== publicId);
-		} catch (error: any) {
-			revokeErrorMessage = revokeErrorMessage.set(
-				publicId,
-				error.body?.message || 'An error occurred while revoking the invite'
+			const ownerRelation = ($entityDetailsStore.entity as ComponentEntity)?.relations?.find(
+				(relation: RelationEntity) => relation.relationshipName === EntityRelationshipNames.OWNED_BY
 			);
+			if (ownerRelation) {
+				await relationsService.updateRelations(ownerRelation?.publicId, undefined, ownerPublicId);
+			} else {
+				await relationsService.createRelations(
+					($entityDetailsStore.entity as ComponentEntity).publicId,
+					ownerPublicId,
+					EntityRelationshipNames.OWNED_BY
+				);
+			}
+			modalStore.close();
+		} catch (error: any) {
+			errorMessage = error.body?.message || 'An error occurred while changing the owner';
 			setTimeout(() => {
-				revokeErrorMessage.delete(publicId);
-				revokeErrorMessage = revokeErrorMessage;
+				errorMessage = '';
 			}, ERROR_TIMEOUT_MILLISECONDS);
 		}
 	};
@@ -92,12 +72,25 @@
 			<CloseIcon width="20" height="20" />
 		</button>
 	</div>
-	<div class="pl-3 py-2 pr-2 h-12 border-l-4 border-echolayer-blue-100 bg-echolayer-blue-100/5">
+	<div
+		class={`pl-3 py-2 pr-2 h-12 border-l-4 ${
+			currentOwner
+				? 'border-echolayer-blue-100 bg-echolayer-blue-100/5'
+				: 'border-echolayer-red bg-echolayer-red/5 text-echolayer-red-900'
+		}`}
+	>
 		<div class="flex flex-row justify-start items-center gap-2 h-full">
-			<AccountMultiple size="24" />
-			<span>
-				{$owners[0].name} is the current owner.
-			</span>
+			{#if currentOwner}
+				<AccountMultiple size="24" />
+				<span>
+					{currentOwner.name} is the current owner.
+				</span>
+			{:else}
+				<Alert size="24" />
+				<span>
+					There is no owner for this entity. It is strongly recommended to assign an owner.
+				</span>
+			{/if}
 		</div>
 	</div>
 	<div class="border-b border-t border-neutral-300 p-3 grid grid-cols-12 align-items-start gap-3">
@@ -126,7 +119,12 @@
 						{team.name}
 					</span>
 				</div>
-				<DetailsButton label="Select">
+				<DetailsButton
+					label="Select"
+					onClick={() => {
+						handleSelect(team.publicId);
+					}}
+				>
 					<span slot="icon" class="text-echolayer-blue"><Check width="20" height="20" /></span>
 				</DetailsButton>
 			</div>

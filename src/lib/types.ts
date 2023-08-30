@@ -81,6 +81,11 @@ export interface RelationEntity {
 	relationshipName: RelationType;
 }
 
+export interface RelationUpdateParams {
+	sourcePublicId?: string;
+	targetPublicId?: string;
+}
+
 export type EntityRelationship = {
 	publicId: string;
 	sourcePublicId: string;

@@ -13,16 +13,21 @@
 		selectedStore,
 		SELECTED_STORE_NAME
 	} from '$lib/stores';
-	import { navigating } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import type { NavigationTarget, NavigationType } from '@sveltejs/kit';
 	import { URL_SEARCH_PARAMS_KEYS } from '$lib/discovery/utils';
 	import Modal from '$lib/components/modal/Modal.svelte';
+	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/invitation/orgInvite.service';
+	import { RELATIONS_SERVICE_CONTEXT_NAME } from '$lib/relations/relations.service';
 
 	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
 	setContext(TEAM_STORE_NAME, teamStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
+
+	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, $page.data.inviteService);
+	setContext(RELATIONS_SERVICE_CONTEXT_NAME, $page.data.relationsService);
 
 	// we will peek into the searchParams to see what has changed so we can update the state(s) as needed
 	function isNavigating(to: NavigationTarget | null, type: Omit<NavigationType, 'enter'>): void {
