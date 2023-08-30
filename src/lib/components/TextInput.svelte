@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let value: string;
-	export let errorMessage: string;
+	export let errorMessage = '';
 
 	export let formError = false;
 

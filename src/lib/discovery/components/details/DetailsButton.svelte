@@ -1,20 +1,32 @@
 <script lang="ts">
+	import Loader from '$lib/components/Loader.svelte';
+
 	export let label = '';
 	export let onClick: () => void = () => {
 		return;
 	};
 	export let href = '';
 	export let target = '';
+	export let disabled = false;
+	export let loading = false;
 </script>
 
 {#if !href}
-	<button class="button" on:click={onClick}>
-		<slot name="icon" />
+	<button class="button" on:click={onClick} {disabled}>
+		{#if loading}
+			<Loader size={20} />
+		{:else}
+			<slot name="icon" />
+		{/if}
 		{label}
 	</button>
 {:else}
 	<a {href} class="button" data-sveltekit-preload-data="hover" on:click={onClick} {target}>
-		<slot name="icon" />
+		{#if loading}
+			<Loader size={20} />
+		{:else}
+			<slot name="icon" />
+		{/if}
 		{label}
 	</a>
 {/if}

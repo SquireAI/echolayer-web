@@ -13,7 +13,6 @@
 	import {
 		EntityRelationshipNames,
 		type ComponentEntity,
-		type Invitation,
 		type RelationEntity,
 		type TeamEntity
 	} from '$lib/types';
@@ -23,7 +22,6 @@
 	import Check from 'svelte-material-icons/Check.svelte';
 	import CloseIcon from 'svelte-material-icons/Close.svelte';
 	import Magnify from 'svelte-material-icons/Magnify.svelte';
-	import * as z from 'zod';
 	import TextInput from '../TextInput.svelte';
 
 	$: owners = getOwners(entityDetailsStore, teamStore);
@@ -32,9 +30,9 @@
 	const relationsService = getContext(RELATIONS_SERVICE_CONTEXT_NAME) as RelationsService;
 
 	let filter = '';
-	let errorMessage = '';
-	let formError = false;
+	let selectedOwner: string | undefined;
 	let filteredTeams: TeamEntity[] = [];
+	let processing = false;
 	$: filteredTeams = new FuzzySearch(
 		$teamStore.entity?.filter((t) => t.publicId !== currentOwner.publicId) || [],
 		['name'],
@@ -42,7 +40,9 @@
 	).search(filter);
 
 	const handleSelect = async (ownerPublicId: string) => {
+		processing = true;
 		try {
+			selectedOwner = ownerPublicId;
 			const ownerRelation = ($entityDetailsStore.entity as ComponentEntity)?.relations?.find(
 				(relation: RelationEntity) => relation.relationshipName === EntityRelationshipNames.OWNED_BY
 			);
@@ -55,12 +55,9 @@
 					EntityRelationshipNames.OWNED_BY
 				);
 			}
-			modalStore.close();
+			window.location.reload();
 		} catch (error: any) {
-			errorMessage = error.body?.message || 'An error occurred while changing the owner';
-			setTimeout(() => {
-				errorMessage = '';
-			}, ERROR_TIMEOUT_MILLISECONDS);
+			processing = false;
 		}
 	};
 </script>
@@ -95,7 +92,7 @@
 	</div>
 	<div class="border-b border-t border-neutral-300 p-3 grid grid-cols-12 align-items-start gap-3">
 		<div class="flex flex-col col-span-12">
-			<TextInput bind:value={filter} {errorMessage} {formError} placeholder="Filter by name...">
+			<TextInput bind:value={filter} placeholder="Filter by name...">
 				<span slot="icon" class="text-neutral-400">
 					<Magnify size="16" />
 				</span>
@@ -124,6 +121,8 @@
 					onClick={() => {
 						handleSelect(team.publicId);
 					}}
+					disabled={processing}
+					loading={processing && selectedOwner === team.publicId}
 				>
 					<span slot="icon" class="text-echolayer-blue"><Check width="20" height="20" /></span>
 				</DetailsButton>
