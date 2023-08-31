@@ -16,17 +16,18 @@
 
 		<div class="flex flex-row">
 			<!-- Using button for plain text for formatting consistency -->
-			<button
+			<svelte:element
+				this={property.clickHandler ? 'button' : 'div'}
 				on:click={property.clickHandler}
 				class={`h-full w-full text-start px-2 ${
-					property.clickHandler ? 'hover:bg-neutral-100' : 'cursor-default'
+					property.clickHandler ? 'hover:bg-neutral-100' : ''
 				} ${property.classes}`}
 			>
-				<span class="flex flex-row gap-2 items-center">
+				<span class="flex flex-row gap-2 items-center h-full">
 					<svelte:component this={property.itemIcon} />
 					{property.value}
 				</span>
-			</button>
+			</svelte:element>
 		</div>
 	</div>
 {/if}
