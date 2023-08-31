@@ -32,7 +32,7 @@ export const orgRequired = async (context: httpContext): Promise<Organization> =
 		orgs = orgs.concat(await new OrganizationApi(context).list());
 	} catch (err) {
 		if ((err as HttpError).status === 401) {
-			throw error(401, { message: ErrorMessageTypes.UNAUTHORIZED });
+			throw redirect(307, INVALIDATED_SIGN_IN_PATH);
 		} else {
 			throw error(404, { message: ErrorMessageTypes.GENERIC });
 		}
