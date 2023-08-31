@@ -263,6 +263,8 @@ export type DetailProperty = {
 	title: string;
 	value: string;
 	status?: 'warning' | 'error';
-	icon?: ComponentType;
+	fieldIcon?: ComponentType;
+	itemIcon?: ComponentType;
+	classes?: string;
 	clickHandler?: () => Promise<void> | void;
 };

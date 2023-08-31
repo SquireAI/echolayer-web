@@ -34,7 +34,7 @@
 	let filteredTeams: TeamEntity[] = [];
 	let processing = false;
 	$: filteredTeams = new FuzzySearch(
-		$teamStore.entity?.filter((t) => t.publicId !== currentOwner.publicId) || [],
+		$teamStore.entity?.filter((t) => t.publicId !== currentOwner?.publicId) || [],
 		['name'],
 		{ caseSensitive: false }
 	).search(filter);

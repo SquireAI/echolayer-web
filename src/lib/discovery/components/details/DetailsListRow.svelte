@@ -8,7 +8,7 @@
 {#if property}
 	<div class="details-list-row {status}">
 		<div class="flex flex-row justify-start items-center gap-2 h-full">
-			<svelte:component this={property.icon} />
+			<svelte:component this={property.fieldIcon} />
 			<span>
 				{property.title}
 			</span>
@@ -20,9 +20,12 @@
 				on:click={property.clickHandler}
 				class={`h-full w-full text-start px-2 ${
 					property.clickHandler ? 'hover:bg-neutral-100' : 'cursor-default'
-				}`}
+				} ${property.classes}`}
 			>
-				{property.value}
+				<span class="flex flex-row gap-2 items-center">
+					<svelte:component this={property.itemIcon} />
+					{property.value}
+				</span>
 			</button>
 		</div>
 	</div>

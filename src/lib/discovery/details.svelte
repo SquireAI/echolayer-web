@@ -12,6 +12,8 @@
 	import { getOwners } from './components/details/propertyHelpers';
 	import ChangeOwner from '$lib/components/modal/ChangeOwner.svelte';
 	import { modalStore } from '$lib/stores/modal';
+	import TeamIcon from './components/details/icons/TeamIcon.svelte';
+	import WarningIcon from './components/details/icons/WarningIcon.svelte';
 
 	// Panel controls
 	export let open: boolean;
@@ -21,15 +23,34 @@
 	$: entity?.publicId, (properties = []); // Clear properties when entity changes
 	const owners = getOwners(entityDetailsStore, teamStore);
 	$: entity?.publicId,
-		(properties =
-			($owners || []).map((t) => ({
-				title: 'Owner',
-				value: t.name,
-				icon: OwnerIcon,
-				clickHandler: () => {
-					modalStore.trigger({ title: `Change owner for ${entity?.name}`, component: ChangeOwner });
-				}
-			})) || []);
+		(properties = $owners.length
+			? $owners.map((t) => ({
+					title: 'Owner',
+					value: t.name,
+					fieldIcon: OwnerIcon,
+					itemIcon: TeamIcon,
+					clickHandler: () => {
+						modalStore.trigger({
+							title: `Change owner for ${entity?.name}`,
+							component: ChangeOwner
+						});
+					}
+			  }))
+			: [
+					{
+						title: 'Owner',
+						value: 'No owner assigned',
+						fieldIcon: OwnerIcon,
+						itemIcon: WarningIcon,
+						classes: 'text-echolayer-red-900 font-medium',
+						clickHandler: () => {
+							modalStore.trigger({
+								title: `Change owner for ${entity?.name}`,
+								component: ChangeOwner
+							});
+						}
+					}
+			  ]);
 
 	const hasMetadata = (entity?: GraphedEntity) => {
 		if (!entity || !entity.metadata) return false;
