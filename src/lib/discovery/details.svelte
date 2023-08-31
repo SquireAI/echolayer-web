@@ -6,23 +6,51 @@
 	import DetailsTitle from '$lib/discovery/components/details/DetailsTitle.svelte';
 	import { entityDetailsStore, selectedStore, teamStore } from '$lib/stores';
 	import { EntityTypes, type DetailProperty, type GraphedEntity } from '$lib/types';
-	import { onMount } from 'svelte';
 	import DetailsList from './components/details/DetailsList.svelte';
 	import MembersList from './components/details/MembersList.svelte';
 	import OwnerIcon from './components/details/icons/OwnerIcon.svelte';
 	import { getOwners } from './components/details/propertyHelpers';
+	import ChangeOwner from '$lib/components/modal/ChangeOwner.svelte';
+	import { modalStore } from '$lib/stores/modal';
+	import TeamIcon from './components/details/icons/TeamIcon.svelte';
+	import WarningIcon from './components/details/icons/WarningIcon.svelte';
 
 	// Panel controls
 	export let open: boolean;
 	$: entity = $entityDetailsStore.entity;
 	let properties: DetailProperty[] = [];
 
-	$: (entity?.publicId, properties = []) // Clear properties when entity changes
+	$: entity?.publicId, (properties = []); // Clear properties when entity changes
 	const owners = getOwners(entityDetailsStore, teamStore);
-	$: (
-		entity?.publicId,
-		properties = ($owners || []).map(t => ({ title: "Owner", value: t.name, icon: OwnerIcon })) || []
-	);
+	$: entity?.publicId,
+		(properties = $owners.length
+			? $owners.map((t) => ({
+					title: 'Owner',
+					value: t.name,
+					fieldIcon: OwnerIcon,
+					itemIcon: TeamIcon,
+					clickHandler: () => {
+						modalStore.trigger({
+							title: `Change owner for ${entity?.name}`,
+							component: ChangeOwner
+						});
+					}
+			  }))
+			: [
+					{
+						title: 'Owner',
+						value: 'No owner assigned',
+						fieldIcon: OwnerIcon,
+						itemIcon: WarningIcon,
+						classes: 'text-echolayer-red-900 font-medium',
+						clickHandler: () => {
+							modalStore.trigger({
+								title: `Change owner for ${entity?.name}`,
+								component: ChangeOwner
+							});
+						}
+					}
+			  ]);
 
 	const hasMetadata = (entity?: GraphedEntity) => {
 		if (!entity || !entity.metadata) return false;
@@ -45,9 +73,7 @@
 
 		{#if entity?.type === EntityTypes.COMPONENT}
 			<DetailsSectionHeader label="Properties" />
-			<DetailsList 
-				properties={properties}
-			/>
+			<DetailsList {properties} />
 		{/if}
 
 		{#if hasMetadata($entityDetailsStore.entity)}

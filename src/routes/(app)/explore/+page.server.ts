@@ -8,10 +8,10 @@ import type {
 	OriginAndComponentData,
 	RelationGraphEntity
 } from '$lib/types';
+import { orgRequired } from '$lib/utils/access';
 import { HOME_PATH } from '$lib/utils/paths';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { flagRequired } from '$lib/utils/access';
 
 export const load = (async ({
 	url,
@@ -19,6 +19,7 @@ export const load = (async ({
 	fetch
 }): Promise<BaseContextData & OriginAndComponentData> => {
 	const context = getHttpContext(fetch, cookies);
+	const org = await orgRequired(context);
 
 	const teamApi = new TeamApi(context);
 	const graphApi = new RelationsGraphApi(context);
@@ -60,6 +61,7 @@ export const load = (async ({
 		...(components && { components }),
 		...(origin && { origin }),
 		...(selected && { selected }),
-		...(relations && { relations })
+		...(relations && { relations }),
+		...(org && { org })
 	};
 }) satisfies PageServerLoad;

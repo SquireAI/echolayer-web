@@ -7,25 +7,36 @@
 
 {#if property}
 	<div class="details-list-row {status}">
-		<div class="flex flex-row justify-start items-center gap-2">
-			<svelte:component this={property.icon} />
+		<div class="flex flex-row justify-start items-center gap-2 h-full">
+			<svelte:component this={property.fieldIcon} />
 			<span>
 				{property.title}
 			</span>
 		</div>
 
-		<div class="flex flex-row items-center">
-			<span>
-				{property.value}
-			</span>
+		<div class="flex flex-row">
+			<!-- Using button for plain text for formatting consistency -->
+			<svelte:element
+				this={property.clickHandler ? 'button' : 'div'}
+				on:click={property.clickHandler}
+				class={`h-full w-full text-start px-2 ${
+					property.clickHandler ? 'hover:bg-neutral-100' : ''
+				} ${property.classes}`}
+			>
+				<span class="flex flex-row gap-2 items-center h-full">
+					<svelte:component this={property.itemIcon} />
+					{property.value}
+				</span>
+			</svelte:element>
 		</div>
 	</div>
 {/if}
 
 <style lang="scss">
 	.details-list-row {
-		@apply px-3 py-2;
-		@apply border-l-2 border-gray-200;
+		@apply pl-3 py-2 pr-2;
+		@apply h-12;
+		@apply border-l-4 border-gray-200;
 		@apply grid;
 		@apply text-xs;
 		@apply grid-cols-1/3-2/3;

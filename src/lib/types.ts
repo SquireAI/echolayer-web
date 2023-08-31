@@ -81,6 +81,11 @@ export interface RelationEntity {
 	relationshipName: RelationType;
 }
 
+export interface RelationUpdateParams {
+	sourcePublicId?: string;
+	targetPublicId?: string;
+}
+
 export type EntityRelationship = {
 	publicId: string;
 	sourcePublicId: string;
@@ -254,4 +259,12 @@ export const SVELVET_INTERNAL_EDGE_STORE = 'edge';
 
 export const SVELVET_INTERNAL_NODE_STORE = 'node';
 
-export type DetailProperty = { title: string; value: string; status?: 'warning' | 'error', icon?: ComponentType, };
+export type DetailProperty = {
+	title: string;
+	value: string;
+	status?: 'warning' | 'error';
+	fieldIcon?: ComponentType;
+	itemIcon?: ComponentType;
+	classes?: string;
+	clickHandler?: () => Promise<void> | void;
+};

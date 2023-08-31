@@ -6,7 +6,7 @@
 </script>
 
 <div class="details-list h-full">
-	<div class="space-y-1 flex-1 flex flex-col">
+	<div class="space-y-1 flex-1 flex flex-col gap-1">
 		{#each properties as property}
 			<DetailsListRow {property} />
 		{/each}

@@ -23,7 +23,7 @@
 	let invites: Invitation[] = [];
 
 	onMount(async () => {
-		invites = (await inviteService.getInvites()) || [];
+		invites = (await inviteService?.getInvites()) || [];
 	});
 
 	let invitationEmail = '';
