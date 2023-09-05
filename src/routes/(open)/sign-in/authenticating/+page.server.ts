@@ -27,6 +27,7 @@ export const load = (async ({ cookies, fetch, url }) => {
 		let authParams = {};
 		switch (provider) {
 			case 'github':
+			case 'gitlab':
 				authParams = { code, state };
 				break;
 		}
