@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 h1 {
-	@apply text-5xl font-normal;
+	@apply text-4xl font-normal;
 }
 
 h2 {
-	@apply text-4xl font-light;
+	@apply text-3xl font-light;
 }
 
 h3 {
@@ -30,7 +30,7 @@ p {
 		'main main main';
 
 	@apply antialiased;
-	@apply bg-echolayer-content;
+	@apply bg-neutral-25;
 
 	header {
 		grid-area: header;
@@ -38,7 +38,6 @@ p {
 		top: 0;
 		z-index: 1;
 		@apply p-1;
-		@apply bg-white;
 		box-shadow: inset 0 -1px 0 0 var(--color-neutral-300);
 		padding: 0;
 		height: 100%;
