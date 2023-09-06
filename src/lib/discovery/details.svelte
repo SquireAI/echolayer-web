@@ -65,23 +65,31 @@
 		<CollapsePanelsHeader title="Details" bind:open disabled={!$selectedStore.entity} />
 	</div>
 
-	<div class="content divide-neutral-200 divide-solid divide-y flex-1 flex flex-col">
+	<div class="content divide-neutral-200 divide-solid divide-y flex flex-col h-full">
 		<DetailsTitle>{$entityDetailsStore.entity?.name}</DetailsTitle>
-		{#if entity?.type === EntityTypes.TEAM}
-			<MembersList members={entity.members} />
-		{/if}
+		<div class="flex flex-col gap-4">
+			{#if entity?.type === EntityTypes.TEAM}
+				<div>
+					<MembersList members={entity.members} />
+				</div>
+			{/if}
 
-		{#if entity?.type === EntityTypes.COMPONENT}
-			<DetailsSectionHeader label="Properties" />
-			<DetailsList {properties} />
-		{/if}
+			{#if entity?.type === EntityTypes.COMPONENT}
+				<div>
+					<DetailsSectionHeader label="Properties" />
+					<DetailsList {properties} />
+				</div>
+			{/if}
 
-		{#if hasMetadata($entityDetailsStore.entity)}
-			<DetailsSectionHeader label="Metadata" />
-			<div class="flex-1 overflow-y-scroll basis-0">
-				<DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
-			</div>
-		{/if}
+			{#if hasMetadata($entityDetailsStore.entity)}
+				<div>
+					<DetailsSectionHeader label="Metadata" />
+					<div class="overflow-y-scroll min-h-[120px]">
+						<DetailsJson metadata={$entityDetailsStore.entity?.metadata} />
+					</div>
+				</div>
+			{/if}
+		</div>
 	</div>
 
 	<SetOriginButton {open} />
