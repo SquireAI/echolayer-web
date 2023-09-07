@@ -9,11 +9,9 @@ export type IntegrationsPageData = {
 	org: Organization;
 };
 
-export const load = (async ({ cookies, fetch }): Promise<IntegrationsPageData> => {
+export const load = (async ({ cookies, fetch, locals }): Promise<IntegrationsPageData> => {
 	const context = getHttpContext(fetch, cookies);
 	const { baseHeaders, baseUrl } = context;
 
-	const org = await orgRequired(context);
-
-	return { baseHeaders, baseUrl, org };
+	return { baseHeaders, baseUrl, org: locals.org };
 }) satisfies PageServerLoad;

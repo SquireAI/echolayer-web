@@ -5,7 +5,7 @@ import {
 	ORGS_SELECT_PATH,
 	ORGS_SELECT_PATH_WITH_INVALIDATE
 } from './paths';
-import type { Organization } from '$lib/types';
+import type { Organization, User } from '$lib/types';
 import { OrganizationApi } from '$lib/api/organization';
 import { error, redirect } from '@sveltejs/kit';
 import type { HttpError } from '@sveltejs/kit';
@@ -15,14 +15,13 @@ import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 import { InvitationUserApi } from '$lib/api/invitation-user';
 
 // User authentication required
-export const authRequired = async (context: httpContext): Promise<boolean> => {
+export const authRequired = async (context: httpContext): Promise<User> => {
 	// Check if user is authenticated
 	try {
-		await new AuthApi(context).checkAuth();
+		return await new AuthApi(context).checkAuth();
 	} catch (err) {
 		throw redirect(307, INVALIDATED_SIGN_IN_PATH);
 	}
-	return true;
 };
 
 // Organization required

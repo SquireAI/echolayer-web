@@ -32,7 +32,6 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 	let user: User | undefined;
 	let userInvitations: Invitation[] | undefined;
 
-	await authRequired(context);
 	try {
 		orgs = await new OrganizationApi(context).list();
 		userInvitations = await new InvitationUserApi(context).list({ pending: true });
@@ -45,9 +44,12 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 		}
 		throw error(404, { message: ErrorMessageTypes.GENERIC });
 	}
+	// TODO: Move this to a svelte action
 	const acceptInvitationHandler = async (publicId: string): Promise<Invitation> => {
 		return await new InvitationUserApi(context).update(publicId, {});
 	};
+
+	// TODO: Move this to a svelte action
 	const reloadInvitationsHandler = async (): Promise<Invitation[]> => {
 		return await new InvitationUserApi(context).list({ pending: true });
 	};

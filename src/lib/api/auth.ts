@@ -2,6 +2,7 @@ import { HttpClient } from '../http/httpClient';
 import type { httpContext } from '$lib/http/context';
 import { ENDPOINT, type EndpointType } from './baseApi';
 import urlJoin from 'url-join';
+import type { User } from '$lib/types';
 
 export class AuthApi {
 	protected httpClient: HttpClient;
@@ -22,8 +23,9 @@ export class AuthApi {
 		return resp.json() as Promise<string>;
 	}
 
-	async checkAuth(): Promise<void> {
-		await this.httpClient.fetchGET('check');
+	async checkAuth(): Promise<User> {
+		const resp = await this.httpClient.fetchGET('check');
+		return resp.json() as Promise<User>;
 	}
 
 	async logout(): Promise<void> {
