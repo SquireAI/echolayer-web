@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ArrowRight from 'svelte-material-icons/ArrowRight.svelte';
-	import { goto } from '$app/navigation';
 
 	export let label: any;
 	export let disabled = false;
@@ -30,9 +29,13 @@
 		</div>
 		<div class="flex-1 text-left"><p class="text-lg font-normal leading-4">{label}</p></div>
 		{#if !disabled}
-			<div>
-				<ArrowRight size="24" />
-			</div>
+			{#if $$slots.right}
+				<slot name="right" />
+			{:else}
+				<div>
+					<ArrowRight size="24" />
+				</div>
+			{/if}
 		{/if}
 	</button>
 </div>

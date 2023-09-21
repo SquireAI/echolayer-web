@@ -1,3 +1,4 @@
+import { GithubApp } from '$lib/api/github-app';
 import { SlackApi } from '$lib/api/slack';
 import { createDefaultContext } from '$lib/http/context';
 import type { PageLoad } from './$types';
@@ -6,6 +7,8 @@ import type { IntegrationsPageData } from './+page.server';
 
 export type IntegrationsPageHandlers = {
 	installSlackHandler: () => Promise<string>;
+	installGithubAppHandler: () => Promise<string>;
+	checkGithubAppHandler: () => Promise<boolean>;
 };
 
 export const load = (async ({
@@ -20,5 +23,13 @@ export const load = (async ({
 		return await new SlackApi(createDefaultContext(fetch, baseHeaders, baseUrl)).install();
 	}
 
-	return { ...data, installSlackHandler };
+	async function installGithubAppHandler(): Promise<string> {
+		return await new GithubApp(createDefaultContext(fetch, baseHeaders, baseUrl)).install();
+	}
+
+	async function checkGithubAppHandler(): Promise<boolean> {
+		return await new GithubApp(createDefaultContext(fetch, baseHeaders, baseUrl)).check();
+	}
+
+	return { ...data, installSlackHandler, installGithubAppHandler, checkGithubAppHandler };
 }) satisfies PageLoad;
