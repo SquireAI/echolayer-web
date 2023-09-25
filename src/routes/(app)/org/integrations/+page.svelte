@@ -2,24 +2,42 @@
 	import Panels from '$lib/discovery/panels.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import Slack from 'svelte-material-icons/Slack.svelte';
+	import Github from 'svelte-material-icons/Github.svelte';
 	import { browser } from '$app/environment';
 	import type { IntegrationsPageData } from './+page.server.js';
 	import type { IntegrationsPageHandlers } from './+page';
-	import SelectListItem from '$lib/components/list/SelectListItem.svelte';
+	import { onMount } from 'svelte';
+	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
+	import { page } from '$app/stores';
+	import { INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths.js';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: IntegrationsPageData & IntegrationsPageHandlers;
 
-	// Slack error
-	$: isSlackInstallationError = false;
+	let slackUrl = '';
+	let githubUrl = '';
+	let isGithubInstalled: boolean;
 
-	const installSlack = async () => {
+	onMount(async () => {
+		slackUrl = await data.installSlackHandler();
+		githubUrl = await data.installGithubAppHandler();
+		isGithubInstalled = await data.checkGithubAppHandler();
+
+		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
+			invalidateAll();
+		}
+	});
+
+	// Slack error
+	$: isInstallError = false;
+
+	const handleInstall = async (url: string) => {
 		try {
-			const url = await data.installSlackHandler();
 			if (browser) {
 				window.open(url, '_blank');
 			}
 		} catch {
-			isSlackInstallationError = true;
+			isInstallError = true;
 		}
 	};
 </script>
@@ -35,10 +53,21 @@
 				</p>
 			</div>
 			<div class="flex flex-col gap-3">
-				<SelectListItem label="Slack Notifications" handleClick={installSlack}>
+				<IntegrationListItem
+					label="Slack Notifications"
+					isInstalled={false}
+					handleInstall={() => handleInstall(slackUrl)}
+				>
 					<Slack size="24" slot="icon" />
-				</SelectListItem>
-				{#if isSlackInstallationError}
+				</IntegrationListItem>
+				<IntegrationListItem
+					label="GitHub"
+					isInstalled={isGithubInstalled}
+					handleInstall={() => handleInstall(githubUrl)}
+				>
+					<Github size="24" slot="icon" />
+				</IntegrationListItem>
+				{#if isInstallError}
 					<p class="text-red-700 select-none mt-1">
 						Something went wrong. Please try again later or <a
 							href="mailto:support@echolayer.com"
