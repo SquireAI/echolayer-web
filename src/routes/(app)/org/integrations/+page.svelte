@@ -11,17 +11,18 @@
 	import { page } from '$app/stores';
 	import { INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths.js';
 	import { invalidateAll } from '$app/navigation';
+	import type { IntegrationInstallStatus } from '$lib/types.js';
 
 	export let data: IntegrationsPageData & IntegrationsPageHandlers;
 
 	let slackUrl = '';
 	let githubUrl = '';
-	let isGithubInstalled: boolean;
+	let githubInstallStatus: IntegrationInstallStatus;
 
 	onMount(async () => {
 		slackUrl = await data.installSlackHandler();
 		githubUrl = await data.installGithubAppHandler();
-		isGithubInstalled = await data.checkGithubAppHandler();
+		githubInstallStatus = await data.checkGithubAppHandler();
 
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();
@@ -55,14 +56,13 @@
 			<div class="flex flex-col gap-3">
 				<IntegrationListItem
 					label="Slack Notifications"
-					isInstalled={false}
 					handleInstall={() => handleInstall(slackUrl)}
 				>
 					<Slack size="24" slot="icon" />
 				</IntegrationListItem>
 				<IntegrationListItem
 					label="GitHub"
-					isInstalled={isGithubInstalled}
+					installStatus={githubInstallStatus}
 					handleInstall={() => handleInstall(githubUrl)}
 				>
 					<Github size="24" slot="icon" />
