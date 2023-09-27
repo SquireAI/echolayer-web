@@ -1,3 +1,4 @@
+import type { IntegrationInstallStatus } from '$lib/types';
 import { BaseApi, ENDPOINT } from './baseApi';
 
 export class GithubApp extends BaseApi<any> {
@@ -9,12 +10,13 @@ export class GithubApp extends BaseApi<any> {
 		return (await this.httpClient.fetchGET('install')).json() as Promise<string>;
 	}
 
-	public async check(): Promise<boolean> {
+	public async check(): Promise<IntegrationInstallStatus> {
 		try {
-			await this.httpClient.fetchGET('/install/check');
-			return true;
+			const response = await this.httpClient.fetchGET('/install/check');
+			const data = await response.json();
+			return data.status || undefined;
 		} catch (e) {
-			return false;
+			return undefined;
 		}
 	}
 }
