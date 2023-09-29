@@ -2,11 +2,11 @@
 	import Button from '$lib/components/Button.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
 
-	export let handleSubmit: (orgName: string) => Promise<void>;
+	export let handleSubmit: (accessToken: string) => Promise<void>;
 
 	let errorMessage: string;
-	let orgName: string;
-	$: orgName = '';
+	let accessToken: string;
+	$: accessToken = '';
 
 	let formError: boolean;
 	$: formError = false;
@@ -19,7 +19,7 @@
 
 	async function handleNameChange(e: Event) {
 		const target = e.target as HTMLInputElement;
-		orgName = target.value;
+		accessToken = target.value;
 	}
 
 	async function handleKeyPress(e: Event): Promise<void> {
@@ -29,9 +29,9 @@
 	async function onSubmit() {
 		errorMessage = '';
 		// Validate form
-		if (orgName.trim().length === 0) {
+		if (accessToken.trim().length === 0) {
 			formError = true;
-			errorMessage = 'Please enter an organization name';
+			errorMessage = 'Please enter your access token';
 			loading = false;
 			return;
 		}
@@ -44,7 +44,7 @@
 
 		apiError = false;
 		try {
-			await handleSubmit(orgName);
+			await handleSubmit(accessToken);
 		} catch (error) {
 			apiError = true;
 			loading = false;
@@ -53,10 +53,10 @@
 
 	let classNames =
 		'w-full h-8 rounded-sm focus:ring-transparent focus:bg-neutral-200 filled:bg-neutral-200 text-neutral-900 sm:text-md border border-gray-900 px-4';
-	$: if (formError && !orgName) {
+	$: if (formError && !accessToken) {
 		classNames = `${classNames} bg-neutral-200 border-echolayer-red focus:border-echolayer-red`;
 	} else {
-		if (orgName.trim().length === 0) {
+		if (accessToken.trim().length === 0) {
 			classNames = `${classNames} bg-neutral-100`;
 		} else {
 			classNames = `${classNames} bg-neutral-200`;
@@ -67,7 +67,7 @@
 <div class="flex flex-col overflow-hidden text-center items-center gap-y-6 w-full">
 	<div class="w-full">
 		<TextInput
-			bind:value={orgName}
+			bind:value={accessToken}
 			on:input={handleNameChange}
 			on:keyup={handleKeyPress}
 			placeholder="Enter your Group Access Token here..."
@@ -79,7 +79,7 @@
 		<Button class="h-10" type="primary" bind:loading handleClick={onSubmit} full>Continue</Button>
 		{#if apiError}
 			<p class={`text-echolayer-red text-sm mt-2`}>
-				"Failed to configure integration. Please try again."
+				Failed to configure integration. Please try again.
 			</p>
 		{/if}
 	</div>

@@ -10,8 +10,12 @@
 	import { onMount } from 'svelte';
 	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
 	import { page } from '$app/stores';
-	import { GITLAB_SETUP_PATH, INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths.js';
-	import { invalidateAll } from '$app/navigation';
+	import {
+		GITLAB_SETUP_PATH,
+		INTEGRATIONS_PATH,
+		INVALIDATE_QUERY_PARAMETER_NAME
+	} from '$lib/utils/paths.js';
+	import { goto, invalidateAll } from '$app/navigation';
 	import type { IntegrationInstallStatus, IntegrationStatus } from '$lib/types.js';
 	import Button from '$lib/components/Button.svelte';
 
@@ -20,19 +24,13 @@
 	let slackUrl = '';
 	let githubUrl = '';
 	let githubInstallStatus: IntegrationInstallStatus;
-	let gitlabStatus: IntegrationStatus = { status: 'connected' };
+	let gitlabStatus: IntegrationStatus = {};
 
 	onMount(async () => {
 		slackUrl = await data.installSlackHandler();
 		githubUrl = await data.installGithubAppHandler();
 		githubInstallStatus = await data.checkGithubAppHandler();
-		gitlabStatus = {
-			status: 'disconnected',
-			errors: [
-				'Your group access token is expired or no longer working. Please generate a new one, or contact support for any other issues.'
-			]
-		};
-		const gitlabSecretKey = await data.installGitlabHandler('glpat-BAzXn_qMDEAwGmAUd7nV');
+		gitlabStatus = await data.checkGitlabHandler();
 
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();
@@ -51,12 +49,17 @@
 			isInstallError = true;
 		}
 	};
+
+	const handleUninstallGitlab = async () => {
+		await data.uninstallGitlabHandler();
+		gitlabStatus = await data.checkGitlabHandler();
+	};
 </script>
 
 <Panels>
 	<Navigation slot="nav" />
 	<div class="content" slot="content">
-		<div class="flex flex-col gap-6 w-96 mx-auto mt-16">
+		<div class="flex flex-col gap-6 w-[600px] mx-auto mt-16">
 			<div class="flex flex-col items-center">
 				<h2 class="font-medium text-2xl">Integrations</h2>
 				<p class="text-neutral-400 text-center">
@@ -81,16 +84,24 @@
 					label="GitLab"
 					installStatus={gitlabStatus.status}
 					errors={gitlabStatus.errors}
-					handleInstall={() => handleInstall(githubUrl)}
+					handleInstall={() => goto(`${GITLAB_SETUP_PATH}?step=token`)}
 				>
 					<Gitlab size="24" slot="icon" />
 					<div
 						slot="footnote"
 						class={`text-neutral-500 font-medium ${gitlabStatus.status ? '' : 'hidden'}`}
 					>
-						<Button type="link" class="text-echolayer-blue">New secret token</Button> •
-						<Button type="link" class="text-echolayer-blue">Edit group access token</Button> •
-						<Button type="link" class="text-echolayer-red" href={GITLAB_SETUP_PATH}>Remove</Button>
+						<Button
+							type="link"
+							class="text-echolayer-blue"
+							href={`${GITLAB_SETUP_PATH}?step=webhook`}>New secret token</Button
+						> •
+						<Button type="link" class="text-echolayer-blue" href={`${GITLAB_SETUP_PATH}?step=token`}
+							>Edit group access token</Button
+						> •
+						<Button type="link" class="text-echolayer-red" handleClick={handleUninstallGitlab}
+							>Remove</Button
+						>
 					</div>
 				</IntegrationListItem>
 				{#if isInstallError}

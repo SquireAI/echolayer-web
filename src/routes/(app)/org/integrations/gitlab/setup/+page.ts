@@ -8,8 +8,10 @@ import type { PageLoad } from './$types';
 import type { GitlabIntegrationsPageData } from './+page.server';
 
 export type GitlabIntegrationsPageHandlers = {
-	installGitlabHandler: (acecssToken: string) => Promise<string>;
-	checkGitlabHandler: () => Promise<IntegrationInstallStatus>;
+	installGitlabHandler: (acecssToken: string) => Promise<void>;
+	checkGitlabHandler: () => Promise<IntegrationStatus>;
+	getGitlabSecretTokenHandler: () => Promise<string>;
+	updateGitlabAccessTokenHandler: (accessToken: string) => Promise<void>;
 };
 
 export const load = (async ({
@@ -20,9 +22,13 @@ export const load = (async ({
 	await parent();
 	const { baseHeaders, baseUrl } = data;
 
-	async function installGitlabHandler(accessToken: string): Promise<string> {
+	async function installGitlabHandler(accessToken: string): Promise<void> {
 		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
 		await api.install(accessToken);
+	}
+
+	async function getGitlabSecretTokenHandler(): Promise<string> {
+		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
 		return await api.getSecretToken();
 	}
 
@@ -31,5 +37,16 @@ export const load = (async ({
 		return await api.check();
 	}
 
-	return { ...data, installGitlabHandler, checkGitlabHandler };
+	async function updateGitlabAccessTokenHandler(accessToken: string): Promise<void> {
+		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
+		await api.updateAccessToken(accessToken);
+	}
+
+	return {
+		...data,
+		installGitlabHandler,
+		checkGitlabHandler,
+		updateGitlabAccessTokenHandler,
+		getGitlabSecretTokenHandler
+	};
 }) satisfies PageLoad;
