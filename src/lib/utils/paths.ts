@@ -15,6 +15,7 @@ export const ACCOUNT_PATH = '/account';
 export const API_KEYS_PATH = '/org/api';
 export const DISCOVERY_PATH = '/explore';
 export const INTEGRATIONS_PATH = '/org/integrations';
+export const GITLAB_SETUP_PATH = '/org/integrations/gitlab/setup';
 export const INTEGRATIONS_PATH_WITH_INVALIDATE = `${INTEGRATIONS_PATH}?${INVALIDATE_QUERY_PARAMETER_NAME}`;
 export const ISSUES_PATH = '/org/issues';
 

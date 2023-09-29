@@ -269,4 +269,8 @@ export type DetailProperty = {
 	clickHandler?: () => Promise<void> | void;
 };
 
-export type IntegrationInstallStatus = 'connected' | 'pending' | undefined;
+export type IntegrationInstallStatus = 'connected' | 'pending' | 'disconnected' | undefined;
+export type IntegrationStatus = {
+	status?: IntegrationInstallStatus;
+	errors?: string[];
+};

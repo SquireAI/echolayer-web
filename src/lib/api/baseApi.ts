@@ -16,6 +16,7 @@ export const ENDPOINT = {
 	githubApp: 'source/github',
 	invitationUser: 'invitation/user',
 	invitationOrg: 'invitation/org',
+	sourceGitlab: 'source/gitlab',
 	auth: 'auth',
 	apiKey: 'auth/api-key',
 	user: 'user',
