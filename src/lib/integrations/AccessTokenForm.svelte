@@ -73,6 +73,7 @@
 			placeholder="Enter your Group Access Token here..."
 			autocomplete="organization"
 			bind:errorMessage
+			type="password"
 		/>
 	</div>
 	<div class="w-full">
