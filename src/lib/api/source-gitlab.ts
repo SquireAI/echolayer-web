@@ -9,6 +9,10 @@ export class SourceGitlabApi extends BaseApi<any> {
 		await this.httpClient.fetchPOST('install', undefined, { accessToken });
 	}
 
+	public async sync(): Promise<void> {
+		await this.httpClient.fetchGET('sync');
+	}
+
 	public async getSecretToken(): Promise<string> {
 		return (await this.httpClient.fetchGET('secret-key')).json() as Promise<string>;
 	}

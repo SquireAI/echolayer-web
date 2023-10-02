@@ -30,14 +30,12 @@
 				<slot name="icon" />
 			</div>
 			<div class="flex-1 text-left"><p class="text-lg font-normal leading-4">{label}</p></div>
-			{#if !disabled}
-				{#if $$slots.right}
-					<slot name="right" />
-				{:else}
-					<div>
-						<ArrowRight size="24" />
-					</div>
-				{/if}
+			{#if $$slots.right}
+				<slot name="right" />
+			{:else if !disabled}
+				<div>
+					<ArrowRight size="24" />
+				</div>
 			{/if}
 		</div>
 	</button>

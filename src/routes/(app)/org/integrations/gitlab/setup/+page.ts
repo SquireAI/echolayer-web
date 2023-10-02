@@ -12,6 +12,7 @@ export type GitlabIntegrationsPageHandlers = {
 	checkGitlabHandler: () => Promise<IntegrationStatus>;
 	getGitlabSecretTokenHandler: () => Promise<string>;
 	updateGitlabAccessTokenHandler: (accessToken: string) => Promise<void>;
+	syncGitlabHandler(): Promise<void>;
 };
 
 export const load = (async ({
@@ -25,6 +26,7 @@ export const load = (async ({
 	async function installGitlabHandler(accessToken: string): Promise<void> {
 		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
 		await api.install(accessToken);
+		await api.sync();
 	}
 
 	async function getGitlabSecretTokenHandler(): Promise<string> {
@@ -42,11 +44,17 @@ export const load = (async ({
 		await api.updateAccessToken(accessToken);
 	}
 
+	async function syncGitlabHandler(): Promise<void> {
+		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
+		await api.sync();
+	}
+
 	return {
 		...data,
 		installGitlabHandler,
 		checkGitlabHandler,
 		updateGitlabAccessTokenHandler,
-		getGitlabSecretTokenHandler
+		getGitlabSecretTokenHandler,
+		syncGitlabHandler
 	};
 }) satisfies PageLoad;

@@ -11,7 +11,6 @@ export type IntegrationsPageHandlers = {
 	installSlackHandler: () => Promise<string>;
 	installGithubAppHandler: () => Promise<string>;
 	checkGithubAppHandler: () => Promise<IntegrationInstallStatus>;
-	installGitlabHandler: (acecssToken: string) => Promise<string>;
 	uninstallGitlabHandler: () => Promise<void>;
 	checkGitlabHandler: () => Promise<IntegrationStatus>;
 };
@@ -36,12 +35,6 @@ export const load = (async ({
 		return await new GithubApp(createDefaultContext(fetch, baseHeaders, baseUrl)).check();
 	}
 
-	async function installGitlabHandler(accessToken: string): Promise<string> {
-		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
-		await api.install(accessToken);
-		return await api.getSecretToken();
-	}
-
 	async function checkGitlabHandler(): Promise<IntegrationStatus> {
 		const api = new SourceGitlabApi(createDefaultContext(fetch, baseHeaders, baseUrl));
 		return await api.check();
@@ -57,7 +50,6 @@ export const load = (async ({
 		installSlackHandler,
 		installGithubAppHandler,
 		checkGithubAppHandler,
-		installGitlabHandler,
 		checkGitlabHandler,
 		uninstallGitlabHandler
 	};

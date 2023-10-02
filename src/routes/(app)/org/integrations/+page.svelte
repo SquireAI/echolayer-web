@@ -10,21 +10,19 @@
 	import { onMount } from 'svelte';
 	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
 	import { page } from '$app/stores';
-	import {
-		GITLAB_SETUP_PATH,
-		INTEGRATIONS_PATH,
-		INVALIDATE_QUERY_PARAMETER_NAME
-	} from '$lib/utils/paths.js';
+	import { GITLAB_SETUP_PATH, INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths.js';
 	import { goto, invalidateAll } from '$app/navigation';
 	import type { IntegrationInstallStatus, IntegrationStatus } from '$lib/types.js';
 	import Button from '$lib/components/Button.svelte';
+	import Loader from '$lib/components/Loader.svelte';
 
 	export let data: IntegrationsPageData & IntegrationsPageHandlers;
 
 	let slackUrl = '';
 	let githubUrl = '';
 	let githubInstallStatus: IntegrationInstallStatus;
-	let gitlabStatus: IntegrationStatus = {};
+	let gitlabStatus: IntegrationStatus;
+	let isLoaded = false;
 
 	onMount(async () => {
 		slackUrl = await data.installSlackHandler();
@@ -35,6 +33,7 @@
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();
 		}
+		isLoaded = true;
 	});
 
 	// Slack error
@@ -66,53 +65,64 @@
 					Our integrations are easily available for you. Click below for our options.
 				</p>
 			</div>
-			<div class="flex flex-col gap-3">
-				<IntegrationListItem
-					label="Slack Notifications"
-					handleInstall={() => handleInstall(slackUrl)}
-				>
-					<Slack size="24" slot="icon" />
-				</IntegrationListItem>
-				<IntegrationListItem
-					label="GitHub"
-					installStatus={githubInstallStatus}
-					handleInstall={() => handleInstall(githubUrl)}
-				>
-					<Github size="24" slot="icon" />
-				</IntegrationListItem>
-				<IntegrationListItem
-					label="GitLab"
-					installStatus={gitlabStatus.status}
-					errors={gitlabStatus.errors}
-					handleInstall={() => goto(`${GITLAB_SETUP_PATH}?step=token`)}
-				>
-					<Gitlab size="24" slot="icon" />
-					<div
-						slot="footnote"
-						class={`text-neutral-500 font-medium ${gitlabStatus.status ? '' : 'hidden'}`}
+			{#if isLoaded}
+				<div class="flex flex-col gap-3">
+					<IntegrationListItem
+						label="Slack Notifications"
+						handleInstall={() => handleInstall(slackUrl)}
 					>
-						<Button
-							type="link"
-							class="text-echolayer-blue"
-							href={`${GITLAB_SETUP_PATH}?step=webhook`}>New secret token</Button
-						> •
-						<Button type="link" class="text-echolayer-blue" href={`${GITLAB_SETUP_PATH}?step=token`}
-							>Edit group access token</Button
-						> •
-						<Button type="link" class="text-echolayer-red" handleClick={handleUninstallGitlab}
-							>Remove</Button
+						<Slack size="24" slot="icon" />
+					</IntegrationListItem>
+					<IntegrationListItem
+						label="GitHub"
+						installStatus={githubInstallStatus}
+						handleInstall={() => handleInstall(githubUrl)}
+					>
+						<Github size="24" slot="icon" />
+					</IntegrationListItem>
+
+					<IntegrationListItem
+						label="GitLab"
+						installStatus={gitlabStatus.status}
+						errors={gitlabStatus.errors}
+						handleInstall={() => goto(`${GITLAB_SETUP_PATH}?step=token`)}
+						disabled={!!gitlabStatus.status}
+					>
+						<Gitlab size="24" slot="icon" />
+						<div
+							slot="footnote"
+							class={`text-neutral-500 font-medium ${gitlabStatus.status ? '' : 'hidden'}`}
 						>
-					</div>
-				</IntegrationListItem>
-				{#if isInstallError}
-					<p class="text-red-700 select-none mt-1">
-						Something went wrong. Please try again later or <a
-							href="mailto:support@echolayer.com"
-							class="ext-blue-600 dark:text-blue-500 hover:underline">contact support</a
-						>.
-					</p>
-				{/if}
-			</div>
+							<Button
+								type="link"
+								class="text-echolayer-blue"
+								href={`${GITLAB_SETUP_PATH}?step=webhook`}>New secret token</Button
+							> •
+							<Button
+								type="link"
+								class="text-echolayer-blue"
+								href={`${GITLAB_SETUP_PATH}?step=token`}>Edit group access token</Button
+							> •
+							<Button type="link" class="text-echolayer-red" handleClick={handleUninstallGitlab}
+								>Remove</Button
+							>
+						</div>
+					</IntegrationListItem>
+
+					{#if isInstallError}
+						<p class="text-red-700 select-none mt-1">
+							Something went wrong. Please try again later or <a
+								href="mailto:support@echolayer.com"
+								class="ext-blue-600 dark:text-blue-500 hover:underline">contact support</a
+							>.
+						</p>
+					{/if}
+				</div>
+			{:else}
+				<div class="flex items-center justify-center">
+					<Loader size={40} />
+				</div>
+			{/if}
 		</div>
 	</div>
 </Panels>
