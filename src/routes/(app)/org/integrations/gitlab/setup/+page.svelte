@@ -21,6 +21,7 @@
 	import { page } from '$app/stores';
 	import CopyToken from '$lib/account/CopyToken.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Loader from '$lib/components/Loader.svelte';
 
 	export let data: GitlabIntegrationsPageData & GitlabIntegrationsPageHandlers;
 	let secretToken: string;
@@ -121,6 +122,10 @@
 					</div>
 				</div>
 			{/if}
+		{:else}
+			<div class="flex items-center justify-center mt-64">
+				<Loader size={40} />
+			</div>
 		{/if}
 	</div>
 </Panels>
