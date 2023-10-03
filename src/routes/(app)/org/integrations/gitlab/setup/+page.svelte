@@ -8,7 +8,12 @@
 		UserStore,
 		IntegrationStatus
 	} from '$lib/types';
-	import { GITLAB_SETUP_PATH, HOME_PATH, INTEGRATIONS_PATH } from '$lib/utils/paths';
+	import {
+		GITLAB_SETUP_PATH,
+		HOME_PATH,
+		INTEGRATIONS_PATH,
+		NOTION_GITLAB_SETUP_DOCS
+	} from '$lib/utils/paths';
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import Panels from '$lib/discovery/panels.svelte';
@@ -80,7 +85,10 @@
 						<h2 class="font-medium text-2xl mt-8">Insert secret token into webhook</h2>
 						<p class="text-neutral-500 text-center">
 							Please create a GitLab webhook using the provided secret token below to allow
-							synchronization with members and entities. Click here to learn more.
+							synchronization with members and entities. <a
+								href={NOTION_GITLAB_SETUP_DOCS}
+								class="text-echolayer-blue hover:underline">Click here to learn more.</a
+							>
 						</p>
 						<p class="text-neutral-500 text-center mt-4">
 							This is a required step to keep your GitLab data on EchoLayer in-sync.
