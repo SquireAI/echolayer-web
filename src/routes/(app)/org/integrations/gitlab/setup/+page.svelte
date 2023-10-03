@@ -65,24 +65,24 @@
 	<div class="content" slot="content">
 		{#if isLoaded}
 			{#if data.step === 'token'}
-				<div class="flex flex-col gap-6 w-[600px] mx-auto mt-64">
-					<div class="flex flex-col items-center gap-6">
-						<Gitlab size="36" />
-						<h2 class="font-medium text-2xl mt-8">Please enter your Group Access Token.</h2>
-						<p class="text-neutral-500 text-center">
-							In order to connect to GitLab, you will need to enter a Group Access Token for your
-							top-level group on GitLab and set up a webhook with our API. <a
-								href={NOTION_GITLAB_SETUP_DOCS}
-								class="text-echolayer-blue hover:underline">Click here to learn more.</a
-							>
-						</p>
-					</div>
-					<div class="flex flex-col gap-3">
+				<div
+					class="flex flex-col justify-center items-center gap-8 w-[600px] mx-auto my-auto min-h-screen"
+				>
+					<Gitlab size="36" />
+					<h2 class="font-medium text-2xl mt-8">Please enter your Group Access Token.</h2>
+					<p class="text-neutral-500 text-center">
+						In order to connect to GitLab, you will need to enter a Group Access Token for your
+						top-level group on GitLab and set up a webhook with our API. <a
+							href={NOTION_GITLAB_SETUP_DOCS}
+							class="text-echolayer-blue hover:underline">Click here to learn more.</a
+						>
+					</p>
+					<div class="flex flex-col gap-3 w-full">
 						<AccessTokenForm handleSubmit={onContinueSetup} />
 					</div>
 				</div>
 			{:else}
-				<div class="flex flex-col gap-12 w-[600px] mx-auto mt-64">
+				<div class="flex flex-col justify-center gap-12 w-[600px] mx-auto my-auto min-h-screen">
 					<div class="flex flex-col items-center gap-1">
 						<Webhook size="36" class="text-neutral-300" />
 						<h2 class="font-medium text-2xl mt-8">Insert secret token into webhook</h2>
@@ -134,7 +134,7 @@
 				</div>
 			{/if}
 		{:else}
-			<div class="flex items-center justify-center mt-64">
+			<div class="flex items-center justify-center my-auto min-h-screen">
 				<Loader size={40} />
 			</div>
 		{/if}

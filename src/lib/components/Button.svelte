@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import type { HTMLAttributeAnchorTarget } from 'svelte/elements';
 	import Loader from '$lib/components/Loader.svelte';
-	import { update } from 'lodash';
 
 	export let href: string | undefined = undefined;
 	export let full: boolean | undefined = false;
@@ -45,8 +44,8 @@
 				disabled ? 'cursor-not-allowed	bg-neutral-500' : ''
 			}`;
 		} else if (type === 'link') {
-			buttonClasses = `${buttonClasses} bg-transparent hover:underline text-black py-3 ${clazz} ${
-				disabled ? 'cursor-not-allowed bg-neutral-500' : ''
+			buttonClasses = `${buttonClasses} bg-transparent text-black py-3 ${clazz} ${
+				disabled ? 'cursor-not-allowed bg-neutral-500 pointer-events-none' : 'hover:underline'
 			}`;
 		} else if (type === 'special') {
 			buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black p-3 ${clazz} ${
