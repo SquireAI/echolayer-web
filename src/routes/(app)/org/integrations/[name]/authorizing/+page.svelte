@@ -41,7 +41,7 @@
 			<p class="text-red-700 select-none mt-1">
 				Something went wrong. Please try again later or <a
 					href="mailto:support@echolayer.com"
-					class="ext-blue-600 dark:text-blue-500 hover:underline">contact support</a
+					class="text-blue-600 dark:text-blue-500 hover:underline">contact support</a
 				>.
 			</p>
 			<Button href={INTEGRATIONS_PATH_WITH_INVALIDATE}>Go back to integrations</Button>
