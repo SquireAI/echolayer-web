@@ -41,4 +41,4 @@ export const NOTION_GETTING_STARTED_DOCS =
 	'https://www.notion.so/codexbuild/Getting-Started-with-EchoLayer-45a7d6384b56477b9d25862a6c7398d7?pvs=4';
 export const SUPPORT_URL = 'mailto:support@echolayer.com';
 export const NOTION_GITLAB_SETUP_DOCS =
-	'https://www.notion.so/codexbuild/GitLab-Integration-Usage-Guide-c526d056c60a4655ba3119c719f78610?pvs=4';
+	'https://codexbuild.notion.site/codexbuild/GitLab-Integration-Usage-Guide-c526d056c60a4655ba3119c719f78610';
