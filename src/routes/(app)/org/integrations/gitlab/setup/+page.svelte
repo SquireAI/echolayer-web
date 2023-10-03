@@ -66,12 +66,15 @@
 		{#if isLoaded}
 			{#if data.step === 'token'}
 				<div class="flex flex-col gap-6 w-[600px] mx-auto mt-64">
-					<div class="flex flex-col items-center">
+					<div class="flex flex-col items-center gap-6">
 						<Gitlab size="36" />
 						<h2 class="font-medium text-2xl mt-8">Please enter your Group Access Token.</h2>
 						<p class="text-neutral-500 text-center">
-							In order to connect to GitLab, you will need to enter a Group Access Token and set up
-							a webhook with our API. To start, enter your token below.
+							In order to connect to GitLab, you will need to enter a Group Access Token for your
+							top-level group on GitLab and set up a webhook with our API. <a
+								href={NOTION_GITLAB_SETUP_DOCS}
+								class="text-echolayer-blue hover:underline">Click here to learn more.</a
+							>
 						</p>
 					</div>
 					<div class="flex flex-col gap-3">
