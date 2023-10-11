@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import svg from '@poppanator/sveltekit-svg';
 import { defineConfig, loadEnv } from 'vite';
+import esbuildPluginPino from 'esbuild-plugin-pino';
 
 /** @type {import('vite').defineConfig} */
 export default defineConfig(({ command, mode }) => {
@@ -8,6 +9,20 @@ export default defineConfig(({ command, mode }) => {
 	return {
 		server: {
 			port: Number(env.VITE_PORT)
+		},
+		optimizeDeps: {
+			esbuildOptions: {
+				plugins: [
+					esbuildPluginPino({
+						transports: [
+							'pino-pretty',
+							'pino-datadog-transport',
+							'pino-abstract-transport',
+							'pino-std-serializers'
+						]
+					})
+				]
+			}
 		},
 		plugins: [
 			sveltekit(),
