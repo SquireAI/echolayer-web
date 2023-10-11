@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import svg from '@poppanator/sveltekit-svg';
 import { defineConfig, loadEnv } from 'vite';
-import esbuildPluginPino from 'esbuild-plugin-pino';
+import worker from 'rollup-plugin-workers';
 
 /** @type {import('vite').defineConfig} */
 export default defineConfig(({ command, mode }) => {
@@ -9,20 +9,6 @@ export default defineConfig(({ command, mode }) => {
 	return {
 		server: {
 			port: Number(env.VITE_PORT)
-		},
-		optimizeDeps: {
-			esbuildOptions: {
-				plugins: [
-					esbuildPluginPino({
-						transports: [
-							'pino-pretty',
-							'pino-datadog-transport',
-							'pino-abstract-transport',
-							'pino-std-serializers'
-						]
-					})
-				]
-			}
 		},
 		plugins: [
 			sveltekit(),
@@ -34,6 +20,11 @@ export default defineConfig(({ command, mode }) => {
 				}
 			})
 		],
+		build: {
+			rollupOptions: {
+				plugins: [worker()]
+			}
+		},
 		css: {
 			preprocessorOptions: {
 				scss: {

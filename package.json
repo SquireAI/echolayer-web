@@ -38,6 +38,7 @@
 		"postcss": "^8.4.24",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",
+		"rollup-plugin-workers": "^2.1.1",
 		"sass": "^1.63.4",
 		"set-cookie-parser": "^2.6.0",
 		"svelte": "^3.54.0",
@@ -52,7 +53,6 @@
 	"type": "module",
 	"dependencies": {
 		"color-hash": "^2.0.2",
-		"esbuild-plugin-pino": "^2.0.2",
 		"fuzzy-search": "^3.2.1",
 		"json-formatter-js": "^2.3.4",
 		"lodash": "^4.17.21",
