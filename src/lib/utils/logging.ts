@@ -57,7 +57,8 @@ const getDDTransport = () => {
 				site: 'datadoghq.com'
 			},
 			ddsource: service,
-			service
+			service,
+			sendImmediate: true
 		}
 	};
 };
