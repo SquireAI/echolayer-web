@@ -11,7 +11,9 @@
 		originStore,
 		ORIGIN_STORE_NAME,
 		selectedStore,
-		SELECTED_STORE_NAME
+		SELECTED_STORE_NAME,
+		ISSUE_STORE_NAME,
+		issueStore
 	} from '$lib/stores';
 	import { navigating, page } from '$app/stores';
 	import type { NavigationTarget, NavigationType } from '@sveltejs/kit';
@@ -25,6 +27,7 @@
 	setContext(TEAM_STORE_NAME, teamStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
+	setContext(ISSUE_STORE_NAME, issueStore);
 
 	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, $page.data.inviteService);
 	setContext(RELATIONS_SERVICE_CONTEXT_NAME, $page.data.relationsService);

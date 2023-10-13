@@ -5,6 +5,8 @@
 		COMPONENT_STORE_NAME,
 		componentStore,
 		entityRelationshipStore,
+		ISSUE_STORE_NAME,
+		issueStore,
 		ORIGIN_STORE_NAME,
 		originStore,
 		RELATIONS_GRAPH_STORE_NAME,
@@ -26,6 +28,7 @@
 	setContext(TEAM_STORE_NAME, teamStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
+	setContext(ISSUE_STORE_NAME, issueStore);
 
 	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, data.inviteService);
 	setContext(RELATIONS_SERVICE_CONTEXT_NAME, data.relationsService);
