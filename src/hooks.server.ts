@@ -13,10 +13,10 @@ const handleTracing: Handle = async ({ event, resolve }): Promise<Response> => {
 	if (logger) {
 		// Add request context to logger
 		const ctx: RequestContext = getRequestContext(event, event.locals.traceId);
-		logger.addContext(ctx);
 
 		logger.info(`Request: ${event.url.pathname}`, {
-			...(event.locals.orgId ? { organizationId: event.locals.orgId } : {})
+			...(event.locals.orgId ? { organizationId: event.locals.orgId } : {}),
+			...(ctx ? { request: ctx } : {})
 		});
 	}
 

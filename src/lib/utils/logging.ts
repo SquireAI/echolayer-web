@@ -1,7 +1,8 @@
 import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 import { DOG_API_KEY } from '$env/static/private';
 import type { RequestEvent } from '@sveltejs/kit';
-import { type BaseLogger, pino } from 'pino';
+import { Logger as TSLogger, type ILogObj, type ILogObjMeta } from 'tslog';
+import { DataDogTransport } from './dataDogTransport';
 
 const environment = PUBLIC_ENVIRONMENT?.toLowerCase() || 'development',
 	service = `echolayer-app-${environment}`,
@@ -30,18 +31,6 @@ const getLogMeta = (ctx: RequestContext, meta?: Record<string, any>) => {
 	};
 };
 
-const getConsoleTransport = () => {
-	if (!isDev) return null;
-	return {
-		target: 'pino-pretty',
-		level: 'info',
-		options: {
-			colorize: true,
-			colorizeObjects: true
-		}
-	};
-};
-
 const getDDTransport = () => {
 	if (isDev) return null;
 	return {
@@ -63,15 +52,22 @@ const getDDTransport = () => {
 };
 
 export const getTransports = (transports?: []) => {
-	const targets = [
-		...(getConsoleTransport() ? [getConsoleTransport()] : []),
-		...(getDDTransport() ? [getDDTransport()] : []),
-		...(transports && transports.length > 0 ? transports : [])
-	];
-
-	return pino.transport({
-		targets
+	const dataDogTransport = new DataDogTransport({
+		ddClientConf: {
+			authMethods: {
+				apiKeyAuth: DOG_API_KEY
+			}
+		},
+		ddServerConf: {
+			site: 'datadoghq.com'
+		},
+		ddsource: service,
+		service
 	});
+
+	const targets: ((meta: ILogObjMeta) => void)[] = [dataDogTransport.processLog];
+
+	return targets;
 };
 
 export const getRequestContext = (event: RequestEvent, traceId?: string): RequestContext => {
@@ -97,13 +93,20 @@ export class Logger implements ILogger {
 	protected readonly name: string | null;
 	protected readonly prefix: string;
 	protected ctx: RequestContext;
-	protected logger: BaseLogger;
+	protected logger: TSLogger<ILogObj>;
 
 	constructor(name?: string, ctx?: RequestContext) {
 		this.name = name || null;
 		this.prefix = name ? `[${name}]: ` : '';
 		this.ctx = ctx || {};
-		this.logger = pino({ level: 'info' }, getTransports());
+		const logger: TSLogger<ILogObj> = new TSLogger({
+			type: isDev ? 'pretty' : 'hidden',
+			hideLogPositionForProduction: !isDev
+		});
+		getTransports().forEach((transport: (meta: ILogObjMeta) => void) => {
+			logger.attachTransport(transport);
+		});
+		this.logger = logger;
 	}
 
 	addContext(ctx: RequestContext) {
@@ -114,18 +117,30 @@ export class Logger implements ILogger {
 	}
 
 	debug(msg: string, meta?: Record<string, any>) {
-		this.logger.debug(getLogMeta(this.ctx, meta), `${this.prefix}${msg}`);
+		this.logger.debug({
+			message: `${this.prefix}${msg}`,
+			context: getLogMeta(this.ctx, meta)
+		});
 	}
 
 	info(msg: string, meta?: Record<string, any>) {
-		this.logger.info(getLogMeta(this.ctx, meta), `${this.prefix}${msg}`);
+		this.logger.info({
+			message: `${this.prefix}${msg}`,
+			context: getLogMeta(this.ctx, meta)
+		});
 	}
 
 	warn(msg: string, meta?: Record<string, any>) {
-		this.logger.warn(getLogMeta(this.ctx, meta), `${this.prefix}${msg}`);
+		this.logger.warn({
+			message: `${this.prefix}${msg}`,
+			context: getLogMeta(this.ctx, meta)
+		});
 	}
 
 	error(msg: string, meta?: Record<string, any>) {
-		this.logger.debug(getLogMeta(this.ctx, meta), `${this.prefix}${msg}`);
+		this.logger.debug({
+			message: `${this.prefix}${msg}`,
+			context: getLogMeta(this.ctx, meta)
+		});
 	}
 }
