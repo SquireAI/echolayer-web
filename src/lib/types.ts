@@ -48,6 +48,7 @@ export type Issue = {
 	resolved: boolean;
 	component: ComponentEntity;
 	createdAt: string;
+	metadata: any;
 };
 
 export interface ComponentEntity extends BaseEntity {
@@ -128,6 +129,7 @@ export type StorePublicId = BaseStoreEntity<string>;
 export type StoreOrganizationEntity = BaseStoreEntity<Organization>;
 export type StoreOrganizationsEntity = BaseStoreEntity<Organization[]>;
 export type StoreComponentEntity = BaseStoreEntity<ComponentEntity[]>;
+export type StoreIssueEntity = BaseStoreEntity<Issue[]>;
 export type StoreOriginEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
 export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
@@ -164,6 +166,11 @@ export interface OrganizationsStore extends BaseStore<Organization[], StoreOrgan
 
 export interface ComponentStore extends BaseStore<ComponentEntity[], StoreComponentEntity> {
 	setComponents: (components: ComponentEntity[]) => void;
+}
+
+export interface IssueStore extends BaseStore<Issue[], StoreIssueEntity> {
+	setIssues: (issues: Issue[]) => void;
+	updateIssue: (issue: Issue) => void;
 }
 
 export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {

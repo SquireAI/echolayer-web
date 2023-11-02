@@ -11,9 +11,14 @@
 	import { API_KEYS_PATH, NOTION_GETTING_STARTED_DOCS, SUPPORT_URL } from '$lib/utils/paths';
 	import TabTitle from '$lib/components/tabs/TabTitle.svelte';
 	import TabSwitch from '$lib/components/tabs/TabSwitch.svelte';
-	import type { ComponentStore, Issue, TeamStore } from '$lib/types';
+	import type { ComponentStore, Issue, IssueStore, TeamStore } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { COMPONENT_STORE_NAME, TEAM_STORE_NAME, homeTabStore } from '$lib/stores';
+	import {
+		COMPONENT_STORE_NAME,
+		ISSUE_STORE_NAME,
+		TEAM_STORE_NAME,
+		homeTabStore
+	} from '$lib/stores';
 	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
 	import type { HomePageData } from './+page.server';
 
@@ -25,12 +30,16 @@
 
 	let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
 	let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
+	let issueStore: IssueStore = getContext(ISSUE_STORE_NAME) as IssueStore;
 
 	if (data.components) {
 		componentStore.setComponents(data.components);
 	}
 	if (data.teams) {
 		teamStore.setTeams(data.teams);
+	}
+	if (data.issues) {
+		issueStore.setIssues(data.issues);
 	}
 	let issues: Issue[] = [];
 	$: issues = data.issues || [];

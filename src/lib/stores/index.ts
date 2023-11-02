@@ -9,6 +9,7 @@ import organizationsStore, { ORGS_STORE_NAME } from './orgs-store';
 import entityDetailsStore, { ENTITY_DETAILS_STORE_NAME } from './entity-details-store';
 import homeTabStore, { HOME_TAB_STORE_NAME } from './home-tab-store';
 import userInvitationStore, { USER_INVITATION_STORE_NAME } from './user-invitation-store';
+import issueStore, { ISSUE_STORE_NAME } from './issue-store';
 
 export function clearStores() {
 	componentStore.clear();
@@ -22,6 +23,7 @@ export function clearStores() {
 	entityDetailsStore.clear();
 	homeTabStore.clear();
 	userInvitationStore.clear();
+	issueStore.clear();
 }
 
 export {
@@ -46,5 +48,7 @@ export {
 	HOME_TAB_STORE_NAME,
 	homeTabStore,
 	USER_INVITATION_STORE_NAME,
-	userInvitationStore
+	userInvitationStore,
+	ISSUE_STORE_NAME,
+	issueStore
 };
