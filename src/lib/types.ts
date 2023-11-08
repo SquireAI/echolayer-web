@@ -1,4 +1,4 @@
-import type { ComponentType, SvelteComponent, SvelteComponentTyped } from 'svelte';
+import type { ComponentType, SvelteComponent } from 'svelte';
 import type { Subscriber, Unsubscriber, Updater } from 'svelte/store';
 import type { FetchHeader } from '$lib/api/apiUtils';
 
