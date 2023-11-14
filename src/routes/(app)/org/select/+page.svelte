@@ -30,7 +30,7 @@
 	import type { OrgsLayoutLoad } from './+page';
 	import OrgInvitationItem from '$lib/org/OrgInvitationItem.svelte';
 	import AccountGroup from 'svelte-material-icons/AccountGroup.svelte';
-	import PlusCircleOutlineIcon from 'svelte-material-icons/PLusCircleOutline.svelte';
+	import PlusCircleOutline from 'svelte-material-icons/PLusCircleOutline.svelte';
 
 	export let data: OrgsLayoutLoad;
 
@@ -153,7 +153,7 @@
 							disabled={selecting || $orgsStore.loading}
 							handleClick={() => handleAction(CREATE_ORG_PATH)}
 						>
-							<PlusCircleOutlineIcon size="18" class="mr-1" />
+							<PlusCircleOutline size="18" class="mr-1" />
 							Add new...
 						</Button>
 					</div>
