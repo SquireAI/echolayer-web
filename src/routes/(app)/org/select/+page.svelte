@@ -30,6 +30,7 @@
 	import type { OrgsLayoutLoad } from './+page';
 	import OrgInvitationItem from '$lib/org/OrgInvitationItem.svelte';
 	import AccountGroup from 'svelte-material-icons/AccountGroup.svelte';
+	import PlusCircleOutlineIcon from 'svelte-material-icons/PLusCircleOutline.svelte';
 
 	export let data: OrgsLayoutLoad;
 
@@ -60,7 +61,12 @@
 	$: orgs = $orgsStore.entity;
 	$: invitations = $userInvitationStore.entity;
 
+	// Selecting org
+	let selecting = false;
+
 	const handleSelect = async (publicId: string) => {
+		if (selecting) return;
+		selecting = true;
 		setOrgCookie(publicId);
 		const selectedOrg = $orgsStore.entity?.find((org) => org.publicId === publicId);
 		selectedOrg && orgStore.setOrganization(publicId);
@@ -89,7 +95,11 @@
 		}
 	};
 
-	let previousPage: string = base;
+	const handleAction = async (path: string) => {
+		if (path) goto(path);
+	};
+
+	let previousPage: string = HOME_PATH;
 
 	afterNavigate(({ from }) => {
 		if (from?.url.pathname.includes(ORGS_SELECT_PATH)) {
@@ -127,17 +137,25 @@
 						{/each}
 					</div>
 					<div class="flex flex-row w-full gap-6">
-						{#if $orgStore.entity && !$orgStore.loading}
-							<Button
-								type="grey"
-								class="px-8 py-3"
-								full={true}
-								handleClick={() => goto(previousPage)}
-							>
-								Cancel
-							</Button>
-						{/if}
-						<Button type="primary" full={true} href={`${CREATE_ORG_PATH}`}>Add new...</Button>
+						<Button
+							type="grey"
+							class="px-8 py-3"
+							full={true}
+							disabled={selecting || $orgsStore.loading}
+							handleClick={() => handleAction(previousPage)}
+						>
+							Go Back
+						</Button>
+						<Button
+							type="grey"
+							class="px-8 py-3"
+							full={true}
+							disabled={selecting || $orgsStore.loading}
+							handleClick={() => handleAction(CREATE_ORG_PATH)}
+						>
+							<PlusCircleOutlineIcon size="18" class="mr-1" />
+							Add new...
+						</Button>
 					</div>
 				</div>
 			{:else}
