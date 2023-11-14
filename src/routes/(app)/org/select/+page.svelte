@@ -30,7 +30,7 @@
 	import type { OrgsLayoutLoad } from './+page';
 	import OrgInvitationItem from '$lib/org/OrgInvitationItem.svelte';
 	import AccountGroup from 'svelte-material-icons/AccountGroup.svelte';
-	import PlusCircleOutline from 'svelte-material-icons/PLusCircleOutline.svelte';
+	import PlusCircleOutline from 'svelte-material-icons/PlusCircleOutline.svelte';
 
 	export let data: OrgsLayoutLoad;
 
