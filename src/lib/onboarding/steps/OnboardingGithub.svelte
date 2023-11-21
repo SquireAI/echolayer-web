@@ -35,8 +35,8 @@
 	});
 </script>
 
-<div class="flex-1 flex flex-row justify-center items-center">
-	<div class="flex flex-col gap-6 items-center max-w-md">
+<div class="flex-1 flex flex-row justify-center items-center mb-10">
+	<div class="flex flex-col gap-6 items-center max-w-sm text-center">
 		<span class="text-neutral-500"><Github size="70" slot="icon" /></span>
 		<p>
 			Follow the link below to install the app and select the repositories you'd like to analyze:

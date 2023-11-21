@@ -1,0 +1,44 @@
+[
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": "@team-backend"
+	},
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": "@team-backend"
+	},
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": "@team-backend"
+	},
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": "@team-backend"
+	},
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": null
+	},
+	{
+		"name": "echolayer-api",
+		"default_branch": "main",
+		"description": "API for EchoLayer",
+		"owner": "@team-devops",
+		"knowledge_owner": null
+	}
+]

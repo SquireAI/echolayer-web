@@ -28,8 +28,7 @@
 				<span class="ml-4 text-sm font-medium text-gray-900">{step.label}</span>
 			</span>
 		</a>
-	{/if}
-	{#if type === 'active'}
+	{:else if type === 'active'}
 		<!-- Current Step -->
 		<a
 			href="/onboarding/{step.slug}"
@@ -43,8 +42,7 @@
 			</span>
 			<span class="ml-4 text-sm font-medium text-echolayer-blue">{step.label}</span>
 		</a>
-	{/if}
-	{#if type === 'next'}
+	{:else if type === 'next'}
 		<!-- Upcoming Step -->
 		<a href="/onboarding/{step.slug}" class="group flex items-center">
 			<span class="flex items-center px-6 py-3 text-sm font-medium">
