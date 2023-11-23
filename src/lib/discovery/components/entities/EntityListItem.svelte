@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { selectedStore } from '$lib/stores';
-	import { EntityTypes, type GraphedEntity } from '$lib/types';
+	import { type ComponentEntity, EntityTypes, type Repo, type TeamEntity } from '$lib/types';
 	import { DISCOVERY_PATH } from '$lib/utils/paths';
 	import AccountGroup from 'svelte-material-icons/AccountGroup.svelte';
 	import Database from 'svelte-material-icons/Database.svelte';
 
-	export let entity: GraphedEntity | undefined;
-
-	const setSelectedStore = () => {
-		selectedStore.setEntity(entity);
-	};
+	export let entity: TeamEntity | ComponentEntity | Repo | undefined;
 </script>
 
 {#if entity}
@@ -25,6 +21,15 @@
 				<p class="text-xs font-medium">{entity.members?.length} members</p>
 			</div>
 		{:else if entity.type === EntityTypes.COMPONENT}
+			<div>
+				<span class="icon bg-echolayer-yellow">
+					<Database />
+				</span>
+			</div>
+			<div class="flex-1 flex-col gap-1">
+				<p class="text-sm font-medium">{entity.name}</p>
+			</div>
+		{:else if entity.type === EntityTypes.REPO}
 			<div>
 				<span class="icon bg-echolayer-yellow">
 					<Database />

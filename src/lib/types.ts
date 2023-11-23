@@ -5,7 +5,8 @@ import type { FetchHeader } from '$lib/api/apiUtils';
 export enum EntityTypes {
 	TEAM = 'Team',
 	COMPONENT = 'Component',
-	MEMBER = 'Member'
+	MEMBER = 'Member',
+	REPO = 'Repo'
 }
 
 export interface BaseEntity {
@@ -49,6 +50,19 @@ export type Issue = {
 	component: ComponentEntity;
 	createdAt: string;
 	metadata: any;
+};
+
+export type Repo = {
+	id: number;
+	publicId: string;
+	organizationId: number;
+	name: string;
+	default_branch: string;
+	description: string;
+	owner?: string;
+	knowledge_owner?: string;
+	createdAt?: string;
+	type: EntityTypes.REPO;
 };
 
 export interface ComponentEntity extends BaseEntity {
@@ -130,6 +144,7 @@ export type StoreOrganizationEntity = BaseStoreEntity<Organization>;
 export type StoreOrganizationsEntity = BaseStoreEntity<Organization[]>;
 export type StoreComponentEntity = BaseStoreEntity<ComponentEntity[]>;
 export type StoreIssueEntity = BaseStoreEntity<Issue[]>;
+export type StoreRepoEntity = BaseStoreEntity<Repo[]>;
 export type StoreOriginEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
 export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
@@ -171,6 +186,10 @@ export interface ComponentStore extends BaseStore<ComponentEntity[], StoreCompon
 export interface IssueStore extends BaseStore<Issue[], StoreIssueEntity> {
 	setIssues: (issues: Issue[]) => void;
 	updateIssue: (issue: Issue) => void;
+}
+
+export interface RepoStore extends BaseStore<Repo[], StoreRepoEntity> {
+	setRepos: (repos: Repo[]) => void;
 }
 
 export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {
