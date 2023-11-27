@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="p-6 pt-16 flex flex-col items-stretch gap-8 bg-no-repeat bg-contain bg-right-top bg-[length:674px_400px] bg-[url('/assets/echoLayer_graphic_faded.png')]"
+	class="p-6 pt-16 flex flex-col items-stretch gap-8 bg-no-repeat bg-contain bg-right-top bg-[length:758px_450px] bg-[url('/assets/echoLayer_graphic_faded.png')]"
 >
 	<div class="flex flex-col gap-4 items-start">
 		<EchoLayerLogo />

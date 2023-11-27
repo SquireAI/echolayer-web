@@ -1,9 +1,10 @@
-<script>
-	import CheckCircle from 'svelte-material-icons/CheckCircle.svelte';
-	import Shape from 'svelte-material-icons/Shape.svelte';
-	import TableRow from '$lib/components/table/TableRow.svelte';
+<script lang="ts">
+	type TableColumn = {
+		key?: string;
+		label: string;
+	};
 
-	export let columns = [];
+	export let columns: TableColumn[] | string[] = [];
 	export let rows = [];
 	export let emptyMessage = 'No results found.';
 </script>
@@ -12,7 +13,7 @@
 	<thead>
 		<tr class="pl-6 w-full uppercase text-left text-xs leading-6">
 			{#each columns as column}
-				<th>{column}</th>
+				<th>{typeof column === 'object' ? column.label : column}</th>
 			{/each}
 		</tr>
 	</thead>

@@ -4,7 +4,7 @@
 	export let stepIndex = 0;
 </script>
 
-<li class="relative md:flex md:flex-1 border-r border-r-gray-300">
+<li class="relative md:flex md:flex-1">
 	{#if type === 'done'}
 		<!-- Completed Step -->
 		<a href="/onboarding/{step.slug}" class="group flex w-full items-center">

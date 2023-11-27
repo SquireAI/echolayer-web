@@ -13,7 +13,7 @@
 
 <div>
 	<nav aria-label="Progress">
-		<ol role="list" class="divide-y divide-gray-300 rounded-md md:flex md:divide-y-0">
+		<ol role="list" class="divide-x divide-gray-300 rounded-md md:flex bg-white">
 			{#each steps as step, i}
 				<OnboardingTimelineStep type={getStepType(i, currentStep)} {step} stepIndex={i} />
 			{/each}
