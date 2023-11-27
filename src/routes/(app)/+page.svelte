@@ -7,6 +7,8 @@
 	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
 	import type { HomePageData } from './+page.server';
 	import PanelsHeader from '$lib/discovery/components/PanelsHeader.svelte';
+	import PageHeader from '$lib/discovery/components/PageHeader.svelte';
+	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
 
 	export let data: HomePageData;
 
@@ -28,19 +30,28 @@
 <Panels>
 	<Navigation slot="nav" />
 	<div class="bg-neutral-100 divide-x h-screen flex flex-col" slot="content">
+		<div>
+			<PageHeader
+				title="Welcome back to EchoLayer!"
+				description="Great to see you again. Here is a list of all your resources and repositories in our system."
+			/>
+		</div>
+
 		<div class="h-screen flex-1 flex flex-col">
-			<PanelsHeader title="Repositories" />
+			<PanelsHeader title="Repositories">
+				<span slot="left-action" class="flex">
+					<SourceRepositoryMultipleIcon />
+				</span>
+			</PanelsHeader>
 			<div
 				class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit p-3"
 			>
-				<div class="content-block flex-1">
-					<EntityList entities={$repoStore.entity} />
-				</div>
+				<!-- load repos here -->
 			</div>
 		</div>
 
 		<div class="flex flex-row">
-			<div class="h-screen flex-1 flex flex-col">
+			<div class="h-screen flex-1 flex flex-col border-neutral-200 border-r">
 				<PanelsHeader title="Components" />
 				<div
 					class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit p-3"
