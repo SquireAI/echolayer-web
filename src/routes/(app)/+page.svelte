@@ -4,14 +4,14 @@
 	import type { ComponentStore, Issue, IssueStore, RepoStore, TeamStore } from '$lib/types';
 	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, REPO_STORE_NAME, TEAM_STORE_NAME } from '$lib/stores';
-	import EntityList from '$lib/discovery/components/entities/EntityList.svelte';
 	import type { HomePageData } from './+page.server';
 	import PanelsHeader from '$lib/discovery/components/PanelsHeader.svelte';
 	import PageHeader from '$lib/discovery/components/PageHeader.svelte';
-	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
-	import ShapeIcon from 'svelte-material-icons/Shape.svelte';
-	import AccountGroupIcon from 'svelte-material-icons/AccountGroup.svelte';
+	import CubeIcon from 'svelte-material-icons/Cube.svelte';
 	import ReposTable from '$lib/components/repos/ReposTable.svelte';
+	import TabBar from '$lib/components/tabs/TabBar.svelte';
+	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
+	import TeamsTable from '$lib/components/teams/TeamsTable.svelte';
 
 	export let data: HomePageData;
 
@@ -29,7 +29,13 @@
 		repoStore.setRepos(data.repos);
 	}
 
-	let columns = ['Repository', 'Default Branch', 'Owner', 'Knowledge Owner'];
+	let tabs = ['Repositories', 'Components', 'Teams', 'Members'];
+	let selected = 0;
+
+	let repoColumns = ['Repository', 'Default Branch', 'Owner', 'Knowledge Owner'];
+	let componentColumns = ['Component', 'Owner', 'Knowledge Owner'];
+	let teamColumns = ['Team', 'Default Branch', 'Owner', 'Knowledge Owner'];
+	let memberColumns = ['Member', 'Default Branch', 'Owner', 'Knowledge Owner'];
 </script>
 
 <Panels>
@@ -43,68 +49,25 @@
 		</div>
 
 		<!-- Repositories -->
-		<div class="flex flex-col max-h-[calc(50%-100px)]">
-			<PanelsHeader title="Repositories">
-				<span slot="left-action" class="flex">
-					<SourceRepositoryMultipleIcon />
-				</span>
-				<a
-					href="/repos"
-					slot="right-action"
-					class="flex uppercase text-xs underline text-neutral-500 hover:text-neutral-800"
-				>
-					Show All
-				</a>
-			</PanelsHeader>
+		<div class="flex flex-col">
+			<!--			<PanelsHeader title="All entities">-->
+			<!--				<span slot="left-action" class="flex">-->
+			<!--					<CubeIcon />-->
+			<!--				</span>-->
+			<!--			</PanelsHeader>-->
+
+			<TabBar {tabs} bind:selected />
+
 			<div class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit">
-				<ReposTable {columns} rows={$repoStore.entity} />
-			</div>
-		</div>
-
-		<!-- Components and Teams -->
-		<div class="flex-grow flex flex-row">
-			<div class="h-screen flex-1 flex flex-col border-neutral-200 border-r">
-				<PanelsHeader title="Components">
-					<span slot="left-action" class="flex">
-						<ShapeIcon />
-					</span>
-					<a
-						href="/components"
-						slot="right-action"
-						class="flex uppercase text-xs underline text-neutral-500 hover:text-neutral-800"
-					>
-						Show All
-					</a>
-				</PanelsHeader>
-				<div
-					class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit p-3"
-				>
-					<div class="content-block flex-1">
-						<EntityList entities={$componentStore.entity} />
-					</div>
-				</div>
-			</div>
-
-			<div class="h-screen flex-1 flex flex-col">
-				<PanelsHeader title="Teams">
-					<span slot="left-action" class="flex">
-						<AccountGroupIcon />
-					</span>
-					<a
-						href="/teams"
-						slot="right-action"
-						class="flex uppercase text-xs underline text-neutral-500 hover:text-neutral-800"
-					>
-						Show All
-					</a>
-				</PanelsHeader>
-				<div
-					class="flex-1 flex flex-col items-stretch overflow-y-auto overflow-x-hidden min-h-fit p-3"
-				>
-					<div class="content-block flex-1">
-						<EntityList entities={$teamStore.entity} />
-					</div>
-				</div>
+				{#if selected === 0}
+					<ReposTable columns={repoColumns} rows={$repoStore.entity} />
+				{:else if selected === 1}
+					<ComponentsTable columns={componentColumns} rows={$componentStore.entity} />
+				{:else if selected === 2}
+					<TeamsTable columns={teamColumns} rows={$teamStore.entity} />
+				{:else if selected === 3}
+					<ReposTable columns={memberColumns} rows={$repoStore.entity} />
+				{/if}
 			</div>
 		</div>
 	</div>
