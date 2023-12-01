@@ -12,6 +12,8 @@
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
 	import TeamsTable from '$lib/components/teams/TeamsTable.svelte';
+	import ComponentsCardList from '$lib/components/components/ComponentsCardList.svelte';
+	import MembersTable from '$lib/components/members/MembersTable.svelte';
 
 	export let data: HomePageData;
 
@@ -32,9 +34,6 @@
 	let tabs = ['Repositories', 'Components', 'Teams', 'Members'];
 	let selected = 0;
 
-	let repoColumns = ['Repository', 'Default Branch', 'Owner', 'Knowledge Owner'];
-	let componentColumns = ['Component', 'Owner', 'Knowledge Owner'];
-	let teamColumns = ['Team', 'Default Branch', 'Owner', 'Knowledge Owner'];
 	let memberColumns = ['Member', 'Default Branch', 'Owner', 'Knowledge Owner'];
 </script>
 
@@ -49,24 +48,18 @@
 		</div>
 
 		<!-- Repositories -->
-		<div class="flex flex-col">
-			<!--			<PanelsHeader title="All entities">-->
-			<!--				<span slot="left-action" class="flex">-->
-			<!--					<CubeIcon />-->
-			<!--				</span>-->
-			<!--			</PanelsHeader>-->
-
+		<div class="flex-1 flex flex-col">
 			<TabBar {tabs} bind:selected />
 
-			<div class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit">
+			<div class="flex-1 overflow-y-auto overflow-x-hidden">
 				{#if selected === 0}
-					<ReposTable columns={repoColumns} rows={$repoStore.entity} />
+					<ReposTable rows={$repoStore.entity} />
 				{:else if selected === 1}
-					<ComponentsTable columns={componentColumns} rows={$componentStore.entity} />
+					<ComponentsTable rows={$componentStore.entity} />
 				{:else if selected === 2}
-					<TeamsTable columns={teamColumns} rows={$teamStore.entity} />
+					<TeamsTable rows={$teamStore.entity} />
 				{:else if selected === 3}
-					<ReposTable columns={memberColumns} rows={$repoStore.entity} />
+					<MembersTable rows={$repoStore.entity} />
 				{/if}
 			</div>
 		</div>

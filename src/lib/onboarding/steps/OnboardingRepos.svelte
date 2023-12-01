@@ -7,5 +7,5 @@
 </script>
 
 <div class="flex-1">
-	<ReposTable {columns} {rows} onboarding={true} />
+	<ReposTable {columns} {rows} />
 </div>

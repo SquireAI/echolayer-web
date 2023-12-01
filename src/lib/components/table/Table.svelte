@@ -35,5 +35,11 @@
 		&:first-child {
 			@apply pl-5;
 		}
+
+		&:last-child {
+			width: 0.1%;
+			white-space: nowrap;
+			@apply pr-5;
+		}
 	}
 </style>
