@@ -13,8 +13,10 @@
 </script>
 
 <div>
-	<svelte:element this={href ? 'a' : 'button'} 
-		class={`hover:bg-gray-200 w-full hover:cursor-pointer rounded-md p-3 
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<svelte:element
+		this={href ? 'a' : 'button'}
+		class={`hover:bg-gray-200 w-full hover:cursor-pointer rounded-md p-2
 		${isActive ? 'bg-gray-200 text-neutral-800' : 'text-neutral-400'}
 		${
 			disabled
@@ -34,5 +36,4 @@
 		{/if}
 		<p class="text-md font-medium leading-4">{name}</p>
 	</svelte:element>
-
 </div>
