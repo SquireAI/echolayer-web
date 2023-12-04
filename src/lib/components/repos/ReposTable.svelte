@@ -1,7 +1,5 @@
 <script>
 	import Shape from 'svelte-material-icons/Shape.svelte';
-	import CheckCircle from 'svelte-material-icons/CheckCircle.svelte';
-	import DotsCircle from 'svelte-material-icons/DotsCircle.svelte';
 	import Table from '$lib/components/table/Table.svelte';
 	import TableRow from '$lib/components/table/TableRow.svelte';
 	import TableBox from '$lib/components/table/TableBox.svelte';
@@ -57,7 +55,7 @@
 						<TableAction
 							icon={DotsHorizontalCircleOutlineIcon}
 							label="Details"
-							href={`/repos/${row.publicId}`}
+							href={`/repos/${row.organizationName}/${row.name}`}
 						/>
 					</div>
 				</TableBox>

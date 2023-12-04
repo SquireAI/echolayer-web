@@ -13,7 +13,6 @@ export const load = (async ({ parent, fetch, data }): Promise<PageData & Handler
 	const { baseHeaders, baseUrl } = data;
 
 	async function installGithubAppHandler(): Promise<string> {
-		console.log('calling');
 		return await new GithubApp(createDefaultContext(fetch, baseHeaders, baseUrl)).install();
 	}
 

@@ -1,44 +1,26 @@
 [
 	{
+		"id": 1,
+		"publicId": "echolayer-api",
+		"organizationId": 1,
+		"organizationName": "echolayer",
 		"name": "echolayer-api",
 		"default_branch": "main",
 		"description": "API for EchoLayer",
 		"owner": "@team-devops",
-		"knowledge_owner": "@team-backend"
+		"knowledge_owner": "@team-backend",
+		"type": "Repo"
 	},
 	{
-		"name": "echolayer-api",
-		"default_branch": "main",
-		"description": "API for EchoLayer",
-		"owner": "@team-devops",
-		"knowledge_owner": "@team-backend"
-	},
-	{
-		"name": "echolayer-api",
-		"default_branch": "main",
-		"description": "API for EchoLayer",
-		"owner": "@team-devops",
-		"knowledge_owner": "@team-backend"
-	},
-	{
-		"name": "echolayer-api",
-		"default_branch": "main",
-		"description": "API for EchoLayer",
-		"owner": "@team-devops",
-		"knowledge_owner": "@team-backend"
-	},
-	{
-		"name": "echolayer-api",
-		"default_branch": "main",
-		"description": "API for EchoLayer",
-		"owner": "@team-devops",
-		"knowledge_owner": null
-	},
-	{
-		"name": "echolayer-api",
-		"default_branch": "main",
-		"description": "API for EchoLayer",
-		"owner": "@team-devops",
-		"knowledge_owner": null
+		"id": 2,
+		"publicId": "echolayer-frontend",
+		"organizationId": 1,
+		"organizationName": "echolayer",
+		"name": "echolayer-front",
+		"default_branch": "dev",
+		"description": "EchoLayer Frontend",
+		"owner": "@team-frontend",
+		"knowledge_owner": "@team-frontend",
+		"type": "Repo"
 	}
 ]

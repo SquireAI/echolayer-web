@@ -5,15 +5,11 @@
 	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, REPO_STORE_NAME, TEAM_STORE_NAME } from '$lib/stores';
 	import type { HomePageData } from './+page.server';
-	import PanelsHeader from '$lib/discovery/components/PanelsHeader.svelte';
-	import PageHeader from '$lib/discovery/components/PageHeader.svelte';
-	import CubeIcon from 'svelte-material-icons/Cube.svelte';
+	import HeroPageHeader from '$lib/components/navigation/HeroPageHeader.svelte';
 	import ReposTable from '$lib/components/repos/ReposTable.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
 	import TeamsTable from '$lib/components/teams/TeamsTable.svelte';
-	import ComponentsCardList from '$lib/components/components/ComponentsCardList.svelte';
-	import MembersTable from '$lib/components/members/MembersTable.svelte';
 
 	export let data: HomePageData;
 
@@ -31,17 +27,15 @@
 		repoStore.setRepos(data.repos);
 	}
 
-	let tabs = ['Repositories', 'Components', 'Teams', 'Members'];
+	let tabs = ['Repositories', 'Components', 'Teams'];
 	let selected = 0;
-
-	let memberColumns = ['Member', 'Default Branch', 'Owner', 'Knowledge Owner'];
 </script>
 
 <Panels>
 	<Navigation slot="nav" />
-	<div class="bg-neutral-100 divide-y h-screen flex flex-col" slot="content">
+	<div class="bg-neutral-100 divide-y divide-neutral-300 h-screen flex flex-col" slot="content">
 		<div class="flex-shrink">
-			<PageHeader
+			<HeroPageHeader
 				title="Welcome back to EchoLayer!"
 				description="Great to see you again. Here is a list of all your resources and repositories in our system."
 			/>
@@ -58,8 +52,6 @@
 					<ComponentsTable rows={$componentStore.entity} />
 				{:else if selected === 2}
 					<TeamsTable rows={$teamStore.entity} />
-				{:else if selected === 3}
-					<MembersTable rows={$repoStore.entity} />
 				{/if}
 			</div>
 		</div>

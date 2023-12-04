@@ -56,6 +56,7 @@ export type Repo = {
 	id: number;
 	publicId: string;
 	organizationId: number;
+	organizationName: string;
 	name: string;
 	default_branch: string;
 	description: string;

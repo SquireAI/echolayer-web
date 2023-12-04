@@ -25,7 +25,7 @@
 		@apply leading-8 font-medium;
 		@apply border-b border-neutral-300;
 		@apply flex flex-row;
-		@apply bg-white;
+		@apply bg-neutral-50;
 
 		&.disabled {
 			@apply text-neutral-400;
