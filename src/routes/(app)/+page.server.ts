@@ -2,15 +2,19 @@ import type { PageServerLoad } from './$types';
 import { getHttpContext } from '$lib/http/context';
 import { ComponentApi } from '$lib/api/component';
 import { TeamApi } from '$lib/api/team';
-import type { ComponentEntity, Issue, TeamEntity, Organization, Repo } from '$lib/types';
+import type { ComponentEntity, Issue, TeamEntity, Organization, Repo, Domain } from '$lib/types';
 import { orgRequired } from '$lib/utils/access';
 import { IssueApi } from '$lib/api/issue';
+
+import reposData from '$lib/data/demo-repos.json';
+import domainsData from '$lib/data/demo-domains.json';
 
 export type HomePageData = {
 	teams?: TeamEntity[];
 	components?: ComponentEntity[];
 	issues?: Issue[];
 	repos?: Repo[];
+	domains?: Domain[];
 	org?: Organization;
 };
 
@@ -27,38 +31,15 @@ export const load = (async ({ cookies, fetch }): Promise<HomePageData> => {
 	const components = await componentApi.list();
 	const issues = await issueApi.list();
 
-	const repos = [
-		{
-			id: 1,
-			publicId: 'echolayer-api',
-			organizationId: 1,
-			organizationName: 'echolayer',
-			name: 'echolayer-api',
-			default_branch: 'main',
-			description: 'API for EchoLayer',
-			owner: '@team-devops',
-			knowledge_owner: '@team-backend',
-			type: 'Repo'
-		},
-		{
-			id: 2,
-			publicId: 'echolayer-frontend',
-			organizationId: 1,
-			organizationName: 'echolayer',
-			name: 'echolayer-front',
-			default_branch: 'dev',
-			description: 'EchoLayer Frontend',
-			owner: '@team-frontend',
-			knowledge_owner: '@team-frontend',
-			type: 'Repo'
-		}
-	];
+	const repos = reposData;
+	const domains = domainsData;
 
 	return {
 		...(teams && { teams }),
 		...(components && { components }),
 		...(issues && { issues }),
 		...(repos && { repos }),
+		...(domains && { domains }),
 		...(org && { org })
 	};
 }) satisfies PageServerLoad;

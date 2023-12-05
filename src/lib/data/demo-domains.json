@@ -1,0 +1,44 @@
+[
+	{
+		"id": 1,
+		"name": "auth",
+		"expert": "@security-team",
+		"files": ["auth.php", "auth2.php", "auth3.php", "auth4.php", "auth5.php"],
+		"repos": ["echolayer/echolayer-api", "echolayer/echolayer-front", "echolayer/echolayer-worker"]
+	},
+	{
+		"id": 2,
+		"name": "scanner",
+		"expert": "@pod-1-team",
+		"files": ["auth.php", "auth2.php", "auth4.php", "auth5.php"],
+		"repos": ["echolayer/echolayer-api"]
+	},
+	{
+		"id": 3,
+		"name": "core",
+		"expert": "@core-team",
+		"files": ["auth.php", "auth2.php", "auth4.php", "auth5.php"],
+		"repos": ["echolayer/echolayer-api", "echolayer/echolayer-front"]
+	},
+	{
+		"id": 4,
+		"name": "manhattan-project",
+		"expert": "@pod-6-team",
+		"files": ["auth.php", "auth2.php", "auth4.php", "auth5.php"],
+		"repos": ["echolayer/echolayer-api", "echolayer/echolayer-front"]
+	},
+	{
+		"id": 5,
+		"name": "qrcode",
+		"expert": "@new-york",
+		"files": ["auth.php", "auth2.php", "auth5.php"],
+		"repos": ["echolayer/echolayer-api", "echolayer/echolayer-front"]
+	},
+	{
+		"id": 6,
+		"name": "checkout",
+		"expert": "@pod-1-team",
+		"files": ["auth.php", "auth2.php"],
+		"repos": ["echolayer/echolayer-api", "echolayer/echolayer-front"]
+	}
+]

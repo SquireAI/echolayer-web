@@ -7,7 +7,7 @@
 	import { getContext } from 'svelte';
 	import { REPO_STORE_NAME } from '$lib/stores';
 	import type { PageData } from './+page.server';
-	import PageHeader from '$lib/components/navigation/PageHeader.svelte';
+	import PageHeader from '$lib/components/headers/PageHeader.svelte';
 
 	export let data: PageData;
 	let repoStore: RepoStore = getContext(REPO_STORE_NAME) as RepoStore;

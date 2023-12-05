@@ -52,6 +52,7 @@ export type Issue = {
 	metadata: any;
 };
 
+// TODO update to API object
 export type Repo = {
 	id: number;
 	publicId: string;
@@ -61,9 +62,18 @@ export type Repo = {
 	default_branch: string;
 	description: string;
 	owner?: string;
-	knowledge_owner?: string;
+	expert?: string;
 	createdAt?: string;
 	type: EntityTypes.REPO;
+};
+
+// TODO update to API object
+export type Domain = {
+	id: number;
+	name: string;
+	expert?: string;
+	repos?: Repo[] | string[];
+	createdAt?: string;
 };
 
 export interface ComponentEntity extends BaseEntity {

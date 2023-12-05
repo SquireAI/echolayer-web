@@ -1,8 +1,8 @@
 <script>
-	import repos from '$lib/data/onboarding-repos.json';
+	import repos from '$lib/data/demo-repos.json';
 	import ReposTable from '$lib/components/repos/ReposTable.svelte';
 
-	let columns = ['Repository', 'Default Branch', 'Owner', 'Knowledge Owner', 'Progress'];
+	let columns = ['Repository', 'Default Branch', 'Owner', 'Expert', 'Progress'];
 	let rows = repos;
 </script>
 

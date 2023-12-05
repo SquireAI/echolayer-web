@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PageHeaderButton from '$lib/components/navigation/PageHeaderButton.svelte';
+	import PageHeaderButton from '$lib/components/headers/PageHeaderButton.svelte';
 	import ArrowLeftIcon from 'svelte-material-icons/ArrowLeft.svelte';
 	import { goto, afterNavigate } from '$app/navigation';
 	import { base } from '$app/paths';

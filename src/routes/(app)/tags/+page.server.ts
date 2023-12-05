@@ -22,7 +22,7 @@ export const load = (async ({ cookies, fetch }): Promise<PageData> => {
 			default_branch: 'main',
 			description: 'API for EchoLayer',
 			owner: '@team-devops',
-			knowledge_owner: '@team-backend',
+			expert: '@team-backend',
 			type: 'Repo'
 		},
 		{
@@ -33,7 +33,7 @@ export const load = (async ({ cookies, fetch }): Promise<PageData> => {
 			default_branch: 'dev',
 			description: 'EchoLayer Frontend',
 			owner: '@team-frontend',
-			knowledge_owner: '@team-frontend',
+			expert: '@team-frontend',
 			type: 'Repo'
 		}
 	];

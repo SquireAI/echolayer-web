@@ -6,7 +6,7 @@
 	import TableBox from '$lib/components/table/TableBox.svelte';
 	import TableAction from '$lib/components/table/TableAction.svelte';
 
-	export let columns = ['Component', 'Owner', 'Knowledge Owner', 'Actions'];
+	export let columns = ['Component', 'Owner', 'Expert', 'Actions'];
 	export let rows = [];
 	$: rows, console.log(rows);
 </script>
@@ -18,7 +18,7 @@
 				<TableBox>
 					<div class="flex flex-row items-center gap-4 font-medium">
 						<div class="rounded-sm h-6 w-6 bg-echolayer-blue flex items-center justify-center">
-							<Shape size={24} color="white" />
+							<Shape color="white" class="w-4 h-4" />
 						</div>
 						<div class="flex flex-col">
 							{row.name}
@@ -26,7 +26,7 @@
 					</div>
 				</TableBox>
 				<TableBox>{row.owner}</TableBox>
-				<TableBox>{row.knowledge_owner}</TableBox>
+				<TableBox>{row.expert}</TableBox>
 				<TableBox>
 					<div class="flex flex-row gap-1">
 						<TableAction

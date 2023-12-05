@@ -5,11 +5,13 @@
 	import { getContext } from 'svelte';
 	import { COMPONENT_STORE_NAME, REPO_STORE_NAME, TEAM_STORE_NAME } from '$lib/stores';
 	import type { HomePageData } from './+page.server';
-	import HeroPageHeader from '$lib/components/navigation/HeroPageHeader.svelte';
+	import HeroPageHeader from '$lib/components/headers/HeroPageHeader.svelte';
 	import ReposTable from '$lib/components/repos/ReposTable.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
 	import TeamsTable from '$lib/components/teams/TeamsTable.svelte';
+	import BackgroundWrapper from '$lib/components/headers/BackgroundWrapper.svelte';
+	import DomainsTable from '$lib/components/domains/DomainsTable.svelte';
 
 	export let data: HomePageData;
 
@@ -27,7 +29,7 @@
 		repoStore.setRepos(data.repos);
 	}
 
-	let tabs = ['Repositories', 'Components', 'Teams'];
+	let tabs = ['Repositories', 'Domains', 'Components', 'Teams'];
 	let selected = 0;
 </script>
 
@@ -35,13 +37,15 @@
 	<Navigation slot="nav" />
 	<div class="bg-neutral-100 divide-y divide-neutral-300 h-screen flex flex-col" slot="content">
 		<div class="flex-shrink">
-			<HeroPageHeader
-				title="Welcome back to EchoLayer!"
-				description="Great to see you again. Here is a list of all your resources and repositories in our system."
-			/>
+			<BackgroundWrapper>
+				<HeroPageHeader
+					title="Welcome back to EchoLayer!"
+					description="Great to see you again. Here is a list of all your resources and repositories in our system."
+				/>
+			</BackgroundWrapper>
 		</div>
 
-		<!-- Repositories -->
+		<!-- All Objects -->
 		<div class="flex-1 flex flex-col">
 			<TabBar {tabs} bind:selected />
 
@@ -49,8 +53,10 @@
 				{#if selected === 0}
 					<ReposTable rows={$repoStore.entity} />
 				{:else if selected === 1}
-					<ComponentsTable rows={$componentStore.entity} />
+					<DomainsTable rows={data.domains} />
 				{:else if selected === 2}
+					<ComponentsTable rows={$componentStore.entity} />
+				{:else if selected === 3}
 					<TeamsTable rows={$teamStore.entity} />
 				{/if}
 			</div>
