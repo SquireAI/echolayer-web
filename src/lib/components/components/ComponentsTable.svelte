@@ -5,10 +5,11 @@
 	import TableRow from '$lib/components/table/TableRow.svelte';
 	import TableBox from '$lib/components/table/TableBox.svelte';
 	import TableAction from '$lib/components/table/TableAction.svelte';
+	import TableUser from '$lib/components/table/TableUser.svelte';
 
-	export let columns = ['Component', 'Owner', 'Expert', 'Actions'];
+	export let columns = ['Component', 'Actions'];
 	export let rows = [];
-	$: rows, console.log(rows);
+	$: console.log(rows);
 </script>
 
 <Table {columns} {rows}>
@@ -25,8 +26,8 @@
 						</div>
 					</div>
 				</TableBox>
-				<TableBox>{row.owner}</TableBox>
-				<TableBox>{row.expert}</TableBox>
+				<!--				<TableBox><TableUser name={row.owner} /></TableBox>-->
+				<!--				<TableBox><TableUser name={row.expert} /></TableBox>-->
 				<TableBox>
 					<div class="flex flex-row gap-1">
 						<TableAction

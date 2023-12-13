@@ -6,7 +6,7 @@
 	import TableBox from '$lib/components/table/TableBox.svelte';
 	import TableAction from '$lib/components/table/TableAction.svelte';
 
-	export let columns = ['Tag', 'Expert', 'Files', 'Repos', 'Actions'];
+	export let columns = ['Tag', 'Expert', 'Files', 'Repositories', 'Actions'];
 	export let rows = [];
 </script>
 

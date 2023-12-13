@@ -1,8 +1,19 @@
 <script lang="ts">
 	import ArrowRightIcon from 'svelte-material-icons/ArrowRight.svelte';
+	import MagnifyIcon from 'svelte-material-icons/Magnify.svelte';
+	import PageHeaderButton from '$lib/components/headers/PageHeaderButton.svelte';
+	import { modalStore } from '$lib/stores/modal';
+	import FindExpert from '$lib/components/modal/FindExpert.svelte';
 
 	export let title = 'Home';
 	export let links: { text: string; href: string; active?: boolean }[] = [];
+
+	const modalRegistry = {
+		findExpert: {
+			title: 'Find an expert',
+			component: FindExpert
+		}
+	};
 </script>
 
 <div class={`panel-header`}>
@@ -26,7 +37,17 @@
 				<div>{title}</div>
 			{/if}
 		</div>
-		<div><slot name="right-action" /></div>
+		<div>
+			<slot name="right-action">
+				<PageHeaderButton
+					onClick={() => {
+						modalStore.trigger(modalRegistry.findExpert);
+					}}
+				>
+					<MagnifyIcon size="16px" /> Find
+				</PageHeaderButton>
+			</slot>
+		</div>
 	</div>
 </div>
 

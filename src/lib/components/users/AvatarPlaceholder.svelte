@@ -1,14 +1,55 @@
 <script lang="ts">
 	import AccountIcon from 'svelte-material-icons/Account.svelte';
 
+	export let size = '35px';
 	export let name = '';
-	$: userInitials =
-		name
-			.trim()
-			.split(' ')
-			.map((part) => part[0])
-			.join('')
-			.toUpperCase() || '';
+	$: userInitials = getInitials(name);
+
+	const slugify = (str: string) => {
+		str = str.trim();
+		str = str.replace(/^\s+|\s+$/g, '');
+		str = str.toLowerCase();
+		str = str.replace(/[^a-z0-9 -]/g, '');
+		str = str.replace(/\s+/g, '-');
+		str = str.replace(/-+/g, '-');
+		return str;
+	};
+	const getInitials = (name: string) => {
+		if (!name || name === '') return 'EL';
+		name = slugify(name);
+		if (name.startsWith('@')) name = name.substring(1);
+		// Name with dashes
+		else if (name.indexOf('-') >= 0) {
+			return name
+				.split('-')
+				.map((part) => part[0])
+				.join('')
+				.substring(0, 2)
+				.toUpperCase();
+		}
+		// Name with underscores
+		else if (name.indexOf('_') >= 0) {
+			return name
+				.split('_')
+				.map((part) => part[0])
+				.join('')
+				.substring(0, 2)
+				.toUpperCase();
+		}
+		// Name with spaces
+		if (name.indexOf(' ') >= 0) {
+			return name
+				.split(' ')
+				.map((part) => part[0])
+				.join('')
+				.substring(0, 2)
+				.toUpperCase();
+		}
+		// Use 2 first letters
+		else {
+			return name.substring(0, 2).toUpperCase();
+		}
+	};
 
 	const stringToColor = (str: string) => {
 		let hash = 0;
@@ -37,8 +78,8 @@
 </script>
 
 <div
-	class="flex items-center justify-center w-8 h-8 rounded-2xl"
-	style="--color:{color};--fontColor:{fontColor}"
+	class="wrapper flex items-center justify-center rounded-full"
+	style="--color:{color};--fontColor:{fontColor};--size:{size}"
 	class:auto-color={userInitials}
 	class:bg-neutral-300={!userInitials}
 >
@@ -53,5 +94,9 @@
 	.auto-color {
 		background-color: var(--color);
 		color: var(--fontColor);
+	}
+	.wrapper {
+		width: var(--size);
+		height: var(--size);
 	}
 </style>

@@ -71,8 +71,19 @@ export type Repo = {
 export type Domain = {
 	id: number;
 	name: string;
+	description: string;
 	expert?: string;
 	repos?: Repo[] | string[];
+	createdAt?: string;
+};
+
+// TODO update to API object
+export type File = {
+	id: number;
+	path: string;
+	owner?: string;
+	expert?: string;
+	repo?: Repo | string;
 	createdAt?: string;
 };
 

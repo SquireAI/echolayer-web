@@ -1,0 +1,86 @@
+[
+	{
+		"id": 1,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@security-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 2,
+		"path": "/src/lib/authentication",
+		"owner": "@core-team",
+		"expert": "@pod-1-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 3,
+		"path": "/src/lib/authentication",
+		"owner": "@core-team",
+		"expert": "@core-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 4,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@security-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 5,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@pod-1-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 6,
+		"path": "/src/lib/authentication",
+		"owner": "@core-team",
+		"expert": "@core-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 7,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@security-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 8,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@pod-1-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 9,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@core-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 10,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@security-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 11,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@pod-1-team",
+		"repo": "echolayer/echolayer-api"
+	},
+	{
+		"id": 12,
+		"path": "/src/lib/authentication",
+		"owner": "@security-team",
+		"expert": "@core-team",
+		"repo": "echolayer/echolayer-api"
+	}
+]

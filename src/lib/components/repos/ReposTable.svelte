@@ -6,11 +6,12 @@
 	import DotsHorizontalCircleOutlineIcon from 'svelte-material-icons/DotsHorizontalCircleOutline.svelte';
 	import AlertOutlineIcon from 'svelte-material-icons/AlertOutline.svelte';
 	import TableAction from '$lib/components/table/TableAction.svelte';
-	import TableTag from '$lib/components/table/TableTag.svelte';
+	import TableTag from '$lib/components/table/TableLabel.svelte';
 	import TooltipArrow from '$lib/components/TooltipArrow.svelte';
 	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
+	import TableUser from '$lib/components/table/TableUser.svelte';
 
-	export let columns = ['Repository', 'Default Branch', 'Owner', 'Expert', 'Status', 'Actions'];
+	export let columns = ['Repository', 'Default Branch', 'Expert', 'Status', 'Actions'];
 	export let rows = [];
 </script>
 
@@ -30,8 +31,7 @@
 				</TableBox>
 
 				<TableBox>{row.default_branch}</TableBox>
-				<TableBox>{row.owner}</TableBox>
-				<TableBox>{row.expert}</TableBox>
+				<TableBox><TableUser name={row.expert} /></TableBox>
 				<TableBox>
 					<div class="flex flex-row gap-1">
 						<TooltipArrow content="You must merge the GitHub PR to install the Action.">

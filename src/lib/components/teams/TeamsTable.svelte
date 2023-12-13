@@ -6,9 +6,8 @@
 	import DotsHorizontalCircleOutlineIcon from 'svelte-material-icons/DotsHorizontalCircleOutline.svelte';
 	import AccountGroupIcon from 'svelte-material-icons/AccountGroup.svelte';
 
-	export let columns = ['Team', 'Members', 'Components', 'Actions'];
+	export let columns = ['Team', 'Actions'];
 	export let rows = [];
-	$: rows, console.log(rows);
 </script>
 
 <Table {columns} {rows}>
@@ -25,8 +24,8 @@
 						</div>
 					</div>
 				</TableBox>
-				<TableBox>{row.default_branch}</TableBox>
-				<TableBox>{row.owner}</TableBox>
+				<!--				<TableBox>{row.default_branch}</TableBox>-->
+				<!--				<TableBox>{row.owner}</TableBox>-->
 				<TableBox>
 					<div class="flex flex-row gap-1">
 						<TableAction

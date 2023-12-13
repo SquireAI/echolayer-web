@@ -5,8 +5,9 @@
 	import TableRow from '$lib/components/table/TableRow.svelte';
 	import TableBox from '$lib/components/table/TableBox.svelte';
 	import TableAction from '$lib/components/table/TableAction.svelte';
+	import TableUser from '$lib/components/table/TableUser.svelte';
 
-	export let columns = ['Tag', 'Expert', 'Files', 'Repos', 'Actions'];
+	export let columns = ['Domain', 'Expert', 'Files', 'Repositories', 'Actions'];
 	export let rows = [];
 </script>
 
@@ -24,7 +25,9 @@
 						</div>
 					</div>
 				</TableBox>
-				<TableBox>{row.expert}</TableBox>
+				<TableBox>
+					<TableUser name={row.expert} />
+				</TableBox>
 				<TableBox>{row.files.length}</TableBox>
 				<TableBox>{row.repos.length}</TableBox>
 				<TableBox>
