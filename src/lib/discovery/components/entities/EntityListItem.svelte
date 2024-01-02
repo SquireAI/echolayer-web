@@ -29,7 +29,7 @@
 			<div class="flex-1 flex-col gap-1">
 				<p class="text-sm font-medium">{entity.name}</p>
 			</div>
-		{:else if entity.type === EntityTypes.REPO}
+		{:else if entity.type === EntityTypes.REPOSITORY}
 			<div>
 				<span class="icon bg-echolayer-yellow">
 					<Database />

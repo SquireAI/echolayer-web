@@ -6,7 +6,7 @@ export enum EntityTypes {
 	TEAM = 'Team',
 	COMPONENT = 'Component',
 	MEMBER = 'Member',
-	REPO = 'Repo'
+	REPOSITORY = 'Repository'
 }
 
 export interface BaseEntity {
@@ -53,37 +53,40 @@ export type Issue = {
 };
 
 // TODO update to API object
-export type Repo = {
+export type Repository = {
 	id: number;
 	publicId: string;
 	organizationId: number;
-	organizationName: string;
 	name: string;
-	default_branch: string;
-	description: string;
-	owner?: string;
+	owner: string;
+	commits?: number;
+	contributors?: number;
+	files?: number;
+	domains?: number;
+	default_branch?: string;
+	description?: string;
 	expert?: string;
 	createdAt?: string;
-	type: EntityTypes.REPO;
+	type: EntityTypes.REPOSITORY;
 };
 
-// TODO update to API object
+// TODO: DOMAIN - update to API object
 export type Domain = {
 	id: number;
 	name: string;
 	description: string;
 	expert?: string;
-	repos?: Repo[] | string[];
+	repos?: Repository[] | string[];
 	createdAt?: string;
 };
 
-// TODO update to API object
+// TODO: FILE - update to API object
 export type File = {
 	id: number;
 	path: string;
 	owner?: string;
 	expert?: string;
-	repo?: Repo | string;
+	repo?: Repository | string;
 	createdAt?: string;
 };
 
@@ -166,7 +169,7 @@ export type StoreOrganizationEntity = BaseStoreEntity<Organization>;
 export type StoreOrganizationsEntity = BaseStoreEntity<Organization[]>;
 export type StoreComponentEntity = BaseStoreEntity<ComponentEntity[]>;
 export type StoreIssueEntity = BaseStoreEntity<Issue[]>;
-export type StoreRepoEntity = BaseStoreEntity<Repo[]>;
+export type StoreRepositoryEntity = BaseStoreEntity<Repository[]>;
 export type StoreOriginEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
 export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
@@ -210,8 +213,8 @@ export interface IssueStore extends BaseStore<Issue[], StoreIssueEntity> {
 	updateIssue: (issue: Issue) => void;
 }
 
-export interface RepoStore extends BaseStore<Repo[], StoreRepoEntity> {
-	setRepos: (repos: Repo[]) => void;
+export interface RepositoryStore extends BaseStore<Repository[], StoreRepositoryEntity> {
+	setRepositories: (repositories: Repository[]) => void;
 }
 
 export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {

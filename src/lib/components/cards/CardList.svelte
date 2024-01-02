@@ -1,9 +1,9 @@
 <script lang="ts">
 	import AlertOutlineIcon from 'svelte-material-icons/AlertOutline.svelte';
 	import Card from '$lib/components/cards/Card.svelte';
-	import type { ComponentEntity, Repo, TeamEntity } from '$lib/types';
+	import type { ComponentEntity, Repository, TeamEntity } from '$lib/types';
 
-	export let entities: ComponentEntity[] | TeamEntity[] | Repo[] = [];
+	export let entities: ComponentEntity[] | TeamEntity[] | Repository[] = [];
 </script>
 
 {#if entities && entities.length > 0}

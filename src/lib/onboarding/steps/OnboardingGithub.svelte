@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths';
-	import { invalidateAll } from '$app/navigation';
+	import { INVALIDATE_QUERY_PARAMETER_NAME, ONBOARDING_PATH } from '$lib/utils/paths';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import Github from 'svelte-material-icons/Github.svelte';
 	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
+	import type { IntegrationInstallStatus } from '$lib/types';
 
-	export let data;
+	export let data: any;
 
 	let githubUrl = '';
-	let githubInstallStatus: string | undefined;
+	let githubInstallStatus: IntegrationInstallStatus;
 	let isLoaded = false;
 	let isInstallError = false;
 
@@ -27,6 +28,7 @@
 	onMount(async () => {
 		githubUrl = await data.installGithubAppHandler();
 		githubInstallStatus = await data.checkGithubAppHandler();
+		if (githubInstallStatus === 'connected') goto(`${ONBOARDING_PATH}/repos`);
 
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();

@@ -14,8 +14,8 @@
 		selectedStore,
 		TEAM_STORE_NAME,
 		teamStore,
-		REPO_STORE_NAME,
-		repoStore
+		REPOSITORY_STORE_NAME,
+		repositoryStore
 	} from '$lib/stores';
 
 	import type { LayoutData } from './$types';
@@ -31,7 +31,7 @@
 	setContext(ORIGIN_STORE_NAME, originStore);
 	setContext(SELECTED_STORE_NAME, selectedStore);
 	setContext(ISSUE_STORE_NAME, issueStore);
-	setContext(REPO_STORE_NAME, repoStore);
+	setContext(REPOSITORY_STORE_NAME, repositoryStore);
 
 	setContext(ORG_INVITATION_SERVICE_CONTEXT_NAME, data.inviteService);
 	setContext(RELATIONS_SERVICE_CONTEXT_NAME, data.relationsService);

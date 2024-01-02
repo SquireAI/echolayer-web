@@ -14,7 +14,7 @@
 		NOTION_GETTING_STARTED_DOCS,
 		SUPPORT_URL,
 		INTEGRATIONS_PATH,
-		REPOS_PATH,
+		REPOSITORIES_PATH,
 		COMPONENTS_PATH,
 		TEAMS_PATH
 	} from '$lib/utils/paths';
@@ -92,18 +92,18 @@
 		/>
 		<NavigationItem
 			name="Repositories"
-			href={`${REPOS_PATH}`}
+			href={`${REPOSITORIES_PATH}`}
 			OutlineIcon={SourceRepositoryMultipleIcon}
 			SolidIcon={SourceRepositoryMultipleIcon}
 			disabled={!organization}
 		/>
-		<NavigationItem
+		<!-- <NavigationItem
 			name="Components"
 			href={`${COMPONENTS_PATH}`}
 			OutlineIcon={ShapeOutlineIcon}
 			SolidIcon={ShapeIcon}
 			disabled={!organization}
-		/>
+		/> -->
 		<NavigationItem
 			name="Teams"
 			href={`${TEAMS_PATH}`}

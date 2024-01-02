@@ -10,6 +10,7 @@
 	import TooltipArrow from '$lib/components/TooltipArrow.svelte';
 	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
 	import TableUser from '$lib/components/table/TableUser.svelte';
+	import { REPOSITORIES_PATH } from '$lib/utils/paths';
 
 	export let columns = ['Repository', 'Default Branch', 'Expert', 'Status', 'Actions'];
 	export let rows = [];
@@ -25,7 +26,7 @@
 							<SourceRepositoryMultipleIcon color="white" class="w-4 h-4" />
 						</div>
 						<div class="flex flex-col">
-							{row.name}
+							<a href={`${REPOSITORIES_PATH}/${row.owner}/${row.name}`}>{row.owner} / {row.name}</a>
 						</div>
 					</div>
 				</TableBox>
@@ -39,7 +40,7 @@
 								icon={AlertOutlineIcon}
 								color="yellow"
 								label="Pending PR"
-								href={`/repos/${row.organizationName}/${row.name}`}
+								href={`${REPOSITORIES_PATH}/${row.owner}/${row.name}`}
 							/>
 						</TooltipArrow>
 					</div>
@@ -49,7 +50,7 @@
 						<TableAction
 							icon={DotsHorizontalCircleOutlineIcon}
 							label="Details"
-							href={`/repos/${row.organizationName}/${row.name}`}
+							href={`${REPOSITORIES_PATH}/${row.owner}/${row.name}`}
 						/>
 					</div>
 				</TableBox>

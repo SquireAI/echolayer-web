@@ -20,7 +20,6 @@
 <Panels>
 	<Navigation slot="nav" />
 	<div class="content" slot="content">
-		<!-- Repositories -->
 		<div class="flex flex-col h-screen">
 			<PanelsHeader title="Components">
 				<span slot="left-action" class="flex">

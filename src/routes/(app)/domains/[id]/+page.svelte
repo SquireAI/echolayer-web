@@ -10,7 +10,7 @@
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import CodeArrayIcon from 'svelte-material-icons/CodeArray.svelte';
 	import FilesTable from '$lib/components/files/FilesTable.svelte';
-	import ReposTable from '$lib/components/repos/ReposTable.svelte';
+	import ReposTable from '$lib/components/repositories/RepositoriesTable.svelte';
 	import UserStat from '$lib/components/cards/UserStat.svelte';
 
 	export let data: PageData;

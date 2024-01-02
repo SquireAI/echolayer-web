@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ComponentEntity, Repo, TeamEntity } from '$lib/types';
+	import type { ComponentEntity, Repository, TeamEntity } from '$lib/types';
 
-	export let entity: ComponentEntity | TeamEntity | Repo | undefined;
+	export let entity: ComponentEntity | TeamEntity | Repository | undefined;
 </script>
 
 {#if entity}

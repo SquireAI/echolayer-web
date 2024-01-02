@@ -1,11 +1,11 @@
 import type { PageServerLoad } from './$types';
 import { getHttpContext } from '$lib/http/context';
-import type { Organization, Repo } from '$lib/types';
+import type { Organization, Repository } from '$lib/types';
 import { orgRequired } from '$lib/utils/access';
-import reposData from '$lib/data/demo-repos.json';
+import { RepositoryApi } from '$lib/api/repository';
 
 export type PageData = {
-	repos?: Repo[];
+	repositories?: Repository[];
 	org?: Organization;
 };
 
@@ -14,10 +14,11 @@ export const load = (async ({ cookies, fetch }): Promise<PageData> => {
 
 	const org = await orgRequired(context);
 
-	const repos = reposData;
+	const repositoryApi = new RepositoryApi(context);
+	const repositories = await repositoryApi.list();
 
 	return {
-		...(repos && { repos }),
+		...(repositories && { repositories }),
 		...(org && { org })
 	};
 }) satisfies PageServerLoad;

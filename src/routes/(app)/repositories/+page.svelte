@@ -2,17 +2,17 @@
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import Panels from '$lib/discovery/panels.svelte';
 	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
-	import ReposTable from '$lib/components/repos/ReposTable.svelte';
-	import type { RepoStore } from '$lib/types';
+	import ReposTable from '$lib/components/repositories/RepositoriesTable.svelte';
+	import type { RepositoryStore } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { REPO_STORE_NAME } from '$lib/stores';
+	import { REPOSITORY_STORE_NAME } from '$lib/stores';
 	import type { PageData } from './+page.server';
 	import PageHeader from '$lib/components/headers/PageHeader.svelte';
 
 	export let data: PageData;
-	let repoStore: RepoStore = getContext(REPO_STORE_NAME) as RepoStore;
-	if (data.repos) {
-		repoStore.setRepos(data.repos);
+	let repositoryStore: RepositoryStore = getContext(REPOSITORY_STORE_NAME) as RepositoryStore;
+	if (data.repositories) {
+		repositoryStore.setRepositories(data.repositories);
 	}
 </script>
 
@@ -26,7 +26,7 @@
 				</span>
 			</PageHeader>
 			<div class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit">
-				<ReposTable rows={$repoStore.entity} />
+				<ReposTable rows={$repositoryStore.entity} />
 			</div>
 		</div>
 	</div>

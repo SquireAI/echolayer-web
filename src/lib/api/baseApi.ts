@@ -12,6 +12,7 @@ export const ENDPOINT = {
 	team: 'team',
 	owner: 'owner',
 	issue: 'issue',
+	repository: 'repository',
 	slack: 'slack-client',
 	githubApp: 'source/github',
 	invitationUser: 'invitation/user',

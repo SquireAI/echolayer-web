@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Panels from '$lib/discovery/panels.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
-	import type { ComponentStore, Issue, IssueStore, RepoStore, TeamStore } from '$lib/types';
+	import type { ComponentStore, Issue, IssueStore, RepositoryStore, TeamStore } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { COMPONENT_STORE_NAME, REPO_STORE_NAME, TEAM_STORE_NAME } from '$lib/stores';
+	import { COMPONENT_STORE_NAME, REPOSITORY_STORE_NAME, TEAM_STORE_NAME } from '$lib/stores';
 	import type { HomePageData } from './+page.server';
 	import HeroPageHeader from '$lib/components/headers/HeroPageHeader.svelte';
-	import ReposTable from '$lib/components/repos/ReposTable.svelte';
+	import RepositoriesTable from '$lib/components/repositories/RepositoriesTable.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
 	import TeamsTable from '$lib/components/teams/TeamsTable.svelte';
@@ -15,21 +15,22 @@
 
 	export let data: HomePageData;
 
-	let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
+	// let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
 	let teamStore: TeamStore = getContext(TEAM_STORE_NAME) as TeamStore;
-	let repoStore: RepoStore = getContext(REPO_STORE_NAME) as RepoStore;
+	let repositoryStore: RepositoryStore = getContext(REPOSITORY_STORE_NAME) as RepositoryStore;
 
-	if (data.components) {
-		componentStore.setComponents(data.components);
-	}
+	// if (data.components) {
+	// 	componentStore.setComponents(data.components);
+	// }
 	if (data.teams) {
 		teamStore.setTeams(data.teams);
 	}
-	if (data.repos) {
-		repoStore.setRepos(data.repos);
+	if (data.repositories) {
+		repositoryStore.setRepositories(data.repositories);
 	}
+	$: console.log(data.repositories);
 
-	let tabs = ['Repositories', 'Domains', 'Components', 'Teams'];
+	let tabs = ['Repositories', 'Domains', 'Teams']; // ['Components']
 	let selected = 0;
 </script>
 
@@ -51,13 +52,13 @@
 
 			<div class="flex-1 overflow-y-auto overflow-x-hidden">
 				{#if selected === 0}
-					<ReposTable rows={$repoStore.entity} />
+					<RepositoriesTable rows={$repositoryStore.entity} />
 				{:else if selected === 1}
 					<DomainsTable rows={data.domains} />
 				{:else if selected === 2}
-					<ComponentsTable rows={$componentStore.entity} />
-				{:else if selected === 3}
 					<TeamsTable rows={$teamStore.entity} />
+					<!-- {:else if selected === 3}
+					<ComponentsTable rows={$componentStore.entity} /> -->
 				{/if}
 			</div>
 		</div>

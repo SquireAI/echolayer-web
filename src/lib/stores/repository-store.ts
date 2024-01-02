@@ -1,14 +1,14 @@
 import { writable } from 'svelte/store';
-import type { Repo, RepoStore, StoreRepoEntity } from '../types';
+import type { Repository, RepositoryStore, StoreRepositoryEntity } from '../types';
 
-export const REPO_STORE_NAME = 'repo';
+export const REPOSITORY_STORE_NAME = 'repository';
 
 const initialValue = { loading: false, error: false, entity: undefined };
-const repoStore = writable<StoreRepoEntity>(initialValue);
+const repositoryStore = writable<StoreRepositoryEntity>(initialValue);
 
-const { set, subscribe, update } = repoStore;
+const { set, subscribe, update } = repositoryStore;
 
-const createStore = (): RepoStore => {
+const createStore = (): RepositoryStore => {
 	return {
 		subscribe,
 		update,
@@ -16,7 +16,7 @@ const createStore = (): RepoStore => {
 		clear: () => set(initialValue),
 		setLoading: (isLoading: boolean) => update((existing) => ({ ...existing, loading: isLoading })),
 		setError: (isError: boolean) => update((existing) => ({ ...existing, error: isError })),
-		setRepos: (entity: Repo[]) => set({ loading: false, error: false, entity })
+		setRepositories: (entity: Repository[]) => set({ loading: false, error: false, entity })
 	};
 };
 

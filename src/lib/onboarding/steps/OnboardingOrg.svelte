@@ -1,4 +1,9 @@
 <script lang="ts">
-</script>
+	import { goto } from '$app/navigation';
+	import { ONBOARDING_PATH } from '$lib/utils/paths';
+	import { onMount } from 'svelte';
 
-<div>this is the org page</div>
+	onMount(() => {
+		goto(`${ONBOARDING_PATH}/github`);
+	});
+</script>
