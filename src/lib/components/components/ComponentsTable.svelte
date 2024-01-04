@@ -9,7 +9,6 @@
 
 	export let columns = ['Component', 'Actions'];
 	export let rows = [];
-	$: console.log(rows);
 </script>
 
 <Table {columns} {rows}>

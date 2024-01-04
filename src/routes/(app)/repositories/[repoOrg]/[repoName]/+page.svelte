@@ -9,21 +9,15 @@
 	import BackgroundWrapper from '$lib/components/headers/BackgroundWrapper.svelte';
 	import Stat from '$lib/components/cards/Stat.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
-	import ComponentsTable from '$lib/components/components/ComponentsTable.svelte';
-	import type { ComponentStore } from '$lib/types';
-	import { getContext } from 'svelte';
-	import { COMPONENT_STORE_NAME } from '$lib/stores';
-	import TagsTable from '$lib/components/tags/TagsTable.svelte';
-	import DomainsTable from '$lib/components/domains/DomainsTable.svelte';
+	import type { Repository, Location } from '$lib/types';
 	import { REPOSITORIES_PATH } from '$lib/utils/paths';
+	import LocationsTable from '$lib/components/locations/LocationsTable.svelte';
 
 	export let data: PageData;
+	let repository: Repository;
 	$: repository = data.repository;
-
-	// let componentStore: ComponentStore = getContext(COMPONENT_STORE_NAME) as ComponentStore;
-	// if (data.components) {
-	// 	componentStore.setComponents(data.components);
-	// }
+	let locations: Location[] | undefined = [];
+	$: locations = data.locations;
 
 	let links = [
 		{
@@ -37,7 +31,7 @@
 		}
 	];
 
-	let tabs = ['Domains']; // ['Tags', 'Domains', 'Components'];
+	let tabs = ['Files']; // ['Tags', 'Domains', 'Components'];
 	let selected = 0;
 </script>
 
@@ -65,18 +59,9 @@
 					</HeroPageHeader>
 
 					<div class="px-6 pb-8 flex flex-row flex-wrap gap-6">
-						<Stat count={repository.commits || 0} primary="Commits" secondary="3 sources" />
-						<Stat
-							count={repository.contributors || 0}
-							primary="Contributors"
-							secondary="99 total members"
-						/>
-						<Stat count={repository.files || 0} primary="Files" secondary="6 last week" />
-						<Stat
-							count={repository.domains || 0}
-							primary="Domains"
-							secondary="10 total in organization"
-						/>
+						<Stat count={repository.commits || 0} primary="Commits" />
+						<Stat count={repository.contributors || 0} primary="Contributors" />
+						<Stat count={repository.files || 0} primary="Files" />
 					</div>
 				</BackgroundWrapper>
 
@@ -85,13 +70,11 @@
 					class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit border-t border-neutral-300"
 				>
 					<div class="flex-1 flex flex-col">
-						<TabBar {tabs} bind:selected />
+						<!-- <TabBar {tabs} bind:selected /> -->
 
 						<div class="flex-1 overflow-y-auto overflow-x-hidden">
 							{#if selected === 0}
-								<DomainsTable rows={data.domains} />
-								<!-- {:else if selected === 1}
-									<ComponentsTable rows={$componentStore.entity} /> -->
+								<LocationsTable rows={locations} />
 							{/if}
 						</div>
 					</div>

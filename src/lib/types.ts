@@ -15,6 +15,7 @@ export interface BaseEntity {
 	metadata: any;
 	type: EntityTypes;
 	links: Link[];
+	extId?: string;
 }
 
 export interface Link {
@@ -24,6 +25,8 @@ export interface Link {
 
 export interface Member extends BaseEntity {
 	email: string;
+	isActive: boolean;
+	extId: string;
 }
 
 export interface TeamEntity extends BaseEntity {
@@ -61,13 +64,26 @@ export type Repository = {
 	owner: string;
 	commits?: number;
 	contributors?: number;
+	contributions?: number;
 	files?: number;
 	domains?: number;
 	default_branch?: string;
 	description?: string;
 	expert?: string;
 	createdAt?: string;
-	type: EntityTypes.REPOSITORY;
+	updatedAt?: string;
+};
+
+export type ContributionContextResult = {
+	[key: string]: any;
+};
+
+export type Location = {
+	[key: string]: any;
+};
+
+export type LocationOwnersResult = {
+	[key: string]: any;
 };
 
 // TODO: DOMAIN - update to API object
@@ -177,6 +193,7 @@ export type StoreSelectedEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreHomeTabIndex = BaseStoreEntity<number>;
 export type StoreUserInvitationsEntity = BaseStoreEntity<Invitation[]>;
 export type StoreOrgInvitationsEntity = BaseStoreEntity<Invitation[]>;
+export type StoreMemberEntity = BaseStoreEntity<Member[]>;
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -244,6 +261,10 @@ export interface UserInvitationStore extends BaseStore<Invitation[], StoreUserIn
 
 export interface OrgInvitationStore extends BaseStore<Invitation[], StoreUserInvitationsEntity> {
 	setInvitations: (invitations: Invitation[]) => void;
+}
+
+export interface MemberStore extends BaseStore<Member[], StoreMemberEntity> {
+	setMembers: (members: Member[]) => void;
 }
 
 export type BaseContextData = {

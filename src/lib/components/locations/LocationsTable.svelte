@@ -3,9 +3,8 @@
 	import Table from '$lib/components/table/Table.svelte';
 	import TableRow from '$lib/components/table/TableRow.svelte';
 	import TableBox from '$lib/components/table/TableBox.svelte';
-	import TableUser from '$lib/components/table/TableUser.svelte';
 
-	export let columns = ['Path', 'Owner', 'Expert', 'Repository'];
+	export let columns = ['Path'];
 	export let rows = [];
 </script>
 
@@ -23,9 +22,7 @@
 						</div>
 					</div>
 				</TableBox>
-				<TableBox><TableUser name={row.owner} /></TableBox>
-				<TableBox><TableUser name={row.expert} /></TableBox>
-				<TableBox>{row.repo}</TableBox>
+				<!-- <TableBox>Find Expert</TableBox> -->
 			</TableRow>
 		{/each}
 	{/if}

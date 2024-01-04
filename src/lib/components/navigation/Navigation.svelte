@@ -16,7 +16,8 @@
 		INTEGRATIONS_PATH,
 		REPOSITORIES_PATH,
 		COMPONENTS_PATH,
-		TEAMS_PATH
+		TEAMS_PATH,
+		MEMBERS_PATH
 	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
@@ -35,6 +36,8 @@
 	import ConnectionIcon from 'svelte-material-icons/Connection.svelte';
 	import AccountGroupIcon from 'svelte-material-icons/AccountGroup.svelte';
 	import AccountGroupOutlineIcon from 'svelte-material-icons/AccountGroupOutline.svelte';
+	import AccountIcon from 'svelte-material-icons/Account.svelte';
+	import AccountOutlineIcon from 'svelte-material-icons/AccountOutline.svelte';
 	import ShapeIcon from 'svelte-material-icons/Shape.svelte';
 	import ShapeOutlineIcon from 'svelte-material-icons/ShapeOutline.svelte';
 	import AvatarPlaceholder from '$lib/components/users/AvatarPlaceholder.svelte';
@@ -109,6 +112,13 @@
 			href={`${TEAMS_PATH}`}
 			OutlineIcon={AccountGroupOutlineIcon}
 			SolidIcon={AccountGroupIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Members"
+			href={`${MEMBERS_PATH}`}
+			OutlineIcon={AccountOutlineIcon}
+			SolidIcon={AccountIcon}
 			disabled={!organization}
 		/>
 	</div>

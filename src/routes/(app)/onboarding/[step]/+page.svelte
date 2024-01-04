@@ -10,8 +10,14 @@
 	import OnboardingTry from '$lib/onboarding/steps/OnboardingTry.svelte';
 	import type { PageData } from './+page.server';
 	import type { Handlers } from './+page';
+	import type { RepositoryStore } from '$lib/types';
+	import { getContext } from 'svelte';
+	import { REPOSITORY_STORE_NAME } from '$lib/stores';
 
 	export let data: PageData & Handlers;
+
+	let repositoryStore: RepositoryStore = getContext(REPOSITORY_STORE_NAME) as RepositoryStore;
+	if (data.repositories) repositoryStore.setRepositories(data.repositories);
 
 	const steps = [
 		{

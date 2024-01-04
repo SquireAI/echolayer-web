@@ -3,7 +3,7 @@
 	export let label: string | undefined;
 	export let icon: SvelteComponent | undefined = undefined;
 	export let color: string | undefined = 'neutral';
-	export let href: string | undefined = undefined;
+	export let href: string | undefined = '#';
 	export let onClick: () => void;
 
 	let colorClasses = {

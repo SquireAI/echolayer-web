@@ -9,9 +9,8 @@
 	import Stat from '$lib/components/cards/Stat.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
 	import CodeArrayIcon from 'svelte-material-icons/CodeArray.svelte';
-	import FilesTable from '$lib/components/files/FilesTable.svelte';
 	import ReposTable from '$lib/components/repositories/RepositoriesTable.svelte';
-	import UserStat from '$lib/components/cards/UserStat.svelte';
+	import UserStat from '$lib/components/users/UserStat.svelte';
 
 	export let data: PageData;
 
@@ -66,13 +65,7 @@
 				<div class="flex-1 flex flex-col">
 					<TabBar {tabs} bind:selected />
 
-					<div class="flex-1 overflow-y-auto overflow-x-hidden">
-						{#if selected === 0}
-							<FilesTable rows={data.files} />
-						{:else if selected === 1}
-							<ReposTable rows={data.repos} />
-						{/if}
-					</div>
+					<div class="flex-1 overflow-y-auto overflow-x-hidden" />
 				</div>
 			</div>
 		</div>

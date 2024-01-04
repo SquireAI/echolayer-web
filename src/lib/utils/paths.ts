@@ -10,6 +10,7 @@ export const HOME_PATH = '/';
 export const REPOSITORIES_PATH = '/repositories';
 export const COMPONENTS_PATH = '/components';
 export const TEAMS_PATH = '/teams';
+export const MEMBERS_PATH = '/members';
 export const ONBOARDING_PATH = '/onboarding';
 export const ORGS_PATH = '/org';
 export const ORGS_SELECT_PATH = '/org/select';

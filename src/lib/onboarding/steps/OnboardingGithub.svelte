@@ -37,7 +37,7 @@
 	});
 </script>
 
-<div class="flex-1 flex flex-row justify-center items-center mb-10">
+<div class="flex-1 flex flex-row justify-center items-center mb-16">
 	<div class="flex flex-col gap-6 items-center max-w-sm text-center">
 		<span class="text-neutral-500"><Github size="70" slot="icon" /></span>
 		<p>

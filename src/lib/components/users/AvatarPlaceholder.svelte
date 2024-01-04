@@ -84,7 +84,7 @@
 	class:bg-neutral-300={!userInitials}
 >
 	{#if userInitials}
-		<span>{userInitials}</span>
+		<span class="text-xs">{userInitials}</span>
 	{:else}
 		<AccountIcon />
 	{/if}

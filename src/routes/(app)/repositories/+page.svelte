@@ -8,6 +8,8 @@
 	import { REPOSITORY_STORE_NAME } from '$lib/stores';
 	import type { PageData } from './+page.server';
 	import PageHeader from '$lib/components/headers/PageHeader.svelte';
+	import CardList from '$lib/components/cards/CardList.svelte';
+	import RepositoriesCard from '$lib/components/repositories/RepositoriesCard.svelte';
 
 	export let data: PageData;
 	let repositoryStore: RepositoryStore = getContext(REPOSITORY_STORE_NAME) as RepositoryStore;
@@ -26,7 +28,15 @@
 				</span>
 			</PageHeader>
 			<div class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit">
-				<ReposTable rows={$repositoryStore.entity} />
+				<div class="p-3">
+					<CardList entities={$repositoryStore.entity}>
+						{#each $repositoryStore.entity as entity (entity.publicId)}
+							<li>
+								<RepositoriesCard {entity} />
+							</li>
+						{/each}
+					</CardList>
+				</div>
 			</div>
 		</div>
 	</div>

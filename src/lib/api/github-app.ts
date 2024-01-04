@@ -3,7 +3,7 @@ import { BaseApi, ENDPOINT } from './baseApi';
 
 export class GithubApp extends BaseApi<any> {
 	initializeVariables(): void {
-		this.endpoint = ENDPOINT.githubApp;
+		this.endpoint = ENDPOINT.sourceGithub;
 	}
 
 	public async install(): Promise<string> {
