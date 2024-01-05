@@ -18,11 +18,7 @@
 	<span
 		class={`
         flex flex-row justify-between items-center px-1 rounded-md
-        ${
-					isActive
-						? 'bg-echolayer-lightBlue-100 text-echolayer-blue-200 hover:bg-echolayer-lightBlue-100'
-						: 'hover:cursor-pointer hover:bg-gray-200'
-				}
+        ${isActive ? 'bg-gray-200 hover:bg-gray-200' : 'hover:cursor-pointer hover:bg-gray-200'}
     `}
 	>
 		<span class="flex flex-row gap-2 items-center py-1">

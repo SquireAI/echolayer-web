@@ -17,7 +17,7 @@
 <div class={`flex flex-col ${classes}`}>
 	<button
 		on:click={clickHandler}
-		class={`text-neutral-600 hover:bg-neutral-200 w-full hover:cursor-pointer rounded p-2 flex flex-row gap-3 place-items-center
+		class={`text-neutral-600 hover:bg-neutral-200 w-full hover:cursor-pointer rounded p-2 flex flex-row gap-3 place-items-center border border-neutral-200
 		${
 			disabled
 				? ' hover:cursor-default cursor-default bg-transparent hover:bg-transparent text-neutral-200 pointer-events-none'

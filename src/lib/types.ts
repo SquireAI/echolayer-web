@@ -5,7 +5,8 @@ import type { FetchHeader } from '$lib/api/apiUtils';
 export enum EntityTypes {
 	TEAM = 'Team',
 	COMPONENT = 'Component',
-	MEMBER = 'Member'
+	MEMBER = 'Member',
+	REPOSITORY = 'Repository'
 }
 
 export interface BaseEntity {
@@ -14,6 +15,7 @@ export interface BaseEntity {
 	metadata: any;
 	type: EntityTypes;
 	links: Link[];
+	extId?: string;
 }
 
 export interface Link {
@@ -23,6 +25,8 @@ export interface Link {
 
 export interface Member extends BaseEntity {
 	email: string;
+	isActive: boolean;
+	extId: string;
 }
 
 export interface TeamEntity extends BaseEntity {
@@ -49,6 +53,57 @@ export type Issue = {
 	component: ComponentEntity;
 	createdAt: string;
 	metadata: any;
+};
+
+// TODO update to API object
+export type Repository = {
+	id: number;
+	publicId: string;
+	organizationId: number;
+	name: string;
+	owner: string;
+	commits?: number;
+	contributors?: number;
+	contributions?: number;
+	files?: number;
+	domains?: number;
+	default_branch?: string;
+	description?: string;
+	expert?: string;
+	createdAt?: string;
+	updatedAt?: string;
+};
+
+export type ContributionContextResult = {
+	[key: string]: any;
+};
+
+export type Location = {
+	[key: string]: any;
+};
+
+export type LocationOwnersResult = {
+	[key: string]: any;
+};
+
+// TODO: DOMAIN - update to API object
+export type Domain = {
+	id: number;
+	name: string;
+	description: string;
+	expert?: string;
+	repos?: Repository[] | string[];
+	createdAt?: string;
+};
+
+// TODO: FILE - update to API object
+export type File = {
+	id: number;
+	path: string;
+	owner?: string;
+	expert?: string;
+	repo?: Repository | string;
+	createdAt?: string;
 };
 
 export interface ComponentEntity extends BaseEntity {
@@ -130,6 +185,7 @@ export type StoreOrganizationEntity = BaseStoreEntity<Organization>;
 export type StoreOrganizationsEntity = BaseStoreEntity<Organization[]>;
 export type StoreComponentEntity = BaseStoreEntity<ComponentEntity[]>;
 export type StoreIssueEntity = BaseStoreEntity<Issue[]>;
+export type StoreRepositoryEntity = BaseStoreEntity<Repository[]>;
 export type StoreOriginEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreEntityRelationship = BaseStoreEntity<RelationGraphEntity[]>;
 export type StoreTeamEntity = BaseStoreEntity<TeamEntity[]>;
@@ -137,6 +193,7 @@ export type StoreSelectedEntity = BaseStoreEntity<GraphedEntity>;
 export type StoreHomeTabIndex = BaseStoreEntity<number>;
 export type StoreUserInvitationsEntity = BaseStoreEntity<Invitation[]>;
 export type StoreOrgInvitationsEntity = BaseStoreEntity<Invitation[]>;
+export type StoreMemberEntity = BaseStoreEntity<Member[]>;
 
 interface BaseStore<T, U extends BaseStoreEntity<T>> {
 	subscribe: (this: void, run: Subscriber<U>) => Unsubscriber;
@@ -173,6 +230,10 @@ export interface IssueStore extends BaseStore<Issue[], StoreIssueEntity> {
 	updateIssue: (issue: Issue) => void;
 }
 
+export interface RepositoryStore extends BaseStore<Repository[], StoreRepositoryEntity> {
+	setRepositories: (repositories: Repository[]) => void;
+}
+
 export interface OriginStore extends BaseStore<GraphedEntity, StoreOriginEntity> {
 	setEntity: (entity?: GraphedEntity) => void;
 }
@@ -200,6 +261,10 @@ export interface UserInvitationStore extends BaseStore<Invitation[], StoreUserIn
 
 export interface OrgInvitationStore extends BaseStore<Invitation[], StoreUserInvitationsEntity> {
 	setInvitations: (invitations: Invitation[]) => void;
+}
+
+export interface MemberStore extends BaseStore<Member[], StoreMemberEntity> {
+	setMembers: (members: Member[]) => void;
 }
 
 export type BaseContextData = {

@@ -10,6 +10,8 @@ import entityDetailsStore, { ENTITY_DETAILS_STORE_NAME } from './entity-details-
 import homeTabStore, { HOME_TAB_STORE_NAME } from './home-tab-store';
 import userInvitationStore, { USER_INVITATION_STORE_NAME } from './user-invitation-store';
 import issueStore, { ISSUE_STORE_NAME } from './issue-store';
+import repositoryStore, { REPOSITORY_STORE_NAME } from './repository-store';
+import memberStore, { MEMBER_STORE_NAME } from './member-store';
 
 export function clearStores() {
 	componentStore.clear();
@@ -24,6 +26,8 @@ export function clearStores() {
 	homeTabStore.clear();
 	userInvitationStore.clear();
 	issueStore.clear();
+	repositoryStore.clear();
+	memberStore.clear();
 }
 
 export {
@@ -50,5 +54,9 @@ export {
 	USER_INVITATION_STORE_NAME,
 	userInvitationStore,
 	ISSUE_STORE_NAME,
-	issueStore
+	issueStore,
+	REPOSITORY_STORE_NAME,
+	repositoryStore,
+	MEMBER_STORE_NAME,
+	memberStore
 };

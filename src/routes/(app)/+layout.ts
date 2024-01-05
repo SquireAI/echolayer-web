@@ -3,6 +3,8 @@ import type { LayoutLoad } from './$types';
 import { authRequired } from '$lib/utils/access';
 import { createOrgInviteService } from '$lib/invitation/orgInvite.service';
 import { createRelationsService } from '$lib/relations/relations.service';
+import { ContributionApi } from '$lib/api/contribution';
+import { LocationOwnersApi } from '$lib/api/location-owners';
 
 export const load = (async ({ fetch, parent, data }) => {
 	await parent();
@@ -13,13 +15,22 @@ export const load = (async ({ fetch, parent, data }) => {
 	// Check if user is authenticated
 	await authRequired(context);
 
+	// Initialize services
 	const inviteService = createOrgInviteService(context);
 	const relationsService = createRelationsService(context);
+
+	// Initialize apis
+	const contributionApi = new ContributionApi(context);
+	const locationOwnersApi = new LocationOwnersApi(context);
 
 	return {
 		baseHeaders: context.baseHeaders,
 		baseUrl: context.baseUrl,
 		inviteService,
-		relationsService
+		relationsService,
+		apis: {
+			contributionApi,
+			locationOwnersApi
+		}
 	};
 }) satisfies LayoutLoad;

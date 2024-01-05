@@ -4,16 +4,9 @@
 	import NavigationItem from './NavigationItem.svelte';
 	import HomeIcon from 'svelte-material-icons/Home.svelte';
 	import HomeOutlineIcon from 'svelte-material-icons/HomeOutline.svelte';
-	import CogIcon from 'svelte-material-icons/Cog.svelte';
-	import CogOutlineIcon from 'svelte-material-icons/CogOutline.svelte';
-	import PlusIcon from 'svelte-material-icons/Plus.svelte';
+	import PlusCircleOutlineIcon from 'svelte-material-icons/PlusCircleOutline.svelte';
 	import KeyIcon from 'svelte-material-icons/Key.svelte';
 	import KeyOutlineIcon from 'svelte-material-icons/KeyOutline.svelte';
-	import Button from '../Button.svelte';
-	import HelpCircleIcon from 'svelte-material-icons/HelpCircle.svelte';
-	import OpenInNewIcon from 'svelte-material-icons/OpenInNew.svelte';
-	import BugIcon from 'svelte-material-icons/Bug.svelte';
-	import BugOutlineIcon from 'svelte-material-icons/BugOutline.svelte';
 	import {
 		API_KEYS_PATH,
 		HOME_PATH,
@@ -21,7 +14,10 @@
 		NOTION_GETTING_STARTED_DOCS,
 		SUPPORT_URL,
 		INTEGRATIONS_PATH,
-		ISSUES_PATH
+		REPOSITORIES_PATH,
+		COMPONENTS_PATH,
+		TEAMS_PATH,
+		MEMBERS_PATH
 	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
@@ -33,17 +29,21 @@
 	import SwitchOrgButton from './SwitchOrgButton.svelte';
 	import { modalStore } from '$lib/stores/modal';
 	import OrganizationInvites from '../modal/OrganizationInvites.svelte';
+	import EchoLayerLogo from '$lib/EchoLayerLogo.svelte';
+	import FileDocumentIcon from 'svelte-material-icons/FileDocument.svelte';
+	import FileDocumentOutlineIcon from 'svelte-material-icons/FileDocumentOutline.svelte';
+	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
+	import ConnectionIcon from 'svelte-material-icons/Connection.svelte';
+	import AccountGroupIcon from 'svelte-material-icons/AccountGroup.svelte';
+	import AccountGroupOutlineIcon from 'svelte-material-icons/AccountGroupOutline.svelte';
+	import AccountIcon from 'svelte-material-icons/Account.svelte';
+	import AccountOutlineIcon from 'svelte-material-icons/AccountOutline.svelte';
+	import ShapeIcon from 'svelte-material-icons/Shape.svelte';
+	import ShapeOutlineIcon from 'svelte-material-icons/ShapeOutline.svelte';
+	import AvatarPlaceholder from '$lib/components/users/AvatarPlaceholder.svelte';
 
 	const userStore = getContext(USER_STORE_NAME) as UserStore;
 	const orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
-	let userInitials: string;
-	$: userInitials =
-		$userStore?.entity?.name
-			.trim()
-			.split(' ')
-			.map((part) => part[0])
-			.join('')
-			.toUpperCase() || '';
 
 	let organization: Organization | undefined;
 	$: organization = $orgStore?.entity;
@@ -57,83 +57,109 @@
 
 	const modalRegistry = {
 		organizationInvites: {
-			title: "Organization invites",
+			title: 'Organization invites',
 			component: OrganizationInvites
 		}
-	}
+	};
 </script>
 
-<div class="h-full flex flex-col justify-between bg-neutral-25">
-	<div class="p-3 flex flex-col gap-4 border-b border-solid border-neutral-200">
-		<div class="flex items-center flex-row gap-x-3 px-3">
-			<div
-				class="flex items-center justify-center w-8 h-8 rounded-2xl bg-neutral-400 sm:hidden lg:flex"
-			>
-				<span class="text-white">{userInitials}</span>
-			</div>
-			<div class="flex flex-col items-start">
-				<p class="font-medium leading-5 text-neutral-800">{$userStore?.entity?.name}</p>
-			</div>
-		</div>
-		<div>
-			<div class="flex flex-col w-full gap-2">
-				<SwitchOrgButton />
-				<NavigationItem
-					name="Home"
-					href={`${HOME_PATH}`}
-					OutlineIcon={HomeOutlineIcon}
-					SolidIcon={HomeIcon}
-					disabled={!organization}
-				/>
-				<NavigationItem
-					name="Issues"
-					href={`${ISSUES_PATH}`}
-					OutlineIcon={BugOutlineIcon}
-					SolidIcon={BugIcon}
-					disabled={!organization}
-				/>
-				<NavigationItem
-					name="API keys"
-					href={`${API_KEYS_PATH}`}
-					OutlineIcon={KeyOutlineIcon}
-					SolidIcon={KeyIcon}
-					disabled={!organization}
-				/>
-				<NavigationItem
-					name="Integrations"
-					href={`${INTEGRATIONS_PATH}`}
-					OutlineIcon={CogOutlineIcon}
-					SolidIcon={CogIcon}
-					disabled={!organization}
-				/>
-				<NavigationItem
-					name="Add people"
-					onClick={() => modalStore.trigger(modalRegistry.organizationInvites)}
-					OutlineIcon={PlusIcon}
-					SolidIcon={PlusIcon}
-					disabled={!organization}
-				/>
-			</div>
-		</div>
+<div class="h-full flex flex-col justify-between bg-neutral-25 divide-neutral-300">
+	<!-- Logo -->
+	<div class="flex flex-row items-center px-5 pb-3 pt-5">
+		<EchoLayerLogo />
 	</div>
-	<div class="flex flex-col items-center justify-end p-3 gap-4">
-		<Button full={true} type="grey" href={SUPPORT_URL} target="_blank">
-			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-				<HelpCircleIcon width={20} height={20} class={'text-echolayer-blue'} />
-				Support
-			</div>
-		</Button>
-		<Button full={true} type="grey" href={NOTION_GETTING_STARTED_DOCS} target="_blank">
-			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-				<OpenInNewIcon width={20} height={20} class={'text-echolayer-blue'} />
-				Documentation
-			</div>
-		</Button>
-		<Button full={true} type="grey" handleClick={logout}>
-			<div class="flex gap-2 justify-start items-center w-full leading-4 font-medium">
-				<LogoutIcon width={20} height={20} class={'text-echolayer-blue'} />
-				Logout
-			</div>
-		</Button>
+
+	<!-- User -->
+	<div class="flex items-center flex-row gap-x-3 px-4 py-3">
+		<AvatarPlaceholder name={$userStore?.entity?.name} />
+		<div class="flex-1 flex flex-col items-start font-medium">
+			<small class="text-xs text-neutral-500">Hey!</small>
+			<p class="text-xs leading-5 text-neutral-800">{$userStore?.entity?.name}</p>
+		</div>
+		<button
+			class="hover:text-neutral-500 text-neutral-300 cursor-pointer"
+			on:click={() => logout()}
+		>
+			<LogoutIcon width={20} height={20} />
+		</button>
+	</div>
+
+	<!-- Object -->
+	<div class="flex flex-col w-full gap-2 p-3">
+		<NavigationItem
+			name="Get Started"
+			href={`${HOME_PATH}`}
+			OutlineIcon={HomeOutlineIcon}
+			SolidIcon={HomeIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Repositories"
+			href={`${REPOSITORIES_PATH}`}
+			OutlineIcon={SourceRepositoryMultipleIcon}
+			SolidIcon={SourceRepositoryMultipleIcon}
+			disabled={!organization}
+		/>
+		<!-- <NavigationItem
+			name="Components"
+			href={`${COMPONENTS_PATH}`}
+			OutlineIcon={ShapeOutlineIcon}
+			SolidIcon={ShapeIcon}
+			disabled={!organization}
+		/> -->
+		<NavigationItem
+			name="Teams"
+			href={`${TEAMS_PATH}`}
+			OutlineIcon={AccountGroupOutlineIcon}
+			SolidIcon={AccountGroupIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Members"
+			href={`${MEMBERS_PATH}`}
+			OutlineIcon={AccountOutlineIcon}
+			SolidIcon={AccountIcon}
+			disabled={!organization}
+		/>
+	</div>
+
+	<!-- Spacer -->
+	<div class="flex-1" />
+
+	<!-- Settings -->
+	<div class="flex flex-col w-full gap-2 p-3 border-t border-neutral-200">
+		<NavigationItem
+			name="API keys"
+			href={`${API_KEYS_PATH}`}
+			OutlineIcon={KeyOutlineIcon}
+			SolidIcon={KeyIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Integrations"
+			href={`${INTEGRATIONS_PATH}`}
+			OutlineIcon={ConnectionIcon}
+			SolidIcon={ConnectionIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Add people"
+			onClick={() => modalStore.trigger(modalRegistry.organizationInvites)}
+			OutlineIcon={PlusCircleOutlineIcon}
+			SolidIcon={PlusCircleOutlineIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
+			name="Documentation"
+			onClick={() => window.open(NOTION_GETTING_STARTED_DOCS, '_blank')}
+			OutlineIcon={FileDocumentOutlineIcon}
+			SolidIcon={FileDocumentIcon}
+			disabled={!organization}
+		/>
+	</div>
+
+	<!-- User Navigation -->
+	<div class="flex flex-col p-3 gap-2 border-t border-neutral-200">
+		<SwitchOrgButton />
 	</div>
 </div>
