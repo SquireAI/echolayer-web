@@ -45,37 +45,35 @@
 			</BackgroundWrapper>
 		</div>
 
-		<!-- All Objects -->
-		<div class="flex-1 flex flex-col">
-			<TabBar {tabs} bind:selected />
+		<TabBar {tabs} bind:selected />
 
-			<div class="flex-1 overflow-y-auto overflow-x-hidden p-3">
-				{#if selected === 0}
-					<CardList entities={$repositoryStore.entity}>
-						{#each $repositoryStore.entity as entity (entity.publicId)}
-							<li>
-								<RepositoriesCard {entity} />
-							</li>
-						{/each}
-					</CardList>
-				{:else if selected === 1}
-					<CardList entities={$teamStore.entity}>
-						{#each $teamStore.entity as entity (entity.publicId)}
-							<li>
-								<TeamsCard {entity} subtitle={org.name} />
-							</li>
-						{/each}
-					</CardList>
-				{:else if selected === 2}
-					<CardList entities={$memberStore.entity}>
-						{#each $memberStore.entity as entity (entity.publicId)}
-							<li>
-								<MembersCard {entity} subtitle={org.name} />
-							</li>
-						{/each}
-					</CardList>
-				{/if}
-			</div>
+		<!-- All Objects -->
+		<div class="flex-1 overflow-y-auto overflow-x-hidden min-h-fit p-3">
+			{#if selected === 0}
+				<CardList entities={$repositoryStore.entity}>
+					{#each $repositoryStore.entity as entity (entity.publicId)}
+						<li>
+							<RepositoriesCard {entity} />
+						</li>
+					{/each}
+				</CardList>
+			{:else if selected === 1}
+				<CardList entities={$teamStore.entity}>
+					{#each $teamStore.entity as entity (entity.publicId)}
+						<li>
+							<TeamsCard {entity} subtitle={org.name} />
+						</li>
+					{/each}
+				</CardList>
+			{:else if selected === 2}
+				<CardList entities={$memberStore.entity}>
+					{#each $memberStore.entity as entity (entity.publicId)}
+						<li>
+							<MembersCard {entity} subtitle={org.name} />
+						</li>
+					{/each}
+				</CardList>
+			{/if}
 		</div>
 	</div>
 </Panels>
