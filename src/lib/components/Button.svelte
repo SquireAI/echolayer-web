@@ -41,7 +41,7 @@
 			}`;
 		} else if (type === 'secondary') {
 			buttonClasses = `${buttonClasses} bg-white border border-neutral-300 text-black px-8 py-3 ${clazz} ${
-				disabled ? 'cursor-not-allowed	bg-neutral-500' : ''
+				disabled ? 'cursor-not-allowed opacity-40' : ''
 			}`;
 		} else if (type === 'link') {
 			buttonClasses = `${buttonClasses} bg-transparent text-black py-3 ${clazz} ${
@@ -53,7 +53,7 @@
 			}`;
 		} else if (type === 'grey') {
 			buttonClasses = `${buttonClasses} bg-neutral-100 border border-neutral-300 text-black px-3 py-1.5 rounded-sm ${clazz} ${
-				disabled ? 'cursor-not-allowed	bg-neutral-500' : ''
+				disabled ? 'cursor-not-allowed opacity-40' : ''
 			}`;
 		} else if (type === 'flat') {
 			buttonClasses = `flex flex-row text-sm cursor-pointer font-medium bg-white text-neutral-800 p-2 hover:bg-neutral-200 rounded ${clazz} ${
