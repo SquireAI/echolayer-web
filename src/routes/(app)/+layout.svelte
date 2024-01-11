@@ -21,7 +21,7 @@
 	} from '$lib/stores';
 
 	import type { LayoutData } from './$types';
-	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/invitation/orgInvite.service';
+	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/services/orgInvite.service';
 	import Modal from '$lib/components/modal/Modal.svelte';
 	import { RELATIONS_SERVICE_CONTEXT_NAME } from '$lib/relations/relations.service';
 

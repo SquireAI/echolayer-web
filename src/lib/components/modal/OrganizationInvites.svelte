@@ -10,7 +10,7 @@
 	import {
 		ORG_INVITATION_SERVICE_CONTEXT_NAME,
 		type OrgInvitationService
-	} from '$lib/invitation/orgInvite.service';
+	} from '$lib/services/orgInvite.service';
 	import { onMount } from 'svelte';
 	import type { Invitation } from '$lib/types';
 	import * as z from 'zod';

@@ -1,7 +1,7 @@
 import { createDefaultContext } from '$lib/http/context';
 import type { LayoutLoad } from './$types';
 import { authRequired } from '$lib/utils/access';
-import { createOrgInviteService } from '$lib/invitation/orgInvite.service';
+import { createOrgInviteService } from '$lib/services/orgInvite.service';
 import { createRelationsService } from '$lib/relations/relations.service';
 
 export const load = (async ({ fetch, parent, data }) => {

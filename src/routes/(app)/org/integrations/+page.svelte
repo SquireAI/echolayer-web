@@ -5,8 +5,8 @@
 	import Loader from '$lib/components/Loader.svelte';
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import Panels from '$lib/discovery/panels.svelte';
-	import GitLabIntegrationListItem from '$lib/integrations/GitLabIntegrationListItem.svelte';
-	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
+	import GitLabIntegrationListItem from '$lib/components/integrations/GitLabIntegrationListItem.svelte';
+	import IntegrationListItem from '$lib/components/integrations/IntegrationListItem.svelte';
 	import type { IntegrationInstallStatus, IntegrationStatus } from '$lib/types.js';
 	import { INVALIDATE_QUERY_PARAMETER_NAME } from '$lib/utils/paths.js';
 	import { onMount } from 'svelte';

@@ -5,7 +5,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import Github from 'svelte-material-icons/Github.svelte';
-	import IntegrationListItem from '$lib/integrations/IntegrationListItem.svelte';
+	import IntegrationListItem from '$lib/components/integrations/IntegrationListItem.svelte';
 	import type { IntegrationInstallStatus } from '$lib/types';
 
 	export let data: any;
