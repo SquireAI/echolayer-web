@@ -48,14 +48,16 @@ export type Issue = {
 	id: number;
 	publicId: string;
 	organizationId: number;
+	title: string;
 	description: string;
+	severity: string;
+	score: string;
+	source: string;
+	metadata: string;
 	resolved: boolean;
-	component: ComponentEntity;
 	createdAt: string;
-	metadata: any;
 };
 
-// TODO update to API object
 export type Repository = {
 	id: number;
 	publicId: string;
@@ -68,8 +70,6 @@ export type Repository = {
 	files?: number;
 	domains?: number;
 	default_branch?: string;
-	description?: string;
-	expert?: string;
 	syncedAt?: string;
 	createdAt?: string;
 	updatedAt?: string;

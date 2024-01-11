@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let count: number;
+	export let count: number | string;
 	export let primary: string;
 	export let secondary: string | undefined = undefined;
 </script>

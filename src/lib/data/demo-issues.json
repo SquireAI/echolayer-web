@@ -1,0 +1,32 @@
+[
+	{
+		"name": "semver - Regular Expression Denial of Service (ReDoS)",
+		"description": "Regular Expression Denial of Service (ReDoS) is a Denial of Service attack, that exploits the fact that most Regular Expression implementations may reach extreme situations that cause them to work very slowly (exponentially related to input size). An attacker can then cause a program using a Regular Expression to enter these extreme situations and then hang for a very long time.",
+		"severity": "high",
+		"source": "snyk",
+		"metadata": "Introduced through\r\n        nodemon@2.0.16 and octokit@2.0.10\r\n        Fixed in\r\n        semver@5.7.2, @6.3.1, @7.5.2\r\n        Exploit maturity\r\n        PROOF OF CONCEPT\r\n        Show less detail \r\n        Detailed paths\r\n        Introduced through: echolayer-api@1.0.0 \u203A nodemon@2.0.16 \u203A semver@5.7.1\r\n        Fix: Your dependencies are out of date, otherwise you would be using a newer semver than semver@5.7.1. Try relocking your lockfile or deleting node_modules. If the problem persists, one of your dependencies may be bundling outdated modules. \r\n        Introduced through: echolayer-api@1.0.0 \u203A nodemon@2.0.16 \u203A update-notifier@5.1.0 \u203A semver-diff@3.1.1 \u203A semver@6.3.0\r\n        Fix: Your dependencies are out of date, otherwise you would be using a newer semver than semver@6.3.0. Try relocking your lockfile or deleting node_modules. If the problem persists, one of your dependencies may be bundling outdated modules. \r\n        Introduced through: echolayer-api@1.0.0 \u203A nodemon@2.0.16 \u203A update-notifier@5.1.0 \u203A configstore@5.0.1 \u203A make-dir@3.1.0 \u203A semver@6.3.0\r\n        Fix: Your dependencies are out of date, otherwise you would be using a newer semver than semver@6.3.0. Try relocking your lockfile or deleting node_modules. If the problem persists, one of your dependencies may be bundling outdated modules. \r\n        \u2026and 2 more\r\n        \r\n        Security information\r\n        Factors contributing to the scoring:\r\n        Snyk: CVSS 7.5 - High Severity\r\n        \r\n        NVD: CVSS 7.5 - High Severity\r\n        Why are the scores different? Learn how Snyk evaluates vulnerability scores\r\n        Overview\r\n        semver is a semantic version parser used by npm.\r\n        \r\n        Affected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS) via the function new Range, when untrusted user data is provided as a range.",
+		"recommendations": [],
+		"score": "482",
+		"resolved": false
+	},
+	{
+		"name": "passport - Session Fixation",
+		"description": "Session fixation is an attack that permits an attacker to hijack a valid user session. The attack explores a limitation in the way the web application manages the session ID, more specifically the vulnerable web application. When authenticating a user, it doesn’t assign a new session ID, making it possible to use an existent session ID. The attack consists of obtaining a valid session ID (e.g. by connecting to the application), inducing a user to authenticate himself with that session ID, and then hijacking the user-validated session by the knowledge of the used session ID. The attacker has to provide a legitimate Web application session ID and try to make the victim's browser use it.",
+		"severity": "medium",
+		"source": "snyk",
+		"metadata": "Introduced through\r\n        passport@0.4.1\r\n        Fixed in\r\n        passport@0.6.0\r\n        Exploit maturity\r\n        NO KNOWN EXPLOIT\r\n        Show less detail \r\n        Detailed paths and remediation\r\n        Introduced through: echolayer-api@1.0.0 \u203A passport@0.4.1\r\n        Fix: Upgrade to passport@0.6.0 \r\n        Upgrade to the package.\r\n        Security information\r\n        Factors contributing to the scoring:\r\n        Snyk: CVSS 4.8 - Medium Severity\r\n        \r\n        NVD: CVSS 4.8 - Medium Severity\r\n        Why are the scores different? Learn how Snyk evaluates vulnerability scores\r\n        Overview\r\n        passport is a Simple, unobtrusive authentication for Node.js.\r\n        \r\n        Affected versions of this package are vulnerable to Session Fixation. When a user logs in or logs out, the session is regenerated instead of being closed.@6.3.1",
+		"recommendations": [],
+		"score": "454",
+		"resolved": false
+	},
+	{
+		"name": "passportjs - Session Fixation",
+		"description": "Session fixation is an attack that permits an attacker to hijack a valid user session. The attack explores a limitation in the way the web application manages the session ID, more specifically the vulnerable web application. When authenticating a user, it doesn’t assign a new session ID, making it possible to use an existent session ID. The attack consists of obtaining a valid session ID (e.g. by connecting to the application), inducing a user to authenticate himself with that session ID, and then hijacking the user-validated session by the knowledge of the used session ID. The attacker has to provide a legitimate Web application session ID and try to make the victim's browser use it.",
+		"severity": "medium",
+		"source": "snyk",
+		"metadata": "Introduced through\r\n        passport@0.4.1\r\n        Fixed in\r\n        passport@0.6.0\r\n        Exploit maturity\r\n        NO KNOWN EXPLOIT\r\n        Show less detail \r\n        Detailed paths and remediation\r\n        Introduced through: echolayer-api@1.0.0 \u203A passport@0.4.1\r\n        Fix: Upgrade to passport@0.6.0 \r\n        Upgrade to the package.\r\n        Security information\r\n        Factors contributing to the scoring:\r\n        Snyk: CVSS 4.8 - Medium Severity\r\n        \r\n        NVD: CVSS 4.8 - Medium Severity\r\n        Why are the scores different? Learn how Snyk evaluates vulnerability scores\r\n        Overview\r\n        passport is a Simple, unobtrusive authentication for Node.js.\r\n        \r\n        Affected versions of this package are vulnerable to Session Fixation. When a user logs in or logs out, the session is regenerated instead of being closed.@6.3.1",
+		"recommendations": [],
+		"score": "453",
+		"resolved": true
+	}
+]

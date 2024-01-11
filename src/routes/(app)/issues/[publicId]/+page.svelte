@@ -5,28 +5,29 @@
 	import PageHeader from '$lib/components/headers/PageHeader.svelte';
 	import PageHeaderBackButton from '$lib/components/headers/PageHeaderBackButton.svelte';
 	import HeroPageHeader from '$lib/components/headers/HeroPageHeader.svelte';
-	import SourceRepositoryMultipleIcon from 'svelte-material-icons/SourceRepositoryMultiple.svelte';
+	import BugIcon from 'svelte-material-icons/Bug.svelte';
 	import BackgroundWrapper from '$lib/components/headers/BackgroundWrapper.svelte';
 	import Stat from '$lib/components/cards/Stat.svelte';
 	import TabBar from '$lib/components/tabs/TabBar.svelte';
-	import type { Repository, Location } from '$lib/types';
-	import { REPOSITORIES_PATH } from '$lib/utils/paths';
+	import type { Repository, Location, Issue } from '$lib/types';
+	import { ISSUES_PATH, REPOSITORIES_PATH } from '$lib/utils/paths';
 	import LocationsTable from '$lib/components/locations/LocationsTable.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	export let data: PageData;
-	let repository: Repository;
-	$: repository = data.repository;
+	let issue: Issue;
+	$: issue = data.issue;
 	let locations: Location[] | undefined = [];
-	$: locations = data.locations;
+	$: locations = data.issue.locations;
 
 	let links = [
 		{
-			href: REPOSITORIES_PATH,
-			text: 'Repositories'
+			href: ISSUES_PATH,
+			text: 'Issues'
 		},
 		{
-			href: `${REPOSITORIES_PATH}/${data.repository.owner}/${data.repository.name}`,
-			text: `${data.repository.owner} / ${data.repository.name}`,
+			href: `${ISSUES_PATH}/${data.issue.publicId}`,
+			text: `${data.issue.title}`,
 			active: true
 		}
 	];
@@ -38,7 +39,7 @@
 <Panels>
 	<Navigation slot="nav" />
 	<div class="content" slot="content">
-		{#if data.repository}
+		{#if issue}
 			<div class="flex flex-col h-screen">
 				<PageHeader title="Repositories" {links}>
 					<span slot="left-action">
@@ -46,19 +47,32 @@
 					</span>
 				</PageHeader>
 				<BackgroundWrapper>
-					<HeroPageHeader title={`${repository.owner} / ${repository.name}`}>
+					<HeroPageHeader title={issue.title}>
 						<div
 							slot="logo"
-							class="bg-neutral-400 h-12 w-12 rounded-md flex flex-row items-center justify-center"
+							class="bg-red-700 h-12 w-12 rounded-md flex flex-row items-center justify-center text-white font-sans font-bold text-3xl"
 						>
-							<SourceRepositoryMultipleIcon class="w-8 h-8 text-neutral-50" />
+							H
 						</div>
 					</HeroPageHeader>
 
-					<div class="px-6 pb-8 flex flex-row flex-wrap gap-6">
-						<Stat count={repository.commits || 0} primary="Commits" />
-						<Stat count={repository.contributors || 0} primary="Contributors" />
-						<Stat count={repository.files || 0} primary="Files" />
+					<div class="px-6 pb-8 flex flex-col gap-6">
+						<div class="flex flex-row flex-wrap gap-6">
+							<Stat count={`High`} primary="Severity" />
+							<Stat count={9.2} primary="Score" />
+						</div>
+
+						<div class="flex flex-col gap-2">
+							<h3 class="font-normal">Description:</h3>
+							<p class="max-w-3xl">{issue.description}</p>
+						</div>
+
+						<div class="flex flex-row gap-3">
+							<Button type="secondary" class="bg-neutral-500">Edit</Button>
+							<Button type="secondary" class="bg-neutral-500">Ignore</Button>
+							<Button type="primary" class="bg-echolayer">Create a ticket</Button>
+							<Button type="primary" class="bg-echolayer">Find an expert</Button>
+						</div>
 					</div>
 				</BackgroundWrapper>
 
