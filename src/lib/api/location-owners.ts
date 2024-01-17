@@ -8,7 +8,6 @@ export class LocationOwnersApi extends BaseApi<Location> {
 	}
 
 	public async getOwners(path: string): Promise<LocationOwnersResult> {
-		path = path.startsWith('/root') ? path : `/root/${path}`;
 		return this.list({ path });
 	}
 }

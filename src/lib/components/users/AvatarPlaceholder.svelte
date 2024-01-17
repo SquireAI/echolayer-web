@@ -84,7 +84,7 @@
 	class:bg-neutral-300={!userInitials}
 >
 	{#if userInitials}
-		<span class="text-xs">{userInitials}</span>
+		<span class="text">{userInitials}</span>
 	{:else}
 		<AccountIcon />
 	{/if}
@@ -98,5 +98,10 @@
 	.wrapper {
 		width: var(--size);
 		height: var(--size);
+
+		.text {
+			font-size: calc(var(--size) / 2.2);
+			line-height: calc(var(--size) / 2.2);
+		}
 	}
 </style>

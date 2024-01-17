@@ -51,11 +51,18 @@ export type Issue = {
 	title: string;
 	description: string;
 	severity: string;
-	score: string;
-	source: string;
-	metadata: string;
+	issueLocations: IssueLocation[];
+	score?: string;
+	source?: string;
+	metadata?: string;
 	resolved: boolean;
 	createdAt: string;
+};
+
+export type IssueLocation = {
+	issueId: number;
+	locationId: number;
+	location: Location;
 };
 
 export type Repository = {

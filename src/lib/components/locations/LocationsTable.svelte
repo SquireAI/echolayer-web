@@ -3,9 +3,23 @@
 	import Table from '$lib/components/table/Table.svelte';
 	import TableRow from '$lib/components/table/TableRow.svelte';
 	import TableBox from '$lib/components/table/TableBox.svelte';
+	import TableUser from '../table/TableUser.svelte';
 
-	export let columns = ['Path'];
+	export let columns = ['Path', 'Expert'];
 	export let rows = [];
+
+	const getLocation = (obj) => {
+		console.log(obj.location);
+		if (obj.path) return obj;
+		else return obj.location;
+	};
+
+	const getExpert = (obj) => {
+		const location = getLocation(obj);
+		console.log(location);
+		if (!location.owners || location.owners.length < 1) return null;
+		else return location.owners[0];
+	};
 </script>
 
 <Table {columns} {rows}>
@@ -18,11 +32,15 @@
 							<FileMultipleOutlineIcon color="white" class="w-4 h-4" />
 						</div>
 						<div class="flex flex-col">
-							{row.path}
+							{getLocation(row).path}
 						</div>
 					</div>
 				</TableBox>
-				<!-- <TableBox>Find Expert</TableBox> -->
+				<TableBox>
+					{#if getExpert(row)}
+						<TableUser name={getExpert(row).name} />
+					{/if}
+				</TableBox>
 			</TableRow>
 		{/each}
 	{/if}

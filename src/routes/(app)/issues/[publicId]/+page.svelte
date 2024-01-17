@@ -13,12 +13,13 @@
 	import { ISSUES_PATH, REPOSITORIES_PATH } from '$lib/utils/paths';
 	import LocationsTable from '$lib/components/locations/LocationsTable.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import UserStat from '$lib/components/users/UserStat.svelte';
 
 	export let data: PageData;
 	let issue: Issue;
 	$: issue = data.issue;
 	let locations: Location[] | undefined = [];
-	$: locations = data.issue.locations;
+	$: locations = data.issue.issueLocations;
 
 	let links = [
 		{
@@ -34,6 +35,17 @@
 
 	let tabs = ['Files']; // ['Tags', 'Domains', 'Components'];
 	let selected = 0;
+
+	const severityOptions = [
+		{ label: 'Low', value: 'low', letter: 'L', color: 'bg-yellow-500' },
+		{ label: 'Medium', value: 'medium', letter: 'M', color: 'bg-orange-500' },
+		{ label: 'High', value: 'high', letter: 'H', color: 'bg-red-600' },
+		{ label: 'Critical', value: 'critical', letter: '!', color: 'bg-red-800' }
+	];
+
+	const getSeverityDetails = (severity: string) => {
+		return severityOptions.find((option) => option.value === severity);
+	};
 </script>
 
 <Panels>
@@ -50,16 +62,20 @@
 					<HeroPageHeader title={issue.title}>
 						<div
 							slot="logo"
-							class="bg-red-700 h-12 w-12 rounded-md flex flex-row items-center justify-center text-white font-sans font-bold text-3xl"
+							class={`h-12 w-12 rounded-md flex flex-row items-center justify-center text-white font-sans font-bold text-3xl ${
+								getSeverityDetails(issue.severity)?.color
+							}`}
 						>
-							H
+							{getSeverityDetails(issue.severity)?.letter}
 						</div>
 					</HeroPageHeader>
 
 					<div class="px-6 pb-8 flex flex-col gap-6">
 						<div class="flex flex-row flex-wrap gap-6">
-							<Stat count={`High`} primary="Severity" />
-							<Stat count={9.2} primary="Score" />
+							<Stat count={issue.severity} primary="Severity" secondary="Measured by EchoLayer" />
+							<Stat count={8} primary="Score" secondary="Measured by EchoLayer" />
+							<UserStat name="Karl Clement" secondary="Primary Expert" />
+							<UserStat name="Saumil Patel" secondary="Alterate Expert" />
 						</div>
 
 						<div class="flex flex-col gap-2">
@@ -68,7 +84,11 @@
 						</div>
 
 						<div class="flex flex-row gap-3">
-							<Button type="secondary" class="bg-neutral-500">Edit</Button>
+							<Button
+								type="secondary"
+								class="bg-neutral-500"
+								href={`${ISSUES_PATH}/${issue.publicId}/edit`}>Edit</Button
+							>
 							<Button type="secondary" class="bg-neutral-500">Ignore</Button>
 							<Button type="primary" class="bg-echolayer">Create a ticket</Button>
 							<Button type="primary" class="bg-echolayer">Find an expert</Button>

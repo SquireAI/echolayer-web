@@ -5,10 +5,7 @@ import { orgRequired } from '$lib/utils/access';
 import type { PageServerLoad } from '../org/$types';
 
 export type PageData = {
-	baseHeaders: httpContext['baseHeaders'];
-	baseUrl: httpContext['baseUrl'];
 	org: Organization;
-
 	issues?: Issue[];
 };
 
@@ -22,8 +19,6 @@ export const load = (async ({ cookies, fetch }): Promise<PageData> => {
 	const issues = await issueApi.list();
 
 	return {
-		baseHeaders,
-		baseUrl,
 		org,
 		...(issues && { issues })
 	};

@@ -1,8 +1,11 @@
 <script lang="ts">
 	export let background = false;
+
+	let clazz = '';
+	export { clazz as class };
 </script>
 
-<div class={`back ${background ? 'with-back' : ''}`}>
+<div class={`back ${background ? 'with-back' : ''} ${clazz}`}>
 	<slot />
 </div>
 

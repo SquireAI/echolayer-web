@@ -6,10 +6,10 @@
 
 {#if count && primary}
 	<div class="pb-2 border-b-2 border-neutral-300 w-48 flex flex-col justify-end">
-		<div class="text-3xl font-semibold">{count}</div>
-		<div class="text-lg font-medium">{primary}</div>
+		<div class="text-3xl font-semibold capitalize">{count}</div>
+		<div class="text-lg font-medium capitalize">{primary}</div>
 		{#if secondary}
-			<div class="text-sm text-neutral-500">{secondary}</div>
+			<div class="text-sm text-neutral-500 capitalize">{secondary}</div>
 		{/if}
 	</div>
 {/if}

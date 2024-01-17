@@ -5,6 +5,9 @@
 	import LoadingIcon from 'svelte-material-icons/Loading.svelte';
 	import Button from '../Button.svelte';
 	import type { Issue } from '$lib/types';
+	import { goto } from '$app/navigation';
+	import { ISSUES_PATH } from '$lib/utils/paths';
+	import { modalStore } from '$lib/stores/modal';
 
 	let string = '';
 	let errorMessage = '';
@@ -23,6 +26,8 @@
 
 		try {
 			result = await service.createIssue(context);
+			modalStore.clear();
+			if (result) goto(`${ISSUES_PATH}/${result?.publicId}/edit`);
 		} catch (err: any) {
 			formError = true;
 			errorMessage = err.body?.message || 'An error occurred while creating the issue';
@@ -78,9 +83,9 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="flex flex-row justify-center gap-3 p-3 border-t border-neutral-300">
+		<!-- <div class="flex flex-row justify-center gap-3 p-3 border-t border-neutral-300">
 			{result.title}
-		</div>
+		</div> -->
 	{/if}
 
 	{#if formCompleted && result}
