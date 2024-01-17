@@ -13,7 +13,7 @@
 
 	// Check if repos have been scanned and is ready to move to next steps
 	const repositoryScanComplete = (repositories: Repository[]) => {
-		return repositories.every((repository) => repository.status === 'indexed');
+		return repositories.every((repository) => repository.syncedAt);
 	};
 
 	let isReady: boolean;

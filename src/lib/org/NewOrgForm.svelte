@@ -4,7 +4,6 @@
 
 	export let handleSubmit: (orgName: string) => Promise<void>;
 
-
 	let errorMessage: string;
 	let orgName: string;
 	$: orgName = '';
@@ -28,11 +27,11 @@
 	}
 
 	async function onSubmit() {
-		errorMessage = "";
+		errorMessage = '';
 		// Validate form
 		if (orgName.trim().length === 0) {
 			formError = true;
-			errorMessage = "Please enter an organization name"
+			errorMessage = 'Please enter an organization name';
 			loading = false;
 			return;
 		}
@@ -73,7 +72,7 @@
 			on:keyup={handleKeyPress}
 			placeholder="Organization name"
 			autocomplete="organization"
-			bind:errorMessage={errorMessage}
+			bind:errorMessage
 		/>
 	</div>
 	<div class="w-full">
