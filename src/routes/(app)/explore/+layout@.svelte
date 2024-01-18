@@ -19,7 +19,7 @@
 	import type { NavigationTarget, NavigationType } from '@sveltejs/kit';
 	import { URL_SEARCH_PARAMS_KEYS } from '$lib/discovery/utils';
 	import Modal from '$lib/components/modal/Modal.svelte';
-	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/invitation/orgInvite.service';
+	import { ORG_INVITATION_SERVICE_CONTEXT_NAME } from '$lib/services/orgInvite.service';
 	import { RELATIONS_SERVICE_CONTEXT_NAME } from '$lib/relations/relations.service';
 
 	setContext(COMPONENT_STORE_NAME, componentStore);

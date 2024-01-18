@@ -46,10 +46,7 @@
 					</span>
 				</PageHeader>
 				<BackgroundWrapper>
-					<HeroPageHeader
-						title={`${repository.owner} / ${repository.name}`}
-						description={repository.description}
-					>
+					<HeroPageHeader title={`${repository.owner} / ${repository.name}`}>
 						<div
 							slot="logo"
 							class="bg-neutral-400 h-12 w-12 rounded-md flex flex-row items-center justify-center"

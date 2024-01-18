@@ -20,7 +20,7 @@
 	import Navigation from '$lib/components/navigation/Navigation.svelte';
 	import Gitlab from 'svelte-material-icons/Gitlab.svelte';
 	import Webhook from 'svelte-material-icons/Webhook.svelte';
-	import AccessTokenForm from '$lib/integrations/AccessTokenForm.svelte';
+	import AccessTokenForm from '$lib/components/integrations/AccessTokenForm.svelte';
 	import type { GitlabIntegrationsPageData } from './+page.server';
 	import type { GitlabIntegrationsPageHandlers } from './+page';
 	import { page } from '$app/stores';

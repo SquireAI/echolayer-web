@@ -2,7 +2,7 @@
 	import EchoLayerLogo from '$lib/EchoLayerLogo.svelte';
 
 	export let title: string;
-	export let description: string | undefined;
+	export let description: string | undefined = undefined;
 </script>
 
 <div class="p-6 pt-16 flex flex-col items-stretch gap-8">
@@ -12,9 +12,11 @@
 		</slot>
 		<h1 class="text-2xl leading-6 font-medium text-neutral-800">{title}</h1>
 		{#if description}
-			<p class="text-md text-neutral-600">
-				{description}
-			</p>
+			<div class="max-w-2xl">
+				<p class="text-md text-neutral-600">
+					{description}
+				</p>
+			</div>
 		{/if}
 	</div>
 </div>

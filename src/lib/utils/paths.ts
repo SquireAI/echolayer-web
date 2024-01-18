@@ -22,7 +22,7 @@ export const DISCOVERY_PATH = '/explore';
 export const INTEGRATIONS_PATH = '/org/integrations';
 export const GITLAB_SETUP_PATH = '/org/integrations/gitlab/setup';
 export const INTEGRATIONS_PATH_WITH_INVALIDATE = `${INTEGRATIONS_PATH}?${INVALIDATE_QUERY_PARAMETER_NAME}`;
-export const ISSUES_PATH = '/org/issues';
+export const ISSUES_PATH = '/issues';
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,

@@ -7,6 +7,8 @@
 	import PlusCircleOutlineIcon from 'svelte-material-icons/PlusCircleOutline.svelte';
 	import KeyIcon from 'svelte-material-icons/Key.svelte';
 	import KeyOutlineIcon from 'svelte-material-icons/KeyOutline.svelte';
+	import BugIcon from 'svelte-material-icons/Bug.svelte';
+	import BugOutlineIcon from 'svelte-material-icons/BugOutline.svelte';
 	import {
 		API_KEYS_PATH,
 		HOME_PATH,
@@ -17,7 +19,8 @@
 		REPOSITORIES_PATH,
 		COMPONENTS_PATH,
 		TEAMS_PATH,
-		MEMBERS_PATH
+		MEMBERS_PATH,
+		ISSUES_PATH
 	} from '$lib/utils/paths';
 	import { SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import { clearStores } from '$lib/stores';
@@ -94,19 +97,19 @@
 			disabled={!organization}
 		/>
 		<NavigationItem
+			name="Issues"
+			href={`${ISSUES_PATH}`}
+			OutlineIcon={BugOutlineIcon}
+			SolidIcon={BugIcon}
+			disabled={!organization}
+		/>
+		<NavigationItem
 			name="Repositories"
 			href={`${REPOSITORIES_PATH}`}
 			OutlineIcon={SourceRepositoryMultipleIcon}
 			SolidIcon={SourceRepositoryMultipleIcon}
 			disabled={!organization}
 		/>
-		<!-- <NavigationItem
-			name="Components"
-			href={`${COMPONENTS_PATH}`}
-			OutlineIcon={ShapeOutlineIcon}
-			SolidIcon={ShapeIcon}
-			disabled={!organization}
-		/> -->
 		<NavigationItem
 			name="Teams"
 			href={`${TEAMS_PATH}`}

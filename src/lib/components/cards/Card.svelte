@@ -19,11 +19,11 @@
 					<img
 						src={image}
 						alt={title}
-						class="h-10 w-10 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
+						class="h-10 w-10 flex-none rounded-lg bg-gray-300 object-cover ring-gray-900/10"
 					/>
 				{:else if icon}
 					<span
-						class={`w-10 h-10 flex justify-center items-center rounded-lg ring-1 ring-neutral-200 ${iconColor}`}
+						class={`w-10 h-10 flex justify-center items-center rounded-lg ring-neutral-200 ${iconColor}`}
 					>
 						<svelte:component this={icon} class="w-6 h-6 text-white" />
 					</span>

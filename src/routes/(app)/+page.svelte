@@ -34,7 +34,7 @@
 	<Navigation slot="nav" />
 	<div class="bg-neutral-100 divide-y divide-neutral-300 h-screen flex flex-col" slot="content">
 		<div class="flex-shrink">
-			<BackgroundWrapper>
+			<BackgroundWrapper background={true}>
 				<div class="absolute right-4 top-3">
 					<FindHeaderButton />
 				</div>
