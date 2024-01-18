@@ -8,7 +8,6 @@ import { ONBOARDING_PATH } from '$lib/utils/paths';
 export type PageData = {
 	baseHeaders: httpContext['baseHeaders'];
 	baseUrl: httpContext['baseUrl'];
-	org: Organization;
 };
 
 export const load = (async ({ cookies, fetch }): Promise<PageData> => {

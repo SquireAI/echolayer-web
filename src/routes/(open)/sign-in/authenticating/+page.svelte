@@ -8,7 +8,13 @@
 		UserStore,
 		UserInvitationStore
 	} from '$lib/types';
-	import { CREATE_ORG_PATH, HOME_PATH, ORGS_SELECT_PATH, ORGS_PATH } from '$lib/utils/paths';
+	import {
+		CREATE_ORG_PATH,
+		HOME_PATH,
+		ORGS_SELECT_PATH,
+		ORGS_PATH,
+		ONBOARDING_PATH
+	} from '$lib/utils/paths';
 	import { ORGS_STORE_NAME } from '$lib/stores/orgs-store';
 	import {
 		SELECTED_ORG_STORE_NAME,
@@ -46,7 +52,7 @@
 					goto(ORGS_SELECT_PATH);
 				}
 			} else {
-				goto(CREATE_ORG_PATH);
+				goto(ONBOARDING_PATH);
 			}
 		}
 	}
