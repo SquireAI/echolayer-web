@@ -71,3 +71,30 @@ export const flagRequired = (
 	if (!envVariable || envVariable !== 'true')
 		throw redirect(307, redirectPath || INVALIDATED_SIGN_IN_PATH);
 };
+
+// Organization optional
+export const orgOptional = async (context: httpContext): Promise<Organization | null> => {
+	let orgs: Organization[] = [];
+	try {
+		orgs = orgs.concat(await new OrganizationApi(context).list());
+	} catch (err) {
+		console.log(err);
+	}
+
+	// Return no orgs if none exist
+	if (orgs.length < 1) return null;
+
+	// Return no orgs if none selected
+	if (!context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) return null;
+
+	// Find selected org
+	const selectedOrg = orgs.find(
+		(org) => org.publicId === context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]
+	);
+
+	// Return no orgs if could not find selected org
+	if (!selectedOrg) return null;
+
+	// Return selected org
+	return selectedOrg;
+};
