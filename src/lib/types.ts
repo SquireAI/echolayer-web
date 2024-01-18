@@ -70,6 +70,7 @@ export type Repository = {
 	default_branch?: string;
 	description?: string;
 	expert?: string;
+	syncedAt?: string;
 	createdAt?: string;
 	updatedAt?: string;
 };

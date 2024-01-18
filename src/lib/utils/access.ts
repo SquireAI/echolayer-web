@@ -2,6 +2,7 @@ import { AuthApi } from '$lib/api/auth';
 import {
 	CREATE_ORG_PATH,
 	INVALIDATED_SIGN_IN_PATH,
+	ONBOARDING_PATH,
 	ORGS_SELECT_PATH,
 	ORGS_SELECT_PATH_WITH_INVALIDATE
 } from './paths';
@@ -42,7 +43,7 @@ export const orgRequired = async (context: httpContext): Promise<Organization> =
 	if (orgs.length < 1) {
 		const invitationsToOrg = await new InvitationUserApi(context).list();
 		if (invitationsToOrg.length == 0) {
-			throw redirect(307, CREATE_ORG_PATH);
+			throw redirect(307, ONBOARDING_PATH);
 		}
 	}
 	// If they haven't selected an org, redirect them to the selection page

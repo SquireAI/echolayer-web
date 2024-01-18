@@ -11,13 +11,19 @@
 	let path: string | undefined;
 	$: path = href ? href : `${REPOSITORIES_PATH}/${entity.owner}/${entity.name}`;
 	$: githubAvatar = (entity: Repository) => `https://github.com/${entity.owner}.png`;
-	$: lastIndex = (entity: Repository) =>
-		formatDistance(subDays(new Date(entity.updatedAt), 0), new Date(), { addSuffix: true });
+	$: lastIndex = (entity: Repository) => {
+		if (!entity.syncedAt) return 'Syncing...';
+		return formatDistance(subDays(new Date(entity.syncedAt), 0), new Date(), { addSuffix: true });
+	};
+	$: status = (entity: Repository) => {
+		if (!entity.syncedAt) return 'In Progress';
+		return 'Indexed';
+	};
 </script>
 
 <Card title={entity.name} subtitle={entity.owner} href={path} image={githubAvatar(entity)}>
 	<CardDetailRow key="Last Index">{lastIndex(entity)}</CardDetailRow>
 	<CardDetailRow key="Status">
-		<CardLabel label="Indexed" />
+		<CardLabel label={status(entity)} />
 	</CardDetailRow>
 </Card>
