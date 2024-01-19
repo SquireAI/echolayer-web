@@ -75,7 +75,7 @@
 			{/if}
 		</div>
 	{:else}
-		<div>
+		<div class="text-left">
 			<Table columns={['Expert', 'Status']} rows={results}>
 				{#each results as result}
 					<TableRow>
