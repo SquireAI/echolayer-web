@@ -33,26 +33,29 @@
 <Panels>
 	<Navigation slot="nav" />
 	<div class="content" slot="content">
-		{#if issue}
-			<div class="flex flex-col h-screen bg-neutral-25">
-				<PageHeader title="Repositories" {links}>
-					<span slot="left-action">
-						<PageHeaderBackButton />
-					</span>
-				</PageHeader>
-				<BackgroundWrapper>
-					<HeroPageHeader
-						title="New Issue"
-						description="Make the final changes to your augmented vulnerability before it is sent to your team for resolution."
-					>
-						<div slot="logo" />
-					</HeroPageHeader>
-				</BackgroundWrapper>
+		<div class="flex flex-col h-screen bg-neutral-25">
+			<PageHeader title="Repositories" {links}>
+				<span slot="left-action">
+					<PageHeaderBackButton />
+				</span>
+			</PageHeader>
 
-				<div class="flex-1 flex-grow overflow-y-auto overflow-x-hidden min-h-fit px-6 pb-6">
-					<EditIssueForm {issue} />
+			{#if issue}
+				<div class="flex-1 flex flex-col overflow-y-auto overflow-x-hidden min-h-fit">
+					<BackgroundWrapper>
+						<HeroPageHeader
+							title="New Issue"
+							description="Make the final changes to your augmented vulnerability before it is sent to your team for resolution."
+						>
+							<div slot="logo" />
+						</HeroPageHeader>
+					</BackgroundWrapper>
+
+					<div class="flex-1 flex-grow px-6 pb-6">
+						<EditIssueForm {issue} />
+					</div>
 				</div>
-			</div>
-		{/if}
+			{/if}
+		</div>
 	</div>
 </Panels>

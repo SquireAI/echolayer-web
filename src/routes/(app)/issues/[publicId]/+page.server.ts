@@ -34,8 +34,5 @@ export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
 
 	if (!issue) throw redirect(307, ISSUES_PATH);
 
-	return {
-		org,
-		...(issue && { issue })
-	};
+	return { org, issue };
 }) satisfies PageServerLoad;

@@ -3,21 +3,34 @@
 	import { validator } from '@felte/validator-zod';
 	import { z } from 'zod';
 	import type { Issue } from '$lib/types';
-	import BugIcon from 'svelte-material-icons/Bug.svelte';
 	import Button from '../Button.svelte';
 	import SeverityToggle from './SeverityToggle.svelte';
-	import IssuesTable from './IssuesTable.svelte';
 	import LocationsTable from '../locations/LocationsTable.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { ISSUES_PATH } from '$lib/utils/paths';
+	import { page } from '$app/stores';
 
+	const {
+		services: { issueService }
+	} = $page.data;
 	export let issue: Issue;
-	// TODO: pull from issue object to set initial
-	let severity = 'low';
+	let severity: string;
 
-	const schema = z.object({
-		title: z.string().min(1),
-		description: z.string().min(1),
-		severity: z.string().min(1)
-	});
+	const onSubmit = async (values: any) => {
+		const cleanedValues = schema.parse(values);
+		const res = await issueService.updateIssue(cleanedValues);
+		if (res) goto(`${ISSUES_PATH}/${issue.publicId}`);
+	};
+
+	const schema = z
+		.object({
+			publicId: z.string().min(1),
+			title: z.string().min(1),
+			description: z.string().min(1),
+			severity: z.string().min(1)
+		})
+		.strip();
 
 	const { form, setData, createSubmitHandler } = createForm({
 		extend: validator({ schema }),
@@ -25,8 +38,9 @@
 	});
 
 	const handleSubmit = createSubmitHandler({
-		onSubmit: (values) => console.log('Alternative onSubmit', values),
+		onSubmit,
 		validate: (values) => {
+			console.log(values);
 			console.log('Alternative validate');
 			return {};
 		},
@@ -35,14 +49,17 @@
 		}
 	});
 
-	const handleIgnore = (e) => {
-		console.log('ignore');
-	};
+	const handleCancel = async () => goto(ISSUES_PATH);
 
 	const handleSelect = (level: string) => {
 		setData('severity', level);
 		severity = level;
 	};
+
+	onMount(() => {
+		// Set default severity
+		handleSelect(issue?.severity ? issue.severity : 'low');
+	});
 </script>
 
 <form use:form class="flex flex-col justify-start gap-4">
@@ -60,7 +77,7 @@
 		<LocationsTable rows={issue.issueLocations} />
 	</div>
 	<div class="field flex flex-row gap-2 justify-end">
-		<Button type="secondary" handleClick={handleIgnore}>Cancel</Button>
+		<Button type="secondary" handleClick={handleCancel}>Cancel</Button>
 		<Button type="primary" handleClick={handleSubmit}>Save</Button>
 	</div>
 </form>

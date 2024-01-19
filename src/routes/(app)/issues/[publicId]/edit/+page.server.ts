@@ -1,33 +1,26 @@
 import type { PageServerLoad } from './$types';
-import { getHttpContext } from '$lib/http/context';
-import type {
-	Organization,
-	Repository,
-	ComponentEntity,
-	Domain,
-	Location,
-	Issue
-} from '$lib/types';
+import { getHttpContext, type httpContext } from '$lib/http/context';
+import type { Organization, Location, Issue } from '$lib/types';
 import { orgRequired } from '$lib/utils/access';
 import { redirect } from '@sveltejs/kit';
-import { ISSUES_PATH, REPOSITORIES_PATH } from '$lib/utils/paths';
-import { ComponentApi } from '$lib/api/component';
-import domainsData from '$lib/data/demo-domains.json';
+import { ISSUES_PATH } from '$lib/utils/paths';
 import { IssueApi } from '$lib/api/issue';
-import { LocationApi } from '$lib/api/location';
 
 export type PageData = {
-	org: Organization;
+	baseHeaders: httpContext['baseHeaders'];
+	baseUrl: httpContext['baseUrl'];
 	issue: Issue;
-	locations?: Location[];
+	org: Organization;
 };
 
 export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
 	const context = getHttpContext(fetch, cookies);
+	const { baseHeaders, baseUrl } = context;
 
 	const org = await orgRequired(context);
+	console.log('ORG --->>', org);
 
-	if (!params.publicId) throw redirect(307, REPOSITORIES_PATH);
+	if (!params.publicId) throw redirect(307, ISSUES_PATH);
 
 	const issueApi = new IssueApi(context);
 	const issue = await issueApi.get(params.publicId);
@@ -35,7 +28,9 @@ export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
 	if (!issue) throw redirect(307, ISSUES_PATH);
 
 	return {
+		baseHeaders,
+		baseUrl,
 		org,
-		...(issue && { issue })
+		issue
 	};
 }) satisfies PageServerLoad;

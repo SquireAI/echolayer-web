@@ -23,13 +23,13 @@
 			</div>
 			<div class="w-full flex flex-col gap-3">
 				<Button handleClick={() => handleLogin('github')} full={true} type="grey">
-					<div class="flex items-center gap-x-2">
+					<div class="flex items-center gap-x-2 h-6">
 						<GitHub />
 						Login with GitHub
 					</div>
 				</Button>
 				<Button handleClick={() => handleLogin('gitlab')} full={true} type="grey">
-					<div class="flex items-center gap-x-2">
+					<div class="flex items-center gap-x-2 h-6">
 						<GitLab />
 						Login with GitLab
 					</div>

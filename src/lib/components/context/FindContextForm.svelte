@@ -15,7 +15,7 @@
 	let results: any[] = [];
 	let formSubmitted = false;
 	let formCompleted = false;
-	$: invalid = string.trim().length < 6;
+	$: invalid = string.trim().length < 3;
 	$: loading = formSubmitted && !formCompleted;
 	$: disabled = invalid || loading || results.length > 0;
 
@@ -24,7 +24,8 @@
 		if (!$page?.data?.apis?.contributionApi) return;
 		const api = $page.data.apis.contributionApi;
 		const response = await api.getContext(context);
-		results = api.sortContextByScore(response);
+		results = api.sortContextByScore(response) || [];
+		formCompleted = true;
 	};
 
 	const handleSubmit = async (input: string) => {

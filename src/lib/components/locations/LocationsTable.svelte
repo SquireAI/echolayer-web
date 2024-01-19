@@ -9,14 +9,12 @@
 	export let rows = [];
 
 	const getLocation = (obj) => {
-		console.log(obj.location);
 		if (obj.path) return obj;
 		else return obj.location;
 	};
 
 	const getExpert = (obj) => {
 		const location = getLocation(obj);
-		console.log(location);
 		if (!location.owners || location.owners.length < 1) return null;
 		else return location.owners[0];
 	};

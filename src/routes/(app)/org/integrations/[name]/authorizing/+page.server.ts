@@ -11,7 +11,7 @@ export type AuthorizingPageData = {
 	org: Organization;
 };
 
-export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
+export const load = (async ({ cookies, fetch, params }): Promise<AuthorizingPageData> => {
 	const context = getHttpContext(fetch, cookies);
 	const { baseHeaders, baseUrl } = context;
 
