@@ -23,9 +23,9 @@ export interface OrgsLayoutLoad {
 }
 
 export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> => {
-	const parentData = await parent();
+	await parent();
 
-	const { baseHeaders, baseUrl } = parentData;
+	const { baseHeaders, baseUrl } = data;
 	const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 	let orgs: Organization[] | undefined;
 	let org: Organization | undefined;
@@ -40,6 +40,7 @@ export const load = (async ({ parent, fetch, data }): Promise<OrgsLayoutLoad> =>
 		org = selectedOrgId ? orgs.find((org) => org.publicId === selectedOrgId) : undefined;
 		user = await new UserApi(context).get('');
 	} catch (err) {
+		console.log(err);
 		if ((err as HttpError).status === 401) {
 			throw redirect(307, INVALIDATED_SIGN_IN_PATH);
 		}

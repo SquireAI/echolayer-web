@@ -18,8 +18,10 @@
 	export let data: PageData;
 	let issue: Issue;
 	$: issue = data.issue;
-	let locations: Location[] | undefined = [];
+	let locations: Location[] = [];
 	$: locations = data.issue.issueLocations;
+	let experts: string[];
+	$: experts = getExperts(locations);
 
 	let links = [
 		{
@@ -45,6 +47,20 @@
 
 	const getSeverityDetails = (severity: string) => {
 		return severityOptions.find((option) => option.value === severity);
+	};
+
+	const getExperts = (locations: Location[]): string[] => {
+		let experts: string[] = [];
+		locations.forEach((location) => {
+			const owners =
+				location.location?.owners && location.location?.owners.length > 0
+					? location.location.owners
+					: [];
+			owners.forEach((owner: any) => {
+				if (!experts.includes(owner.name)) experts.push(owner.name);
+			});
+		});
+		return experts;
 	};
 </script>
 
@@ -74,8 +90,12 @@
 						<div class="flex flex-row flex-wrap gap-6">
 							<Stat count={issue.severity} primary="Severity" secondary="Measured by EchoLayer" />
 							<Stat count={8} primary="Score" secondary="Measured by EchoLayer" />
-							<UserStat name="Karl Clement" secondary="Primary Expert" />
-							<UserStat name="Saumil Patel" secondary="Alterate Expert" />
+							{#if experts.length > 0}
+								<UserStat name={experts[0]} secondary="Primary Expert" />
+							{/if}
+							{#if experts.length > 1}
+								<UserStat name={experts[1]} secondary="Alternate Expert" />
+							{/if}
 						</div>
 
 						<div class="flex flex-col gap-2">
@@ -89,9 +109,8 @@
 								class="bg-neutral-500"
 								href={`${ISSUES_PATH}/${issue.publicId}/edit`}>Edit</Button
 							>
-							<Button type="secondary" class="bg-neutral-500">Ignore</Button>
+							<!-- <Button type="secondary" class="bg-neutral-500">Ignore</Button> -->
 							<Button type="primary" class="bg-echolayer">Create a ticket</Button>
-							<Button type="primary" class="bg-echolayer">Find an expert</Button>
 						</div>
 					</div>
 				</BackgroundWrapper>

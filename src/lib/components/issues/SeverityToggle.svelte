@@ -12,21 +12,21 @@
 			label: 'Medium',
 			value: 'medium',
 			letter: 'M',
-			description: 'Not a priority. Keep an eye on it.',
+			description: 'Might be important to have a look at it.',
 			color: 'bg-orange-500'
 		},
 		{
 			label: 'High',
 			value: 'high',
 			letter: 'H',
-			description: 'Not a priority. Keep an eye on it.',
+			description: 'This is serious, please review.',
 			color: 'bg-red-600'
 		},
 		{
 			label: 'Critical',
 			value: 'critical',
 			letter: '!',
-			description: 'Not a priority. Keep an eye on it.',
+			description: 'Must resolved as soon as possible.',
 			color: 'bg-red-800'
 		}
 	];
