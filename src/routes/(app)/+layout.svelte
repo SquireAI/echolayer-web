@@ -27,7 +27,6 @@
 
 	export let data: LayoutData;
 
-	setContext(COMPONENT_STORE_NAME, componentStore);
 	setContext(RELATIONS_GRAPH_STORE_NAME, entityRelationshipStore);
 	setContext(TEAM_STORE_NAME, teamStore);
 	setContext(ORIGIN_STORE_NAME, originStore);
