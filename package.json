@@ -54,7 +54,7 @@
 		"@felte/validator-zod": "^1.0.17",
 		"add": "^2.0.6",
 		"color-hash": "^2.0.2",
-		"felte": "^1.2.12",
+		"felte": "^1.2.14",
 		"fuzzy-search": "^3.2.1",
 		"json-formatter-js": "^2.3.4",
 		"lodash": "^4.17.21",
