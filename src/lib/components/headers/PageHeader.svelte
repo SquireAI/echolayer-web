@@ -31,7 +31,7 @@
 		</div>
 		<div>
 			<slot name="right-action">
-				<FindHeaderButton />
+				<!-- <FindHeaderButton /> -->
 			</slot>
 		</div>
 	</div>

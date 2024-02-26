@@ -28,7 +28,7 @@
 	onMount(async () => {
 		githubUrl = await data.installGithubAppHandler();
 		githubInstallStatus = await data.checkGithubAppHandler();
-		if (githubInstallStatus === 'connected') goto(`${ONBOARDING_PATH}/repos`);
+		if (githubInstallStatus === 'connected') goto(`${ONBOARDING_PATH}/complete`);
 
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();

@@ -28,12 +28,12 @@
 						Login with GitHub
 					</div>
 				</Button>
-				<Button handleClick={() => handleLogin('gitlab')} full={true} type="grey">
+				<!-- <Button handleClick={() => handleLogin('gitlab')} full={true} type="grey">
 					<div class="flex items-center gap-x-2 h-6">
 						<GitLab />
 						Login with GitLab
 					</div>
-				</Button>
+				</Button> -->
 			</div>
 			<p class="text-neutral-500 max-w-md text-center px-4">
 				By logging in, you acknowledge that you have read, understood, and agree to EchoLayer’s <a
