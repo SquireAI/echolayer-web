@@ -21,7 +21,7 @@
 	};
 </script>
 
-<Card title={entity.name} subtitle={entity.owner} href={path} image={githubAvatar(entity)}>
+<Card title={entity.name} subtitle={entity.owner} image={githubAvatar(entity)}>
 	<CardDetailRow key="Last Index">{lastIndex(entity)}</CardDetailRow>
 	<CardDetailRow key="Status">
 		<CardLabel label={status(entity)} />

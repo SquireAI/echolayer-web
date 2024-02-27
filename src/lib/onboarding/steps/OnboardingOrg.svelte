@@ -30,6 +30,7 @@
 	}
 
 	onMount(() => {
+		console.log('organization', organization);
 		if (organization) goto(`${ONBOARDING_PATH}/github`);
 	});
 </script>

@@ -79,7 +79,7 @@
 					>
 						<Github size="24" slot="icon" />
 					</IntegrationListItem>
-					<GitLabIntegrationListItem status={gitlabStatus} {handleUninstallGitlab} />
+					<!-- <GitLabIntegrationListItem status={gitlabStatus} {handleUninstallGitlab} /> -->
 					{#if isInstallError}
 						<p class="text-red-700 select-none mt-1">
 							Something went wrong. Please try again later or <a

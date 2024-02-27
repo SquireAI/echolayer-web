@@ -35,9 +35,9 @@
 	<div class="bg-neutral-100 divide-y divide-neutral-300 h-screen flex flex-col" slot="content">
 		<div class="flex-shrink">
 			<BackgroundWrapper background={true}>
-				<div class="absolute right-4 top-3">
+				<!-- <div class="absolute right-4 top-3">
 					<FindHeaderButton />
-				</div>
+				</div> -->
 				<HeroPageHeader
 					title="Welcome back to EchoLayer!"
 					description="Great to see you again. Here is a list of all your resources and repositories in our system."

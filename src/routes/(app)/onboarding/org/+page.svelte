@@ -24,23 +24,32 @@
 			component: OnboardingGithub,
 			label: 'Install GitHub application',
 			title: 'Install GitHub application on your organization',
-			description: 'Let’s start by installing our GitHub application to analyze your repositories.'
-		},
-		{
-			slug: 'repos',
-			component: OnboardingRepos,
-			label: 'Hang tight',
-			title: 'EchoLayer is now analyzing your repositories',
 			description:
-				'We’re currently analyzing your contribution history. Once your repositories have been analyzed you can see more details in the list below.'
+				'Let’s start by installing our GitHub application to enable the EchoLayer assistant in your pull requests.'
 		},
+		// {
+		// 	slug: 'repos',
+		// 	component: OnboardingRepos,
+		// 	label: 'Hang tight',
+		// 	title: 'EchoLayer is now analyzing your repositories',
+		// 	description:
+		// 		'We’re currently analyzing your contribution history. Once your repositories have been analyzed you can see more details in the list below.'
+		// },
+		// {
+		// 	slug: 'try',
+		// 	component: OnboardingTry,
+		// 	label: 'Try it out',
+		// 	title: 'We’re ready to get started!',
+		// 	description:
+		// 		'EchoLayer has analyzed your history and is ready to get you the help you need. Get started by requesting a calculated expert from a file path in your repository. '
+		// },
 		{
-			slug: 'try',
-			component: OnboardingTry,
-			label: 'Try it out',
-			title: 'We’re ready to get started!',
+			slug: 'complete',
+			component: OnboardingOrg,
+			label: 'Complete',
+			title: 'You’re all set!',
 			description:
-				'EchoLayer has analyzed your history and is ready to get you the help you need. Get started by requesting a calculated expert from a file path in your repository. '
+				"You’re all set! Let's get you started on using the EchoLayer assistant directly in your pull requests."
 		}
 	];
 

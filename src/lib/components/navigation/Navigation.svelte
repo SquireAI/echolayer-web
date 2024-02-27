@@ -96,13 +96,13 @@
 			SolidIcon={HomeIcon}
 			disabled={!organization}
 		/>
-		<NavigationItem
+		<!-- <NavigationItem
 			name="Issues"
 			href={`${ISSUES_PATH}`}
 			OutlineIcon={BugOutlineIcon}
 			SolidIcon={BugIcon}
 			disabled={!organization}
-		/>
+		/> -->
 		<NavigationItem
 			name="Repositories"
 			href={`${REPOSITORIES_PATH}`}
@@ -124,13 +124,6 @@
 			SolidIcon={AccountIcon}
 			disabled={!organization}
 		/>
-	</div>
-
-	<!-- Spacer -->
-	<div class="flex-1" />
-
-	<!-- Settings -->
-	<div class="flex flex-col w-full gap-2 p-3 border-t border-neutral-200">
 		<NavigationItem
 			name="API keys"
 			href={`${API_KEYS_PATH}`}
@@ -145,13 +138,13 @@
 			SolidIcon={ConnectionIcon}
 			disabled={!organization}
 		/>
-		<NavigationItem
+		<!-- <NavigationItem
 			name="Add people"
 			onClick={() => modalStore.trigger(modalRegistry.organizationInvites)}
 			OutlineIcon={PlusCircleOutlineIcon}
 			SolidIcon={PlusCircleOutlineIcon}
 			disabled={!organization}
-		/>
+		/> -->
 		<NavigationItem
 			name="Documentation"
 			onClick={() => window.open(NOTION_GETTING_STARTED_DOCS, '_blank')}
@@ -160,6 +153,9 @@
 			disabled={!organization}
 		/>
 	</div>
+
+	<!-- Spacer -->
+	<div class="flex-1" />
 
 	<!-- User Navigation -->
 	<div class="flex flex-col p-3 gap-2 border-t border-neutral-200">
