@@ -59,7 +59,7 @@
 		"json-formatter-js": "^2.3.4",
 		"lodash": "^4.17.21",
 		"nanoid": "^4.0.2",
-		"postcss-load-config": "^4.0.1",
+		"postcss-load-config": "^4.0.2",
 		"query-string": "^8.1.0",
 		"set-cookie-parser": "^2.6.0",
 		"svelte-material-icons": "^3.0.5",
