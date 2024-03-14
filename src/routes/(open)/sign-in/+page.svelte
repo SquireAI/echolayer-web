@@ -23,7 +23,7 @@
 				<p class="text-stone-300 leading-9 text-center">Please login or sign up below</p>
 			</div>
 			<div class="w-full flex flex-col gap-3">
-				<OnboardingButton handleClick={() => handleLogin('github')} templates="dark highlight">
+				<OnboardingButton handleClick={() => handleLogin('github')} templates="light highlight">
 					<div class="flex items-center gap-x-2 h-6">
 						<Github class="w-6 h-6" />
 						Login with GitHub
