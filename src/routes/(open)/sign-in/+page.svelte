@@ -33,11 +33,14 @@
 			<p class="text-stone-500 max-w-md text-center px-4">
 				By logging in, you acknowledge that you have read, understood, and agree to EchoLayer’s <a
 					class="text-stone-50 font-semibold"
-					href="https://echolayer.ai/terms-of-service">Terms of Service</a
+					href="https://echolayer.ai/terms-of-service"
+					target="_blank">Terms of Service</a
 				>
 				and
-				<a class="text-stone-50 font-semibold" href="https://echolayer.ai/privacy-policy"
-					>Privacy Policy</a
+				<a
+					class="text-stone-50 font-semibold"
+					href="https://echolayer.ai/privacy-policy"
+					target="_blank">Privacy Policy</a
 				>.
 			</p>
 		</div>
