@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
-	import Button from '$lib/components/Button.svelte';
-	import OpenLayout from '$lib/layouts/open/OpenLayout.svelte';
-	import GitHub from '$lib/svgs/GitHub.svg?component';
-	import GitLab from '$lib/svgs/GitLab.svg?component';
+	import DarkLayout from '$lib/layouts/dark/DarkLayout.svelte';
+	import OnboardingButton from '$lib/onboarding/OnboardingButton.svelte';
+	import Github from 'svelte-material-icons/Github.svelte';
+	import LogoIcon from '$lib/svgs/EchoLayerIconWhite.svg?component';
 
 	const handleLogin = async (provider: string) => {
 		const url = await $page.data.loginHandler(provider);
@@ -14,36 +14,32 @@
 	};
 </script>
 
-<OpenLayout>
-	<div class="flex content-center justify-center items-center flex-col h-full">
+<DarkLayout>
+	<div class="flex justify-center items-center flex-col w-full">
 		<div class="flex flex-col gap-y-6 items-center">
-			<div class="flex flex-col items-center">
-				<h2 class="text-neutral-800 font-normal">Log in</h2>
-				<p class="text-neutral-500 leading-9 w-full text-center">Please login or sign up below</p>
+			<div class="flex flex-col items-center gap-4">
+				<LogoIcon class="w-10 h-10" />
+				<h2 class="text-stone-200 font-semibold">Log in</h2>
+				<p class="text-stone-300 leading-9 text-center">Please login or sign up below</p>
 			</div>
 			<div class="w-full flex flex-col gap-3">
-				<Button handleClick={() => handleLogin('github')} full={true} type="grey">
+				<OnboardingButton handleClick={() => handleLogin('github')} templates="dark highlight">
 					<div class="flex items-center gap-x-2 h-6">
-						<GitHub />
+						<Github class="w-6 h-6" />
 						Login with GitHub
 					</div>
-				</Button>
-				<!-- <Button handleClick={() => handleLogin('gitlab')} full={true} type="grey">
-					<div class="flex items-center gap-x-2 h-6">
-						<GitLab />
-						Login with GitLab
-					</div>
-				</Button> -->
+				</OnboardingButton>
 			</div>
-			<p class="text-neutral-500 max-w-md text-center px-4">
+			<p class="text-stone-500 max-w-md text-center px-4">
 				By logging in, you acknowledge that you have read, understood, and agree to EchoLayer’s <a
-					class="text-echolayer-blue"
-					href="https://echolayer.com/terms-of-service">Terms of Service</a
+					class="text-stone-50 font-semibold"
+					href="https://echolayer.ai/terms-of-service">Terms of Service</a
 				>
 				and
-				<a class="text-echolayer-blue" href="https://echolayer.com/privacy-policy">Privacy Policy</a
+				<a class="text-stone-50 font-semibold" href="https://echolayer.ai/privacy-policy"
+					>Privacy Policy</a
 				>.
 			</p>
 		</div>
 	</div>
-</OpenLayout>
+</DarkLayout>

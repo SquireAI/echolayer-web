@@ -88,7 +88,6 @@
 
 		&.highlight {
 			@apply ring-4 ring-stone-500 ring-opacity-20;
-			@apply border-b border-stone-700;
 
 			&:hover {
 				@apply ring-4 ring-stone-500 ring-opacity-50;

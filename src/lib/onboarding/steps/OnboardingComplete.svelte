@@ -7,7 +7,7 @@
 
 <div class="flex-1 flex flex-row justify-center items-center">
 	<div class="flex flex-col gap-6 items-center max-w-md my-12">
-		<span class="text-neutral-500"><PartyPopperIcon size="70" slot="icon" /></span>
+		<span class="text-stone-500"><PartyPopperIcon size="70" slot="icon" /></span>
 		<h3>Fantastic! You're ready!</h3>
 		<div class="max-w-sm text-center gap-3 flex flex-col">
 			<p class="mb-6">
