@@ -22,7 +22,7 @@
         flex flex-row justify-between items-center px-2 rounded-md
         ${
 					isActive
-						? 'bg-echolayer-lightBlue-100 text-echolayer-blue-200 hover:bg-echolayer-lightBlue-100'
+						? 'bg-stone-500 bg-opacity-10 hover:bg-opacity-20 transition-all duration-300 ease-in-out'
 						: 'hover:cursor-pointer hover:bg-gray-200'
 				}
     `}
@@ -31,7 +31,7 @@
 			<OrgIcon text={organization.publicId} />
 			<div
 				class={`flex flex-col items-start 
-                ${isActive ? 'text-echolayer-blue-200' : 'text-neutral-400'}
+                ${isActive ? 'text-white' : 'text-stone-400'}
             `}
 			>
 				<p class="font-medium leading-5">
@@ -44,7 +44,7 @@
 			</div>
 		</span>
 		{#if isActive}
-			<Check height="24" width="24" class={'text-echolayer-blue-200'} />
+			<Check height="24" width="24" class={'text-stone-200'} />
 		{:else}
 			<ArrowRight height="24" width="24" class="text-neutral-400" />
 		{/if}

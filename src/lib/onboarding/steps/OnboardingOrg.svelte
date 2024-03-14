@@ -6,6 +6,8 @@
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { HOME_PATH, ONBOARDING_PATH } from '$lib/utils/paths';
 	import { getContext, onMount } from 'svelte';
+	import OnboardingOrgForm from '../OnboardingOrgForm.svelte';
+	import Domain from 'svelte-material-icons/Domain.svelte';
 
 	export let data: any;
 	let orgsStore: OrganizationsStore;
@@ -30,16 +32,16 @@
 	}
 
 	onMount(() => {
-		console.log('organization', organization);
-		if (organization) goto(`${ONBOARDING_PATH}/github`);
+		// if (organization) goto(`${ONBOARDING_PATH}/github`);
 	});
 </script>
 
-<div class="flex-1 flex flex-col items-center justify-center min-h-fit pt-6 pb-12">
-	<div class="flex flex-col gap-6 w-96">
-		<p class="text-neutral-800 text-center">
+<div class="flex-1 flex flex-col items-center justify-center min-h-fit py-12">
+	<div class="flex flex-col gap-6 w-96 items-center">
+		<span class="text-neutral-500"><Domain size="70" slot="icon" /></span>
+		<p class="text-center">
 			Create an organization to start syncing your repositories with your team members.
 		</p>
-		<NewOrgForm handleSubmit={onCreateOrg} />
+		<OnboardingOrgForm handleSubmit={onCreateOrg} />
 	</div>
 </div>
