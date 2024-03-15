@@ -14,6 +14,10 @@
 	import { getContext } from 'svelte';
 	import { REPOSITORY_STORE_NAME } from '$lib/stores';
 	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
+	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
+	import OnboardingButton from '$lib/onboarding/OnboardingButton.svelte';
+	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
+	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
 
 	export let data: PageData & Handlers;
 
@@ -70,17 +74,23 @@
 	$: currentStep = getCurrentStepBySlug($page.params.step) || 0;
 </script>
 
-<Panels>
-	<Navigation slot="nav" />
-	<div slot="content" class="h-full bg-neutral-100 flex flex-col">
-		<div class="border-b border-b-neutral-300 divide-y divide-neutral-300">
-			<OnboardingHeader
-				title={steps[currentStep].title}
-				description={steps[currentStep].description}
-			/>
-			<OnboardingTimeline {steps} {currentStep} />
-		</div>
+<div class="flex flex-col w-full items-center my-auto py-12">
+	<CenterWrapper>
+		<div class="h-full flex flex-col">
+			<div>
+				<OnboardingHeader
+					title={steps[currentStep].title}
+					description={steps[currentStep].description}
+				/>
+				<OnboardingTimeline {steps} {currentStep} />
+			</div>
 
-		<svelte:component this={steps[currentStep].component} {data} />
+			<svelte:component this={steps[currentStep].component} {data} />
+		</div>
+	</CenterWrapper>
+
+	<div class="max-w-xl my-6 flex flex-row items-stretch gap-3">
+		<div class="w-[210px]"><SwitchOrgButton /></div>
+		<OnboardingLogout />
 	</div>
-</Panels>
+</div>

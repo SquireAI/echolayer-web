@@ -7,6 +7,7 @@
 	import Github from 'svelte-material-icons/Github.svelte';
 	import IntegrationListItem from '$lib/components/integrations/IntegrationListItem.svelte';
 	import type { IntegrationInstallStatus } from '$lib/types';
+	import OnboardingIntegrationItem from '../OnboardingIntegrationItem.svelte';
 
 	export let data: any;
 
@@ -37,21 +38,21 @@
 	});
 </script>
 
-<div class="flex-1 flex flex-row justify-center items-center mb-16">
+<div class="flex-1 flex flex-row justify-center items-center py-12">
 	<div class="flex flex-col gap-6 items-center max-w-sm text-center">
-		<span class="text-neutral-500"><Github size="70" slot="icon" /></span>
+		<span class="text-stone-500"><Github size="70" slot="icon" /></span>
 		<p>
 			Follow the link below to install the app and select the repositories you'd like to analyze:
 		</p>
 		<div class="w-64">
-			<IntegrationListItem
+			<OnboardingIntegrationItem
 				class="block w-full"
 				label="Install"
 				installStatus={githubInstallStatus}
 				handleInstall={() => handleInstall(githubUrl)}
 			>
 				<Github size="24" slot="icon" />
-			</IntegrationListItem>
+			</OnboardingIntegrationItem>
 		</div>
 	</div>
 </div>
