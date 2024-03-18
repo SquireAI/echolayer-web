@@ -14,6 +14,7 @@ export const load = (async ({ cookies, fetch }): Promise<PageData> => {
 	const context = getHttpContext(fetch, cookies);
 	const { baseHeaders, baseUrl } = context;
 
+	// Redirect to org onboarding
 	throw redirect(307, `${ONBOARDING_PATH}/org`);
 
 	return { baseHeaders, baseUrl };

@@ -8,6 +8,9 @@
 	const hex = colorHash.hex(text);
 </script>
 
-<div class={`py-2 px-1.5 rounded-md`} style={`background-color: ${hex}`}>
-	<EchoLayerIconWhite />
+<div
+	class={`w-6 h-6 rounded-lg flex flex-row items-center justify-center`}
+	style={`background-color: ${hex}`}
+>
+	<EchoLayerIconWhite class="w-4 h-4" />
 </div>

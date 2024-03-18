@@ -11,9 +11,6 @@ export const load = (async ({ fetch, cookies }) => {
 	// Check if user is authenticated
 	await authRequired(context);
 
-	// Redirect to org onboarding
-	throw redirect(307, `${ONBOARDING_PATH}/org`);
-
 	return {
 		baseHeaders: context.baseHeaders,
 		baseUrl: context.baseUrl
