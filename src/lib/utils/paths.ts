@@ -22,7 +22,7 @@ export const DISCOVERY_PATH = '/explore';
 export const INTEGRATIONS_PATH = '/org/integrations';
 export const GITLAB_SETUP_PATH = '/org/integrations/gitlab/setup';
 export const INTEGRATIONS_PATH_WITH_INVALIDATE = `${INTEGRATIONS_PATH}?${INVALIDATE_QUERY_PARAMETER_NAME}`;
-export const ISSUES_PATH = '/issues';
+export const HELLO_PATH = '/issues';
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,
@@ -36,7 +36,7 @@ export const REDIRECT_PATHS = [
 	API_KEYS_PATH,
 	DISCOVERY_PATH,
 	INTEGRATIONS_PATH,
-	ISSUES_PATH
+	HELLO_PATH
 ] as const;
 
 export type RedirectPath = (typeof REDIRECT_PATHS)[number];
@@ -47,3 +47,4 @@ export const NOTION_GETTING_STARTED_DOCS =
 export const SUPPORT_URL = 'mailto:support@echolayer.com';
 export const NOTION_GITLAB_SETUP_DOCS =
 	'https://codexbuild.notion.site/codexbuild/GitLab-Integration-Usage-Guide-c526d056c60a4655ba3119c719f78610';
+
