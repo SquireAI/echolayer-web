@@ -39,7 +39,7 @@
 	>
 		<slot name="icon" slot="icon" />
 		<div slot="right" class="bg-red-500 bg-opacity-10 rounded-full px-2 py-0.5">
-			<p class="text-stone-200 leading-5">Disconnected</p>
+			<p class="text-neutral-200 leading-5">Disconnected</p>
 		</div>
 		<div slot="footnote">
 			<slot name="footnote" />

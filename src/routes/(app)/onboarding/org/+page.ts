@@ -1,7 +1,5 @@
 import { createDefaultContext } from '$lib/http/context';
 import type { PageLoad } from './$types';
-import { GithubApp } from '$lib/api/github-app';
-import type { PageData } from './+page.server';
 import { OrganizationApi } from '$lib/api/organization';
 import type { Organization } from '$lib/types';
 

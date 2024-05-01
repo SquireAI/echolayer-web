@@ -1,16 +1,11 @@
 <script lang="ts">
-	import Navigation from '$lib/components/navigation/Navigation.svelte';
-	import Panels from '$lib/discovery/panels.svelte';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
 	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
-	import OnboardingRepos from '$lib/onboarding/steps/OnboardingRepos.svelte';
-	import OnboardingTry from '$lib/onboarding/steps/OnboardingTry.svelte';
 	import type { Handlers } from './+page';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
-	import OnboardingButton from '$lib/onboarding/OnboardingButton.svelte';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
 
 	export let data: Handlers;
@@ -29,7 +24,7 @@
 			label: 'Install GitHub application',
 			title: 'Install GitHub application on your organization',
 			description:
-				'Let’s start by installing our GitHub application to enable the EchoLayer assistant in your pull requests.'
+				'Let’s start by installing our GitHub application to enable Squire in your pull requests.'
 		},
 		{
 			slug: 'complete',
@@ -37,7 +32,7 @@
 			label: 'Complete',
 			title: 'You’re all set!',
 			description:
-				"You’re all set! Let's get you started on using the EchoLayer assistant directly in your pull requests."
+				"You’re all set! Let's get you started on using Squire directly in your pull requests."
 		}
 	];
 

@@ -17,16 +17,16 @@
 <div class={`flex flex-col ${classes}`}>
 	<button
 		on:click={clickHandler}
-		class={`text-white hover:bg-stone-700 w-full hover:cursor-pointer rounded-lg p-2 flex flex-row gap-3 place-items-center border border-stone-700
+		class={`text-white hover:bg-neutral-700 w-full hover:cursor-pointer rounded-lg p-2 flex flex-row gap-3 place-items-center border border-neutral-700
 		${
 			disabled
-				? ' hover:cursor-default cursor-default bg-transparent hover:bg-transparent text-stone-500 pointer-events-none'
+				? ' hover:cursor-default cursor-default bg-transparent hover:bg-transparent text-neutral-500 pointer-events-none'
 				: ''
 		}`}
 		aria-disabled={disabled}
 	>
 		<div class="flex flex-row gap-3 place-items-center w-full">
-			<div class="bg-stone-600 rounded-lg h-9 w-9 flex items-center justify-center">
+			<div class="bg-neutral-600 rounded-lg h-9 w-9 flex items-center justify-center">
 				<slot name="icon" />
 			</div>
 			<div class="flex-1 text-left"><p class="text-md font-semibold leading-4">{label}</p></div>

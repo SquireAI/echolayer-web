@@ -59,7 +59,7 @@
 		@apply transition-all duration-300 ease-in-out;
 
 		&.light {
-			@apply bg-gradient-to-br from-stone-50 to-stone-500;
+			@apply bg-gradient-to-br from-neutral-50 to-neutral-500;
 		}
 
 		&.small {
@@ -68,16 +68,16 @@
 		}
 
 		&.dark {
-			@apply bg-gradient-to-br from-stone-800 to-stone-900;
+			@apply bg-gradient-to-br from-neutral-800 to-neutral-900;
 			@apply text-white;
-			@apply ring-2 ring-stone-100 ring-opacity-20;
+			@apply ring-2 ring-neutral-100 ring-opacity-20;
 		}
 
 		&.transparent {
-			@apply bg-stone-500;
+			@apply bg-neutral-500;
 			@apply bg-opacity-10;
 			@apply text-white;
-			@apply ring-1 ring-stone-100 ring-opacity-20;
+			@apply ring-1 ring-neutral-100 ring-opacity-20;
 			@apply backdrop-blur;
 
 			&:hover {
@@ -87,10 +87,10 @@
 		}
 
 		&.highlight {
-			@apply ring-4 ring-stone-500 ring-opacity-20;
+			@apply ring-4 ring-neutral-500 ring-opacity-20;
 
 			&:hover {
-				@apply ring-4 ring-stone-500 ring-opacity-50;
+				@apply ring-4 ring-neutral-500 ring-opacity-50;
 			}
 		}
 

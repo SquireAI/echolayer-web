@@ -40,7 +40,7 @@
 
 <div class="flex-1 flex flex-row justify-center items-center py-12">
 	<div class="flex flex-col gap-6 items-center max-w-sm text-center">
-		<span class="text-stone-500"><Github size="70" slot="icon" /></span>
+		<span class="text-neutral-500"><Github size="70" slot="icon" /></span>
 		<p>
 			Follow the link below to install the app and select the repositories you'd like to analyze:
 		</p>

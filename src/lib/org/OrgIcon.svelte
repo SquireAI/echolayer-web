@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ColorHash from 'color-hash';
-	import EchoLayerIconWhite from '$lib/svgs/EchoLayerIconWhite.svg?component';
+	import Logo from '$lib/svgs/logos/logo-white.svg?component';
 
 	export let text: string;
 
@@ -9,8 +9,8 @@
 </script>
 
 <div
-	class={`w-6 h-6 rounded-lg flex flex-row items-center justify-center`}
+	class={`w-7 h-7 rounded-md flex flex-row items-center justify-center overflow-hidden`}
 	style={`background-color: ${hex}`}
 >
-	<EchoLayerIconWhite class="w-4 h-4" />
+	<Logo class="w-8 -ml-4 mt-1.5" />
 </div>
