@@ -41,7 +41,7 @@
 			<div class="flex flex-col items-center">
 				<h2 class="font-medium text-2xl">Set up new organization</h2>
 				<p class="text-neutral-400 text-center">
-					Let’s get started with EchoLayer! Please enter your organization’s name below.
+					Let’s get started with Squire AI! Please enter your organization’s name below.
 				</p>
 			</div>
 			<div class="flex flex-col gap-3">

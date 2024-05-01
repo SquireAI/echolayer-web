@@ -94,7 +94,7 @@
 							>
 						</p>
 						<p class="text-neutral-500 text-center mt-4">
-							This is a required step to keep your GitLab data on EchoLayer in-sync.
+							This is a required step to keep your GitLab data on Squire in-sync.
 						</p>
 					</div>
 					<div

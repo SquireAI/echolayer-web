@@ -10,10 +10,10 @@
 		<a href="/onboarding/{step.slug}" class="group flex w-full items-center">
 			<span class="flex items-center px-6 py-3 text-sm font-medium">
 				<span
-					class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-stone-400 group-hover:bg-stone-200"
+					class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-neutral-400 group-hover:bg-neutral-200"
 				>
 					<svg
-						class="h-6 w-6 text-stone-800"
+						class="h-6 w-6 text-neutral-800"
 						viewBox="0 0 24 24"
 						fill="currentColor"
 						aria-hidden="true"
@@ -25,7 +25,7 @@
 						/>
 					</svg>
 				</span>
-				<span class="ml-4 text-sm font-medium text-stone-400">{step.label}</span>
+				<span class="ml-4 text-sm font-medium text-neutral-400">{step.label}</span>
 			</span>
 		</a>
 	{:else if type === 'active'}
@@ -36,22 +36,22 @@
 			aria-current="step"
 		>
 			<span
-				class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 bg-stone-200 border-stone-200"
+				class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 bg-neutral-200 border-neutral-200"
 			>
-				<span class="text-stone-800">{stepIndex + 1}</span>
+				<span class="text-neutral-800">{stepIndex + 1}</span>
 			</span>
-			<span class="ml-4 text-sm font-medium text-stone-300">{step.label}</span>
+			<span class="ml-4 text-sm font-medium text-neutral-300">{step.label}</span>
 		</a>
 	{:else if type === 'next'}
 		<!-- Upcoming Step -->
 		<a href="/onboarding/{step.slug}" class="group flex items-center">
 			<span class="flex items-center px-6 py-3 text-sm font-medium">
 				<span
-					class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-stone-200 group-hover:bg-stone-100 group-hover:border-stone-100"
+					class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-neutral-200 group-hover:bg-neutral-100 group-hover:border-neutral-100"
 				>
-					<span class="text-stone-400 group-hover:text-stone-800">{stepIndex + 1}</span>
+					<span class="text-neutral-400 group-hover:text-neutral-800">{stepIndex + 1}</span>
 				</span>
-				<span class="ml-4 text-sm font-medium text-stone-400 group-hover:text-stone-100"
+				<span class="ml-4 text-sm font-medium text-neutral-400 group-hover:text-neutral-100"
 					>{step.label}</span
 				>
 			</span>

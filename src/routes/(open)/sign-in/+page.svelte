@@ -4,7 +4,7 @@
 	import DarkLayout from '$lib/layouts/dark/DarkLayout.svelte';
 	import OnboardingButton from '$lib/onboarding/OnboardingButton.svelte';
 	import Github from 'svelte-material-icons/Github.svelte';
-	import LogoIcon from '$lib/svgs/EchoLayerIconWhite.svg?component';
+	import LogoIcon from '$lib/svgs/logos/logo-white.svg?component';
 
 	const handleLogin = async (provider: string) => {
 		const url = await $page.data.loginHandler(provider);
@@ -18,8 +18,8 @@
 	<div class="flex justify-center items-center flex-col w-full">
 		<div class="flex flex-col gap-y-6 items-center">
 			<div class="flex flex-col items-center gap-4">
-				<LogoIcon class="w-10 h-10" />
-				<h2 class="text-stone-200 font-semibold">Log in</h2>
+				<LogoIcon class="w-8 mb-6" />
+				<h2 class="text-stone-200 font-semibold font-display">Log in</h2>
 				<p class="text-stone-300 leading-9 text-center">Please login or sign up below</p>
 			</div>
 			<div class="w-full flex flex-col gap-3">
@@ -31,15 +31,15 @@
 				</OnboardingButton>
 			</div>
 			<p class="text-stone-500 max-w-md text-center px-4">
-				By logging in, you acknowledge that you have read, understood, and agree to EchoLayer’s <a
+				By logging in, you acknowledge that you have read, understood, and agree to Squire's <a
 					class="text-stone-50 font-semibold"
-					href="https://echolayer.ai/terms-of-service"
+					href="https://squire.ai/terms-of-service"
 					target="_blank">Terms of Service</a
 				>
 				and
 				<a
 					class="text-stone-50 font-semibold"
-					href="https://echolayer.ai/privacy-policy"
+					href="https://squire.ai/privacy-policy"
 					target="_blank">Privacy Policy</a
 				>.
 			</p>

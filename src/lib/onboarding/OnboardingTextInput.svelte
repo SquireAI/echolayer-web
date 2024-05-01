@@ -10,7 +10,7 @@
 		type="text"
 		id="name"
 		bind:value
-		class={`input focus:outline-none ring-0 focus:border-stone-500`}
+		class={`input focus:outline-none ring-0 focus:border-neutral-500`}
 		class:error={formError && errorMessage}
 		{...$$restProps}
 	/>
@@ -21,11 +21,11 @@
 
 <style lang="scss">
 	.input {
-		@apply bg-stone-700 w-full;
-		@apply border border-stone-300 border-opacity-10 rounded-md;
-		@apply text-stone-200 text-sm;
+		@apply bg-neutral-700 w-full;
+		@apply border border-neutral-300 border-opacity-10 rounded-md;
+		@apply text-neutral-200 text-sm;
 		@apply py-2 px-3;
-		@apply placeholder-stone-400 placeholder-opacity-50;
+		@apply placeholder-neutral-400 placeholder-opacity-50;
 
 		&.error {
 			@apply border-red-500 border-opacity-50;

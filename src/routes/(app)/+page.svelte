@@ -39,7 +39,7 @@
 					<FindHeaderButton />
 				</div> -->
 				<HeroPageHeader
-					title="Welcome back to EchoLayer!"
+					title="Welcome back to Squire AI!"
 					description="Great to see you again. Here is a list of all your resources and repositories in our system."
 				/>
 			</BackgroundWrapper>

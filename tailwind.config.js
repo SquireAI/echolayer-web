@@ -50,7 +50,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Inter', ...defaultTheme.fontFamily.sans]
+				sans: ['Inter Variable', ...defaultTheme.fontFamily.sans],
+				display: ['Outfit Variable', ...defaultTheme.fontFamily.sans]
 			},
 			gridTemplateColumns: {
 				'1/3-2/3': '1fr 2fr'
