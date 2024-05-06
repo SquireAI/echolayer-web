@@ -152,7 +152,7 @@
 							class="w-full"
 							templates="transparent"
 							disabled={selecting || $orgsStore.loading}
-							handleClick={() => handleAction(ONBOARDING_PATH)}
+							handleClick={() => handleAction(`${ONBOARDING_PATH}${CREATE_ORG_PATH}`)}
 						>
 							<PlusCircleOutline size="18" class="mr-1" />
 							Add new...
@@ -179,7 +179,7 @@
 						<OnboardingButton
 							templates="transparent"
 							class="w-full"
-							href={`${ONBOARDING_PATH}${ORGS_PATH}`}
+							href={`${ONBOARDING_PATH}${CREATE_ORG_PATH}`}
 						>
 							<PlusCircleOutline size="18" class="mr-1" />
 							Add new...
