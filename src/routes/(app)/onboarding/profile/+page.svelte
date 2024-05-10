@@ -1,24 +1,20 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import type { Handlers } from './+page';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
 	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
-	import type { PageData } from './+page.server';
-	import type { Handlers } from './+page';
-	import type { RepositoryStore } from '$lib/types';
-	import { getContext } from 'svelte';
-	import { REPOSITORY_STORE_NAME } from '$lib/stores';
-	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
+	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import OnboardingProfile from '$lib/onboarding/steps/OnboardingProfile.svelte';
+	import type { Profile } from '$lib/types';
+	import { onMount } from 'svelte';
 
-	export let data: PageData & Handlers;
-
-	let repositoryStore: RepositoryStore = getContext(REPOSITORY_STORE_NAME) as RepositoryStore;
-	if (data.repositories) repositoryStore.setRepositories(data.repositories);
+	export let data: Handlers;
+	const { createProfile, getProfile } = data;
+	let profile: Profile;
 
 	const steps = [
 		{
@@ -52,27 +48,18 @@
 				"You’re all set! Let's get you started on using Squire AI directly in your pull requests."
 		}
 	];
-
-	const getCurrentStepBySlug = (slug: string) => {
-		if (!slug) return 0;
-		return steps.findIndex((step) => step.slug === slug);
-	};
-
-	$: currentStep = getCurrentStepBySlug($page.params.step) || 0;
+	const currentStep = 0;
 </script>
 
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
-		<div class="h-full flex flex-col">
+		<div class="flex flex-col">
 			<div>
-				<OnboardingHeader
-					title={steps[currentStep].title}
-					description={steps[currentStep].description}
-				/>
+				<OnboardingHeader title={steps[0].title} description={steps[0].description} />
 				<OnboardingTimeline {steps} {currentStep} />
 			</div>
 
-			<svelte:component this={steps[currentStep].component} {data} />
+			<OnboardingProfile {data} />
 		</div>
 	</CenterWrapper>
 

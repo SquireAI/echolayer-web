@@ -1,11 +1,10 @@
 import { createDefaultContext } from '$lib/http/context';
 import type { PageLoad } from './$types';
-import { OrganizationApi } from '$lib/api/organization';
-import type { Organization, Profile } from '$lib/types';
+import type { Profile } from '$lib/types';
 import { ProfileApi } from '$lib/api/profile';
 
 export type Handlers = {
-	createOrgHandler: (name: string) => Promise<Organization>;
+	createProfile: (profile: Profile) => Promise<Profile>;
 	getProfile: () => Promise<Profile>;
 };
 
@@ -13,9 +12,9 @@ export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 	await parent();
 	const { baseHeaders, baseUrl } = data;
 
-	async function createOrgHandler(name: string): Promise<Organization> {
+	async function createProfile(profile: Profile): Promise<Profile> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
-		return await new OrganizationApi(context).create({ name });
+		return await new ProfileApi(context).create(profile);
 	}
 
 	async function getProfile(): Promise<Profile> {
@@ -24,7 +23,7 @@ export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 	}
 
 	const handlers = {
-		createOrgHandler,
+		createProfile,
 		getProfile
 	};
 

@@ -18,7 +18,6 @@ export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
 	const { baseHeaders, baseUrl } = context;
 
 	const org = await orgRequired(context);
-	console.log('ORG --->>', org);
 
 	if (!params.publicId) throw redirect(307, ISSUES_PATH);
 

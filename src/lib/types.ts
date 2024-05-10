@@ -354,3 +354,11 @@ export type IntegrationStatus = {
 	status?: IntegrationInstallStatus;
 	errors?: string[];
 };
+
+export type Profile = {
+	firstName: string;
+	lastName: string;
+	email: string;
+	phone?: string;
+	reason?: string;
+};

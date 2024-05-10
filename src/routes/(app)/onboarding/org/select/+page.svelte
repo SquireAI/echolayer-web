@@ -25,7 +25,7 @@
 		ORGS_PATH,
 		ORGS_SELECT_PATH
 	} from '$lib/utils/paths';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { setOrgCookie } from '$lib/utils/cookies';
 	import { page } from '$app/stores';
 	import OrgItem from '$lib/org/OrgItem.svelte';
@@ -35,6 +35,7 @@
 	import PlusCircleOutline from 'svelte-material-icons/PlusCircleOutline.svelte';
 	import type { OrgsLayoutLoad } from './+page';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
+	import OnboardingBackButton from '$lib/onboarding/OnboardingBackButton.svelte';
 
 	export let data: OrgsLayoutLoad;
 
@@ -104,14 +105,6 @@
 	};
 
 	let previousPage: string = HOME_PATH;
-
-	afterNavigate(({ from }) => {
-		if (from?.url.pathname.includes(ORGS_SELECT_PATH)) {
-			previousPage = HOME_PATH;
-		} else {
-			previousPage = from?.url.pathname || previousPage;
-		}
-	});
 </script>
 
 <div class="flex flex-col w-full items-center my-auto py-12">
@@ -140,23 +133,28 @@
 						{/each}
 					</div>
 					<div class="flex flex-row w-full gap-6">
-						<OnboardingButton
-							class="w-full"
-							templates="transparent"
-							disabled={selecting || $orgsStore.loading}
-							handleClick={() => handleAction(previousPage)}
-						>
-							Go Back
-						</OnboardingButton>
-						<OnboardingButton
-							class="w-full"
-							templates="transparent"
-							disabled={selecting || $orgsStore.loading}
-							handleClick={() => handleAction(`${ONBOARDING_PATH}${CREATE_ORG_PATH}`)}
-						>
-							<PlusCircleOutline size="18" class="mr-1" />
-							Add new...
-						</OnboardingButton>
+						<div>
+							<OnboardingBackButton>
+								<OnboardingButton
+									class="w-full"
+									templates="transparent"
+									disabled={selecting || $orgsStore.loading}
+								>
+									Go Back
+								</OnboardingButton>
+							</OnboardingBackButton>
+						</div>
+						<div class="flex-1">
+							<OnboardingButton
+								templates="transparent"
+								class="w-full"
+								disabled={selecting || $orgsStore.loading}
+								handleClick={() => handleAction(`${ONBOARDING_PATH}${CREATE_ORG_PATH}`)}
+							>
+								<PlusCircleOutline size="18" class="mr-1" />
+								Add new...
+							</OnboardingButton>
+						</div>
 					</div>
 				</div>
 			{:else}
@@ -168,22 +166,26 @@
 						administrator to resend the invite."
 					/>
 					<div class="flex flex-row w-full gap-6">
-						<OnboardingButton
-							class="w-full"
-							templates="transparent"
-							disabled={selecting || $orgsStore.loading}
-							handleClick={() => handleAction(previousPage)}
-						>
-							Go Back
-						</OnboardingButton>
-						<OnboardingButton
-							templates="transparent"
-							class="w-full"
-							href={`${ONBOARDING_PATH}${CREATE_ORG_PATH}`}
-						>
-							<PlusCircleOutline size="18" class="mr-1" />
-							Add new...
-						</OnboardingButton>
+						<div>
+							<OnboardingBackButton>
+								<OnboardingButton
+									templates="transparent"
+									disabled={selecting || $orgsStore.loading}
+								>
+									Go Back
+								</OnboardingButton>
+							</OnboardingBackButton>
+						</div>
+						<div class="flex-1">
+							<OnboardingButton
+								templates="transparent"
+								class="w-full"
+								href={`${ONBOARDING_PATH}${CREATE_ORG_PATH}`}
+							>
+								<PlusCircleOutline size="18" class="mr-1" />
+								Add new...
+							</OnboardingButton>
+						</div>
 					</div>
 				</div>
 			{/if}
