@@ -15,16 +15,24 @@
 	let loading: boolean;
 	$: loading = false;
 
+	const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
+
 	const schema = z
 		.object({
-			name: z.string().min(1)
+			firstName: z.string().min(1),
+			lastName: z.string().min(1),
+			email: z.string().email().min(1),
+			phone: z.string().regex(phoneRegex, 'Invalid phone number').optional()
 		})
 		.strip();
 
 	const { form, createSubmitHandler, errors } = createForm({
 		extend: validator({ schema }),
 		initialValues: {
-			name: ''
+			firstName: '',
+			lastName: '',
+			email: '',
+			phone: ''
 		}
 	});
 
@@ -45,11 +53,21 @@
 
 <div class="flex flex-col text-center items-center gap-y-6 w-full py-1">
 	<form use:form on:submit|preventDefault class="grid grid-cols-2 gap-6">
-		<div class="col-span-2">
-			<OnboardingFormInput errorMessage={$errors['name'] ? 'Organization name is required' : null}>
-				<input type="text" name="name" placeholder="Organization name" />
-			</OnboardingFormInput>
-		</div>
+		<OnboardingFormInput errorMessage={$errors['firstName'] ? 'First name is required' : null}>
+			<input type="text" name="firstName" placeholder="First name" />
+		</OnboardingFormInput>
+
+		<OnboardingFormInput errorMessage={$errors['lastName'] ? 'Last name is required' : null}>
+			<input type="text" name="lastName" placeholder="Last name" />
+		</OnboardingFormInput>
+
+		<OnboardingFormInput errorMessage={$errors['email'] ? 'Work email is required' : null}>
+			<input type="email" name="email" placeholder="Work email" />
+		</OnboardingFormInput>
+
+		<OnboardingFormInput errorMessage={$errors['phone'] ? 'Phone number is required' : null}>
+			<input type="phone" name="phone" placeholder="Phone number" />
+		</OnboardingFormInput>
 
 		<div class="col-span-2 flex flex-row w-full gap-6">
 			<div>
@@ -57,13 +75,11 @@
 			</div>
 			<div class="flex-1">
 				<OnboardingButton class="w-full h-11" bind:loading handleClick={handleSubmit}>
-					Create organization
+					Save profile
 				</OnboardingButton>
 			</div>
 			{#if apiError}
-				<p class={`text-echolayer-red text-sm mt-2`}>
-					"Failed to create organization, please try again."
-				</p>
+				<p class={`text-echolayer-red text-sm mt-2`}>"Failed to save profile, please try again."</p>
 			{/if}
 		</div>
 	</form>
