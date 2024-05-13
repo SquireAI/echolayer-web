@@ -1,4 +1,3 @@
-// import { LOOPS_API_KEY } from '$env/static/private';
 import type { Profile } from '$lib/types';
 import { BaseApi, ENDPOINT } from './baseApi';
 import { ProfileApi } from './profile';
