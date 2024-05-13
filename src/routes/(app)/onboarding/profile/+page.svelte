@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Handlers } from './+page';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
 	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
@@ -12,8 +11,7 @@
 	import type { Profile } from '$lib/types';
 	import { onMount } from 'svelte';
 
-	export let data: Handlers;
-	const { createProfile, getProfile } = data;
+	export let data: any;
 	let profile: Profile;
 
 	const steps = [

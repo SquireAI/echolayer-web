@@ -3,40 +3,22 @@ import type { PageLoad } from './$types';
 import type { Profile } from '$lib/types';
 import { ProfileApi } from '$lib/api/profile';
 
-export type Handlers = {
-	createProfile: (profile: Profile) => Promise<Profile>;
+interface PageData {
+	createProfile: (context: any, profile: Profile) => Promise<Profile>;
 	getProfile: () => Promise<Profile>;
-};
+}
 
-export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
+export const load = (async ({ parent, fetch, data }): Promise<PageData> => {
 	await parent();
 	const { baseHeaders, baseUrl } = data;
 
 	async function createProfile(profile: Profile): Promise<Profile> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 		const savedProfile = await new ProfileApi(context).create(profile);
-		// try {
-		// 	const { firstName, lastName, email, phone, reason } = savedProfile;
-		// 	const sub = await fetch('https://app.loops.so/api/v1/contacts/create', {
-		// 		method: 'POST',
-		// 		headers: {
-		// 			'Accept': 'application/json, */*',
-		// 			'Content-Type': 'application/json',
-		// 			'Authorization': `Bearer ${loops}`
-		// 		},
-		// 		body: JSON.stringify({
-		// 			firstName,
-		// 			lastName,
-		// 			email,
-		// 			phone,
-		// 			reason,
-		// 			source: 'User Onboarding'
-		// 		})
-		// 	});
-		// } catch (error) {
-		// 	console.error('Failed to add user to Loops', error);
-		// }
-
+		await fetch('/api/email-subscribe', {
+			method: 'POST',
+			body: JSON.stringify(profile)
+		});
 		return savedProfile;
 	}
 
@@ -45,10 +27,8 @@ export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 		return await new ProfileApi(context).get('');
 	}
 
-	const handlers = {
+	return {
 		createProfile,
 		getProfile
 	};
-
-	return { ...handlers };
 }) satisfies PageLoad;
