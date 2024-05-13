@@ -12,6 +12,7 @@
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
+	import OnboardingOrgForm from '$lib/onboarding/OnboardingOrgForm.svelte';
 
 	/** @type {import('../../../../../.svelte-kit/types/src/routes').PageData} */
 	export let data: OrgNewPageData;
@@ -26,8 +27,8 @@
 	let orgStore: SelectedOrganizationStore;
 	orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
-	async function onCreateOrg(orgName: string): Promise<void> {
-		const createdOrg = await createOrgHandler(orgName);
+	async function onCreateOrg(values: { name: string }): Promise<void> {
+		const createdOrg = await createOrgHandler(values.name);
 		setOrgCookie(createdOrg.publicId);
 		orgsStore.addOrganization(createdOrg);
 		orgStore.setOrganization(createdOrg.publicId);
@@ -47,7 +48,7 @@
 				/>
 			</div>
 			<div class="flex flex-col gap-3">
-				<NewOrgForm handleSubmit={onCreateOrg} />
+				<OnboardingOrgForm onSubmit={onCreateOrg} />
 			</div>
 		</div>
 	</CenterWrapper>

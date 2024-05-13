@@ -24,6 +24,7 @@ export const ENDPOINT = {
 	auth: 'auth',
 	apiKey: 'auth/api-key',
 	user: 'user',
+	profile: 'profile',
 	root: ''
 } as const;
 export type EndpointType = (typeof ENDPOINT)[keyof typeof ENDPOINT];

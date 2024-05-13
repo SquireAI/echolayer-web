@@ -11,7 +11,6 @@ export const REPOSITORIES_PATH = '/repositories';
 export const COMPONENTS_PATH = '/components';
 export const TEAMS_PATH = '/teams';
 export const MEMBERS_PATH = '/members';
-export const ONBOARDING_PATH = '/onboarding';
 export const ORGS_PATH = '/org';
 export const ORGS_SELECT_PATH = '/org/select';
 export const ORGS_SELECT_PATH_WITH_INVALIDATE = `${ORGS_SELECT_PATH}?${INVALIDATE_SELECTED_ORG}`;
@@ -23,6 +22,11 @@ export const INTEGRATIONS_PATH = '/org/integrations';
 export const GITLAB_SETUP_PATH = '/org/integrations/gitlab/setup';
 export const INTEGRATIONS_PATH_WITH_INVALIDATE = `${INTEGRATIONS_PATH}?${INVALIDATE_QUERY_PARAMETER_NAME}`;
 export const ISSUES_PATH = '/issues';
+export const ONBOARDING_PATH = '/onboarding';
+export const ONBOARDING_PROFILE_PATH = `${ONBOARDING_PATH}/profile`;
+export const ONBOARDING_ORG_PATH = `${ONBOARDING_PATH}/org`;
+export const ONBOARDING_GITHUB_PATH = `${ONBOARDING_PATH}/github`;
+export const ONBOARDING_COMPLETE_PATH = `${ONBOARDING_PATH}/complete`;
 
 export const REDIRECT_PATHS = [
 	SIGN_IN_PATH,

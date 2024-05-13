@@ -3,10 +3,11 @@ import {
 	CREATE_ORG_PATH,
 	INVALIDATED_SIGN_IN_PATH,
 	ONBOARDING_PATH,
+	ONBOARDING_PROFILE_PATH,
 	ORGS_SELECT_PATH,
 	ORGS_SELECT_PATH_WITH_INVALIDATE
 } from './paths';
-import type { Organization } from '$lib/types';
+import type { Organization, Profile } from '$lib/types';
 import { OrganizationApi } from '$lib/api/organization';
 import { error, redirect } from '@sveltejs/kit';
 import type { HttpError } from '@sveltejs/kit';
@@ -14,6 +15,7 @@ import { ErrorMessageTypes } from '$lib/error';
 import type { httpContext } from '$lib/http/context';
 import { ORGANIZATION_ID_HEADER_NAME } from '$lib/constants';
 import { InvitationUserApi } from '$lib/api/invitation-user';
+import { ProfileApi } from '$lib/api/profile';
 
 // User authentication required
 export const authRequired = async (context: httpContext): Promise<boolean> => {
@@ -97,4 +99,35 @@ export const orgOptional = async (context: httpContext): Promise<Organization | 
 
 	// Return selected org
 	return selectedOrg;
+};
+
+// Profile optional
+export const profileOptional = async (context: httpContext): Promise<Profile | null> => {
+	let profile: Profile | undefined = undefined;
+	try {
+		profile = await new ProfileApi(context).get('');
+	} catch (err) {
+		console.log(err);
+	}
+
+	// User has not saved a profile
+	if (!profile) return null;
+
+	// Return selected profile
+	return profile;
+};
+
+// Profile required
+export const profileRequired = async (context: httpContext, path: string): Promise<Profile> => {
+	let profile: Profile | undefined = undefined;
+	try {
+		profile = await new ProfileApi(context).get('');
+	} catch (err) {
+		console.log(err);
+	}
+
+	if (!profile) throw redirect(307, path);
+
+	// Return selected profile
+	return profile;
 };

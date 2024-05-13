@@ -1,21 +1,25 @@
 import { createDefaultContext } from '$lib/http/context';
 import type { PageLoad } from './$types';
-import { OrganizationApi } from '$lib/api/organization';
-import type { Organization, Profile } from '$lib/types';
+import type { Profile } from '$lib/types';
 import { ProfileApi } from '$lib/api/profile';
 
-export type Handlers = {
-	createOrgHandler: (name: string) => Promise<Organization>;
+interface PageData {
+	createProfile: (context: any, profile: Profile) => Promise<Profile>;
 	getProfile: () => Promise<Profile>;
-};
+}
 
-export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
+export const load = (async ({ parent, fetch, data }): Promise<PageData> => {
 	await parent();
 	const { baseHeaders, baseUrl } = data;
 
-	async function createOrgHandler(name: string): Promise<Organization> {
+	async function createProfile(profile: Profile): Promise<Profile> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
-		return await new OrganizationApi(context).create({ name });
+		const savedProfile = await new ProfileApi(context).create(profile);
+		await fetch('/api/email-subscribe', {
+			method: 'POST',
+			body: JSON.stringify(profile)
+		});
+		return savedProfile;
 	}
 
 	async function getProfile(): Promise<Profile> {
@@ -23,10 +27,8 @@ export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 		return await new ProfileApi(context).get('');
 	}
 
-	const handlers = {
-		createOrgHandler,
+	return {
+		createProfile,
 		getProfile
 	};
-
-	return { ...handlers };
 }) satisfies PageLoad;

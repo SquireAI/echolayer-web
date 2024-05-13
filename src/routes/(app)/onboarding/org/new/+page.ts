@@ -4,15 +4,14 @@ import type { Organization } from '$lib/types';
 import type { PageLoad } from './$types';
 
 export type OrgNewPageData = {
-	createOrgHandler: (orgName: string) => Promise<Organization>;
+	createOrgHandler: (name: string) => Promise<Organization>;
 };
 
 export const load = (async ({ fetch, data }) => {
-	// we're getting the xsrf header from the parent (page.server.ts) since we don't have access to cookies here
 	const { baseHeaders, baseUrl } = data;
-	async function createOrgHandler(orgName: string): Promise<Organization> {
+	async function createOrgHandler(name: string): Promise<Organization> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
-		return await new OrganizationApi(context).create({ name: orgName });
+		return await new OrganizationApi(context).create({ name });
 	}
 	return { createOrgHandler };
 }) satisfies PageLoad;
