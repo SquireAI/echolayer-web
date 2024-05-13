@@ -1,6 +1,4 @@
 import type { Profile } from '$lib/types';
-import { BaseApi, ENDPOINT } from './baseApi';
-import { ProfileApi } from './profile';
 
 export class LoopsApi {
 	private apiKey: string;

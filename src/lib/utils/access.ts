@@ -111,7 +111,7 @@ export const profileOptional = async (context: httpContext): Promise<Profile | n
 	}
 
 	// User has not saved a profile
-	if (!profile) return null;
+	if (!profile || !profile.email) return null;
 
 	// Return selected profile
 	return profile;
@@ -126,7 +126,7 @@ export const profileRequired = async (context: httpContext, path: string): Promi
 		console.log(err);
 	}
 
-	if (!profile) throw redirect(307, path);
+	if (!profile || !profile.email) throw redirect(307, path);
 
 	// Return selected profile
 	return profile;
