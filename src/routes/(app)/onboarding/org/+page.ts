@@ -7,11 +7,12 @@ import { ProfileApi } from '$lib/api/profile';
 export type Handlers = {
 	createOrgHandler: (name: string) => Promise<Organization>;
 	getProfile: () => Promise<Profile>;
+	org?: Organization;
 };
 
 export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 	await parent();
-	const { baseHeaders, baseUrl } = data;
+	const { baseHeaders, baseUrl, org } = data;
 
 	async function createOrgHandler(name: string): Promise<Organization> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
@@ -25,7 +26,8 @@ export const load = (async ({ parent, fetch, data }): Promise<Handlers> => {
 
 	const handlers = {
 		createOrgHandler,
-		getProfile
+		getProfile,
+		org
 	};
 
 	return { ...handlers };

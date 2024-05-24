@@ -2,48 +2,27 @@
 	import type { Handlers } from './+page';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
-	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
+	import OnboardingOrgNew from '$lib/onboarding/steps/OnboardingOrgNew.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
 	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import OnboardingProfile from '$lib/onboarding/steps/OnboardingProfile.svelte';
+	import OnboardingOrgSelect from '$lib/onboarding/steps/OnboardingOrgSelect.svelte';
+	import type { OrganizationsStore } from '$lib/types';
+	import { getContext } from 'svelte';
+	import { ORGS_STORE_NAME } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	import { ONBOARDING_GITHUB_PATH } from '$lib/utils/paths';
 
 	export let data: Handlers;
 
-	const steps = [
-		{
-			slug: 'profile',
-			component: OnboardingProfile,
-			label: 'Update your profile',
-			title: 'Update your profile',
-			description: "Let's create a profile for you to get started."
-		},
-		{
-			slug: 'org',
-			component: OnboardingOrg,
-			label: 'Create your organization',
-			title: 'Create your organization',
-			description: "Let's create your organization to invite all your team members."
-		},
-		{
-			slug: 'github',
-			component: OnboardingGithub,
-			label: 'Install GitHub application',
-			title: 'Install GitHub application on your organization',
-			description:
-				'Let’s start by installing our GitHub application to enable Squire AI in your pull requests.'
-		},
-		{
-			slug: 'complete',
-			component: OnboardingComplete,
-			label: 'Complete',
-			title: 'You’re all set!',
-			description:
-				"You’re all set! Let's get you started on using Squire AI directly in your pull requests."
-		}
-	];
+	let orgsStore: OrganizationsStore;
+	orgsStore = getContext(ORGS_STORE_NAME) as OrganizationsStore;
+
+	$: hasOrgs = $orgsStore.entity !== undefined && $orgsStore.entity.length > 0;
+	$: orgs = $orgsStore.entity;
 
 	const currentStep = 1;
 </script>
@@ -52,11 +31,20 @@
 	<CenterWrapper>
 		<div class="flex flex-col">
 			<div>
-				<OnboardingHeader title={steps[1].title} description={steps[1].description} />
-				<OnboardingTimeline {steps} {currentStep} />
+				<OnboardingHeader
+					title={'Setup your organization'}
+					description={"Let's create your organization to invite all your team members"}
+				/>
+				<OnboardingTimeline {currentStep} />
 			</div>
 
-			<OnboardingOrg {data} />
+			{#if hasOrgs}
+				<div class="pt-6">
+					<OnboardingOrgSelect {data} onSelect={() => goto(ONBOARDING_GITHUB_PATH)} />
+				</div>
+			{:else}
+				<OnboardingOrgNew {data} />
+			{/if}
 		</div>
 	</CenterWrapper>
 

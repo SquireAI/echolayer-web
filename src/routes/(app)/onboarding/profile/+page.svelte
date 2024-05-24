@@ -1,7 +1,7 @@
 <script lang="ts">
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
-	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
+	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrgNew.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
