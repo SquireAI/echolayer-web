@@ -1,6 +1,5 @@
-import { RepositoryApi } from '$lib/api/repository';
 import { getHttpContext, type httpContext } from '$lib/http/context';
-import type { Organization, Repository } from '$lib/types';
+import type { Organization } from '$lib/types';
 import { orgRequired, profileRequired } from '$lib/utils/access';
 import { ONBOARDING_PROFILE_PATH } from '$lib/utils/paths';
 import type { PageServerLoad } from '../$types';

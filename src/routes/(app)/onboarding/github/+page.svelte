@@ -2,13 +2,13 @@
 	import { page } from '$app/stores';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
-	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrg.svelte';
+	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrgNew.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
 	import type { PageData } from './+page.server';
 	import type { Handlers } from './+page';
-	import type { RepositoryStore } from '$lib/types';
+	import type { RepositoryStore, SelectedOrganizationStore } from '$lib/types';
 	import { getContext } from 'svelte';
-	import { REPOSITORY_STORE_NAME } from '$lib/stores';
+	import { REPOSITORY_STORE_NAME, SELECTED_ORG_STORE_NAME } from '$lib/stores';
 	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
@@ -16,6 +16,9 @@
 	import OnboardingProfile from '$lib/onboarding/steps/OnboardingProfile.svelte';
 
 	export let data: PageData & Handlers;
+
+	let orgStore: SelectedOrganizationStore;
+	orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
 
 	let currentStep = 2;
 </script>

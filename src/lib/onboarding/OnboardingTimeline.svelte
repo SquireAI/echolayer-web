@@ -11,8 +11,8 @@
 		},
 		{
 			slug: 'org',
-			label: 'Create your organization',
-			title: 'Create your organization',
+			label: 'Setup your organization',
+			title: 'Setup your organization',
 			description: "Let's create your organization to invite all your team members."
 		},
 		{

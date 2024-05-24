@@ -1,6 +1,7 @@
 import { createDefaultContext } from '$lib/http/context';
 import type { PageLoad } from './$types';
 import { BillingApi } from '$lib/api/billing';
+import type { Subscription } from '$lib/types';
 import type { Organization } from '$lib/types';
 
 export type PageData = {
@@ -9,6 +10,7 @@ export type PageData = {
 
 export type Handlers = {
 	createCheckoutSession: () => Promise<string | undefined>;
+	checkActiveSubscription: () => Promise<Subscription | undefined>;
 };
 
 export const load = (async ({ parent, fetch, data }): Promise<PageData & Handlers> => {
@@ -23,8 +25,16 @@ export const load = (async ({ parent, fetch, data }): Promise<PageData & Handler
 		return res.session.url;
 	}
 
+	async function checkActiveSubscription(): Promise<Subscription | undefined> {
+		const res = await new BillingApi(createDefaultContext(fetch, baseHeaders, baseUrl)).active();
+		if (!res) return undefined;
+		if (!res.subscription || res.subscription.status !== 'active') return undefined;
+		return res;
+	}
+
 	const handlers = {
-		createCheckoutSession
+		createCheckoutSession,
+		checkActiveSubscription
 	};
 
 	return {
