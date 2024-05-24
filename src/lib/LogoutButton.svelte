@@ -10,7 +10,7 @@
 	async function logout() {
 		clearStores();
 		await new AuthApi(createDefaultContext()).logout();
-		// removeOrgCookie();
+		removeOrgCookie();
 		await goto(INVALIDATED_SIGN_IN_PATH);
 	}
 </script>
