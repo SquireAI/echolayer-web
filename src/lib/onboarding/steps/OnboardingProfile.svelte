@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import NewOrgForm from '$lib/org/NewOrgForm.svelte';
-	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
+	import { ORGS_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import type {
 		OrganizationsStore,
 		Profile,
@@ -9,7 +9,7 @@
 		UserStore
 	} from '$lib/types';
 	import { setOrgCookie } from '$lib/utils/cookies';
-	import { HOME_PATH, ONBOARDING_ORG_PATH, ONBOARDING_PATH } from '$lib/utils/paths';
+	import { ONBOARDING_ORG_PATH } from '$lib/utils/paths';
 	import { getContext, onMount } from 'svelte';
 	import OnboardingProfileForm from '../OnboardingProfileForm.svelte';
 

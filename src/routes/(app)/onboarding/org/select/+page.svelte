@@ -111,8 +111,11 @@
 
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
+		<div class="flex flex-col gap-6 min-w-[400px]">
+			<OnboardingHeader title="Set Organization" description="Please select your organization." />
+		</div>
 		<div class="flex flex-col">
-			<OnboardingOrgSelect {data} onSelect={() => goto(ONBOARDING_GITHUB_PATH)} />
+			<OnboardingOrgSelect {data} onSelect={() => goto(ONBOARDING_PATH)} />
 		</div>
 	</CenterWrapper>
 
