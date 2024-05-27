@@ -70,7 +70,7 @@
 		&.dark {
 			@apply bg-gradient-to-br from-neutral-800 to-neutral-900;
 			@apply text-white;
-			@apply ring-2 ring-neutral-100 ring-opacity-20;
+			@apply ring-1 ring-neutral-100 ring-opacity-20;
 		}
 
 		&.transparent {

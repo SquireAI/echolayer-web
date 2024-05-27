@@ -1,34 +1,40 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
 	import OnboardingOrg from '$lib/onboarding/steps/OnboardingOrgNew.svelte';
 	import OnboardingGithub from '$lib/onboarding/steps/OnboardingGithub.svelte';
+	import type { PageData } from './+page.server';
+	import type { Handlers } from './+page';
+	import type { RepositoryStore, SelectedOrganizationStore } from '$lib/types';
+	import { getContext } from 'svelte';
+	import { REPOSITORY_STORE_NAME, SELECTED_ORG_STORE_NAME } from '$lib/stores';
+	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import CenterWrapper from '$lib/layouts/dark/CenterWrapper.svelte';
 	import SwitchOrgButton from '$lib/onboarding/SwitchOrgButton.svelte';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
-	import OnboardingComplete from '$lib/onboarding/steps/OnboardingComplete.svelte';
 	import OnboardingProfile from '$lib/onboarding/steps/OnboardingProfile.svelte';
-	import type { Profile } from '$lib/types';
-	import { onMount } from 'svelte';
 
-	export let data: any;
-	let profile: Profile;
+	export let data: PageData & Handlers;
 
-	const currentStep = 0;
+	let orgStore: SelectedOrganizationStore;
+	orgStore = getContext(SELECTED_ORG_STORE_NAME) as SelectedOrganizationStore;
+
+	let currentStep = 2;
 </script>
 
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
-		<div class="flex flex-col">
+		<div class="h-full flex flex-col">
 			<div>
 				<OnboardingHeader
-					title="Update your profile"
-					description="Let's create a profile for you to get started."
+					title="Install GitHub application on your organization"
+					description="Let’s start by installing our GitHub application to enable Squire AI in your pull requests."
 				/>
 				<OnboardingTimeline {currentStep} />
 			</div>
 
-			<OnboardingProfile {data} />
+			<OnboardingGithub {data} />
 		</div>
 	</CenterWrapper>
 

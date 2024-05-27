@@ -3,7 +3,7 @@ import type { Organization } from '$lib/types';
 import { orgRequired } from '$lib/utils/access';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { ONBOARDING_PATH } from '$lib/utils/paths';
+import { ONBOARDING_GITHUB_PATH } from '$lib/utils/paths';
 
 export type AuthorizingPageData = {
 	baseHeaders: httpContext['baseHeaders'];
@@ -18,7 +18,7 @@ export const load = (async ({ cookies, fetch, params }): Promise<AuthorizingPage
 	const org = await orgRequired(context);
 
 	// TODO: Temporarily send users to onboarding
-	if (params.name === 'github') throw redirect(307, `${ONBOARDING_PATH}/github`);
+	if (params.name === 'github') throw redirect(307, ONBOARDING_GITHUB_PATH);
 
 	return { baseHeaders, baseUrl, org };
 }) satisfies PageServerLoad;

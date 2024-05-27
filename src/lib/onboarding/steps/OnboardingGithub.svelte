@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { INVALIDATE_QUERY_PARAMETER_NAME, ONBOARDING_PATH } from '$lib/utils/paths';
+	import { INVALIDATE_QUERY_PARAMETER_NAME, ONBOARDING_SUBSCRIBE_PATH } from '$lib/utils/paths';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import Github from 'svelte-material-icons/Github.svelte';
@@ -29,7 +29,7 @@
 	onMount(async () => {
 		githubUrl = await data.installGithubAppHandler();
 		githubInstallStatus = await data.checkGithubAppHandler();
-		if (githubInstallStatus === 'connected') goto(`${ONBOARDING_PATH}/complete`);
+		if (githubInstallStatus === 'connected') goto(ONBOARDING_SUBSCRIBE_PATH);
 
 		if ($page.url.searchParams.get(INVALIDATE_QUERY_PARAMETER_NAME)) {
 			invalidateAll();

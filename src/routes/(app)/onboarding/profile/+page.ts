@@ -15,10 +15,17 @@ export const load = (async ({ parent, fetch, data }): Promise<PageData> => {
 	async function createProfile(profile: Profile): Promise<Profile> {
 		const context = createDefaultContext(fetch, baseHeaders, baseUrl);
 		const savedProfile = await new ProfileApi(context).create(profile);
-		await fetch('/api/email-subscribe', {
-			method: 'POST',
-			body: JSON.stringify(profile)
-		});
+
+		// Subscribe to email list
+		try {
+			await fetch('/api/email-subscribe', {
+				method: 'POST',
+				body: JSON.stringify(profile)
+			});
+		} catch (err) {
+			console.log('Failed to subscribe to email list');
+		}
+
 		return savedProfile;
 	}
 

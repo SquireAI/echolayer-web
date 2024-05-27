@@ -4,7 +4,7 @@
 	import { ORGS_STORE_NAME, SELECTED_ORG_STORE_NAME, USER_STORE_NAME } from '$lib/stores';
 	import type { OrganizationsStore, SelectedOrganizationStore, UserStore } from '$lib/types';
 	import { setOrgCookie } from '$lib/utils/cookies';
-	import { HOME_PATH, ONBOARDING_GITHUB_PATH, ONBOARDING_PATH } from '$lib/utils/paths';
+	import { ONBOARDING_GITHUB_PATH } from '$lib/utils/paths';
 	import { getContext, onMount } from 'svelte';
 	import OnboardingOrgForm from '../OnboardingOrgForm.svelte';
 

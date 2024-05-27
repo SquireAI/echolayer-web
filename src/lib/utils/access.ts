@@ -42,15 +42,11 @@ export const orgRequired = async (context: httpContext): Promise<Organization> =
 	}
 
 	// Redirect to create a new org if none exist
-	if (orgs.length < 1) {
-		const invitationsToOrg = await new InvitationUserApi(context).list();
-		if (invitationsToOrg.length == 0) {
-			throw redirect(307, ONBOARDING_PATH);
-		}
-	}
+	if (orgs.length < 1) throw redirect(307, ONBOARDING_PATH);
+
 	// If they haven't selected an org, redirect them to the selection page
 	if (!context.baseHeaders[ORGANIZATION_ID_HEADER_NAME]) {
-		throw redirect(307, ORGS_SELECT_PATH);
+		throw redirect(307, ONBOARDING_PATH);
 	}
 
 	const selectedOrg = orgs.find(
@@ -59,7 +55,7 @@ export const orgRequired = async (context: httpContext): Promise<Organization> =
 
 	// Their selection isn't valid, so we'll redirect them to pick a new selection.
 	if (!selectedOrg) {
-		throw redirect(307, ORGS_SELECT_PATH_WITH_INVALIDATE);
+		throw redirect(307, ONBOARDING_PATH);
 	}
 
 	return selectedOrg;

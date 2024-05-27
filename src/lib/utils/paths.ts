@@ -26,6 +26,7 @@ export const ONBOARDING_PATH = '/onboarding';
 export const ONBOARDING_PROFILE_PATH = `${ONBOARDING_PATH}/profile`;
 export const ONBOARDING_ORG_PATH = `${ONBOARDING_PATH}/org`;
 export const ONBOARDING_GITHUB_PATH = `${ONBOARDING_PATH}/github`;
+export const ONBOARDING_SUBSCRIBE_PATH = `${ONBOARDING_PATH}/subscribe`;
 export const ONBOARDING_COMPLETE_PATH = `${ONBOARDING_PATH}/complete`;
 
 export const REDIRECT_PATHS = [

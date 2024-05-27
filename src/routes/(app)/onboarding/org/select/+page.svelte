@@ -21,6 +21,7 @@
 		CREATE_ORG_PATH,
 		HOME_PATH,
 		INVALIDATE_SELECTED_ORG,
+		ONBOARDING_GITHUB_PATH,
 		ONBOARDING_PATH,
 		ORGS_PATH,
 		ORGS_SELECT_PATH
@@ -36,6 +37,7 @@
 	import type { OrgsLayoutLoad } from './+page';
 	import OnboardingLogout from '$lib/onboarding/OnboardingLogout.svelte';
 	import OnboardingBackButton from '$lib/onboarding/OnboardingBackButton.svelte';
+	import OnboardingOrgSelect from '$lib/onboarding/steps/OnboardingOrgSelect.svelte';
 
 	export let data: OrgsLayoutLoad;
 
@@ -109,86 +111,11 @@
 
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
+		<div class="flex flex-col gap-6 min-w-[400px]">
+			<OnboardingHeader title="Set Organization" description="Please select your organization." />
+		</div>
 		<div class="flex flex-col">
-			{#if $orgsStore.loading}
-				<p>Loading...</p>
-			{:else if $orgsStore.error}
-				<p>Error...</p>
-			{:else if $userInvitationStore.loading}
-				<p>Loading...</p>
-			{:else if $userInvitationStore.error}
-				<p>Error...</p>
-			{:else if hasOrgs}
-				<div class="flex flex-col gap-6 min-w-[400px]">
-					<OnboardingHeader
-						title="Select Organization"
-						description="Please select an organization to view."
-					/>
-					<div class="flex flex-col gap-3">
-						{#each orgs || [] as org}
-							<OrgItem organization={org} {handleSelect} />
-						{/each}
-						{#each invitations || [] as invitation}
-							<OrgInvitationItem {invitation} handleSelect={handleAcceptInvite} />
-						{/each}
-					</div>
-					<div class="flex flex-row w-full gap-6">
-						<div>
-							<OnboardingBackButton>
-								<OnboardingButton
-									class="w-full"
-									templates="transparent"
-									disabled={selecting || $orgsStore.loading}
-								>
-									Go Back
-								</OnboardingButton>
-							</OnboardingBackButton>
-						</div>
-						<div class="flex-1">
-							<OnboardingButton
-								templates="transparent"
-								class="w-full"
-								disabled={selecting || $orgsStore.loading}
-								handleClick={() => handleAction(`${ONBOARDING_PATH}${CREATE_ORG_PATH}`)}
-							>
-								<PlusCircleOutline size="18" class="mr-1" />
-								Add new...
-							</OnboardingButton>
-						</div>
-					</div>
-				</div>
-			{:else}
-				<div class="flex flex-col text-center items-center justify-center">
-					<OnboardingHeader
-						title="You have no organizations"
-						description="Your invites and organizations will appear here. You can get started creating an
-						organization by clicking “Add new...” below. If you were invited, please contact your
-						administrator to resend the invite."
-					/>
-					<div class="flex flex-row w-full gap-6">
-						<div>
-							<OnboardingBackButton>
-								<OnboardingButton
-									templates="transparent"
-									disabled={selecting || $orgsStore.loading}
-								>
-									Go Back
-								</OnboardingButton>
-							</OnboardingBackButton>
-						</div>
-						<div class="flex-1">
-							<OnboardingButton
-								templates="transparent"
-								class="w-full"
-								href={`${ONBOARDING_PATH}${CREATE_ORG_PATH}`}
-							>
-								<PlusCircleOutline size="18" class="mr-1" />
-								Add new...
-							</OnboardingButton>
-						</div>
-					</div>
-				</div>
-			{/if}
+			<OnboardingOrgSelect {data} onSelect={() => goto(ONBOARDING_PATH)} />
 		</div>
 	</CenterWrapper>
 

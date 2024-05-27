@@ -5,7 +5,6 @@ import type { Organization, Repository } from '$lib/types';
 
 export type PageData = {
 	org?: Organization;
-	repositories?: Repository[];
 };
 
 export type Handlers = {
@@ -15,7 +14,7 @@ export type Handlers = {
 
 export const load = (async ({ parent, fetch, data }): Promise<PageData & Handlers> => {
 	await parent();
-	const { baseHeaders, baseUrl, org, repositories } = data;
+	const { baseHeaders, baseUrl, org } = data;
 
 	async function installGithubAppHandler(): Promise<string> {
 		return await new GithubApp(createDefaultContext(fetch, baseHeaders, baseUrl)).install();
@@ -32,7 +31,6 @@ export const load = (async ({ parent, fetch, data }): Promise<PageData & Handler
 
 	return {
 		...handlers,
-		...(repositories && { repositories }),
 		...(org && { org })
 	};
 }) satisfies PageLoad;
