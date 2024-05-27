@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import {
-		INVALIDATE_QUERY_PARAMETER_NAME,
-		ONBOARDING_PATH,
-		ONBOARDING_SUBSCRIBE_PATH
-	} from '$lib/utils/paths';
+	import { INVALIDATE_QUERY_PARAMETER_NAME, ONBOARDING_SUBSCRIBE_PATH } from '$lib/utils/paths';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import Github from 'svelte-material-icons/Github.svelte';

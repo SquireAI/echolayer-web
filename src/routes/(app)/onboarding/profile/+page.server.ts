@@ -19,9 +19,5 @@ export const load = (async ({ cookies, fetch, params }): Promise<ServerPageData>
 	const profile = await profileOptional(context);
 	if (profile) throw redirect(307, ONBOARDING_ORG_PATH);
 
-	// Get org if exists
-	const org = await orgOptional(context);
-	if (org) throw redirect(307, ONBOARDING_GITHUB_PATH);
-
 	return { baseHeaders, baseUrl };
 }) satisfies PageServerLoad;

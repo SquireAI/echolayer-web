@@ -8,13 +8,7 @@
 		UserStore,
 		UserInvitationStore
 	} from '$lib/types';
-	import {
-		CREATE_ORG_PATH,
-		HOME_PATH,
-		ORGS_SELECT_PATH,
-		ORGS_PATH,
-		ONBOARDING_PATH
-	} from '$lib/utils/paths';
+	import { HOME_PATH, ORGS_SELECT_PATH, ONBOARDING_PATH } from '$lib/utils/paths';
 	import { ORGS_STORE_NAME } from '$lib/stores/orgs-store';
 	import {
 		SELECTED_ORG_STORE_NAME,
@@ -47,7 +41,7 @@
 				($userInvitationStore.entity !== undefined && $userInvitationStore.entity.length > 0)
 			) {
 				if ($orgStore.entity !== undefined && $orgStore.entity.publicId !== undefined) {
-					goto(HOME_PATH);
+					goto(ONBOARDING_PATH);
 				} else {
 					goto(ORGS_SELECT_PATH);
 				}

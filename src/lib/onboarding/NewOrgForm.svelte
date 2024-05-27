@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import TextInput from '$lib/components/TextInput.svelte';
-	import { CREATE_ORG_PATH, ONBOARDING_PATH } from '$lib/utils/paths';
 	import OnboardingButton from './OnboardingButton.svelte';
 	import OnboardingTextInput from './OnboardingTextInput.svelte';
 

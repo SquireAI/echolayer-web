@@ -2,7 +2,7 @@ import { RepositoryApi } from '$lib/api/repository';
 import { getHttpContext, type httpContext } from '$lib/http/context';
 import type { Organization, Repository } from '$lib/types';
 import { orgOptional, profileRequired } from '$lib/utils/access';
-import { ONBOARDING_GITHUB_PATH, ONBOARDING_PATH, ONBOARDING_PROFILE_PATH } from '$lib/utils/paths';
+import { ONBOARDING_GITHUB_PATH, ONBOARDING_PROFILE_PATH } from '$lib/utils/paths';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
 

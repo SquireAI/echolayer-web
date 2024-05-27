@@ -12,7 +12,7 @@ export const load = (async ({ fetch, cookies }) => {
 	await authRequired(context);
 
 	// Redirect to org onboarding
-	throw redirect(307, `${ONBOARDING_PATH}/org`);
+	throw redirect(307, ONBOARDING_PATH);
 
 	return {
 		baseHeaders: context.baseHeaders,
