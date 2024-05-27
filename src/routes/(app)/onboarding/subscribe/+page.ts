@@ -27,8 +27,7 @@ export const load = (async ({ parent, fetch, data }): Promise<PageData & Handler
 
 	async function checkActiveSubscription(): Promise<Subscription | undefined> {
 		const res = await new BillingApi(createDefaultContext(fetch, baseHeaders, baseUrl)).active();
-		if (!res) return undefined;
-		if (!res.subscription || res.subscription.status !== 'active') return undefined;
+		if (!res || !res.subscription) return undefined;
 		return res;
 	}
 
