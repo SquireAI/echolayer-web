@@ -8,7 +8,6 @@
 	export let data: any;
 
 	let loading = false;
-
 	async function getCheckoutSession(): Promise<void> {
 		loading = true;
 		const checkoutSession = await data.createCheckoutSession();

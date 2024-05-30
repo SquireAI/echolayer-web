@@ -2,8 +2,7 @@
 	import { page } from '$app/stores';
 	import OnboardingHeader from '$lib/onboarding/OnboardingHeader.svelte';
 	import OnboardingTimeline from '$lib/onboarding/OnboardingTimeline.svelte';
-	import type { PageData } from './+page.server';
-	import type { Handlers } from './+page';
+	import type { PageData, Handlers } from './+page';
 	import type { SelectedOrganizationStore } from '$lib/types';
 	import { getContext, onMount } from 'svelte';
 	import { SELECTED_ORG_STORE_NAME } from '$lib/stores';
