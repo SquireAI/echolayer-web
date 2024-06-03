@@ -4,13 +4,13 @@ import { orgRequired, profileRequired } from '$lib/utils/access';
 import { ONBOARDING_PROFILE_PATH } from '$lib/utils/paths';
 import type { PageServerLoad } from '../$types';
 
-export type PageData = {
+export type PageServerData = {
 	baseHeaders: httpContext['baseHeaders'];
 	baseUrl: httpContext['baseUrl'];
 	org: Organization;
 };
 
-export const load = (async ({ cookies, fetch, params }): Promise<PageData> => {
+export const load = (async ({ cookies, fetch, params }): Promise<PageServerData> => {
 	const context = getHttpContext(fetch, cookies);
 	const { baseHeaders, baseUrl } = context;
 
