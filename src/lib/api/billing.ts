@@ -6,6 +6,12 @@ export type CheckoutSession = {
 	};
 };
 
+export type PortalSession = {
+	session: {
+		url: string;
+	};
+};
+
 export type Subscription = {
 	subscription: {
 		status: string;
@@ -22,6 +28,16 @@ export class BillingApi extends BaseApi<any> {
 			const res = await this.httpClient.fetchPOST('checkout', undefined, {});
 			const body = await res.json();
 			return { session: body.session } as CheckoutSession;
+		} catch (err) {
+			return undefined;
+		}
+	}
+
+	public async portalSession(): Promise<PortalSession | undefined> {
+		try {
+			const res = await this.httpClient.fetchPOST('portal', undefined, {});
+			const body = await res.json();
+			return { session: body.session } as PortalSession;
 		} catch (err) {
 			return undefined;
 		}
