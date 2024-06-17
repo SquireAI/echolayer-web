@@ -32,7 +32,7 @@
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
 		<div class="h-full flex flex-col">
-			{#if isActive}
+			{#if !isActive}
 				<div>
 					<OnboardingHeader
 						title="Your installation is ready!"
@@ -44,8 +44,8 @@
 			{:else}
 				<div>
 					<OnboardingHeader
-						title="Select your plan"
-						description="Last step! Choose a plan that suits your needs."
+						title="Activate your account"
+						description="Last step! Setup your billing information to activate your account."
 					/>
 					<OnboardingTimeline {currentStep} />
 				</div>

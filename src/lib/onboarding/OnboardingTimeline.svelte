@@ -24,8 +24,8 @@
 		},
 		{
 			slug: 'subscribe',
-			label: 'Choose your plan',
-			title: 'Select your plan',
+			label: 'Activate your account',
+			title: 'Activate your account',
 			description:
 				"You’re all set! Let's get you started on using Squire AI directly in your pull requests."
 		}
