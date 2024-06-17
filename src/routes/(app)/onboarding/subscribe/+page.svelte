@@ -32,7 +32,7 @@
 <div class="flex flex-col w-full items-center my-auto py-12">
 	<CenterWrapper>
 		<div class="h-full flex flex-col">
-			{#if !isActive}
+			{#if isActive}
 				<div>
 					<OnboardingHeader
 						title="Your installation is ready!"
