@@ -44,8 +44,8 @@
 			{:else}
 				<div>
 					<OnboardingHeader
-						title="Select your plan"
-						description="Last step! Choose a plan that suits your needs."
+						title="Activate your account"
+						description="Last step! Setup your billing information to activate your account."
 					/>
 					<OnboardingTimeline {currentStep} />
 				</div>

@@ -18,33 +18,22 @@
 <div class="flex-1 flex flex-row justify-center items-center">
 	<div class="flex flex-col gap-6 items-center my-12">
 		<span class="text-neutral-500"><PartyPopperIcon size="70" slot="icon" /></span>
-		<h3 class="font-display font-normal">Fantastic! Let's start your 14 day free trial</h3>
+		<h3 class="font-display font-normal">
+			Fantastic! Let's start your <span class="font-bold">14 day free trial</span>
+		</h3>
 		<div class="text-center gap-6 flex flex-col">
-			<p class="text-neutral-300">
-				Select your plan and add in your credit card for future processing.
-			</p>
-			<div class="flex flex-row justify-center gap-3 mb-3">
-				<div class="flex flex-1 justify-center rounded flex-col border border-neutral-700 p-3">
-					<span class="text-md font-semibold pb-2">1<br />User</span>
-					<span class="text-3xl font-semibold">$20</span>
-					<span class="text-sm text-neutral-400">/month</span>
-				</div>
-				<div class="flex flex-1 justify-center rounded flex-col border border-neutral-700 p-3">
-					<span class="text-md font-semibold pb-2">2 to 10<br />Users</span>
-					<span class="text-3xl font-semibold">$100</span>
-					<span class="text-sm text-neutral-400">/month</span>
-				</div>
-				<div class="flex flex-1 justify-center rounded flex-col border border-neutral-700 p-3">
-					<span class="text-md font-semibold pb-2">11 to 50<br />Users</span>
-					<span class="text-3xl font-semibold">$500</span>
-					<span class="text-sm text-neutral-400">/month</span>
-				</div>
-				<div class="flex flex-1 justify-center rounded flex-col border border-neutral-700 p-3">
-					<span class="text-md font-semibold pb-2">51 to 100<br />Users</span>
-					<span class="text-3xl font-semibold">$1000</span>
-					<span class="text-sm text-neutral-400">/month</span>
+			<div class="flex flex-row justify-center gap-3">
+				<div class="flex flex-1 justify-center rounded flex-col">
+					<span class="text-4xl font-semibold">$20</span>
+					<span class="text-md text-neutral-400">/user/month</span>
 				</div>
 			</div>
+			<p class="text-neutral-300">
+				Pricing is calculated based on the number of users in your GitHub organization. <span
+					class="font-bold"
+					>You will not be charged till the end of your trial.
+				</span>
+			</p>
 			<div class="flex flex-row justify-center">
 				<OnboardingButton handleClick={getCheckoutSession}>
 					{#if loading}
