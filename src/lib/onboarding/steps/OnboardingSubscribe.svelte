@@ -19,7 +19,7 @@
 	<div class="flex flex-col gap-6 items-center my-12">
 		<span class="text-neutral-500"><PartyPopperIcon size="70" slot="icon" /></span>
 		<h3 class="font-display font-normal">
-			Fantastic! Let's start your <span class="font-bold">14 day free trial</span>
+			Fantastic! Let's start your <span class="font-bold">7 day free trial</span>
 		</h3>
 		<div class="text-center gap-6 flex flex-col">
 			<div class="flex flex-row justify-center gap-3">
