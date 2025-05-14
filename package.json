@@ -56,7 +56,7 @@
 		"@fontsource-variable/outfit": "^5.0.13",
 		"add": "^2.0.6",
 		"color-hash": "^2.0.2",
-		"felte": "^1.2.12",
+		"felte": "^1.3.0",
 		"fuzzy-search": "^3.2.1",
 		"json-formatter-js": "^2.3.4",
 		"lodash": "^4.17.21",
